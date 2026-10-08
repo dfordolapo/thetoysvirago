@@ -6,22 +6,51 @@
   <title>TheToysVirago — Feel Something Tonight</title>
   <meta name="description" content="Nigeria's most discreet pleasure boutique. Premium toys, plain packaging, zero drama." />
   <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="thetoysvirago" />
+  <meta name="application-name" content="thetoysvirago" />
   <link rel="manifest" href="/manifest.webmanifest" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="apple-touch-icon" href="/favicon.svg" />
+  <link rel="icon" type="image/jpeg" href="/assets/logo.jpg" />
+  <link rel="shortcut icon" href="/assets/logo.jpg" />
+  <link rel="apple-touch-icon" href="/assets/logo.jpg" />
+  <link rel="preload" as="image" href="/assets/hero-collection.jpg" fetchpriority="high" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/src/style.css" />
+  <style>
+    /* Strict zero-flicker gate blocking */
+    html:not(.age-gate-passed) #app-wrapper {
+      display: none !important;
+      visibility: hidden !important;
+    }
+    #age-gate {
+      display: flex !important;
+      position: fixed !important;
+      inset: 0 !important;
+      z-index: 999999 !important;
+      background-color: #08080c !important;
+      background-image: url('/assets/age-gate-bg-final.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+    html.age-gate-passed #age-gate {
+      display: none !important;
+    }
+  </style>
+  <script>
+    (function() {
+      try {
+        if (localStorage.getItem('thetoysvirago_age_verified') === 'true' || localStorage.getItem('rouge_age_verified') === 'true') {
+          document.documentElement.classList.add('age-gate-passed');
+        }
+      } catch(e) {}
+    })();
+  </script>
 </head>
 <body>
-  <script>
-    if (localStorage.getItem('rouge_age_verified') === 'true') {
-      document.write('<style>#age-gate { display: none !important; } #app-wrapper { visibility: visible !important; }</style>');
-    } else {
-      document.write('<style>#app-wrapper { display: none !important; }</style>');
-    }
-  </script>
+
   <!-- ===== AGE GATE ===== -->
   <div id="age-gate" class="age-gate-overlay">
     <div class="age-gate-card">
@@ -31,7 +60,7 @@
       <p class="age-gate-desc">The website, we mean.<br/>You must be 18+ to enter.</p>
       <div class="age-gate-actions">
         <button id="btn-enter-gate" class="btn btn-ruby btn-lg" style="width: 100%;">
-          I'm 18+ Open the door
+          I'm 18+, Open the door
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </button>
         <button id="btn-exit-gate" class="btn btn-ghost btn-lg" style="width: 100%; color: rgba(255,255,255,.4);">Too young for this</button>
@@ -189,7 +218,7 @@
           <article class="product-card" data-category="toys" data-id="obsidian-arc">
             <div class="product-img-wrap">
               <span class="product-badge">BESTSELLER</span>
-              <img src="/assets/hero-device.jpg" alt="The Obsidian Arc" class="product-img" />
+              <img src="/assets/hero-device.jpg" alt="The Obsidian Arc" class="product-img" loading="lazy" decoding="async" />
               <div class="product-overlay">
                 <button class="btn-quick-view" data-product="obsidian-arc">Quick Look</button>
               </div>
@@ -223,7 +252,7 @@
           <article class="product-card" data-category="toys" data-id="rose-blossom">
             <div class="product-img-wrap">
               <span class="product-badge ruby-badge">HOT PICK</span>
-              <img src="/assets/product-rose.jpg" alt="Velvet Rose" class="product-img" />
+              <img src="/assets/product-rose.jpg" alt="Velvet Rose" class="product-img" loading="lazy" decoding="async" />
               <div class="product-overlay">
                 <button class="btn-quick-view" data-product="rose-blossom">Quick Look</button>
               </div>
@@ -256,7 +285,7 @@
           <article class="product-card" data-category="toys" data-id="sceptre-wand">
             <div class="product-img-wrap">
               <span class="product-badge">HEAVY HITTER</span>
-              <img src="/assets/product-wand.jpg" alt="The Sceptre Wand" class="product-img" />
+              <img src="/assets/product-wand.jpg" alt="The Sceptre Wand" class="product-img" loading="lazy" decoding="async" />
               <div class="product-overlay">
                 <button class="btn-quick-view" data-product="sceptre-wand">Quick Look</button>
               </div>
@@ -289,7 +318,7 @@
           <article class="product-card" data-category="wellness" data-id="aura-elixir">
             <div class="product-img-wrap">
               <span class="product-badge">LIQUID GOLD</span>
-              <img src="/assets/product-serum.jpg" alt="Aura Elixir" class="product-img" />
+              <img src="/assets/product-serum.jpg" alt="Aura Elixir" class="product-img" loading="lazy" decoding="async" />
               <div class="product-overlay">
                 <button class="btn-quick-view" data-product="aura-elixir">Quick Look</button>
               </div>
@@ -359,21 +388,40 @@
             </p>
             <ul class="discretion-list">
               <li>
-                <span class="d-icon">🛍️</span>
+                <span class="d-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
+                    <path d="M3 6h18"/>
+                    <path d="M16 10a4 4 0 0 1-8 0"/>
+                  </svg>
+                </span>
                 <div>
                   <strong>Plain courier bag, zero clues</strong>
                   <p>Looks like a regular delivery. Because it is.</p>
                 </div>
               </li>
               <li>
-                <span class="d-icon">🔒</span>
+                <span class="d-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                  </svg>
+                </span>
                 <div>
                   <strong>Stealth mode, anytime</strong>
                   <p>Someone walks in? Hit <kbd>Esc</kbd> or double-tap. This page becomes a spreadsheet. We don't play.</p>
                 </div>
               </li>
               <li>
-                <span class="d-icon">🚚</span>
+                <span class="d-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/>
+                    <path d="M15 18H9"/>
+                    <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.24-4.05A1 1 0 0 0 17.76 8H14v10"/>
+                    <circle cx="17" cy="18.5" r="2.5"/>
+                    <circle cx="6.5" cy="18.5" r="2.5"/>
+                  </svg>
+                </span>
                 <div>
                   <strong>Nationwide delivery</strong>
                   <p>Lagos, Abuja, PH, Ibadan: we reach everywhere. Quietly.</p>
@@ -383,7 +431,7 @@
           </div>
           <div class="discretion-visual">
             <div class="hero-img-frame" style="aspect-ratio: 1/1; box-shadow: var(--sh-md);">
-              <img src="/assets/courier-bag.jpg" alt="Discreet courier packaging" class="hero-img" />
+              <img src="/assets/courier-bag.jpg" alt="Discreet courier packaging" class="hero-img" loading="lazy" decoding="async" />
             </div>
           </div>
         </div>
@@ -444,11 +492,10 @@
         </div>
 
         <div class="footer-massive-logo" style="position: relative;">
-          <div class="color-illus-wrap" style="width: 18vw; left: 15%; top: -80%; transform: rotate(-35deg);"><img src="/assets/illus-1.jpg" alt="" /></div>
-          <div class="color-illus-wrap" style="width: 15vw; left: 35%; top: -100%; transform: rotate(15deg) scaleX(-1);"><img src="/assets/illus-2.jpg" alt="" /></div>
-          <div class="color-illus-wrap" style="width: 17vw; left: 55%; top: -75%; transform: rotate(-10deg);"><img src="/assets/illus-5.jpg" alt="" /></div>
-          <div class="color-illus-wrap" style="width: 16vw; right: 25%; bottom: -50%; transform: rotate(145deg) scaleX(-1);"><img src="/assets/illus-3.jpg" alt="" /></div>
-          <div class="color-illus-wrap" style="width: 19vw; right: 5%; top: -70%; transform: rotate(-75deg);"><img src="/assets/illus-4.jpg" alt="" /></div>
+          <div class="color-illus-wrap" style="width: 17vw; left: 8%; top: -75%; transform: rotate(-35deg);"><img src="/assets/illus-1.jpg" alt="Wand vibrator" loading="lazy" decoding="async" /></div>
+          <div class="color-illus-wrap" style="width: 15vw; left: 32%; top: -95%; transform: rotate(15deg) scaleX(-1);"><img src="/assets/illus-2.jpg" alt="Rabbit vibrator" loading="lazy" decoding="async" /></div>
+          <div class="color-illus-wrap" style="width: 16vw; left: 56%; top: -75%; transform: rotate(-15deg);"><img src="/assets/illus-3.jpg" alt="Rose suction toy" loading="lazy" decoding="async" /></div>
+          <div class="color-illus-wrap" style="width: 17vw; right: 8%; top: -70%; transform: rotate(35deg);"><img src="/assets/illus-4.jpg" alt="Arc vibrator" loading="lazy" decoding="async" /></div>
           <span style="position: relative; z-index: 1;">THETOYSVIRAGO.</span>
         </div>
 
@@ -456,7 +503,6 @@
           <p>© 2026 TheToysVirago.</p>
           <div class="footer-legal">
             <span class="age-pill">18+ Only</span>
-            <a href="#" id="reset-age-gate">Reset age gate</a>
           </div>
         </div>
       </div>
@@ -508,7 +554,7 @@
     <!-- Quick View Modal -->
     <div id="quickview-modal" class="modal-overlay" hidden>
       <div class="qv-card">
-        <button id="btn-close-modal" class="btn-close-modal">✕</button>
+        <button id="btn-close-modal" class="btn-close-modal" onclick="document.getElementById('quickview-modal').style.display='none'; document.getElementById('quickview-modal').setAttribute('hidden','');">✕</button>
         <div class="qv-inner">
           <div class="qv-img-wrap">
             <img id="qv-img" src="/assets/hero-device.jpg" alt="" class="qv-img" />
@@ -526,7 +572,7 @@
             </div>
             <div class="qv-actions">
               <button id="qv-btn-add" class="btn btn-black btn-lg">Add to Bag</button>
-              <button id="qv-btn-close" class="btn btn-outline btn-lg">Close</button>
+              <button id="qv-btn-close" class="btn btn-outline btn-lg" onclick="document.getElementById('quickview-modal').style.display='none'; document.getElementById('quickview-modal').setAttribute('hidden','');">Close</button>
             </div>
           </div>
         </div>

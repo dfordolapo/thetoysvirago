@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <defs>
     <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#2a050d"/>
+      <stop offset="0%" stop-color="#1c0308"/>
       <stop offset="100%" stop-color="#050507"/>
     </radialGradient>
     <linearGradient id="rubyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -10,10 +10,10 @@
     </linearGradient>
   </defs>
   <rect width="100%" height="100%" rx="24" fill="url(#bgGlow)"/>
-  <rect width="98" height="98" x="1" y="1" rx="23" fill="none" stroke="#e11d48" stroke-width="1.5" stroke-opacity="0.35"/>
+  <rect width="98" height="98" x="1" y="1" rx="23" fill="none" stroke="#e11d48" stroke-width="1.5" stroke-opacity="0.4"/>
   <circle cx="50" cy="50" r="34" fill="none" stroke="url(#rubyGrad)" stroke-width="1.5" stroke-dasharray="2 3"/>
-  <!-- Stylized Elegant R & N Monogram -->
-  <path d="M38 30 V70 M38 30 H50 C57 30 62 35 62 42 C62 48 57 53 50 53 H38 M49 53 L63 70" 
+  <!-- Stylized T & V Monogram for TheToysVirago -->
+  <path d="M30 36 H52 M41 36 V68 M50 36 L62 68 L74 36" 
         fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="67" cy="33" r="3.5" fill="#ff2a5f"/>
+  <circle cx="76" cy="36" r="3" fill="#ff2a5f"/>
 </svg>

@@ -1,9 +1,11 @@
-const CACHE_NAME = 'rouge-noir-v1';
+const CACHE_NAME = 'thetoysvirago-v2';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
+  '/products.html',
   '/manifest.webmanifest',
-  '/favicon.svg',
+  '/assets/logo.jpg',
+  '/assets/hero-collection.jpg',
   '/assets/hero-device.jpg',
   '/assets/product-rose.jpg',
   '/assets/product-wand.jpg',

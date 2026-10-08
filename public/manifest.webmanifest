@@ -1,7 +1,7 @@
 {
-  "name": "ROUGE NOIR — Haute Intimité & Sensual Wellness",
-  "short_name": "ROUGE NOIR",
-  "description": "Interactive luxury sensual wellness and intimate design atelier.",
+  "name": "thetoysvirago",
+  "short_name": "thetoysvirago",
+  "description": "Nigeria's most discreet pleasure boutique. Premium toys, plain packaging, zero drama.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#050507",
@@ -9,9 +9,9 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/favicon.svg",
+      "src": "/assets/logo.jpg",
       "sizes": "192x192 512x512",
-      "type": "image/svg+xml",
+      "type": "image/jpeg",
       "purpose": "any maskable"
     }
   ]
