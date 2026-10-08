@@ -1,0 +1,18 @@
+{
+  "name": "ROUGE NOIR — Haute Intimité & Sensual Wellness",
+  "short_name": "ROUGE NOIR",
+  "description": "Interactive luxury sensual wellness and intimate design atelier.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050507",
+  "theme_color": "#050507",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

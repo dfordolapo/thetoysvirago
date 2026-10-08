@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TheToysVirago — Feel Something Tonight</title>
+  <meta name="description" content="Nigeria's most discreet pleasure boutique. Premium toys, plain packaging, zero drama." />
+  <meta name="theme-color" content="#ffffff" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+
+  <!-- ===== AGE GATE ===== -->
+  <div id="age-gate" class="age-gate-overlay">
+    <div class="age-gate-card">
+      <h1 class="age-gate-title">
+        Wanna come inside?
+      </h1>
+      <p class="age-gate-desc">The website, we mean. You must be 18+ to enter.</p>
+      <div class="age-gate-actions">
+        <button id="btn-enter-gate" class="btn btn-ruby btn-lg" style="width: 100%;">
+          I'm 18+ — Open the door
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <button id="btn-exit-gate" class="btn btn-ghost btn-sm" style="width: 100%; color: rgba(255,255,255,.4);">Too young for this</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== STEALTH SHIELD ===== -->
+  <div id="stealth-shield" class="stealth-screen" hidden>
+    <div class="stealth-app-bar">
+      <div class="stealth-brand">
+        <div class="excel-icon">X</div>
+        <div class="stealth-file-info">
+          <span class="file-name">Q4_Enterprise_Logistics_Inventory_Audit_Consolidated.xlsx</span>
+          <div class="stealth-menu-row">
+            <span>File</span><span>Edit</span><span>View</span><span>Insert</span>
+            <span>Format</span><span>Data</span><span>Tools</span><span>Help</span>
+          </div>
+        </div>
+      </div>
+      <div class="stealth-right-actions">
+        <span class="stealth-user">Last edit was 2 mins ago</span>
+        <button id="btn-exit-stealth" class="btn-stealth-exit">
+          <span class="exit-dot"></span>
+          Resume Session (Esc)
+        </button>
+      </div>
+    </div>
+    <div class="stealth-formula-bar">
+      <div class="cell-address">E14</div>
+      <div class="fx-label">fx</div>
+      <input type="text" readonly value="=SUMIFS(Logistics_Ledger!$E$2:$E$480,Logistics_Ledger!$B$2:$B$480,&quot;EMEA-Central&quot;,Logistics_Ledger!$G$2:$G$480,&quot;>95000&quot;)" class="formula-input" />
+    </div>
+    <div class="stealth-grid-wrap">
+      <table class="stealth-table">
+        <thead>
+          <tr>
+            <th class="row-num-th"></th>
+            <th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="row-index">1</td><td class="col-header-cell" colspan="8"><strong>GLOBAL DISTRIBUTION &amp; RECONCILIATION SUMMARY (FY2026 Q4)</strong></td></tr>
+          <tr><td class="row-index">2</td><td><strong>SKU Code</strong></td><td><strong>Category</strong></td><td><strong>Warehouse</strong></td><td><strong>Units On Hand</strong></td><td><strong>Q4 Forecast</strong></td><td><strong>Variance</strong></td><td><strong>Margin</strong></td><td><strong>Status</strong></td></tr>
+          <tr><td class="row-index">3</td><td>RN-LOG-9021</td><td>Silicone Components</td><td>Lagos Hub 02</td><td>18,450</td><td>17,200</td><td class="positive">+7.2%</td><td>78.4%</td><td><span class="tag-status green">VERIFIED</span></td></tr>
+          <tr><td class="row-index">4</td><td>RN-LOG-9022</td><td>Acoustic Motors 30dB</td><td>Abuja Precision</td><td>9,120</td><td>8,950</td><td class="positive">+1.9%</td><td>82.1%</td><td><span class="tag-status green">VERIFIED</span></td></tr>
+          <tr><td class="row-index">5</td><td>RN-LOG-9023</td><td>Waterproof Enclosures</td><td>PH Engineering</td><td>14,300</td><td>15,000</td><td class="negative">-4.6%</td><td>74.9%</td><td><span class="tag-status amber">IN REVIEW</span></td></tr>
+          <tr><td class="row-index">6</td><td>RN-LOG-9024</td><td>Discreet Outer Cartons</td><td>Kano Packaging</td><td>45,000</td><td>40,000</td><td class="positive">+12.5%</td><td>91.0%</td><td><span class="tag-status green">VERIFIED</span></td></tr>
+          <tr><td class="row-index">7</td><td>RN-LOG-9025</td><td>Resonance Coils</td><td>Enugu Lab 4</td><td>6,800</td><td>6,500</td><td class="positive">+4.6%</td><td>86.5%</td><td><span class="tag-status green">VERIFIED</span></td></tr>
+          <tr><td class="row-index">8</td><td>RN-LOG-9026</td><td>Magnetic Charging Pins</td><td>Ibadan Micro</td><td>22,100</td><td>21,800</td><td class="positive">+1.3%</td><td>80.2%</td><td><span class="tag-status green">VERIFIED</span></td></tr>
+          <tr><td class="row-index">9</td><td><strong>TOTALS</strong></td><td>--</td><td>National</td><td><strong>115,770</strong></td><td><strong>109,450</strong></td><td class="positive"><strong>+5.8%</strong></td><td><strong>82.2%</strong></td><td><span class="tag-status green">BALANCED</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="stealth-sheet-tabs">
+      <span class="sheet-tab active">Overview_Summary</span>
+      <span class="sheet-tab">Q4_Inventory_Audit</span>
+      <span class="sheet-tab">Vendor_Reconciliation</span>
+      <span class="sheet-tab">+</span>
+    </div>
+  </div>
+
+  <!-- ===== APP ===== -->
+  <div id="app-wrapper">
+
+    <!-- Header -->
+    <header class="main-header" id="main-header">
+      <div class="header-inner">
+        <a href="#hero" class="logo">
+          <img src="/assets/logo.jpg" alt="The Toys Virago" class="brand-logo-img" />
+        </a>
+
+        <div class="header-actions">
+          <button id="btn-stealth-nav" class="stealth-pill" title="Stealth mode (Esc)">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span class="desktop-only">Stealth <kbd>Esc</kbd></span>
+          </button>
+          <button id="btn-mobile-menu" class="btn-mobile-toggle" aria-label="Menu">
+            <span class="bar"></span><span class="bar"></span>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Dropdown Menu -->
+      <div id="nav-dropdown" class="nav-dropdown" hidden>
+        <a href="#collection" class="dropdown-link nav-closer">Shop</a>
+        <a href="#discretion" class="dropdown-link nav-closer">Privacy</a>
+        <a href="#faq" class="dropdown-link nav-closer">FAQ</a>
+        <button id="btn-cart-dropdown" class="dropdown-link btn-cart-dropdown nav-closer">
+          Bag (<span id="cart-counter">0</span>)
+        </button>
+      </div>
+    </header>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="hero">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <h1 class="hero-title">
+            Own your <em>pleasure.</em>
+          </h1>
+          <p class="hero-sub">
+            We bring the toys. You bring the noise. <br/>Premium devices and luxe lingerie, shipped to your door — quietly.
+          </p>
+          <div class="hero-ctas">
+            <a href="#collection" class="btn btn-black btn-lg">
+              Shop Now
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="#discretion" class="btn btn-outline btn-lg">How Discreet?</a>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="hero-img-frame">
+            <img src="/assets/hero-collection.jpg" alt="Premium intimate devices and wellness collection" class="hero-img" id="hero-img" />
+          </div>
+          <div class="hero-float-card">
+            <div class="float-stat">
+              <span class="float-num">100%</span>
+              <span class="float-label">Discreet Delivery</span>
+            </div>
+            <div class="float-div"></div>
+            <div class="float-stat">
+              <span class="float-num">4.5★</span>
+              <span class="float-label">Customer Rating</span>
+            </div>
+            <div class="float-div"></div>
+            <div class="float-stat">
+              <span class="float-num">NG</span>
+              <span class="float-label">🇳🇬 Based in Nigeria</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== COLLECTION ===== -->
+    <section class="collection" id="collection">
+      <div class="section-inner">
+        <div class="collection-header">
+          <h2 class="sh2">The Collection</h2>
+          <div class="filter-row" id="filter-row">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="toys">Toys</button>
+            <button class="filter-btn" data-filter="lingerie">Lingerie</button>
+            <button class="filter-btn" data-filter="accessories">Accessories</button>
+            <button class="filter-btn" data-filter="wellness">Wellness</button>
+          </div>
+        </div>
+
+        <div class="products-grid" id="products-grid">
+
+          <!-- Product 1 -->
+          <article class="product-card" data-category="toys" data-id="obsidian-arc">
+            <div class="product-img-wrap">
+              <span class="product-badge">BESTSELLER</span>
+              <img src="/assets/hero-device.jpg" alt="The Obsidian Arc" class="product-img" />
+              <div class="product-overlay">
+                <button class="btn-quick-view" data-product="obsidian-arc">Quick Look</button>
+              </div>
+            </div>
+            <div class="product-body">
+              <div class="product-top">
+                <span class="product-sku">NOIR · 01</span>
+                <span class="product-price">₦148,000</span>
+              </div>
+              <h3 class="product-name">The Obsidian Arc</h3>
+              <p class="product-line">Whisper-quiet. Feels like a secret.</p>
+              <div class="product-pills">
+                <span>Dual Motor</span><span>&lt;28dB</span><span>Waterproof</span>
+              </div>
+              <div class="color-row">
+                <button class="color-dot active" style="background:#0c0c0e;" data-color="Obsidian Noir"></button>
+                <button class="color-dot" style="background:#9f1239;" data-color="Crimson Lacquer"></button>
+                <button class="color-dot" style="background:#f0f0f0;border:1px solid #ccc;" data-color="Alabaster Pearl"></button>
+                <span class="color-name">Obsidian Noir</span>
+              </div>
+              <button class="btn btn-black btn-block btn-add-cart"
+                data-id="obsidian-arc" data-title="The Obsidian Arc"
+                data-price="148000" data-img="/assets/hero-device.jpg">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                Add to Bag
+              </button>
+            </div>
+          </article>
+
+          <!-- Product 2 -->
+          <article class="product-card" data-category="toys" data-id="rose-blossom">
+            <div class="product-img-wrap">
+              <span class="product-badge ruby-badge">HOT PICK</span>
+              <img src="/assets/product-rose.jpg" alt="Velvet Rose" class="product-img" />
+              <div class="product-overlay">
+                <button class="btn-quick-view" data-product="rose-blossom">Quick Look</button>
+              </div>
+            </div>
+            <div class="product-body">
+              <div class="product-top">
+                <span class="product-sku">FLORE · 02</span>
+                <span class="product-price">₦116,000</span>
+              </div>
+              <h3 class="product-name">Velvet Rose</h3>
+              <p class="product-line">No hands needed. You're welcome.</p>
+              <div class="product-pills">
+                <span>Touchless</span><span>8 Speeds</span><span>Waterproof</span>
+              </div>
+              <div class="color-row">
+                <button class="color-dot active" style="background:#0c0c0e;" data-color="Noir & Ruby"></button>
+                <button class="color-dot" style="background:#881337;" data-color="Midnight Burgundy"></button>
+                <span class="color-name">Noir & Ruby</span>
+              </div>
+              <button class="btn btn-black btn-block btn-add-cart"
+                data-id="rose-blossom" data-title="Velvet Rose"
+                data-price="116000" data-img="/assets/product-rose.jpg">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                Add to Bag
+              </button>
+            </div>
+          </article>
+
+          <!-- Product 3 -->
+          <article class="product-card" data-category="toys" data-id="sceptre-wand">
+            <div class="product-img-wrap">
+              <span class="product-badge">HEAVY HITTER</span>
+              <img src="/assets/product-wand.jpg" alt="The Sceptre Wand" class="product-img" />
+              <div class="product-overlay">
+                <button class="btn-quick-view" data-product="sceptre-wand">Quick Look</button>
+              </div>
+            </div>
+            <div class="product-body">
+              <div class="product-top">
+                <span class="product-sku">GRAND · 03</span>
+                <span class="product-price">₦156,000</span>
+              </div>
+              <h3 class="product-name">The Sceptre</h3>
+              <p class="product-line">Deep rumble. Big energy. No apologies.</p>
+              <div class="product-pills">
+                <span>Deep Wave</span><span>Brushless</span><span>Flex Neck</span>
+              </div>
+              <div class="color-row">
+                <button class="color-dot active" style="background:#0c0c0e;" data-color="Matte Noir"></button>
+                <button class="color-dot" style="background:#be123c;" data-color="Ruby Chrome"></button>
+                <span class="color-name">Matte Noir</span>
+              </div>
+              <button class="btn btn-black btn-block btn-add-cart"
+                data-id="sceptre-wand" data-title="The Sceptre"
+                data-price="156000" data-img="/assets/product-wand.jpg">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                Add to Bag
+              </button>
+            </div>
+          </article>
+
+          <!-- Product 4 -->
+          <article class="product-card" data-category="wellness" data-id="aura-elixir">
+            <div class="product-img-wrap">
+              <span class="product-badge">LIQUID GOLD</span>
+              <img src="/assets/product-serum.jpg" alt="Aura Elixir" class="product-img" />
+              <div class="product-overlay">
+                <button class="btn-quick-view" data-product="aura-elixir">Quick Look</button>
+              </div>
+            </div>
+            <div class="product-body">
+              <div class="product-top">
+                <span class="product-sku">APOTH · 04</span>
+                <span class="product-price">₦52,000</span>
+              </div>
+              <h3 class="product-name">Aura Elixir</h3>
+              <p class="product-line">Botanical. Silky. Sets the whole mood.</p>
+              <div class="product-pills">
+                <span>pH Balanced</span><span>Organic</span><span>30ml</span>
+              </div>
+              <div class="color-row">
+                <button class="size-pill active">30ml</button>
+                <button class="size-pill">60ml</button>
+              </div>
+              <button class="btn btn-black btn-block btn-add-cart"
+                data-id="aura-elixir" data-title="Aura Elixir"
+                data-price="52000" data-img="/assets/product-serum.jpg">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                Add to Bag
+              </button>
+            </div>
+          </article>
+
+        </div>
+
+        <div style="text-align: center; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border);">
+          <a href="/products.html" class="btn btn-black btn-lg" style="padding-left: 40px; padding-right: 40px;">
+            Shop Full Collection &rarr;
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== DISCRETION ===== -->
+    <section class="discretion-strip" id="discretion">
+      <div class="section-inner">
+        <div class="discretion-inner">
+          <div class="discretion-copy">
+            <h2 class="sh2">
+              Nobody go <em>find out.</em>
+            </h2>
+            <p class="discretion-sub">
+              Your business is your business. We make sure it stays that way.
+            </p>
+            <ul class="discretion-list">
+              <li>
+                <span class="d-icon">🛍️</span>
+                <div>
+                  <strong>Plain courier bag, zero clues</strong>
+                  <p>Looks like a regular delivery. Because it is.</p>
+                </div>
+              </li>
+              <li>
+                <span class="d-icon">🔒</span>
+                <div>
+                  <strong>Stealth mode, anytime</strong>
+                  <p>Someone walks in? Hit <kbd>Esc</kbd> or double-tap. This page becomes a spreadsheet. We don't play.</p>
+                </div>
+              </li>
+              <li>
+                <span class="d-icon">🇳🇬</span>
+                <div>
+                  <strong>Nationwide delivery</strong>
+                  <p>Lagos, Abuja, PH, Ibadan — we reach everywhere. Quietly.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="discretion-visual">
+            <div class="hero-img-frame" style="aspect-ratio: 1/1; box-shadow: var(--sh-md);">
+              <img src="/assets/courier-bag.jpg" alt="Discreet courier packaging" class="hero-img" />
+            </div>
+            <div class="box-statement" style="margin-top: 24px;">
+              <span>💳</span>
+              <div>
+                <small>Your bank statement</small>
+                <strong>THE TOYS VIRAGO</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section class="faq-section" id="faq">
+      <div class="section-inner">
+        <h2 class="sh2">We know what <em>you're thinking.</em></h2>
+        <div class="faq-accordion">
+          <details class="faq-item">
+            <summary>Will my family know what I ordered? <span class="accordion-icon">+</span></summary>
+            <p>Absolutely not. Your items are shipped in sealed, opaque courier bags. Even if we use our branded nylon, it gives zero clues about what's inside. Your secret is safe.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Do you deliver to my city? <span class="accordion-icon">+</span></summary>
+            <p>If you're in Nigeria, yes. Lagos, Abuja, PH, Ibadan, Kano, Enugu — name it. We go there.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Are the products legit? <span class="accordion-icon">+</span></summary>
+            <p>100%. We only carry body-safe, certified brands. No cheap imitations, no mystery materials. Your body deserves better.</p>
+          </details>
+          <details class="faq-item">
+            <summary>What if I have questions? <span class="accordion-icon">+</span></summary>
+            <p>DM us on X or send a WhatsApp. We're real people, no judgement, very helpful.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Do you sell lingerie? <span class="accordion-icon">+</span></summary>
+            <p>Yes. We curate a premium selection of luxe lingerie designed to complement your toys and elevate the mood.</p>
+          </details>
+          <details class="faq-item">
+            <summary>How long does shipping take? <span class="accordion-icon">+</span></summary>
+            <p>Lagos delivery is the same or next day after the order is dispatched. Other states are 1-5 working days.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+      <div class="section-inner">
+        <div class="footer-top">
+          <div class="footer-left">
+            <div class="footer-stealth-hint">
+              Privacy shield: <kbd id="footer-stealth-trigger">Esc</kbd> or <kbd id="footer-stealth-trigger-tap">double-tap</kbd>
+            </div>
+          </div>
+
+          <div class="footer-right">
+            <h5>Holla At Us</h5>
+            <ul>
+              <li><a href="#">WhatsApp</a></li>
+              <li><a href="#">X (Twitter)</a></li>
+              <li><a href="#faq">FAQ</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-massive-logo" style="position: relative;">
+          <img src="/assets/illus-1.jpg" alt="" style="position: absolute; width: 18vw; mix-blend-mode: multiply; left: 15%; top: -80%; transform: rotate(-35deg); z-index: 0; pointer-events: none;" />
+          <img src="/assets/illus-2.jpg" alt="" style="position: absolute; width: 15vw; mix-blend-mode: multiply; left: 35%; top: -100%; transform: rotate(15deg) scaleX(-1); z-index: 0; pointer-events: none;" />
+          <img src="/assets/illus-5.jpg" alt="" style="position: absolute; width: 17vw; mix-blend-mode: multiply; left: 55%; top: -75%; transform: rotate(-10deg); z-index: 0; pointer-events: none;" />
+          <img src="/assets/illus-3.jpg" alt="" style="position: absolute; width: 16vw; mix-blend-mode: multiply; right: 25%; bottom: -50%; transform: rotate(145deg) scaleX(-1); z-index: 0; pointer-events: none;" />
+          <img src="/assets/illus-4.jpg" alt="" style="position: absolute; width: 19vw; mix-blend-mode: multiply; right: 5%; top: -70%; transform: rotate(-75deg); z-index: 0; pointer-events: none;" />
+          <span style="position: relative; z-index: 1;">THETOYSVIRAGO.</span>
+        </div>
+
+        <div class="footer-bottom">
+          <p>© 2026 TheToysVirago.</p>
+          <div class="footer-legal">
+            <span class="age-pill">18+ Only</span>
+            <a href="#" id="reset-age-gate">Reset age gate</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Floating Stealth -->
+    <button id="floating-stealth-btn" class="floating-stealth" title="Stealth mode (Esc or double-tap)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Stealth
+    </button>
+
+    <!-- Cart Drawer -->
+    <div id="cart-drawer-overlay" class="drawer-overlay" hidden>
+      <aside class="cart-drawer" id="cart-drawer" role="dialog" aria-modal="true" aria-label="Cart">
+        <div class="drawer-header">
+          <div>
+            <h3 class="drawer-title">Your Bag</h3>
+            <span class="drawer-count" id="drawer-items-count">(0 items)</span>
+          </div>
+          <button id="btn-close-cart" class="btn-close-drawer">✕</button>
+        </div>
+
+        <div class="shipping-bar">
+          <div id="shipping-meter-text" class="ship-bar-text">Add ₦50,000 for free delivery</div>
+          <div class="ship-bar-track"><div class="ship-bar-fill" id="meter-fill" style="width:0%"></div></div>
+        </div>
+
+        <div class="drawer-items" id="drawer-items">
+          <div class="empty-bag" id="empty-cart-state">
+            <p class="empty-emoji">🛍️</p>
+            <p class="empty-msg">Your bag is empty.<br/>Let's fix that.</p>
+            <a href="#collection" class="btn btn-black btn-sm" onclick="document.getElementById('cart-drawer-overlay').style.display='none'">Shop Now</a>
+          </div>
+        </div>
+
+        <div class="drawer-foot" id="drawer-footer">
+          <div class="promo-row">
+            <input type="text" id="promo-input" placeholder="Promo code (try VIRAGO15)" class="input-field" />
+            <button id="btn-apply-promo" class="btn-promo">Apply</button>
+          </div>
+          <div id="promo-feedback" class="promo-msg" hidden></div>
+
+          <div class="cart-lines">
+            <div class="cart-line"><span>Subtotal</span><span id="cart-subtotal">₦0</span></div>
+            <div class="cart-line" id="cart-discount-row" hidden><span>Discount (15%)</span><span id="cart-discount" class="green-txt">-₦0</span></div>
+            <div class="cart-line"><span>Delivery</span><span id="cart-shipping" class="green-txt">Free</span></div>
+            <div class="cart-line total-line"><span>Total</span><span id="cart-total" class="ruby-txt">₦0</span></div>
+          </div>
+
+          <div class="discreet-badge">📦 Sealed courier bags, zero clues</div>
+
+          <button id="btn-checkout" class="btn btn-black btn-block btn-lg">
+            Checkout
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Quick View Modal -->
+    <div id="quickview-modal" class="modal-overlay" hidden>
+      <div class="qv-card">
+        <button id="btn-close-modal" class="btn-close-modal">✕</button>
+        <div class="qv-inner">
+          <div class="qv-img-wrap">
+            <img id="qv-img" src="/assets/hero-device.jpg" alt="" class="qv-img" />
+          </div>
+          <div class="qv-details">
+            <span class="qv-badge" id="qv-badge">FLAGSHIP</span>
+            <h2 class="qv-name" id="qv-title">The Obsidian Arc</h2>
+            <div class="qv-price" id="qv-price">₦148,000</div>
+            <p class="qv-desc" id="qv-desc">Precision dual-motor device with whisper-silent vibration and deep sub-bass frequencies.</p>
+            <div class="qv-specs">
+              <div class="spec-row"><span>Material</span><span id="qv-material">Medical-Grade Liquid Silicone</span></div>
+              <div class="spec-row"><span>Sound Level</span><span id="qv-acoustics">&lt; 28dB</span></div>
+              <div class="spec-row"><span>Waterproof</span><span>IPX8 — Fully Submersible</span></div>
+              <div class="spec-row"><span>Battery</span><span>Magnetic USB, 120min runtime</span></div>
+            </div>
+            <div class="qv-actions">
+              <button id="qv-btn-add" class="btn btn-black btn-lg">Add to Bag</button>
+              <button id="qv-btn-close" class="btn btn-outline btn-lg">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkout-modal" class="modal-overlay" hidden>
+      <div class="co-card">
+        <button id="btn-close-checkout" class="btn-close-modal">✕</button>
+        <div class="co-head">
+          <h2 class="sh2">Almost there.<br/><em>Shhh.</em></h2>
+        </div>
+        <form id="checkout-form" class="co-form" onsubmit="event.preventDefault()">
+          <div class="co-section">
+            <label class="co-label">Delivery Address</label>
+            <div class="form-row-2">
+              <input type="text" placeholder="First Name" required class="input-field" value="Valued" />
+              <input type="text" placeholder="Last Name" required class="input-field" value="Customer" />
+            </div>
+            <input type="text" placeholder="Street Address" required class="input-field" value="42 Bourdillon Road" />
+            <div class="form-row-2">
+              <input type="text" placeholder="City" required class="input-field" value="Ikoyi, Lagos" />
+              <input type="text" placeholder="Phone" required class="input-field" value="+234 800 000 0000" />
+            </div>
+          </div>
+          <div class="co-section">
+            <label class="co-label">Payment</label>
+            <input type="text" placeholder="Card Number" class="input-field" value="4242 •••• •••• 4242" />
+            <div class="form-row-2">
+              <input type="text" placeholder="MM/YY" class="input-field" value="12/28" />
+              <input type="text" placeholder="CVV" class="input-field" type="password" value="•••" />
+            </div>
+          </div>
+          <div class="co-summary">
+            <div class="cart-line"><span>Total</span><span id="co-total" class="ruby-txt">₦148,000</span></div>
+            <div class="cart-line"><span>Delivery</span><span class="green-txt">Free</span></div>
+          </div>
+          <button type="submit" id="btn-submit-order" class="btn btn-black btn-block btn-lg">
+            Confirm Order — Discretely
+          </button>
+        </form>
+        <div id="checkout-success" class="co-success" hidden>
+          <div class="success-tick">✓</div>
+          <h3>Order confirmed.</h3>
+          <p>Order ref: <strong id="order-ref">TTV-00000</strong></p>
+          <p>Check your email for tracking.</p>
+          <button id="btn-done-order" class="btn btn-black btn-md">Back to Shop</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast" hidden>
+      <span class="toast-icon">✓</span>
+      <span id="toast-message">Added to bag</span>
+    </div>
+
+  </div><!-- /app-wrapper -->
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
