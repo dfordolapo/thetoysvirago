@@ -552,6 +552,24 @@
       </div>
     </section>
 
+    <!-- ===== FEEDBACK MARQUEE ===== -->
+    <section class="feedback-marquee">
+      <div class="marquee-track">
+        <span class="fb-item">"The sealed packaging was perfect." • ★★★★★</span>
+        <span class="fb-item">"The Sceptre changed my life." • ★★★★★</span>
+        <span class="fb-item">"Super fast delivery to Lagos." • ★★★★★</span>
+        <span class="fb-item">"Customer service is top notch." • ★★★★★</span>
+        <span class="fb-item">"Obsessed with the Velvet Rose!" • ★★★★★</span>
+        <span class="fb-item">"Finally a premium store in NG." • ★★★★★</span>
+        <span class="fb-item">"The sealed packaging was perfect." • ★★★★★</span>
+        <span class="fb-item">"The Sceptre changed my life." • ★★★★★</span>
+        <span class="fb-item">"Super fast delivery to Lagos." • ★★★★★</span>
+        <span class="fb-item">"Customer service is top notch." • ★★★★★</span>
+        <span class="fb-item">"Obsessed with the Velvet Rose!" • ★★★★★</span>
+        <span class="fb-item">"Finally a premium store in NG." • ★★★★★</span>
+      </div>
+    </section>
+
     <!-- ===== FOOTER ===== -->
     <footer class="footer">
       <div class="section-inner">
@@ -573,11 +591,26 @@
         </div>
 
         <div class="footer-massive-logo" style="position: relative;">
-          <img src="/assets/illus-1.jpg" alt="" style="position: absolute; width: 18vw; mix-blend-mode: multiply; left: 15%; top: -80%; transform: rotate(-35deg); z-index: 0; pointer-events: none;" />
-          <img src="/assets/illus-2.jpg" alt="" style="position: absolute; width: 15vw; mix-blend-mode: multiply; left: 35%; top: -100%; transform: rotate(15deg) scaleX(-1); z-index: 0; pointer-events: none;" />
-          <img src="/assets/illus-5.jpg" alt="" style="position: absolute; width: 17vw; mix-blend-mode: multiply; left: 55%; top: -75%; transform: rotate(-10deg); z-index: 0; pointer-events: none;" />
-          <img src="/assets/illus-3.jpg" alt="" style="position: absolute; width: 16vw; mix-blend-mode: multiply; right: 25%; bottom: -50%; transform: rotate(145deg) scaleX(-1); z-index: 0; pointer-events: none;" />
-          <img src="/assets/illus-4.jpg" alt="" style="position: absolute; width: 19vw; mix-blend-mode: multiply; right: 5%; top: -70%; transform: rotate(-75deg); z-index: 0; pointer-events: none;" />
+          <!-- Wand -->
+          <svg class="toy-svg" style="width: 12vw; left: 15%; top: -60%; transform: rotate(-35deg);" viewBox="0 0 100 100" fill="currentColor">
+            <circle cx="50" cy="25" r="20" /><rect x="40" y="40" width="20" height="50" rx="10" />
+          </svg>
+          <!-- Teardrop -->
+          <svg class="toy-svg" style="width: 10vw; left: 35%; top: -80%; transform: rotate(15deg);" viewBox="0 0 100 100" fill="currentColor">
+            <path d="M50 10 Q20 50 20 70 A30 30 0 0 0 80 70 Q80 50 50 10 Z" />
+          </svg>
+          <!-- Bullet -->
+          <svg class="toy-svg" style="width: 8vw; left: 55%; top: -45%; transform: rotate(-10deg);" viewBox="0 0 100 100" fill="currentColor">
+            <rect x="35" y="10" width="30" height="80" rx="15" />
+          </svg>
+          <!-- Arc -->
+          <svg class="toy-svg" style="width: 11vw; right: 25%; bottom: -30%; transform: rotate(145deg);" viewBox="0 0 100 100" fill="currentColor">
+            <path d="M70 20 C90 40 90 70 60 85 C40 95 20 85 20 65 C20 40 50 20 70 20 Z" />
+          </svg>
+          <!-- Rabbit -->
+          <svg class="toy-svg" style="width: 14vw; right: 5%; top: -50%; transform: rotate(-75deg);" viewBox="0 0 100 100" fill="currentColor">
+            <rect x="40" y="10" width="20" height="80" rx="10" /><path d="M40 50 C20 45 20 25 30 25 C35 25 40 35 40 40 Z" />
+          </svg>
           <span style="position: relative; z-index: 1;">THETOYSVIRAGO.</span>
         </div>
 
@@ -591,11 +624,7 @@
       </div>
     </footer>
 
-    <!-- Floating Stealth -->
-    <button id="floating-stealth-btn" class="floating-stealth" title="Stealth mode (Esc or double-tap)">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      Stealth
-    </button>
+    <!-- Floating Stealth removed -->
 
     <!-- Cart Drawer -->
     <div id="cart-drawer-overlay" class="drawer-overlay" hidden>
@@ -706,7 +735,7 @@
             <div class="cart-line"><span>Delivery</span><span class="green-txt">Free</span></div>
           </div>
           <button type="submit" id="btn-submit-order" class="btn btn-black btn-block btn-lg">
-            Confirm Order — Discretely
+            Confirm Order Discretely
           </button>
         </form>
         <div id="checkout-success" class="co-success" hidden>
