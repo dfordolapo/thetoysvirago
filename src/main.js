@@ -49,6 +49,8 @@ if (isAgeVerified && ageGate) {
 if (btnEnterGate) {
   btnEnterGate.addEventListener('click', () => {
     localStorage.setItem('rouge_age_verified', 'true');
+    const appWrapper = document.getElementById('app-wrapper');
+    if (appWrapper) appWrapper.style.setProperty('display', 'block', 'important');
     ageGate.classList.add('fade-out');
     setTimeout(() => {
       ageGate.style.display = 'none';
@@ -70,6 +72,8 @@ if (resetAgeGate) {
       ageGate.classList.remove('fade-out');
       ageGate.style.display = 'flex';
     }
+    const appWrapper = document.getElementById('app-wrapper');
+    if (appWrapper) appWrapper.style.setProperty('display', 'none', 'important');
   });
 }
 

@@ -15,7 +15,13 @@
   <link rel="stylesheet" href="/src/style.css" />
 </head>
 <body>
-
+  <script>
+    if (localStorage.getItem('rouge_age_verified') === 'true') {
+      document.write('<style>#age-gate { display: none !important; } #app-wrapper { visibility: visible !important; }</style>');
+    } else {
+      document.write('<style>#app-wrapper { display: none !important; }</style>');
+    }
+  </script>
   <!-- ===== AGE GATE ===== -->
   <div id="age-gate" class="age-gate-overlay">
     <div class="age-gate-card">
