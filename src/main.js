@@ -1154,6 +1154,9 @@ function removeItem(id) {
 }
 
 function openCartDrawer() {
+  document.body.classList.add('cart-open');
+  const mainHeader = document.getElementById('main-header');
+  if (mainHeader) mainHeader.classList.add('nav-collapsed');
   collapseNavDropdown();
   if (cartDrawerOverlay) {
     cartDrawerOverlay.removeAttribute('hidden');
@@ -1164,6 +1167,9 @@ function openCartDrawer() {
 }
 
 function closeCartDrawer() {
+  document.body.classList.remove('cart-open');
+  const mainHeader = document.getElementById('main-header');
+  if (mainHeader) mainHeader.classList.remove('nav-collapsed');
   if (cartDrawerOverlay) {
     cartDrawerOverlay.setAttribute('hidden', '');
     cartDrawerOverlay.style.display = 'none';
@@ -1171,6 +1177,8 @@ function closeCartDrawer() {
   const bagPill = document.getElementById('btn-header-bag');
   if (bagPill) bagPill.classList.remove('active');
 }
+
+window.closeCartDrawer = closeCartDrawer;
 
 if (btnCartDropdown) btnCartDropdown.addEventListener('click', (e) => {
   e.stopPropagation();
@@ -1248,7 +1256,7 @@ function renderCart() {
       <div class="empty-cart-state">
         <div class="empty-bag-icon">🖤</div>
         <p class="empty-text">Your discreet bag is currently empty.</p>
-        <a href="#collection" class="btn btn-ruby btn-sm" onclick="document.getElementById('cart-drawer-overlay').hidden = true;">Explore Collection</a>
+        <a href="#collection" class="btn btn-ruby btn-sm" onclick="window.closeCartDrawer();">Explore Collection</a>
       </div>
     `;
     if (meterFill) meterFill.style.width = '0%';
