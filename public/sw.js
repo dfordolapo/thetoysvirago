@@ -1,4 +1,4 @@
-const CACHE_NAME = 'thetoysvirago-v2';
+const CACHE_NAME = 'thetoysvirago-v7';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
@@ -8,8 +8,24 @@ const ASSETS_TO_CACHE = [
   '/assets/hero-collection.jpg',
   '/assets/hero-device.jpg',
   '/assets/product-rose.jpg',
+  '/assets/rose-pair-duo.jpg',
   '/assets/product-wand.jpg',
-  '/assets/product-serum.jpg'
+  '/assets/product-serum.jpg',
+  '/assets/african-brute.jpg',
+  '/assets/category-games.jpg',
+  '/assets/thrusting-dildo-duo.jpg',
+  '/assets/thrusting-dildo-black.jpg',
+  '/assets/thrusting-dildo-brown.jpg',
+  '/assets/thrusting-dildo-tan.jpg',
+  '/assets/sucking-rabbit.jpg',
+  '/assets/sucking-rabbit-box.jpg',
+  '/assets/plugs-vault-chest.jpg',
+  '/assets/plugs-lineup-all.jpg',
+  '/assets/plug-size-small.jpg',
+  '/assets/plug-size-medium.jpg',
+  '/assets/plug-size-large.jpg',
+  '/assets/rabbit-cock-ring.jpg',
+  '/assets/rabbit-cock-ring-gold.jpg'
 ];
 
 self.addEventListener('install', (event) => {

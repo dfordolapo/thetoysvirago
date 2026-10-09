@@ -525,18 +525,20 @@ const btnResetSearch = document.getElementById('btn-reset-search');
 const GENERAL_PRODUCT_TERMS = {
   'sculpted-dildo': 'dildo dildos dildoe contour shaft silicone suction base realistic cock sculpted toy sex toys rubber phallus penetration insertable',
   'rose-blossom': 'rose sucker clitoral suction air pulse mouth oral vibrator toy sex toys flower',
+  'pulsating-rose': 'pulsating rose sucker licker suction air pulse mouth oral tongue vibrator toy sex toys flower duo',
   'sceptre-wand': 'mini wand magic wand pocket vibrator deep rumble pocket massager vibe toy sex toys',
-  'siren-app': 'siren flamingo app controlled wearable long distance vibrator remote bluetooth panty vibe toy sex toys',
+  'siren-app': 'siren flamingo app controlled wearable long distance vibrator remote bluetooth panty vibe toy sex toys red white',
   'lipstick-vibe': 'lipstick vibrator bullet vibe discreet stealth hidden pocket secret travel toy sex toys white',
-  'midnight-silk-slip': 'lingerie silk slip dress nightdress nightie sleepwear chemise babydoll nightgown',
-  'lace-noir-bodysuit': 'lingerie lace bodysuit teddy one piece undergarment atelier corset',
-  'satin-kimono-robe': 'lingerie kimono robe silk nightgown loungewear wrap gown',
-  'aura-elixir': 'lube lubricant serum oil damiana organic natural moisture wellness intimate',
-  'velvet-glide-serum': 'lube lubricant water glide hybrid aloe moisture wellness zero stick',
-  'sensory-warming-oil': 'lube warming oil massage oil edible elixir wellness ginger thermal',
-  'velvet-restraint-kit': 'bdsm restraints handcuffs cuffs collar bondage fetish velvet padded',
-  'sensory-blindfold-whip': 'bdsm blindfold mask feather tickler teaser sensory deprivation bondage fetish whip plume',
-  'sensory-bundle-deluxe': 'bdsm bondage kit sensory suite bundle 5 piece cuffs restraints fetish collection'
+  'thrusting-dildo': 'thrusting dildo dildos remote controlled wireless automatic motorized reciprocating shaft suction base sex toys vibe black tan brown chocolate bronze flesh',
+  'sucking-rabbit': 'sucking rabbit vibrator rabbit vibe clitoral suction air pulse dual stimulation g spot toys sex toys pink fuchsia dual motor',
+  'non-vibrating-plugs': 'non vibrating plugs anal plug butt plug jeweled silicone chrome metal contour small medium large toy sex toys flared base chest crystal',
+  'rabbit-cock-ring': 'rabbit cock ring rechargeable vibrating ring penis ring stamina delay couples clitoral teaser sex toys black silicone',
+  'creature-cock-ring': 'creature cock ring non vibrating stamina delay ring s-hande penis silicone toy sex toys',
+  'pocket-bullet': 'bullet pocket vibe mini lipstick bullet vibrator pocket power 10 modes sex toys fuchsia black blush purple chrome',
+  'contour-bullet-6inch': '6 inches bullet 6 inch bullet vibrator heart crown slim wand long vibe sex toys purple black fuchsia',
+  'sleek-bullet-7inch': '7 inches bullet 7 inch bullet vibrator magnetic charger pin charger flat top slim wand long vibe sex toys metallic silver chrome gold',
+  'rose-jump-egg': 'rose jump egg app controlled egg vibrator wireless bluetooth remote panty vibe kegel clit stimulator sex toys fuchsia pink',
+  'african-brute': 'african brute herbal tincture tonic stamina endurance libido energy sex drive nafdac supplement wellness potion liquid oral aphrodisiac lube'
 };
 
 function filterProducts() {
@@ -579,8 +581,20 @@ function filterProducts() {
     if (visibleCount === 0) {
       searchNoResults.removeAttribute('hidden');
       searchNoResults.style.display = 'block';
-      const noResultsQuery = document.getElementById('no-results-query');
-      if (noResultsQuery) noResultsQuery.textContent = query || activeCategory;
+      const noResultsTitle = document.getElementById('no-results-title');
+      const noResultsDesc = document.getElementById('no-results-desc');
+      const resetBtn = document.getElementById('btn-reset-search');
+
+      if (query) {
+        if (noResultsTitle) noResultsTitle.textContent = 'Nothing to buzz about yet.';
+        if (noResultsDesc) noResultsDesc.innerHTML = `We couldn't find anything matching "<strong>${query}</strong>". Give it another tease with 'rose', 'bullet', 'dildo', or 'tonic'.`;
+        if (resetBtn) resetBtn.textContent = 'Clear Search';
+      } else {
+        const catName = activeCategory === 'bdsm' ? 'BDSM' : activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1);
+        if (noResultsTitle) noResultsTitle.textContent = 'Patience is a virtue (and a kink).';
+        if (noResultsDesc) noResultsDesc.innerHTML = `We're stocking this vault right now. Our <strong>${catName}</strong> collection will drop shortly. In the meantime, explore our active toys and lubes.`;
+        if (resetBtn) resetBtn.textContent = 'Browse All Products';
+      }
     } else {
       searchNoResults.setAttribute('hidden', '');
       searchNoResults.style.display = 'none';
@@ -634,7 +648,9 @@ if (initialFilter && filterBtns.length > 0) {
       (targetCategory === 'lubes' && (f === 'wellness' || f === 'lubes')) ||
       (targetCategory === 'wellness' && (f === 'wellness' || f === 'lubes')) ||
       (targetCategory === 'bdsm' && (f === 'accessories' || f === 'bdsm')) ||
-      (targetCategory === 'accessories' && (f === 'accessories' || f === 'bdsm'));
+      (targetCategory === 'accessories' && (f === 'accessories' || f === 'bdsm')) ||
+      (targetCategory === 'games' && (f === 'games' || f === 'card-games')) ||
+      (targetCategory === 'card-games' && (f === 'games' || f === 'card-games'));
   });
 
   if (matchBtn) {
@@ -646,14 +662,40 @@ if (initialFilter && filterBtns.length > 0) {
 document.querySelectorAll('.color-selector, .color-row').forEach((selector) => {
   const dots = selector.querySelectorAll('.color-dot');
   const label = selector.querySelector('.selected-color-name, .color-name');
+  const card = selector.closest('.product-card');
+  const cardImg = card?.querySelector('.product-img');
+  const addBtn = card?.querySelector('.btn-add-cart');
 
   dots.forEach((dot) => {
     dot.addEventListener('click', (e) => {
       e.stopPropagation();
       dots.forEach((d) => d.classList.remove('active'));
       dot.classList.add('active');
-      if (label && dot.dataset.color) {
-        label.textContent = dot.dataset.color;
+      const chosenColor = dot.dataset.color;
+      if (label && chosenColor) {
+        label.textContent = chosenColor;
+      }
+
+      // Update card preview image if color dot has an individual image
+      if (dot.dataset.img && cardImg) {
+        cardImg.src = dot.dataset.img;
+        if (addBtn) {
+          addBtn.dataset.img = dot.dataset.img;
+        }
+      }
+
+      // Update addBtn dataset and title
+      if (addBtn && chosenColor) {
+        addBtn.dataset.selectedColor = chosenColor;
+        const activeSizePill = card?.querySelector('.size-pill.active');
+        const activeSize = activeSizePill?.dataset.size || activeSizePill?.textContent.trim();
+        const baseTitle = (addBtn.dataset.baseTitle || addBtn.dataset.title || '').replace(/\s*\([^)]*\)$/, '').trim();
+        if (!addBtn.dataset.baseTitle) addBtn.dataset.baseTitle = baseTitle;
+        if (activeSize) {
+          addBtn.dataset.title = `${baseTitle} (${activeSize} ${chosenColor})`;
+        } else {
+          addBtn.dataset.title = `${baseTitle} (${chosenColor})`;
+        }
       }
     });
   });
@@ -665,6 +707,7 @@ document.querySelectorAll('.product-card').forEach((card) => {
   const priceDisplay = card.querySelector('.product-price');
   const addBtn = card.querySelector('.btn-add-cart');
   const sizeLabel = card.querySelector('.color-name');
+  const cardImg = card.querySelector('.product-img');
 
   sizePills.forEach((pill) => {
     pill.addEventListener('click', (e) => {
@@ -674,7 +717,17 @@ document.querySelectorAll('.product-card').forEach((card) => {
 
       const chosenSize = pill.dataset.size || pill.textContent.trim();
 
-      // If size pill has a specific price (like dildo 6" vs 7")
+      // If variant has a preview image
+      if (pill.dataset.img) {
+        if (cardImg) cardImg.src = pill.dataset.img;
+        if (addBtn) addBtn.dataset.img = pill.dataset.img;
+      }
+
+      const baseTitle = (addBtn?.dataset.baseTitle || addBtn?.dataset.title || '').replace(/\s*\([^)]*\)$/, '').trim();
+      if (addBtn && !addBtn.dataset.baseTitle) addBtn.dataset.baseTitle = baseTitle;
+      const activeColor = card.querySelector('.color-dot.active')?.dataset.color;
+
+      // If size pill has a specific price (like dildo 6" vs 7" or plugs S vs M vs L)
       if (pill.dataset.price) {
         const newPrice = parseInt(pill.dataset.price, 10);
         const newPriceStr = pill.dataset.pricestr;
@@ -683,20 +736,32 @@ document.querySelectorAll('.product-card').forEach((card) => {
         }
         if (addBtn) {
           addBtn.dataset.price = newPrice;
-          const rawTitle = addBtn.dataset.title;
-          const baseTitle = rawTitle.replace(/\s*\(\d+["']?\)/, '');
-          addBtn.dataset.title = `${baseTitle} (${chosenSize})`;
+          addBtn.dataset.selectedSize = chosenSize;
+          if (activeColor) {
+            addBtn.dataset.title = `${baseTitle} (${chosenSize} ${activeColor})`;
+          } else {
+            addBtn.dataset.title = `${baseTitle} (${chosenSize})`;
+          }
         }
       } else {
-        // Lingerie or bottle size
+        // Lingerie, variant, or bottle size
         if (addBtn) {
           addBtn.dataset.selectedSize = chosenSize;
+          if (activeColor) {
+            addBtn.dataset.title = `${baseTitle} (${chosenSize} ${activeColor})`;
+          } else {
+            addBtn.dataset.title = `${baseTitle} (${chosenSize})`;
+          }
         }
       }
 
       // Update card size text label if present and card has no color dots
       if (sizeLabel && !card.querySelector('.color-dot')) {
-        sizeLabel.textContent = chosenSize.startsWith('Size') ? chosenSize : `Size: ${chosenSize}`;
+        if (chosenSize === 'Sucker' || chosenSize === 'Licker') {
+          sizeLabel.textContent = `Variant: ${chosenSize}`;
+        } else {
+          sizeLabel.textContent = chosenSize.startsWith('Size') ? chosenSize : `Size: ${chosenSize}`;
+        }
       }
     });
   });
@@ -715,23 +780,11 @@ const qvPrice = document.getElementById('qv-price');
 const qvDesc = document.getElementById('qv-desc');
 const qvMaterial = document.getElementById('qv-material');
 const qvAcoustics = document.getElementById('qv-acoustics');
+const qvSpecs = document.getElementById('qv-specs');
 const qvBtnAdd = document.getElementById('qv-btn-add');
 let currentQvProduct = null;
 
 const PRODUCT_DATABASE = {
-  'obsidian-arc': {
-    id: 'obsidian-arc',
-    title: 'The Obsidian Arc',
-    badge: 'FLAGSHIP EDITION • DUAL MOTOR',
-    price: 148000,
-    priceStr: '₦148,000',
-    img: '/assets/hero-device.jpg',
-    desc: 'Precision engineered with dual harmonic vibration engines. Calibrated for 28Hz sub-bass waves that penetrate deeply without surface numbing. Velvet-touch liquid silicone body.',
-    material: 'Double-Cured Medical Liquid Silicone & Ruby Chrome Alloy',
-    acoustics: '< 28 dB (Sub-Whisper Level at Peak Power)',
-    freq: 28,
-    pattern: 'throb'
-  },
   'rose-blossom': {
     id: 'rose-blossom',
     title: 'The Rose Sucker',
@@ -739,6 +792,14 @@ const PRODUCT_DATABASE = {
     price: 25000,
     priceStr: '₦25,000',
     img: '/assets/product-rose.jpg',
+    variants: [
+      { name: 'Red', price: 25000, priceStr: '₦25,000', img: '/assets/product-rose.jpg' },
+      { name: 'Black', price: 25000, priceStr: '₦25,000', img: '/assets/product-rose.jpg' },
+      { name: 'Pink', price: 25000, priceStr: '₦25,000', img: '/assets/product-rose.jpg' },
+      { name: 'Purple', price: 25000, priceStr: '₦25,000', img: '/assets/product-rose.jpg' },
+      { name: 'Yellow', price: 25000, priceStr: '₦25,000', img: '/assets/product-rose.jpg' },
+      { name: 'Green', price: 25000, priceStr: '₦25,000', img: '/assets/product-rose.jpg' }
+    ],
     media: [
       { type: 'image', src: '/assets/product-rose.jpg', label: 'Studio Cover' },
       { type: 'image', src: '/assets/rose-sucker-colors.jpg', label: 'Colorways & USB' },
@@ -747,10 +808,46 @@ const PRODUCT_DATABASE = {
       { type: 'video', src: '/assets/rose-sucker-demo.mp4', thumb: '/assets/product-rose.jpg', label: 'Live Video Demo' }
     ],
     desc: 'Sculpted like an innocent blooming rose, engineered like an absolute powerhouse. Uses gentle aerodynamic air-wave pulses to stimulate without direct friction, taking you from a teasing flutter to an undeniable crescendo in minutes.',
+    specs: [
+      { label: 'Material', value: '100% Medical-Grade Liquid Silicone' },
+      { label: 'Sound Level', value: '< 30 dB (Whisper Silent)' },
+      { label: 'Waterproof', value: 'IPX7 — Waterproof' },
+      { label: 'Battery', value: 'Magnetic USB Rechargeable' }
+    ],
     material: '100% Medical-Grade Liquid Silicone',
     acoustics: '< 30 dB (Whisper Silent)',
     freq: 72,
     pattern: 'surge'
+  },
+  'pulsating-rose': {
+    id: 'pulsating-rose',
+    title: 'Pulsating Rose',
+    badge: 'NEW • SUCKER & LICKER',
+    price: 35000,
+    priceStr: '₦35,000',
+    img: '/assets/rose-pair-duo.jpg',
+    variants: [
+      { name: 'Sucker', price: 35000, priceStr: '₦35,000', img: '/assets/rose-sucker-variant.jpg' },
+      { name: 'Licker', price: 35000, priceStr: '₦35,000', img: '/assets/rose-licker-variant.jpg' }
+    ],
+    media: [
+      { type: 'image', src: '/assets/rose-pair-duo.jpg', label: 'Duo Models' },
+      { type: 'image', src: '/assets/rose-pair-boxes.jpg', label: 'Packaging & Variants' },
+      { type: 'image', src: '/assets/rose-sucker-variant.jpg', label: 'Sucker Variant' },
+      { type: 'image', src: '/assets/rose-licker-variant.jpg', label: 'Licker Variant' },
+      { type: 'video', src: '/assets/rose-pulsating-demo.mp4', thumb: '/assets/rose-pair-duo.jpg', label: 'Live Video Demo' }
+    ],
+    desc: 'Dual oral sensation options sculpted into a blooming rose silhouette. Choose the Sucker for airtight pulsing flutter waves, or the Licker for rhythmic tongue-stroking ecstasy.',
+    specs: [
+      { label: 'Material', value: '100% Medical-Grade Liquid Silicone' },
+      { label: 'Sound Level', value: '< 30 dB (Whisper Silent)' },
+      { label: 'Waterproof', value: 'IPX7 — Waterproof' },
+      { label: 'Battery', value: 'Magnetic USB Rechargeable' }
+    ],
+    material: '100% Medical-Grade Liquid Silicone',
+    acoustics: '< 30 dB (Whisper Silent)',
+    freq: 72,
+    pattern: 'pulse & flutter'
   },
   'sceptre-wand': {
     id: 'sceptre-wand',
@@ -759,6 +856,12 @@ const PRODUCT_DATABASE = {
     price: 15000,
     priceStr: '₦15,000',
     img: '/assets/product-wand.jpg',
+    variants: [
+      { name: 'Black', price: 15000, priceStr: '₦15,000', img: '/assets/product-wand.jpg' },
+      { name: 'Pink', price: 15000, priceStr: '₦15,000', img: '/assets/mini-wand-colors.jpg' },
+      { name: 'Purple', price: 15000, priceStr: '₦15,000', img: '/assets/mini-wand-colors.jpg' },
+      { name: 'Green', price: 15000, priceStr: '₦15,000', img: '/assets/mini-wand-colors.jpg' }
+    ],
     media: [
       { type: 'image', src: '/assets/product-wand.jpg', label: 'Studio Cover' },
       { type: 'image', src: '/assets/mini-wand-colors.jpg', label: 'All 4 Colors' },
@@ -766,6 +869,12 @@ const PRODUCT_DATABASE = {
       { type: 'video', src: '/assets/mini-wand-demo.mp4', thumb: '/assets/product-wand.jpg', label: 'Live Video Demo' }
     ],
     desc: 'Don’t let the compact silhouette fool you. The Mini Wand packs full-sized, bone-deep vibrations into a palm-sized frame with a 360° flexible silicone head. Perfect for pinpoint clitoral stimulation, all-over tension relief, or slipping into an overnight bag.',
+    specs: [
+      { label: 'Material', value: 'Silky Medical Silicone & Textured Grip' },
+      { label: 'Sound Level', value: '< 30 dB (Subtle & Discreet)' },
+      { label: 'Waterproof', value: 'Splashproof & Easy Clean' },
+      { label: 'Battery', value: 'USB Fast Charging' }
+    ],
     material: 'Silky Medical-Grade Silicone & Textured Wave Grip',
     acoustics: '< 30 dB (Subtle & Discreet)',
     freq: 85,
@@ -778,6 +887,10 @@ const PRODUCT_DATABASE = {
     price: 27000,
     priceStr: '₦27,000',
     img: '/assets/siren-app.jpg',
+    variants: [
+      { name: 'Red', price: 27000, priceStr: '₦27,000', img: '/assets/siren-app-red.jpg' },
+      { name: 'White', price: 27000, priceStr: '₦27,000', img: '/assets/siren-app-white.jpg' }
+    ],
     media: [
       { type: 'image', src: '/assets/siren-app.jpg', label: 'Studio Cover' },
       { type: 'image', src: '/assets/siren-app-red.jpg', label: 'Red' },
@@ -785,6 +898,13 @@ const PRODUCT_DATABASE = {
       { type: 'video', src: '/assets/siren-app-demo.mp4', thumb: '/assets/siren-app.jpg', label: 'Live Video Demo' }
     ],
     desc: 'Long distance? What distance? Discreet, whisper-quiet, and ergonomically curved to slip seamlessly into your panties. Hand full control over to your partner from across the room or across the globe via smartphone app—or surrender to customized rhythm playlists and music vibration modes.',
+    specs: [
+      { label: 'Material', value: 'Silky Medical Liquid Silicone' },
+      { label: 'Sound Level', value: '< 30 dB (Discreet in Public)' },
+      { label: 'Waterproof', value: 'IPX7 — Waterproof' },
+      { label: 'Connectivity', value: 'Bluetooth App Sync (iOS & Android)' },
+      { label: 'Battery', value: 'Magnetic USB Rechargeable' }
+    ],
     material: 'Silky Medical-Grade Liquid Silicone & Flexible Ergonomic Tail',
     acoustics: '< 30 dB (Discreet in Public)',
     freq: 95,
@@ -803,6 +923,12 @@ const PRODUCT_DATABASE = {
       { type: 'video', src: '/assets/lipstick-demo.mp4', thumb: '/assets/lipstick-vibe.jpg', label: 'Live Video Demo' }
     ],
     desc: 'The ultimate embarrassment-proof secret. Disguised in plain sight as a chic white and gold designer lipstick. Toss it into your handbag, cosmetic pouch, or desk drawer without fear—nobody will ever look twice. Features a velvet-soft angled silicone bullet, multiple whisper-quiet vibration speeds, and convenient USB recharging.',
+    specs: [
+      { label: 'Material', value: 'Medical-Grade Soft Silicone & Gold Alloy' },
+      { label: 'Sound Level', value: '< 25 dB (Total Stealth)' },
+      { label: 'Discretion', value: 'Authentic Lipstick Silhouette' },
+      { label: 'Battery', value: 'Discreet USB Rechargeable' }
+    ],
     material: 'Medical-Grade Soft Silicone & Electroplated Gold Alloy',
     acoustics: '< 25 dB (Total Stealth & Discretion)',
     freq: 78,
@@ -815,6 +941,14 @@ const PRODUCT_DATABASE = {
     price: 15000,
     priceStr: '₦15,000 (6") • ₦17,000 (7")',
     img: '/assets/dildo-trio.jpg',
+    variants: [
+      { name: '6" Tan', price: 15000, priceStr: '₦15,000', img: '/assets/dildo-tan.jpg' },
+      { name: '6" Brown', price: 15000, priceStr: '₦15,000', img: '/assets/dildo-bronze.jpg' },
+      { name: '6" Black', price: 15000, priceStr: '₦15,000', img: '/assets/dildo-noir.jpg' },
+      { name: '7" Tan', price: 17000, priceStr: '₦17,000', img: '/assets/dildo-tan.jpg' },
+      { name: '7" Brown', price: 17000, priceStr: '₦17,000', img: '/assets/dildo-bronze.jpg' },
+      { name: '7" Black', price: 17000, priceStr: '₦17,000', img: '/assets/dildo-noir.jpg' }
+    ],
     media: [
       { type: 'image', src: '/assets/dildo-trio.jpg', label: 'All 3 Colors' },
       { type: 'image', src: '/assets/dildo-tan.jpg', label: 'Tan' },
@@ -822,128 +956,309 @@ const PRODUCT_DATABASE = {
       { type: 'image', src: '/assets/dildo-noir.jpg', label: 'Black' }
     ],
     desc: 'Anatomically sculpted with a lifelike contoured shaft, raised head, and heavy-duty hands-free suction base that mounts firmly to shower tiles, mirrors, and flat surfaces. Fully harness-ready and crafted from velvety, body-safe material. Choose between 6" (₦15,000) and 7" (₦17,000) in three rich skin tones.',
+    specs: [
+      { label: 'Material', value: 'Ultra-Pure Medical PVC & Body-Safe Silicone' },
+      { label: 'Mounting', value: 'Heavy-Duty Hands-Free Suction Base' },
+      { label: 'Waterproof', value: '100% Waterproof & Submersible' },
+      { label: 'Compatibility', value: 'Harness Ready & Shower Compatible' }
+    ],
     material: 'Ultra-Pure Medical PVC & Body-Safe Silicone with Suction Base',
     acoustics: '100% Waterproof & Harness Compatible',
     freq: 0,
     pattern: 'manual'
   },
-  'aura-elixir': {
-    id: 'aura-elixir',
-    title: 'Aura Intimate Elixir',
-    badge: 'APOTHECARY • 100% ORGANIC',
-    price: 52000,
-    priceStr: '₦52,000',
-    img: '/assets/product-serum.jpg',
-    desc: 'Botanical hybrid nectar infused with wild Mexican damiana, calming ashwagandha, and multi-weight hyaluronic moisture. Silicone-safe, body-identical pH 3.9.',
-    material: 'Frosted Obsidian Glass Flacon with Ruby Wax Seal',
-    acoustics: '100% Natural Organic Botanicals',
-    freq: 42,
-    pattern: 'whisper'
+  'thrusting-dildo': {
+    id: 'thrusting-dildo',
+    title: 'Remote Thrusting Shaft',
+    badge: 'REMOTE CONTROLLED • MOTORIZED THRUST',
+    price: 45000,
+    priceStr: '₦45,000',
+    img: '/assets/thrusting-dildo-duo.jpg',
+    variants: [
+      { name: 'Black', price: 45000, priceStr: '₦45,000', img: '/assets/thrusting-dildo-black.jpg' },
+      { name: 'Brown', price: 45000, priceStr: '₦45,000', img: '/assets/thrusting-dildo-brown.jpg' },
+      { name: 'Tan', price: 45000, priceStr: '₦45,000', img: '/assets/thrusting-dildo-tan.jpg' }
+    ],
+    media: [
+      { type: 'image', src: '/assets/thrusting-dildo-duo.jpg', label: 'Dual Colors (In-Hand)' },
+      { type: 'image', src: '/assets/thrusting-dildo-kit.jpg', label: 'Complete Remote Kit' },
+      { type: 'image', src: '/assets/thrusting-dildo-black.jpg', label: 'Black Variant' },
+      { type: 'image', src: '/assets/thrusting-dildo-brown.jpg', label: 'Brown Variant' },
+      { type: 'image', src: '/assets/thrusting-dildo-tan.jpg', label: 'Tan Variant' },
+      { type: 'video', src: '/assets/thrusting-dildo-demo-1.mp4', thumb: '/assets/thrusting-dildo-duo.jpg', label: 'Thrusting Action Demo 1' },
+      { type: 'video', src: '/assets/thrusting-dildo-demo-2.mp4', thumb: '/assets/thrusting-dildo-kit.jpg', label: 'Remote Control Demo 2' },
+      { type: 'video', src: '/assets/thrusting-dildo-demo-3.mp4', thumb: '/assets/thrusting-dildo-brown.jpg', label: 'Brown Thrusting Demo 3' }
+    ],
+    desc: 'Unstoppable motorized rhythm at the press of a button. Engineered with high-torque reciprocating thrusting mechanics and deep vibration rumbles, completely controlled hands-free via wireless ergonomic remote. Features a heavy-duty suction base that locks firmly onto flat surfaces or shower tiles.',
+    specs: [
+      { label: 'Material', value: 'Ultra-Pure Body-Safe Silicone & Suction Base' },
+      { label: 'Action', value: 'Motorized Reciprocating Thrusting & Rumbles' },
+      { label: 'Control', value: 'Wireless Ergonomic Remote Control (Included)' },
+      { label: 'Mounting', value: 'Heavy-Duty Hands-Free Suction Lock Base' },
+      { label: 'Waterproof', value: 'IPX7 Waterproof Shaft (Shower & Wash Safe)' },
+      { label: 'Battery', value: 'USB Magnetic Rechargeable Shaft' }
+    ],
+    material: 'Ultra-Pure Body-Safe Silicone with Suction Base',
+    acoustics: 'High-Torque Motorized Thrusting & Sub-Bass Rumble',
+    freq: 60,
+    pattern: 'thrust'
   },
-  'midnight-silk-slip': {
-    id: 'midnight-silk-slip',
-    title: 'Midnight Mulberry Silk Slip',
-    badge: 'ATELIER • 100% SILK',
-    price: 88000,
-    priceStr: '₦88,000',
-    img: '/assets/category-lingerie.jpg',
-    desc: 'Crafted from 22-momme pure mulberry silk with fine French eyelash lace trim. Bias cut to drape liquid-like over your silhouette.',
-    material: '100% Grade 6A Mulberry Silk & French Floral Lace',
-    acoustics: 'Handcrafted Atelier Finish',
-    freq: 0,
-    pattern: 'silk'
+  'sucking-rabbit': {
+    id: 'sucking-rabbit',
+    title: 'The Sucking Rabbit',
+    badge: 'AIR-PULSE SUCTION • DUAL STIM',
+    price: 35000,
+    priceStr: '₦35,000',
+    img: '/assets/sucking-rabbit.jpg',
+    media: [
+      { type: 'image', src: '/assets/sucking-rabbit.jpg', label: 'Studio Showcase' },
+      { type: 'image', src: '/assets/sucking-rabbit-box.jpg', label: 'Packaging Vault' },
+      { type: 'video', src: '/assets/sucking-rabbit-demo.mp4', thumb: '/assets/sucking-rabbit.jpg', label: 'Live Suction Demo' }
+    ],
+    desc: 'The legendary rabbit silhouette reimagined for absolute sensory overload. Combines fluttering air-pulse clitoral suction ears with a flexible, deeply ribbed shaft designed to reach and stimulate the G-spot. Independent dual motor controls let you tailor your vibration speed and suction intensity simultaneously.',
+    specs: [
+      { label: 'Material', value: 'Silky Medical-Grade Liquid Silicone & Pearlescent Handle' },
+      { label: 'Dual Stimulation', value: 'Air-Wave Clitoral Suction + G-Spot Shaft Vibration' },
+      { label: 'Sound Level', value: '< 35 dB (Discreet & Powerful)' },
+      { label: 'Waterproof', value: 'IPX7 Waterproof (Fully Submersible in Bath/Shower)' },
+      { label: 'Battery', value: 'Magnetic USB Fast Rechargeable' }
+    ],
+    material: 'Silky Medical-Grade Liquid Silicone & Pearlescent Handle',
+    acoustics: '< 35 dB (Discreet & Powerful)',
+    freq: 80,
+    pattern: 'dual'
   },
-  'lace-noir-bodysuit': {
-    id: 'lace-noir-bodysuit',
-    title: 'Noir Floral Lace Bodysuit',
-    badge: 'DELICATE • SHEER',
-    price: 74000,
-    priceStr: '₦74,000',
-    img: '/assets/category-lingerie.jpg',
-    desc: 'Architectural floral lace bodysuit with plunging neckline and gentle underwire support. Magnetic quick-release closure.',
-    material: 'High-Tensile Sheer Lace & Velvet Trims',
-    acoustics: 'Contoured Fit (XS - 3XL)',
+  'non-vibrating-plugs': {
+    id: 'non-vibrating-plugs',
+    title: 'Sculpted Contour Plugs',
+    badge: 'NON-VIBRATING • 3 SIZES',
+    price: 8000,
+    priceStr: '₦8,000 (S) • ₦9,000 (M) • ₦10,000 (L)',
+    img: '/assets/plugs-vault-chest.jpg',
+    variants: [
+      { name: 'Small', price: 8000, priceStr: '₦8,000', img: '/assets/plug-size-small.jpg' },
+      { name: 'Medium', price: 9000, priceStr: '₦9,000', img: '/assets/plug-size-medium.jpg' },
+      { name: 'Large', price: 10000, priceStr: '₦10,000', img: '/assets/plug-size-large.jpg' }
+    ],
+    media: [
+      { type: 'image', src: '/assets/plugs-vault-chest.jpg', label: 'Collector Vault Chest (All Plugs)' },
+      { type: 'image', src: '/assets/plugs-lineup-all.jpg', label: 'Full Lineup of All Sizes & Finishes' },
+      { type: 'image', src: '/assets/plugs-jeweled-trio.jpg', label: 'Faceted Jeweled Chrome Trio' },
+      { type: 'image', src: '/assets/plugs-silicone-trio.jpg', label: 'Velvet Silicone Trio (In-Hand)' },
+      { type: 'image', src: '/assets/plugs-metal-glove.jpg', label: 'Chrome Metal Trio (In-Hand)' },
+      { type: 'image', src: '/assets/plug-size-small.jpg', label: 'Small Size (₦8,000)' },
+      { type: 'image', src: '/assets/plug-size-medium.jpg', label: 'Medium Size (₦9,000)' },
+      { type: 'image', src: '/assets/plug-size-large.jpg', label: 'Large Size (₦10,000)' }
+    ],
+    desc: 'Anatomically tapered for seamless insertion and effortless all-day wear. Crafted in premium non-porous body-safe materials with a slim ergonomic neck and wide flared anchor base for complete safety and confidence. Available in Small (₦8,000), Medium (₦9,000), and Large (₦10,000).',
+    specs: [
+      { label: 'Finishes', value: 'Velvet Silicone & Mirror Chrome with Faceted Gems' },
+      { label: 'Safety', value: 'Slim Flexible Neck with Flared Anchor Base' },
+      { label: 'Calibrated Sizing', value: 'Small (₦8k) • Medium (₦9k) • Large (₦10k)' },
+      { label: 'Waterproof', value: '100% Waterproof & Submersible (Temperature Play Ready)' },
+      { label: 'Hygiene', value: 'Non-Porous, Hypoallergenic & Easy to Clean' }
+    ],
+    material: 'Body-Safe Liquid Silicone & Solid Chrome Alloy',
+    acoustics: '100% Waterproof & Temperature Play Compatible',
     freq: 0,
-    pattern: 'lace'
+    pattern: 'manual'
   },
-  'satin-kimono-robe': {
-    id: 'satin-kimono-robe',
-    title: 'Obsidian Silk Kimono Robe',
-    badge: 'LOUNGEWEAR • SIGNATURE',
-    price: 96000,
-    priceStr: '₦96,000',
-    img: '/assets/category-lingerie.jpg',
-    desc: 'Floor-length pure mulberry silk robe with wide kimono sleeves and velvet tie belt. The epitome of effortless post-pleasure luxury.',
-    material: '100% Pure Mulberry Silk (19 Momme)',
-    acoustics: 'Weightless Cloud Feel',
-    freq: 0,
-    pattern: 'silk'
+  'rabbit-cock-ring': {
+    id: 'rabbit-cock-ring',
+    title: 'The Rabbit Cock Ring',
+    badge: 'RECHARGEABLE • DUAL STAMINA',
+    price: 25000,
+    priceStr: '₦25,000',
+    img: '/assets/rabbit-cock-ring.jpg',
+    media: [
+      { type: 'image', src: '/assets/rabbit-cock-ring.jpg', label: 'Studio Showcase' },
+      { type: 'image', src: '/assets/rabbit-cock-ring-gold.jpg', label: 'In-Hand Scale & Charger' },
+      { type: 'video', src: '/assets/rabbit-cock-ring-demo.mp4', thumb: '/assets/rabbit-cock-ring.jpg', label: 'Live Vibration Demo' }
+    ],
+    desc: 'Engineered for shared ecstasy and extended stamina. Crafted from ultra-stretchy, silky liquid silicone with an ergonomic dual-loop design that gently restricts blood flow for firmer, longer-lasting erections while simultaneously thrilling her clitoris with powerful buzzing rabbit ears.',
+    specs: [
+      { label: 'Material', value: '100% Ultra-Elastic Medical Liquid Silicone' },
+      { label: 'Couples Function', value: 'Erection Support + Clitoral Flutter Teaser' },
+      { label: 'Sound Level', value: '< 30 dB (Whisper Quiet Power)' },
+      { label: 'Waterproof', value: 'IPX7 Waterproof (Shower & Bath Safe)' },
+      { label: 'Battery', value: 'Magnetic USB Fast Rechargeable' }
+    ],
+    material: '100% Ultra-Elastic Medical Liquid Silicone',
+    acoustics: '< 30 dB (Whisper Quiet Power)',
+    freq: 75,
+    pattern: 'couples'
   },
-  'velvet-glide-serum': {
-    id: 'velvet-glide-serum',
-    title: 'Velvet Water-Hybrid Glide',
-    badge: 'WATER-HYBRID • ZERO STICK',
-    price: 38000,
-    priceStr: '₦38,000',
-    img: '/assets/product-serum.jpg',
-    desc: 'Hybrid water and plant-cellulose formulation offering the endless cushion of silicone with the effortless rinse of pure water.',
-    material: 'Organic Aloe & Plant Cellulose',
-    acoustics: 'Condom & Toy Compatible',
+  'creature-cock-ring': {
+    id: 'creature-cock-ring',
+    title: 'Creature Ergonomic Cock Ring',
+    badge: 'STAMINA LOCK • NON-VIBRATING',
+    price: 15000,
+    priceStr: '₦15,000',
+    img: '/assets/creature-cock-ring.jpg',
+    media: [
+      { type: 'image', src: '/assets/creature-cock-ring.jpg', label: 'Packaging Vault & Dimensions Card' },
+      { type: 'image', src: '/assets/creature-cock-ring-fitted.jpg', label: 'Shaft-Fitted Ergonomic Contour' },
+      { type: 'image', src: '/assets/creature-cock-ring-hand.jpg', label: 'Textured Spine & Grip (In-Hand)' }
+    ],
+    desc: 'Engineered by S-HANDE for unmatched stamina control and extended endurance. Crafted from velvety, medical-grade liquid silicone with an ergonomic contoured spine and dual-retention loops. Locks firm blood flow, prolongs hardness, separates testicles comfortably, and provides an effortless hands-free grip without vibration distraction.',
+    specs: [
+      { label: 'Brand & Model', value: 'S-HANDE Creature Ergonomic Cock Ring' },
+      { label: 'Material', value: '100% Medical-Grade Liquid Silicone' },
+      { label: 'Length', value: '142 mm (5.59 inches)' },
+      { label: 'Dual Loops', value: '34 mm Base Ring & 47 mm Retention Loop' },
+      { label: 'Function', value: 'Non-Vibrating Stamina Lock & Delay' },
+      { label: 'Waterproof', value: '100% Waterproof & Submersible' }
+    ],
+    material: 'Ultra-Pure Medical Liquid Silicone & Ergonomic Contoured Spine',
+    acoustics: '100% Silent (Non-Vibrating Ergonomic Design)',
     freq: 0,
-    pattern: 'glide'
+    pattern: 'manual'
   },
-  'sensory-warming-oil': {
-    id: 'sensory-warming-oil',
-    title: 'Sensory Botanical Warming Elixir',
-    badge: 'THERMAL ACTIVATION • AROMA',
-    price: 46000,
-    priceStr: '₦46,000',
-    img: '/assets/product-serum.jpg',
-    desc: 'Gently warms upon breath and skin contact to heighten nerve ending sensitivity. Subtle natural vanilla and cedarwood aroma.',
-    material: 'Cold-Pressed Jojoba & Warming Ginger Extract',
-    acoustics: '100% Edible & Natural',
-    freq: 0,
-    pattern: 'warm'
+  'pocket-bullet': {
+    id: 'pocket-bullet',
+    title: 'Velvet Pocket Bullet',
+    badge: 'POCKET POWER • 10 MODES',
+    price: 15000,
+    priceStr: '₦15,000',
+    img: '/assets/bullet-vibe-all-colors.jpg',
+    variants: [
+      { name: 'Fuchsia', price: 15000, priceStr: '₦15,000', img: '/assets/bullet-vibe-all-colors.jpg' },
+      { name: 'Black', price: 15000, priceStr: '₦15,000', img: '/assets/bullet-vibe-matte-trio.jpg' },
+      { name: 'Blush Pink', price: 15000, priceStr: '₦15,000', img: '/assets/bullet-vibe-matte-trio.jpg' },
+      { name: 'Purple', price: 15000, priceStr: '₦15,000', img: '/assets/bullet-vibe-matte-trio.jpg' },
+      { name: 'Chrome', price: 15000, priceStr: '₦15,000', img: '/assets/bullet-vibe-all-colors.jpg' }
+    ],
+    media: [
+      { type: 'image', src: '/assets/bullet-vibe-all-colors.jpg', label: 'All 5 Colors In-Hand' },
+      { type: 'image', src: '/assets/bullet-vibe-matte-trio.jpg', label: 'Velvet Matte Colorways' },
+      { type: 'image', src: '/assets/bullet-vibe-size-scale.jpg', label: 'Scale Comparison & Hand Grip' },
+      { type: 'video', src: '/assets/bullet-vibe-demo.mp4', thumb: '/assets/bullet-vibe-all-colors.jpg', label: 'Live Vibration Demo' }
+    ],
+    desc: 'Pure concentrated power in a sleek, lipstick-sized silhouette. Engineered with a whisper-quiet high-torque micro motor and 10 dynamic pulse patterns. Features a velvety soft-touch silicone body (or mirror chrome) with single-button intuitive control. Travel-friendly, 100% waterproof, and completely discreet.',
+    specs: [
+      { label: 'Vibration Modes', value: '10 Multi-Speed Rhythms & Pulses' },
+      { label: 'Finishes', value: '5 Colorways (Fuchsia, Black, Blush, Purple, Chrome)' },
+      { label: 'Sound Level', value: '< 35 dB (Sub-Whisper Travel Friendly)' },
+      { label: 'Waterproof', value: 'IPX7 Waterproof (Bath & Shower Safe)' },
+      { label: 'Portability', value: 'Compact Pocket & Purse Scale' }
+    ],
+    material: 'Body-Safe Velvet Liquid Silicone & Mirror-Plated Chrome',
+    acoustics: '< 35 dB (Discreet Travel Power)',
+    freq: 65,
+    pattern: 'pulse'
   },
-  'velvet-restraint-kit': {
-    id: 'velvet-restraint-kit',
-    title: 'Crimson Velvet Cuffs & Collar',
-    badge: 'SENSORY • PADDED RESTRAINT',
-    price: 68000,
-    priceStr: '₦68,000',
-    img: '/assets/category-bdsm.jpg',
-    desc: 'Plush crimson velvet wrist cuffs and matching choker collar lined with memory-foam padding. Quick-release swivel clasps for ultimate peace of mind.',
-    material: 'Italian Cotton Velvet & Heavy Plated Gold Hardware',
-    acoustics: 'Safety Quick-Release Swivels',
-    freq: 0,
-    pattern: 'restraint'
+  'contour-bullet-6inch': {
+    id: 'contour-bullet-6inch',
+    title: 'The 6" Heart Bullet',
+    badge: '6 INCHES • 🎬 VIDEO',
+    price: 18000,
+    priceStr: '₦18,000',
+    img: '/assets/bullet-6inch-in-hand.jpg',
+    variants: [
+      { name: 'Purple', price: 18000, priceStr: '₦18,000', img: '/assets/bullet-6inch-in-hand.jpg' },
+      { name: 'Black', price: 18000, priceStr: '₦18,000', img: '/assets/bullet-6inch-in-hand.jpg' },
+      { name: 'Fuchsia', price: 18000, priceStr: '₦18,000', img: '/assets/bullet-6inch-in-hand.jpg' }
+    ],
+    media: [
+      { type: 'image', src: '/assets/bullet-6inch-in-hand.jpg', label: 'All 3 Colors In-Hand' },
+      { type: 'image', src: '/assets/bullet-6inch-kit.jpg', label: 'Complete Kit & USB Charger' },
+      { type: 'video', src: '/assets/bullet-6inch-demo.mp4', thumb: '/assets/bullet-6inch-in-hand.jpg', label: 'Live Vibration Rhythm Demo' }
+    ],
+    desc: 'Extended 6-inch slender reach capped with a brilliant chrome crown and tactile heart button. Features 10 escalating vibration rumbles and flutter rhythms engineered for pinpoint clitoral and full-body pleasure. USB rechargeable with whisper-silent motor and liquid silicone finish.',
+    specs: [
+      { label: 'Length', value: '6.0 inches (152 mm) Slender Silhouette' },
+      { label: 'Control', value: 'One-Touch Tactile Heart Button & Chrome Crown' },
+      { label: 'Vibration Modes', value: '10 Multi-Speed Rhythms & Escalating Pulses' },
+      { label: 'Sound Level', value: '< 35 dB (Discreet Whisper Power)' },
+      { label: 'Waterproof', value: 'IPX7 Waterproof (Bath & Shower Safe)' },
+      { label: 'Battery', value: 'USB Magnetic Fast Rechargeable' }
+    ],
+    material: 'Ultra-Pure Velvet Liquid Silicone & Mirror Chrome Alloy',
+    acoustics: '< 35 dB (Discreet Whisper Power)',
+    freq: 70,
+    pattern: 'pulse'
   },
-  'sensory-blindfold-whip': {
-    id: 'sensory-blindfold-whip',
-    title: 'Silk Blackout Mask & Feather Tickler',
-    badge: 'DUAL SENSORY • EXPLORATION',
-    price: 42000,
-    priceStr: '₦42,000',
-    img: '/assets/category-bdsm.jpg',
-    desc: 'Double-padded 100% mulberry silk blackout blindfold paired with a cruelty-free goose-feather teaser. Heightens every single touch.',
-    material: 'Pure Mulberry Silk & Natural Ostrich Plume',
-    acoustics: 'Complete Blackout Sensory Deprivation',
-    freq: 0,
-    pattern: 'sensory'
+  'sleek-bullet-7inch': {
+    id: 'sleek-bullet-7inch',
+    title: 'The 7" Sleek Bullet',
+    badge: '7 INCHES • 🎬 VIDEO',
+    price: 20000,
+    priceStr: '₦20,000',
+    img: '/assets/bullet-7inch-metallic-pair.jpg',
+    variants: [
+      { name: 'Magnetic Charger', price: 20000, priceStr: '₦20,000', img: '/assets/bullet-7inch-magnetic-pin-pair.jpg' },
+      { name: 'Pin Charger', price: 20000, priceStr: '₦20,000', img: '/assets/bullet-7inch-floral-display.jpg' }
+    ],
+    media: [
+      { type: 'image', src: '/assets/bullet-7inch-metallic-pair.jpg', label: 'Dual Metallic Showcase' },
+      { type: 'image', src: '/assets/bullet-7inch-magnetic-pin-pair.jpg', label: 'Magnetic (Flat Top) vs Pin Charger' },
+      { type: 'image', src: '/assets/bullet-7inch-floral-display.jpg', label: 'Floral Scale Showcase' },
+      { type: 'video', src: '/assets/bullet-7inch-demo.mp4', thumb: '/assets/bullet-7inch-metallic-pair.jpg', label: 'Live Rhythm & Power Demo' },
+      { type: 'video', src: '/assets/bullet-7inch-action.mp4', thumb: '/assets/bullet-7inch-magnetic-pin-pair.jpg', label: 'Action & Speed Demo' }
+    ],
+    desc: 'Extended 7-inch luxury metallic silhouette delivering high-velocity deep rumbling vibrations. Available in a seamless flat-top magnetic rechargeable edition and a classic fast-charging pin edition. Fully waterproof, whisper quiet, and ergonomically balanced for pinpoint sensations.',
+    specs: [
+      { label: 'Length', value: '7.0 inches (178 mm) Extended Shaft' },
+      { label: 'Charging Variants', value: 'Magnetic Contact (Flat Top) / Fast DC Pin' },
+      { label: 'Vibration Modes', value: '10 Multi-Frequency Rumbles & Waves' },
+      { label: 'Sound Level', value: '< 35 dB (Discreet Luxury Power)' },
+      { label: 'Waterproof', value: 'IPX7 Waterproof (Bath & Shower Safe)' },
+      { label: 'Battery', value: 'USB Fast Rechargeable' }
+    ],
+    material: 'Body-Safe Velvet Liquid Silicone & Mirror Plated Alloy',
+    acoustics: '< 35 dB (Discreet Luxury Power)',
+    freq: 75,
+    pattern: 'pulse'
   },
-  'sensory-bundle-deluxe': {
-    id: 'sensory-bundle-deluxe',
-    title: 'The Sovereign Sensory Suite',
-    badge: 'COLLECTOR EDITION • COMPLETE',
-    price: 125000,
-    priceStr: '₦125,000',
-    img: '/assets/category-bdsm.jpg',
-    desc: 'The complete 5-piece luxury kit: velvet cuffs, ankle ties, silk blindfold, feather teaser, and velvet travel pouch.',
-    material: 'Plush Velvet, Silk, and Anodized Alloy Clasps',
-    acoustics: 'Delivered in Discreet Storage Case',
+  'rose-jump-egg': {
+    id: 'rose-jump-egg',
+    title: 'Rose Jump Egg: App-Controlled Egg',
+    badge: 'APP CONNECT • 🎬 VIDEO',
+    price: 28000,
+    priceStr: '₦28,000',
+    img: '/assets/rose-jump-egg-kit.jpg',
+    media: [
+      { type: 'image', src: '/assets/rose-jump-egg-kit.jpg', label: 'Egg, Packaging & USB Cable' },
+      { type: 'image', src: '/assets/rose-jump-egg-manual.jpg', label: 'Instruction Manual & Complete Kit' },
+      { type: 'video', src: '/assets/rose-jump-egg-demo.mp4', thumb: '/assets/rose-jump-egg-kit.jpg', label: 'Live Vibration Rhythm & App Demo' }
+    ],
+    desc: 'Discreet, ultra-powerful egg vibrator with an ergonomic retrieval tail and external teaser tip. Seamlessly syncs with your smartphone for intimate long-distance partner control, customized vibration playlists, sound-activated pulsing, and explosive pinpoint pleasure whether at home or out in public.',
+    specs: [
+      { label: 'Control', value: 'Smartphone App (iOS & Android) + Manual Base Control' },
+      { label: 'Long Distance', value: 'Global Partner Control via Internet Sync' },
+      { label: 'Design', value: 'Ergonomic Jump Egg with External Teaser Tail' },
+      { label: 'Sound Level', value: '< 30 dB (Discreet In-Public Wear)' },
+      { label: 'Waterproof', value: 'IPX7 Waterproof & Easy Clean' },
+      { label: 'Battery', value: 'USB Fast Rechargeable (Pin Cable Included)' }
+    ],
+    material: 'Body-Safe Velvety Medical Liquid Silicone',
+    acoustics: '< 30 dB (Discreet in Public)',
+    freq: 90,
+    pattern: 'bluetooth'
+  },
+  'african-brute': {
+    id: 'african-brute',
+    title: 'African Brute Herbal Tincture',
+    badge: 'STAMINA',
+    price: 27000,
+    priceStr: '₦27,000',
+    img: '/assets/african-brute.jpg',
+    media: [
+      { type: 'image', src: '/assets/african-brute.jpg', label: 'Bottle Front' },
+      { type: 'image', src: '/assets/african-brute-back.jpg', label: 'Directions & NAFDAC Label' }
+    ],
+    desc: 'An authentic African botanical elixir scientifically crafted with 8 potent natural aphrodisiac extracts including Corynanthe Yohimbe, Muira Puama, and Cola Acuminata. Formulated to enhance stamina, maximize blood flow to sensitive zones, revitalize libido, and intensify climax sensations.',
+    specs: [
+      { label: 'Volume', value: '500ml Oral Liquid Tonic' },
+      { label: 'Certification', value: 'NAFDAC Reg No. A7-5237L' },
+      { label: 'Active Formula', value: '8 Traditional African Botanical Extracts' },
+      { label: 'Directions', value: '5 Tablespoons (40ml) 30–40 mins before intimacy' }
+    ],
+    material: '100% Traditional African Botanical Extracts (NAFDAC Reg No. A7-5237L)',
+    acoustics: 'Oral Liquid Tonic (500ml) • Rapid Absorption',
     freq: 0,
-    pattern: 'complete'
-  }
+    pattern: 'herbal'
+  },
 };
 
 document.querySelectorAll('.btn-quick-view').forEach((btn) => {
@@ -952,7 +1267,9 @@ document.querySelectorAll('.btn-quick-view').forEach((btn) => {
     const prodKey = btn.dataset.product;
     const prod = PRODUCT_DATABASE[prodKey];
     if (prod && quickviewModal) {
-      currentQvProduct = prod;
+      currentQvProduct = Object.assign({}, prod);
+      const card = btn.closest('.product-card');
+      currentQvProduct.sourceCard = card;
 
       // Reset media display
       if (qvVideo) {
@@ -963,6 +1280,14 @@ document.querySelectorAll('.btn-quick-view').forEach((btn) => {
         qvImg.style.display = 'block';
         qvImg.src = prod.img;
       }
+
+      // Check card's currently selected variant
+      const cardActiveColor = card?.querySelector('.color-dot.active')?.dataset.color;
+      const cardActiveSizePill = card?.querySelector('.size-pill.active');
+      const cardActiveSize = cardActiveSizePill?.dataset.size || cardActiveSizePill?.textContent.trim();
+      const cardVariantName = (cardActiveColor && cardActiveSize) ? `${cardActiveSize} ${cardActiveColor}` : (cardActiveSize || cardActiveColor);
+      currentQvProduct.cardActiveColor = cardActiveColor;
+      currentQvProduct.cardActiveSize = cardActiveSize;
 
       // Populate media thumbnails
       if (qvThumbs) {
@@ -997,16 +1322,12 @@ document.querySelectorAll('.btn-quick-view').forEach((btn) => {
                   qvVideo.setAttribute('muted', '');
                   qvVideo.setAttribute('playsinline', '');
                   const source = document.getElementById('qv-video-src');
-                  if (source) {
-                    source.src = item.src;
-                  }
+                  if (source) source.src = item.src;
                   qvVideo.src = item.src;
                   qvVideo.load();
                   const p = qvVideo.play();
                   if (p !== undefined) {
-                    p.catch(err => {
-                      console.log('Video autoplay deferred, controls available:', err);
-                    });
+                    p.catch(err => console.log('Video autoplay deferred:', err));
                   }
                 }
               } else {
@@ -1033,8 +1354,166 @@ document.querySelectorAll('.btn-quick-view').forEach((btn) => {
       if (qvTitle) qvTitle.textContent = prod.title;
       if (qvPrice) qvPrice.textContent = prod.priceStr;
       if (qvDesc) qvDesc.textContent = prod.desc;
-      if (qvMaterial) qvMaterial.textContent = prod.material;
-      if (qvAcoustics) qvAcoustics.textContent = prod.acoustics;
+      if (qvMaterial) qvMaterial.textContent = prod.material || '';
+      if (qvAcoustics) qvAcoustics.textContent = prod.acoustics || '';
+
+      // Populate Category-Specific Specs
+      if (qvSpecs) {
+        qvSpecs.innerHTML = '';
+        if (Array.isArray(prod.specs)) {
+          prod.specs.forEach((s) => {
+            const row = document.createElement('div');
+            row.className = 'spec-row';
+            row.innerHTML = `<span>${s.label}</span><span>${s.value}</span>`;
+            qvSpecs.appendChild(row);
+          });
+        }
+      }
+
+      // Populate Variants if available
+      const qvVariantsWrap = document.getElementById('qv-variants-wrap');
+      const qvVariants = document.getElementById('qv-variants');
+      if (qvVariantsWrap && qvVariants) {
+        qvVariants.innerHTML = '';
+
+        let variantsList = prod.variants;
+        if (!variantsList || variantsList.length === 0) {
+          const cardPills = card ? Array.from(card.querySelectorAll('.size-pill')) : [];
+          const cardDots = card ? Array.from(card.querySelectorAll('.color-dot')) : [];
+          if (cardPills.length > 0) {
+            variantsList = cardPills.map(p => ({
+              name: (p.dataset.size || p.textContent).trim(),
+              price: p.dataset.price ? parseInt(p.dataset.price, 10) : prod.price,
+              priceStr: p.dataset.pricestr || prod.priceStr,
+              img: p.dataset.img || prod.img
+            }));
+          } else if (cardDots.length > 0) {
+            variantsList = cardDots.map(d => ({
+              name: d.dataset.color || 'Standard',
+              price: prod.price,
+              priceStr: prod.priceStr,
+              img: d.dataset.img || prod.img
+            }));
+          }
+        }
+
+        if (variantsList && variantsList.length > 0) {
+          qvVariantsWrap.style.display = 'block';
+
+          let initialIdx = 0;
+          if (cardActiveColor && cardActiveSize) {
+            const cColorLow = cardActiveColor.toLowerCase();
+            const cSizeLow = cardActiveSize.toLowerCase().replace(/["\s]/g, '');
+            const matchIdx = variantsList.findIndex(v => {
+              const vn = v.name.toLowerCase().replace(/["\s]/g, '');
+              return vn.includes(cColorLow) && vn.includes(cSizeLow);
+            });
+            if (matchIdx !== -1) initialIdx = matchIdx;
+          } else if (cardActiveColor) {
+            const cColorLow = cardActiveColor.toLowerCase();
+            const matchIdx = variantsList.findIndex(v => v.name.toLowerCase() === cColorLow || v.name.toLowerCase().includes(cColorLow));
+            if (matchIdx !== -1) initialIdx = matchIdx;
+          } else if (cardActiveSize) {
+            const cSizeLow = cardActiveSize.toLowerCase();
+            const matchIdx = variantsList.findIndex(v => {
+              const vn = v.name.toLowerCase();
+              return vn === cSizeLow || vn.includes(cSizeLow) || cSizeLow.includes(vn);
+            });
+            if (matchIdx !== -1) initialIdx = matchIdx;
+          } else if (cardVariantName) {
+            const matchIdx = variantsList.findIndex(v => {
+              const vn = v.name.toLowerCase();
+              const cn = cardVariantName.toLowerCase();
+              return vn === cn || vn.includes(cn) || cn.includes(vn);
+            });
+            if (matchIdx !== -1) initialIdx = matchIdx;
+          }
+
+          const activeV = variantsList[initialIdx];
+          currentQvProduct.selectedVariant = activeV.name;
+          currentQvProduct.selectedPrice = activeV.price !== undefined ? activeV.price : prod.price;
+          currentQvProduct.selectedImg = activeV.img || prod.img;
+
+          if (activeV.priceStr && qvPrice) {
+            qvPrice.textContent = activeV.priceStr;
+          } else if (activeV.price && qvPrice) {
+            qvPrice.textContent = `₦${activeV.price.toLocaleString()}`;
+          }
+          if (activeV.img && qvImg) {
+            qvImg.src = activeV.img;
+          }
+
+          const hasDifferentPrices = variantsList.some(v => (v.price !== undefined ? v.price : prod.price) !== (variantsList[0].price !== undefined ? variantsList[0].price : prod.price));
+
+          variantsList.forEach((v, idx) => {
+            const vBtn = document.createElement('button');
+            vBtn.className = `size-pill ${idx === initialIdx ? 'active' : ''}`;
+            vBtn.type = 'button';
+            vBtn.textContent = (hasDifferentPrices && v.priceStr) ? `${v.name} (${v.priceStr})` : v.name;
+            vBtn.dataset.variant = v.name;
+
+            vBtn.addEventListener('click', () => {
+              qvVariants.querySelectorAll('.size-pill').forEach(p => p.classList.remove('active'));
+              vBtn.classList.add('active');
+
+              currentQvProduct.selectedVariant = v.name;
+              currentQvProduct.selectedPrice = v.price !== undefined ? v.price : prod.price;
+              currentQvProduct.selectedImg = v.img || prod.img;
+
+              if (qvPrice) {
+                if (v.priceStr) {
+                  qvPrice.textContent = v.priceStr;
+                } else if (v.price) {
+                  qvPrice.textContent = `₦${v.price.toLocaleString()}`;
+                }
+              }
+
+              if (v.img && qvImg) {
+                if (qvVideo) qvVideo.style.display = 'none';
+                qvImg.style.display = 'block';
+                qvImg.src = v.img;
+
+                if (qvThumbs) {
+                  qvThumbs.querySelectorAll('.qv-thumb').forEach(t => {
+                    const tImg = t.querySelector('img');
+                    if (tImg && tImg.getAttribute('src') === v.img) {
+                      qvThumbs.querySelectorAll('.qv-thumb').forEach(tb => tb.classList.remove('active'));
+                      t.classList.add('active');
+                    }
+                  });
+                }
+              }
+
+              // Sync back to card
+              if (currentQvProduct.sourceCard) {
+                const sCard = currentQvProduct.sourceCard;
+                const vLow = v.name.toLowerCase();
+
+                // If card has size pills, match pill
+                const matchPill = Array.from(sCard.querySelectorAll('.size-pill')).find(p => {
+                  const pTxt = (p.dataset.size || p.textContent).trim().toLowerCase();
+                  return pTxt === vLow || vLow.includes(pTxt);
+                });
+                if (matchPill) matchPill.click();
+
+                // If card has color dots, match dot
+                const matchDot = Array.from(sCard.querySelectorAll('.color-dot')).find(d => {
+                  const dColor = (d.dataset.color || '').toLowerCase();
+                  return dColor && (dColor === vLow || vLow.includes(dColor));
+                });
+                if (matchDot) matchDot.click();
+              }
+            });
+
+            qvVariants.appendChild(vBtn);
+          });
+        } else {
+          qvVariantsWrap.style.display = 'none';
+          delete currentQvProduct.selectedVariant;
+          delete currentQvProduct.selectedPrice;
+          delete currentQvProduct.selectedImg;
+        }
+      }
 
       quickviewModal.removeAttribute('hidden');
       quickviewModal.style.display = 'flex';
@@ -1075,13 +1554,33 @@ if (quickviewModal) {
 if (qvBtnAdd) {
   qvBtnAdd.addEventListener('click', () => {
     if (currentQvProduct) {
+      const variantName = currentQvProduct.selectedVariant;
+      const price = currentQvProduct.selectedPrice !== undefined ? currentQvProduct.selectedPrice : currentQvProduct.price;
+      const img = currentQvProduct.selectedImg || currentQvProduct.img;
+      const baseTitle = currentQvProduct.title.replace(/\s*\([^)]*\)$/, '').trim();
+
+      let finish = variantName || 'Standard';
+      if (finish === 'Sucker' || finish === 'Licker') {
+        finish = `${finish} Variant`;
+      } else if (['S', 'M', 'L', 'XL', 'XXL'].includes(finish)) {
+        finish = `Size ${finish}`;
+      }
+
+      const title = (finish && finish !== 'Standard')
+        ? `${baseTitle} (${finish})`
+        : baseTitle;
+
+      const cartKey = `${currentQvProduct.id}__${finish.replace(/\s+/g, '_')}`;
+
       addToCart({
         id: currentQvProduct.id,
-        title: currentQvProduct.title,
-        price: currentQvProduct.price,
-        img: currentQvProduct.img
+        cartId: cartKey,
+        title: title,
+        price: price,
+        img: img,
+        finish: finish
       });
-      quickviewModal.hidden = true;
+      closeQuickviewModal();
     }
   });
 }
@@ -1119,16 +1618,20 @@ function saveCart() {
 }
 
 function addToCart(product) {
-  const existing = cart.find((item) => item.id === product.id);
+  const finish = product.finish || 'Standard';
+  const cartKey = product.cartId || `${product.id}__${finish.replace(/\s+/g, '_')}`;
+  const existing = cart.find((item) => (item.cartId || item.id) === cartKey);
   if (existing) {
     existing.qty += 1;
   } else {
     cart.push({
-      id: product.id,
+      id: cartKey,
+      cartId: cartKey,
+      baseId: product.id,
       title: product.title,
       price: product.price,
       img: product.img,
-      finish: product.finish || 'Obsidian Noir',
+      finish: finish,
       qty: 1
     });
   }
@@ -1138,18 +1641,18 @@ function addToCart(product) {
 }
 
 function updateItemQty(id, delta) {
-  const item = cart.find((i) => i.id === id);
+  const item = cart.find((i) => (i.cartId || i.id) === id);
   if (item) {
     item.qty += delta;
     if (item.qty <= 0) {
-      cart = cart.filter((i) => i.id !== id);
+      cart = cart.filter((i) => (i.cartId || i.id) !== id);
     }
     saveCart();
   }
 }
 
 function removeItem(id) {
-  cart = cart.filter((i) => i.id !== id);
+  cart = cart.filter((i) => (i.cartId || i.id) !== id);
   saveCart();
   showToast('Item removed from discreet bag.');
 }
@@ -1216,29 +1719,70 @@ if (btnToggleCartDetails && cartCollapsibleDetails) {
   });
 }
 
+function getCardVariantInfo(card, btn) {
+  const id = btn.dataset.id;
+  const rawBaseTitle = (btn.dataset.baseTitle || btn.dataset.title || '').replace(/\s*\([^)]*\)$/, '').trim();
+  const defaultPrice = parseFloat(btn.dataset.price) || 0;
+  const defaultImg = btn.dataset.img || '';
+
+  const activeColorDot = card?.querySelector('.color-dot.active');
+  let activeSizePill = card?.querySelector('.size-pill.active');
+  if (!activeSizePill && card?.querySelector('.size-pill')) {
+    const firstPill = card.querySelector('.size-pill');
+    if (firstPill) {
+      firstPill.click();
+      activeSizePill = firstPill;
+    }
+  }
+  const activeColor = activeColorDot?.dataset.color;
+  const activeSize = activeSizePill?.dataset.size || activeSizePill?.textContent.trim();
+
+  let finish = 'Standard';
+  if (activeColor && activeSize) {
+    finish = `${activeSize} ${activeColor}`;
+  } else if (activeSize) {
+    if (activeSize === 'Sucker' || activeSize === 'Licker') {
+      finish = `${activeSize} Variant`;
+    } else if (['S', 'M', 'L', 'XL', 'XXL'].includes(activeSize)) {
+      finish = `Size ${activeSize}`;
+    } else {
+      finish = activeSize;
+    }
+  } else if (activeColor) {
+    finish = activeColor;
+  }
+
+  // Determine exact price from active pill if available, otherwise from button dataset
+  let price = defaultPrice;
+  if (activeSizePill?.dataset.price) {
+    price = parseFloat(activeSizePill.dataset.price);
+  } else if (btn.dataset.price) {
+    price = parseFloat(btn.dataset.price);
+  }
+
+  // Determine exact image from active pill or dot if available
+  let img = defaultImg;
+  if (activeSizePill?.dataset.img) {
+    img = activeSizePill.dataset.img;
+  } else if (activeColorDot?.dataset.img) {
+    img = activeColorDot.dataset.img;
+  } else if (btn.dataset.img) {
+    img = btn.dataset.img;
+  }
+
+  const title = (finish && finish !== 'Standard') ? `${rawBaseTitle} (${finish})` : rawBaseTitle;
+  const cartKey = `${id}__${finish.replace(/\s+/g, '_')}`;
+
+  return { id, cartId: cartKey, title, price, img, finish };
+}
+
 // Add to Cart from collection buttons
 document.querySelectorAll('.btn-add-cart').forEach((btn) => {
   btn.addEventListener('click', (e) => {
     e.stopPropagation();
-    const id = btn.dataset.id;
-    let title = btn.dataset.title;
-    const price = parseFloat(btn.dataset.price);
-    const img = btn.dataset.img;
-
     const card = btn.closest('.product-card');
-    const activeColor = card?.querySelector('.color-dot.active')?.dataset.color;
-    const activeSize = card?.querySelector('.size-pill.active')?.dataset.size || card?.querySelector('.size-pill.active')?.textContent.trim();
-
-    let finish = 'Standard';
-    if (activeColor && activeSize) {
-      finish = `${activeColor} · Size ${activeSize}`;
-    } else if (activeSize) {
-      finish = `Size ${activeSize}`;
-    } else if (activeColor) {
-      finish = activeColor;
-    }
-
-    addToCart({ id, title, price, img, finish });
+    const itemData = getCardVariantInfo(card, btn);
+    addToCart(itemData);
   });
 });
 
@@ -1258,24 +1802,25 @@ function renderCart() {
       <div class="empty-cart-state">
         <div class="empty-glow-orbit">
           <div class="empty-icon-halo">
-            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-              <line x1="3" y1="6" x2="21" y2="6"/>
-              <path d="M16 10a4 4 0 0 1-8 0"/>
+            <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 12C5.2 15 5.2 21 7 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.4" />
+              <path d="M10 9C7.8 13 7.8 23 10 27" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.85" />
+              <path d="M26 9C28.2 13 28.2 23 26 27" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.85" />
+              <path d="M29 12C30.8 15 30.8 21 29 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.4" />
+              <path d="M18 4.5C15.5 4.5 13.5 6.8 13.5 10V23C13.5 26.5 15.5 29.5 18 29.5C20.5 29.5 22.5 26.5 22.5 23V10C22.5 6.8 20.5 4.5 18 4.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+              <path d="M14.5 11C16.5 9.5 19.5 9.5 21.5 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity="0.6" />
+              <circle cx="18" cy="19.5" r="1.8" fill="currentColor" />
+              <line x1="15.5" y1="25.5" x2="20.5" y2="25.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity="0.6" />
             </svg>
           </div>
         </div>
 
         <h3 class="empty-state-title">Nothing to buzz about.</h3>
-        <p class="empty-state-sub">Your bag is having a dry spell. Let's give it some good vibrations.</p>
+        <p class="empty-state-sub">Let's give your bag some good vibrations.</p>
 
         <a href="/products.html" class="btn btn-black btn-lg empty-shop-cta" onclick="window.closeCartDrawer();">
           <span>Find Your Buzz &rarr;</span>
         </a>
-
-        <div class="empty-whisper-note">
-          <span>🤫 Plain packaging. Zero drama.</span>
-        </div>
       </div>
     `;
     if (meterFill) meterFill.style.width = '0%';
@@ -1295,15 +1840,20 @@ function renderCart() {
       <img src="${item.img}" alt="${item.title}" class="cart-item-img" />
       <div class="cart-item-details">
         <h4 class="cart-item-name">${item.title}</h4>
-        <span style="font-size: 11px; color: var(--text-dim);">${item.finish}</span>
+        ${item.finish && item.finish !== 'Standard' ? `
+          <div class="cart-item-variant-pill">
+            <span class="variant-pill-dot"></span>
+            <span>${item.finish}</span>
+          </div>
+        ` : ''}
         <div class="cart-item-price">₦${(item.price * item.qty).toLocaleString()}</div>
         <div class="cart-item-ctrls">
           <div class="qty-stepper">
-            <button class="qty-btn" onclick="window.cartUpdateQty('${item.id}', -1)">-</button>
+            <button class="qty-btn" onclick="window.cartUpdateQty('${item.cartId || item.id}', -1)">-</button>
             <span class="qty-val">${item.qty}</span>
-            <button class="qty-btn" onclick="window.cartUpdateQty('${item.id}', 1)">+</button>
+            <button class="qty-btn" onclick="window.cartUpdateQty('${item.cartId || item.id}', 1)">+</button>
           </div>
-          <button class="btn-remove-item" onclick="window.cartRemove('${item.id}')">Remove</button>
+          <button class="btn-remove-item" onclick="window.cartRemove('${item.cartId || item.id}')">Remove</button>
         </div>
       </div>
     </div>
