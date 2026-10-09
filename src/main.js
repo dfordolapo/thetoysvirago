@@ -302,18 +302,17 @@ if (navClosers) {
 const showcaseTrack = document.getElementById('showcase-slides-track');
 const showcaseSlides = document.querySelectorAll('.showcase-slide');
 const showcaseTabs = document.querySelectorAll('.showcase-tab');
-const showcaseDots = document.querySelectorAll('.showcase-dot');
+const showcaseSegments = document.querySelectorAll('.showcase-segment');
 const showcasePrev = document.getElementById('btn-showcase-prev');
 const showcaseNext = document.getElementById('btn-showcase-next');
 const showcaseCurrentIdx = document.getElementById('showcase-current-idx');
-const showcaseProgressBar = document.getElementById('showcase-progress-bar');
 const showcaseWrap = document.getElementById('showcase-slider-wrap');
 
 if (showcaseTrack && showcaseSlides.length > 0) {
   let currentSlide = 0;
   const totalSlides = showcaseSlides.length;
   let autoplayTimer = null;
-  const slideDuration = 2200; // 2.2 seconds per slide (fast brisk autoplay)
+  const slideDuration = 1600; // 1.6 seconds per slide (fast, vibrant rhythm)
   let isPaused = false;
 
   function updateSlide(index) {
@@ -336,11 +335,6 @@ if (showcaseTrack && showcaseSlides.length > 0) {
       tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
     });
 
-    // Update Dots
-    showcaseDots.forEach((dot, i) => {
-      dot.classList.toggle('active', i === currentSlide);
-    });
-
     // Update Counter
     if (showcaseCurrentIdx) {
       showcaseCurrentIdx.textContent = String(currentSlide + 1).padStart(2, '0');
@@ -350,15 +344,31 @@ if (showcaseTrack && showcaseSlides.length > 0) {
   }
 
   function resetProgressBar() {
-    if (showcaseProgressBar) {
-      showcaseProgressBar.style.transition = 'none';
-      showcaseProgressBar.style.width = '0%';
-      void showcaseProgressBar.offsetWidth; // Force reflow
-      if (!isPaused) {
-        showcaseProgressBar.style.transition = `width ${slideDuration}ms linear`;
-        showcaseProgressBar.style.width = '100%';
+    showcaseSegments.forEach((seg, i) => {
+      const fill = seg.querySelector('.segment-fill');
+      if (!fill) return;
+
+      if (i < currentSlide) {
+        seg.classList.add('past');
+        seg.classList.remove('active');
+        fill.style.transition = 'none';
+        fill.style.width = '100%';
+      } else if (i === currentSlide) {
+        seg.classList.remove('past');
+        seg.classList.add('active');
+        fill.style.transition = 'none';
+        fill.style.width = '0%';
+        void fill.offsetWidth; // Force reflow
+        if (!isPaused) {
+          fill.style.transition = `width ${slideDuration}ms linear`;
+          fill.style.width = '100%';
+        }
+      } else {
+        seg.classList.remove('past', 'active');
+        fill.style.transition = 'none';
+        fill.style.width = '0%';
       }
-    }
+    });
   }
 
   function startAutoplay() {
@@ -373,10 +383,14 @@ if (showcaseTrack && showcaseSlides.length > 0) {
 
   function stopAutoplay() {
     if (autoplayTimer) clearTimeout(autoplayTimer);
-    if (showcaseProgressBar) {
-      const computedWidth = window.getComputedStyle(showcaseProgressBar).width;
-      showcaseProgressBar.style.transition = 'none';
-      showcaseProgressBar.style.width = computedWidth;
+    const activeSeg = showcaseSegments[currentSlide];
+    if (activeSeg) {
+      const fill = activeSeg.querySelector('.segment-fill');
+      if (fill) {
+        const computedWidth = window.getComputedStyle(fill).width;
+        fill.style.transition = 'none';
+        fill.style.width = computedWidth;
+      }
     }
     isPaused = true;
   }
@@ -405,10 +419,10 @@ if (showcaseTrack && showcaseSlides.length > 0) {
     });
   });
 
-  // Dot clicks
-  showcaseDots.forEach((dot) => {
-    dot.addEventListener('click', () => {
-      const slideIdx = parseInt(dot.dataset.slide, 10);
+  // Segment clicks
+  showcaseSegments.forEach((seg) => {
+    seg.addEventListener('click', () => {
+      const slideIdx = parseInt(seg.dataset.slide, 10);
       updateSlide(slideIdx);
       startAutoplay();
     });

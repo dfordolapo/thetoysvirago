@@ -363,34 +363,38 @@
 
         <!-- Slideshow Bottom Navigation Controls -->
         <div class="showcase-controls-bar">
-          <div class="showcase-arrows">
-            <button class="showcase-arrow-btn" id="btn-showcase-prev" aria-label="Previous Slide">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-            </button>
-            <button class="showcase-arrow-btn" id="btn-showcase-next" aria-label="Next Slide">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-          </div>
+          <!-- Left Arrow at Far Left -->
+          <button class="showcase-arrow-btn" id="btn-showcase-prev" aria-label="Previous Slide">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          </button>
 
-          <!-- Progress Bar & Counter -->
+          <!-- Unified Center Indicator: Number Counter + Segmented Progress Bar -->
           <div class="showcase-progress-wrap">
             <div class="showcase-counter">
               <span id="showcase-current-idx">01</span>
               <span class="slash">/</span>
               <span>04</span>
             </div>
-            <div class="showcase-progress-track">
-              <div class="showcase-progress-bar" id="showcase-progress-bar"></div>
+            <div class="showcase-segmented-track" id="showcase-segmented-track" role="tablist" aria-label="Slide Segments">
+              <button class="showcase-segment active" data-slide="0" aria-label="Collection 1: Toys">
+                <span class="segment-fill"></span>
+              </button>
+              <button class="showcase-segment" data-slide="1" aria-label="Collection 2: Lingerie">
+                <span class="segment-fill"></span>
+              </button>
+              <button class="showcase-segment" data-slide="2" aria-label="Collection 3: Lubes">
+                <span class="segment-fill"></span>
+              </button>
+              <button class="showcase-segment" data-slide="3" aria-label="Collection 4: BDSM">
+                <span class="segment-fill"></span>
+              </button>
             </div>
           </div>
 
-          <!-- Quick Jump Dots -->
-          <div class="showcase-dots" id="showcase-dots">
-            <button class="showcase-dot active" data-slide="0" aria-label="Slide 1"></button>
-            <button class="showcase-dot" data-slide="1" aria-label="Slide 2"></button>
-            <button class="showcase-dot" data-slide="2" aria-label="Slide 3"></button>
-            <button class="showcase-dot" data-slide="3" aria-label="Slide 4"></button>
-          </div>
+          <!-- Right Arrow at Far Right -->
+          <button class="showcase-arrow-btn" id="btn-showcase-next" aria-label="Next Slide">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
         </div>
 
         <!-- Global Collection CTA -->

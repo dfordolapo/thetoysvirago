@@ -404,54 +404,50 @@ ul { list-style: none; }
 /* Slideshow Controls Bar */
 .showcase-controls-bar {
   display: flex; align-items: center; justify-content: space-between;
-  margin-top: 24px; padding: 14px 24px;
+  margin-top: 24px; padding: 12px 20px;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: var(--r-pill); gap: 20px;
-}
-.showcase-arrows {
-  display: flex; gap: 8px;
+  border-radius: var(--r-pill); gap: 16px;
 }
 .showcase-arrow-btn {
-  width: 38px; height: 38px; border-radius: 50%;
+  width: 40px; height: 40px; border-radius: 50%;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.12);
   color: #fff; display: flex; align-items: center; justify-content: center;
-  cursor: pointer; transition: var(--ease);
+  cursor: pointer; transition: var(--ease); flex-shrink: 0;
 }
 .showcase-arrow-btn:hover {
   background: var(--ruby); border-color: var(--ruby);
   transform: scale(1.06);
 }
 .showcase-progress-wrap {
-  display: flex; align-items: center; gap: 14px;
-  flex: 1; max-width: 280px;
+  display: flex; align-items: center; justify-content: center; gap: 16px;
+  flex: 1; max-width: 460px;
 }
 .showcase-counter {
   font-family: var(--serif); font-size: 15px; font-weight: 700;
   color: #fff; display: flex; align-items: center; gap: 4px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.04em; flex-shrink: 0;
 }
 .showcase-counter .slash { opacity: 0.4; font-size: 12px; }
-.showcase-progress-track {
-  flex: 1; height: 3px; background: rgba(255, 255, 255, 0.12);
-  border-radius: 2px; overflow: hidden; position: relative;
+.showcase-segmented-track {
+  display: flex; gap: 8px; flex: 1; align-items: center;
 }
-.showcase-progress-bar {
-  width: 0%; height: 100%; background: var(--ruby);
-  border-radius: 2px; transition: width 0.1s linear;
+.showcase-segment {
+  flex: 1; height: 4px; background: rgba(255, 255, 255, 0.14);
+  border-radius: 2px; border: none; padding: 0; cursor: pointer;
+  position: relative; overflow: hidden;
+  transition: height 0.2s ease, background 0.2s ease;
 }
-.showcase-dots {
-  display: flex; gap: 8px; align-items: center;
+.showcase-segment:hover {
+  height: 6px; background: rgba(255, 255, 255, 0.3);
 }
-.showcase-dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: rgba(255, 255, 255, 0.22); border: none;
-  cursor: pointer; transition: var(--ease); padding: 0;
+.showcase-segment .segment-fill {
+  display: block; height: 100%; width: 0%;
+  background: var(--ruby); border-radius: 2px;
 }
-.showcase-dot:hover { background: rgba(255, 255, 255, 0.5); }
-.showcase-dot.active {
-  width: 22px; border-radius: 4px; background: var(--ruby);
+.showcase-segment.past .segment-fill {
+  width: 100%;
 }
 
 /* Original Catalog Filters & Grids (used on products.html) */
@@ -1050,15 +1046,14 @@ ul { list-style: none; }
   .showcase-subnote { text-align: center; }
   .showcase-visual-frame { aspect-ratio: 4/3; }
   .showcase-controls-bar {
-    flex-wrap: wrap;
     justify-content: space-between;
     border-radius: var(--r-md);
-    padding: 12px 16px;
-    gap: 12px;
+    padding: 10px 14px;
+    gap: 10px;
   }
-  .showcase-progress-wrap { order: 3; width: 100%; max-width: 100%; }
-  .showcase-arrows { order: 1; }
-  .showcase-dots { order: 2; }
+  .showcase-arrow-btn { width: 34px; height: 34px; }
+  .showcase-progress-wrap { flex: 1; max-width: none; gap: 10px; }
+  .showcase-segmented-track { gap: 5px; }
 
   /* Stealth Shield Mobile Fixes */
   .stealth-app-bar { flex-direction: column; align-items: stretch; gap: 12px; padding: 12px; }
