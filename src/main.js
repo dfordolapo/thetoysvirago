@@ -277,24 +277,59 @@ document.addEventListener('touchend', (e) => {
   lastTap = currentTime;
 });
 
-// Mobile Nav Dropdown
+// Nav Dropdown (Hamburger Menu)
 const btnMobileMenu = document.getElementById('btn-mobile-menu');
 const navDropdown = document.getElementById('nav-dropdown');
 const navClosers = document.querySelectorAll('.nav-closer');
 
+function collapseNavDropdown() {
+  const navDrop = document.getElementById('nav-dropdown');
+  if (navDrop) {
+    navDrop.setAttribute('hidden', '');
+    navDrop.hidden = true;
+    navDrop.style.display = 'none';
+  }
+}
+
+function expandNavDropdown() {
+  const navDrop = document.getElementById('nav-dropdown');
+  if (navDrop) {
+    navDrop.removeAttribute('hidden');
+    navDrop.hidden = false;
+    navDrop.style.display = 'flex';
+  }
+}
+
 if (btnMobileMenu && navDropdown) {
-  btnMobileMenu.addEventListener('click', () => {
-    navDropdown.hidden = !navDropdown.hidden;
+  btnMobileMenu.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isClosed = navDropdown.hidden || navDropdown.hasAttribute('hidden') || navDropdown.style.display === 'none';
+    if (isClosed) {
+      expandNavDropdown();
+    } else {
+      collapseNavDropdown();
+    }
   });
 }
 
 if (navClosers) {
   navClosers.forEach(c => {
     c.addEventListener('click', () => {
-      if (navDropdown) navDropdown.hidden = true;
+      collapseNavDropdown();
     });
   });
 }
+
+// Close dropdown when clicking anywhere outside header
+document.addEventListener('click', (e) => {
+  const navDrop = document.getElementById('nav-dropdown');
+  const btnMenu = document.getElementById('btn-mobile-menu');
+  if (navDrop && !navDrop.hidden && navDrop.style.display !== 'none') {
+    if (!navDrop.contains(e.target) && !btnMenu?.contains(e.target)) {
+      collapseNavDropdown();
+    }
+  }
+});
 
 
 
@@ -1119,6 +1154,7 @@ function removeItem(id) {
 }
 
 function openCartDrawer() {
+  collapseNavDropdown();
   if (cartDrawerOverlay) {
     cartDrawerOverlay.removeAttribute('hidden');
     cartDrawerOverlay.style.display = 'flex';
@@ -1136,10 +1172,10 @@ function closeCartDrawer() {
   if (bagPill) bagPill.classList.remove('active');
 }
 
-if (btnCartDropdown) btnCartDropdown.addEventListener('click', () => {
+if (btnCartDropdown) btnCartDropdown.addEventListener('click', (e) => {
+  e.stopPropagation();
+  collapseNavDropdown();
   openCartDrawer();
-  const navDrop = document.getElementById('nav-dropdown');
-  if (navDrop) navDrop.hidden = true;
 });
 const btnHeaderBag = document.getElementById('btn-header-bag');
 if (btnHeaderBag) btnHeaderBag.addEventListener('click', openCartDrawer);
