@@ -13,26 +13,132 @@ if ('serviceWorker' in navigator) {
 }
 
 let deferredPrompt = null;
+const pwaBanner = document.getElementById('pwa-install-banner');
 const btnInstallPwa = document.getElementById('btn-install-pwa');
+const btnDismissPwa = document.getElementById('btn-dismiss-pwa');
+const btnDesktopInstall = document.getElementById('btn-desktop-install');
+const pwaIosInstructions = document.getElementById('pwa-ios-instructions');
 
+const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || window.innerWidth <= 768;
+const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+
+// Desktop Web: Show discreet navbar pill when browser supports PWA installation
+function setupDesktopInstall() {
+  if (btnDesktopInstall && deferredPrompt && !isStandalone) {
+    btnDesktopInstall.removeAttribute('hidden');
+    btnDesktopInstall.style.display = 'inline-flex';
+  }
+}
+
+// Mobile Web: Show tailored mobile bottom sheet for eligible devices
+function showMobilePwaPrompt() {
+  if (isStandalone || !isMobile) return;
+  if (pwaBanner && sessionStorage.getItem('pwa_mobile_dismissed') !== 'true') {
+    pwaBanner.removeAttribute('hidden');
+    pwaBanner.style.display = 'flex';
+    if (isIos && pwaIosInstructions) {
+      pwaIosInstructions.removeAttribute('hidden');
+      pwaIosInstructions.style.display = 'flex';
+    }
+  }
+}
+
+function hideMobilePwaPrompt() {
+  if (pwaBanner) {
+    pwaBanner.setAttribute('hidden', '');
+    pwaBanner.style.display = 'none';
+  }
+  sessionStorage.setItem('pwa_mobile_dismissed', 'true');
+}
+
+// Native PWA install event
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  if (btnInstallPwa) {
-    btnInstallPwa.hidden = false;
+  if (isMobile) {
+    showMobilePwaPrompt();
+  } else {
+    setupDesktopInstall();
   }
 });
 
-if (btnInstallPwa) {
-  btnInstallPwa.addEventListener('click', async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    console.log('User PWA install outcome:', outcome);
-    deferredPrompt = null;
-    btnInstallPwa.hidden = true;
+// Mobile only: display after short browsing delay
+if (isMobile && !isStandalone && sessionStorage.getItem('pwa_mobile_dismissed') !== 'true') {
+  setTimeout(() => {
+    showMobilePwaPrompt();
+  }, 2500);
+}
+
+// Desktop navbar pill click
+if (btnDesktopInstall) {
+  btnDesktopInstall.addEventListener('click', async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log('Desktop PWA outcome:', outcome);
+      deferredPrompt = null;
+      btnDesktopInstall.style.display = 'none';
+    }
   });
 }
+
+// Mobile banner install button click
+if (btnInstallPwa) {
+  btnInstallPwa.addEventListener('click', async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log('Mobile PWA install outcome:', outcome);
+      deferredPrompt = null;
+      hideMobilePwaPrompt();
+    } else if (isIos) {
+      if (pwaIosInstructions) {
+        pwaIosInstructions.removeAttribute('hidden');
+        pwaIosInstructions.style.display = 'flex';
+      }
+    } else {
+      alert('Tap your browser menu (⋮) and select "Add to Home screen".');
+      hideMobilePwaPrompt();
+    }
+  });
+}
+
+if (btnDismissPwa) {
+  btnDismissPwa.addEventListener('click', hideMobilePwaPrompt);
+}
+
+// General triggers (dropdown menu & footer)
+document.querySelectorAll('.btn-install-trigger').forEach((btn) => {
+  btn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    if (isMobile) {
+      if (pwaBanner) {
+        pwaBanner.removeAttribute('hidden');
+        pwaBanner.style.display = 'flex';
+      }
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        deferredPrompt = null;
+        hideMobilePwaPrompt();
+      } else if (isIos && pwaIosInstructions) {
+        pwaIosInstructions.removeAttribute('hidden');
+        pwaIosInstructions.style.display = 'flex';
+      }
+    } else {
+      // Desktop action
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        deferredPrompt = null;
+        if (btnDesktopInstall) btnDesktopInstall.style.display = 'none';
+      } else {
+        alert('To install on desktop:\nLook for the "Install" or "App available" icon in your browser\'s address bar (top right).');
+      }
+    }
+  });
+});
 
 // ================= 2. AGE VERIFICATION GATE =================
 const ageGate = document.getElementById('age-gate');
@@ -192,25 +298,215 @@ if (navClosers) {
 
 
 
+// ================= COLLECTION SHOWCASE SLIDER =================
+const showcaseTrack = document.getElementById('showcase-slides-track');
+const showcaseSlides = document.querySelectorAll('.showcase-slide');
+const showcaseTabs = document.querySelectorAll('.showcase-tab');
+const showcaseDots = document.querySelectorAll('.showcase-dot');
+const showcasePrev = document.getElementById('btn-showcase-prev');
+const showcaseNext = document.getElementById('btn-showcase-next');
+const showcaseCurrentIdx = document.getElementById('showcase-current-idx');
+const showcaseProgressBar = document.getElementById('showcase-progress-bar');
+const showcaseWrap = document.getElementById('showcase-slider-wrap');
+
+if (showcaseTrack && showcaseSlides.length > 0) {
+  let currentSlide = 0;
+  const totalSlides = showcaseSlides.length;
+  let autoplayTimer = null;
+  const slideDuration = 2200; // 2.2 seconds per slide (fast brisk autoplay)
+  let isPaused = false;
+
+  function updateSlide(index) {
+    if (index < 0) index = totalSlides - 1;
+    if (index >= totalSlides) index = 0;
+    currentSlide = index;
+
+    // Shift track
+    showcaseTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+    // Active slide class
+    showcaseSlides.forEach((s, i) => {
+      s.classList.toggle('active', i === currentSlide);
+    });
+
+    // Update Tabs
+    showcaseTabs.forEach((tab, i) => {
+      const isActive = i === currentSlide;
+      tab.classList.toggle('active', isActive);
+      tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+
+    // Update Dots
+    showcaseDots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === currentSlide);
+    });
+
+    // Update Counter
+    if (showcaseCurrentIdx) {
+      showcaseCurrentIdx.textContent = String(currentSlide + 1).padStart(2, '0');
+    }
+
+    resetProgressBar();
+  }
+
+  function resetProgressBar() {
+    if (showcaseProgressBar) {
+      showcaseProgressBar.style.transition = 'none';
+      showcaseProgressBar.style.width = '0%';
+      void showcaseProgressBar.offsetWidth; // Force reflow
+      if (!isPaused) {
+        showcaseProgressBar.style.transition = `width ${slideDuration}ms linear`;
+        showcaseProgressBar.style.width = '100%';
+      }
+    }
+  }
+
+  function startAutoplay() {
+    stopAutoplay();
+    isPaused = false;
+    resetProgressBar();
+    autoplayTimer = setTimeout(() => {
+      updateSlide(currentSlide + 1);
+      startAutoplay();
+    }, slideDuration);
+  }
+
+  function stopAutoplay() {
+    if (autoplayTimer) clearTimeout(autoplayTimer);
+    if (showcaseProgressBar) {
+      const computedWidth = window.getComputedStyle(showcaseProgressBar).width;
+      showcaseProgressBar.style.transition = 'none';
+      showcaseProgressBar.style.width = computedWidth;
+    }
+    isPaused = true;
+  }
+
+  // Next / Prev clicks
+  if (showcaseNext) {
+    showcaseNext.addEventListener('click', () => {
+      updateSlide(currentSlide + 1);
+      startAutoplay();
+    });
+  }
+
+  if (showcasePrev) {
+    showcasePrev.addEventListener('click', () => {
+      updateSlide(currentSlide - 1);
+      startAutoplay();
+    });
+  }
+
+  // Tab clicks
+  showcaseTabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const slideIdx = parseInt(tab.dataset.slide, 10);
+      updateSlide(slideIdx);
+      startAutoplay();
+    });
+  });
+
+  // Dot clicks
+  showcaseDots.forEach((dot) => {
+    dot.addEventListener('click', () => {
+      const slideIdx = parseInt(dot.dataset.slide, 10);
+      updateSlide(slideIdx);
+      startAutoplay();
+    });
+  });
+
+  // Pause on hover
+  if (showcaseWrap) {
+    showcaseWrap.addEventListener('mouseenter', stopAutoplay);
+    showcaseWrap.addEventListener('mouseleave', () => {
+      startAutoplay();
+    });
+
+    // Touch swipe gestures
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    showcaseWrap.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      stopAutoplay();
+    }, { passive: true });
+
+    showcaseWrap.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      const diff = touchStartX - touchEndX;
+      if (Math.abs(diff) > 40) {
+        if (diff > 0) {
+          updateSlide(currentSlide + 1); // Swipe left -> next
+        } else {
+          updateSlide(currentSlide - 1); // Swipe right -> prev
+        }
+      }
+      startAutoplay();
+    }, { passive: true });
+  }
+
+  // Keyboard navigation when section is in viewport
+  window.addEventListener('keydown', (e) => {
+    const rect = showcaseWrap ? showcaseWrap.getBoundingClientRect() : null;
+    if (rect && rect.top < window.innerHeight && rect.bottom > 0) {
+      if (e.key === 'ArrowRight') {
+        updateSlide(currentSlide + 1);
+        startAutoplay();
+      } else if (e.key === 'ArrowLeft') {
+        updateSlide(currentSlide - 1);
+        startAutoplay();
+      }
+    }
+  });
+
+  // Initialize Showcase Slider
+  updateSlide(0);
+  startAutoplay();
+}
+
 // ================= 5. PRODUCT CATALOGUE & FILTERING =================
 const filterBtns = document.querySelectorAll('.filter-btn');
 const productCards = document.querySelectorAll('.product-card');
 
+function applyProductFilter(category) {
+  filterBtns.forEach((b) => {
+    b.classList.toggle('active', b.dataset.filter === category);
+  });
+
+  productCards.forEach((card) => {
+    const cardCat = card.dataset.category;
+    if (category === 'all' || cardCat === category) {
+      card.style.display = 'flex';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+
 filterBtns.forEach((btn) => {
   btn.addEventListener('click', () => {
-    filterBtns.forEach((b) => b.classList.remove('active'));
-    btn.classList.add('active');
-    const filter = btn.dataset.filter;
-
-    productCards.forEach((card) => {
-      if (filter === 'all' || card.dataset.category === filter) {
-        card.style.display = 'flex';
-      } else {
-        card.style.display = 'none';
-      }
-    });
+    applyProductFilter(btn.dataset.filter);
   });
 });
+
+// URL Query Parameter filter auto-activation
+const urlParams = new URLSearchParams(window.location.search);
+const initialFilter = urlParams.get('filter');
+if (initialFilter && filterBtns.length > 0) {
+  // Map aliases if needed (e.g., wellness -> lubes, accessories -> bdsm)
+  let targetCategory = initialFilter;
+  const matchBtn = Array.from(filterBtns).find(b => {
+    const f = b.dataset.filter;
+    return f === targetCategory ||
+      (targetCategory === 'lubes' && (f === 'wellness' || f === 'lubes')) ||
+      (targetCategory === 'wellness' && (f === 'wellness' || f === 'lubes')) ||
+      (targetCategory === 'bdsm' && (f === 'accessories' || f === 'bdsm')) ||
+      (targetCategory === 'accessories' && (f === 'accessories' || f === 'bdsm'));
+  });
+
+  if (matchBtn) {
+    applyProductFilter(matchBtn.dataset.filter);
+  }
+}
 
 // Interactive Finish / Color Dots
 document.querySelectorAll('.color-selector').forEach((selector) => {
@@ -227,7 +523,6 @@ document.querySelectorAll('.color-selector').forEach((selector) => {
     });
   });
 });
-
 
 // ================= 6. PRODUCT QUICK VIEW MODAL =================
 const quickviewModal = document.getElementById('quickview-modal');
@@ -248,8 +543,8 @@ const PRODUCT_DATABASE = {
     id: 'obsidian-arc',
     title: 'The Obsidian Arc',
     badge: 'FLAGSHIP EDITION • DUAL MOTOR',
-    price: 185.00,
-    priceStr: '$185.00',
+    price: 148000,
+    priceStr: '₦148,000',
     img: '/assets/hero-device.jpg',
     desc: 'Precision engineered with dual harmonic vibration engines. Calibrated for 28Hz sub-bass waves that penetrate deeply without surface numbing. Velvet-touch liquid silicone body.',
     material: 'Double-Cured Medical Liquid Silicone & Ruby Chrome Alloy',
@@ -261,8 +556,8 @@ const PRODUCT_DATABASE = {
     id: 'rose-blossom',
     title: 'Velvet Rose Blossom',
     badge: 'SONIC AIR-WAVE • TOUCHLESS',
-    price: 145.00,
-    priceStr: '$145.00',
+    price: 116000,
+    priceStr: '₦116,000',
     img: '/assets/product-rose.jpg',
     desc: 'Gentle aerodynamic air pulsations create contactless pleasure waves mimicking sensual oral stimulation. Petal contours hug anatomy effortlessly with 8 sonic speeds.',
     material: '100% Japanese Medical-Grade Liquid Silicone',
@@ -274,8 +569,8 @@ const PRODUCT_DATABASE = {
     id: 'sceptre-wand',
     title: 'The Sceptre Wand',
     badge: 'HIGH TORQUE • BRUSHLESS CORE',
-    price: 195.00,
-    priceStr: '$195.00',
+    price: 156000,
+    priceStr: '₦156,000',
     img: '/assets/product-wand.jpg',
     desc: 'Industrial-grade brushless core delivering heavy sub-rumble torque rather than sharp buzzy vibrations. Ideal for deep somatic release and transcendent full-body intimacy.',
     material: 'Ergonomic Weighted Alloy Core with Soft Velvet Silicone Cap',
@@ -287,14 +582,118 @@ const PRODUCT_DATABASE = {
     id: 'aura-elixir',
     title: 'Aura Intimate Elixir',
     badge: 'APOTHECARY • 100% ORGANIC',
-    price: 65.00,
-    priceStr: '$65.00',
+    price: 52000,
+    priceStr: '₦52,000',
     img: '/assets/product-serum.jpg',
-    desc: 'Botanical hybrid nectar infused with wild Mexican damiana, calming ashwagandha, and multi-weight vegan hyaluronic moisture. Silicone-safe, body-identical pH 3.9.',
+    desc: 'Botanical hybrid nectar infused with wild Mexican damiana, calming ashwagandha, and multi-weight hyaluronic moisture. Silicone-safe, body-identical pH 3.9.',
     material: 'Frosted Obsidian Glass Flacon with Ruby Wax Seal',
     acoustics: '100% Natural Organic Botanicals',
     freq: 42,
     pattern: 'whisper'
+  },
+  'midnight-silk-slip': {
+    id: 'midnight-silk-slip',
+    title: 'Midnight Mulberry Silk Slip',
+    badge: 'ATELIER • 100% SILK',
+    price: 88000,
+    priceStr: '₦88,000',
+    img: '/assets/category-lingerie.jpg',
+    desc: 'Crafted from 22-momme pure mulberry silk with fine French eyelash lace trim. Bias cut to drape liquid-like over your silhouette.',
+    material: '100% Grade 6A Mulberry Silk & French Floral Lace',
+    acoustics: 'Handcrafted Atelier Finish',
+    freq: 0,
+    pattern: 'silk'
+  },
+  'lace-noir-bodysuit': {
+    id: 'lace-noir-bodysuit',
+    title: 'Noir Floral Lace Bodysuit',
+    badge: 'SCULPTURAL • SHEER',
+    price: 74000,
+    priceStr: '₦74,000',
+    img: '/assets/category-lingerie.jpg',
+    desc: 'Architectural floral lace bodysuit with plunging neckline and gentle underwire support. Magnetic quick-release closure.',
+    material: 'High-Tensile Sheer Lace & Velvet Trims',
+    acoustics: 'Contoured Fit (XS - 3XL)',
+    freq: 0,
+    pattern: 'lace'
+  },
+  'satin-kimono-robe': {
+    id: 'satin-kimono-robe',
+    title: 'Obsidian Silk Kimono Robe',
+    badge: 'LOUNGEWEAR • SIGNATURE',
+    price: 96000,
+    priceStr: '₦96,000',
+    img: '/assets/category-lingerie.jpg',
+    desc: 'Floor-length pure mulberry silk robe with wide kimono sleeves and velvet tie belt. The epitome of effortless post-pleasure luxury.',
+    material: '100% Pure Mulberry Silk (19 Momme)',
+    acoustics: 'Weightless Cloud Feel',
+    freq: 0,
+    pattern: 'silk'
+  },
+  'velvet-glide-serum': {
+    id: 'velvet-glide-serum',
+    title: 'Velvet Water-Hybrid Glide',
+    badge: 'WATER-HYBRID • ZERO STICK',
+    price: 38000,
+    priceStr: '₦38,000',
+    img: '/assets/product-serum.jpg',
+    desc: 'Hybrid water and plant-cellulose formulation offering the endless cushion of silicone with the effortless rinse of pure water.',
+    material: 'Organic Aloe & Plant Cellulose',
+    acoustics: 'Condom & Toy Compatible',
+    freq: 0,
+    pattern: 'glide'
+  },
+  'sensory-warming-oil': {
+    id: 'sensory-warming-oil',
+    title: 'Sensory Botanical Warming Elixir',
+    badge: 'THERMAL ACTIVATION • AROMA',
+    price: 46000,
+    priceStr: '₦46,000',
+    img: '/assets/product-serum.jpg',
+    desc: 'Gently warms upon breath and skin contact to heighten nerve ending sensitivity. Subtle natural vanilla and cedarwood aroma.',
+    material: 'Cold-Pressed Jojoba & Warming Ginger Extract',
+    acoustics: '100% Edible & Natural',
+    freq: 0,
+    pattern: 'warm'
+  },
+  'velvet-restraint-kit': {
+    id: 'velvet-restraint-kit',
+    title: 'Crimson Velvet Cuffs & Collar',
+    badge: 'SENSORY • PADDED RESTRAINT',
+    price: 68000,
+    priceStr: '₦68,000',
+    img: '/assets/category-bdsm.jpg',
+    desc: 'Plush crimson velvet wrist cuffs and matching choker collar lined with memory-foam padding. Quick-release swivel clasps for ultimate peace of mind.',
+    material: 'Italian Cotton Velvet & Heavy Plated Gold Hardware',
+    acoustics: 'Safety Quick-Release Swivels',
+    freq: 0,
+    pattern: 'restraint'
+  },
+  'sensory-blindfold-whip': {
+    id: 'sensory-blindfold-whip',
+    title: 'Silk Blackout Mask & Feather Tickler',
+    badge: 'DUAL SENSORY • EXPLORATION',
+    price: 42000,
+    priceStr: '₦42,000',
+    img: '/assets/category-bdsm.jpg',
+    desc: 'Double-padded 100% mulberry silk blackout blindfold paired with a cruelty-free goose-feather teaser. Heightens every single touch.',
+    material: 'Pure Mulberry Silk & Natural Ostrich Plume',
+    acoustics: 'Complete Blackout Sensory Deprivation',
+    freq: 0,
+    pattern: 'sensory'
+  },
+  'sensory-bundle-deluxe': {
+    id: 'sensory-bundle-deluxe',
+    title: 'The Sovereign Sensory Suite',
+    badge: 'COLLECTOR EDITION • COMPLETE',
+    price: 125000,
+    priceStr: '₦125,000',
+    img: '/assets/category-bdsm.jpg',
+    desc: 'The complete 5-piece luxury kit: velvet cuffs, ankle ties, silk blindfold, feather teaser, and velvet travel pouch.',
+    material: 'Plush Velvet, Silk, and Anodized Alloy Clasps',
+    acoustics: 'Delivered in Discreet Storage Case',
+    freq: 0,
+    pattern: 'complete'
   }
 };
 

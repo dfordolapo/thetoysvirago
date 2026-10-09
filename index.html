@@ -129,11 +129,15 @@
     <!-- Header -->
     <header class="main-header" id="main-header">
       <div class="header-inner">
-        <a href="#hero" class="logo">
+        <a href="/" class="logo" aria-label="The Toys Virago - Home">
           <img src="/assets/logo.jpg" alt="The Toys Virago" class="brand-logo-img" />
         </a>
 
         <div class="header-actions">
+          <button id="btn-desktop-install" class="desktop-install-pill desktop-only" hidden title="Install Desktop App">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>Install App</span>
+          </button>
           <button id="btn-stealth-nav" class="stealth-pill" title="Stealth mode (Esc)">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             <span class="desktop-only">Stealth <kbd>Esc</kbd></span>
@@ -152,6 +156,9 @@
         <button id="btn-cart-dropdown" class="dropdown-link btn-cart-dropdown nav-closer">
           Bag (<span id="cart-counter">0</span>)
         </button>
+        <button class="dropdown-link btn-install-trigger nav-closer" style="text-align: left; background: none; border: none; font-size: inherit; font-family: inherit; cursor: pointer; color: inherit; padding: 12px 0;">
+          📲 Install App
+        </button>
       </div>
     </header>
 
@@ -163,7 +170,7 @@
             Own your <em>pleasure.</em>
           </h1>
           <p class="hero-sub">
-            We bring the toys. You bring the noise. <br/>Premium devices and luxe lingerie, shipped to your door, quietly.
+            Made to hit the spot... even the ones you can't describe. <br/>Premium devices and luxe lingerie, shipped to your door, quietly.
           </p>
           <div class="hero-ctas">
             <a href="#collection" class="btn btn-black btn-lg">
@@ -198,158 +205,197 @@
       </div>
     </section>
 
-    <!-- ===== COLLECTION ===== -->
+    <!-- ===== COLLECTION SHOWCASE SLIDESHOW ===== -->
     <section class="collection" id="collection">
       <div class="section-inner">
         <div class="collection-header">
-          <h2 class="sh2">The Collection</h2>
-          <div class="filter-row" id="filter-row">
-            <button class="filter-btn active" data-filter="all">All</button>
-            <button class="filter-btn" data-filter="toys">Toys</button>
-            <button class="filter-btn" data-filter="lingerie">Lingerie</button>
-            <button class="filter-btn" data-filter="accessories">Accessories</button>
-            <button class="filter-btn" data-filter="wellness">Wellness</button>
+          <div class="collection-header-titles">
+            <span class="collection-kicker">CURATED ARCHIVES</span>
+            <h2 class="sh2" style="color: #fff; margin-top: 4px;">The Collections</h2>
+          </div>
+          <!-- Category Tabs Navigation -->
+          <div class="showcase-category-tabs" role="tablist" aria-label="Collections">
+            <button class="showcase-tab active" data-slide="0" role="tab" aria-selected="true">
+              <span class="tab-num">01</span>
+              <span class="tab-txt">Toys & Tech</span>
+            </button>
+            <button class="showcase-tab" data-slide="1" role="tab" aria-selected="false">
+              <span class="tab-num">02</span>
+              <span class="tab-txt">Luxe Lingerie</span>
+            </button>
+            <button class="showcase-tab" data-slide="2" role="tab" aria-selected="false">
+              <span class="tab-num">03</span>
+              <span class="tab-txt">Lubes & Elixirs</span>
+            </button>
+            <button class="showcase-tab" data-slide="3" role="tab" aria-selected="false">
+              <span class="tab-num">04</span>
+              <span class="tab-txt">BDSM & Kits</span>
+            </button>
           </div>
         </div>
 
-        <div class="products-grid" id="products-grid">
+        <!-- Slideshow Viewport -->
+        <div class="showcase-slider-wrap" id="showcase-slider-wrap">
+          <div class="showcase-slides-track" id="showcase-slides-track">
 
-          <!-- Product 1 -->
-          <article class="product-card" data-category="toys" data-id="obsidian-arc">
-            <div class="product-img-wrap">
-              <span class="product-badge">BESTSELLER</span>
-              <img src="/assets/hero-device.jpg" alt="The Obsidian Arc" class="product-img" loading="lazy" decoding="async" />
-              <div class="product-overlay">
-                <button class="btn-quick-view" data-product="obsidian-arc">Quick Look</button>
-              </div>
-            </div>
-            <div class="product-body">
-              <div class="product-top">
-                <span class="product-sku">NOIR · 01</span>
-                <span class="product-price">₦148,000</span>
-              </div>
-              <h3 class="product-name">The Obsidian Arc</h3>
-              <p class="product-line">Whisper-quiet. Feels like a secret.</p>
-              <div class="product-pills">
-                <span>Dual Motor</span><span>&lt;28dB</span><span>Waterproof</span>
-              </div>
-              <div class="color-row">
-                <button class="color-dot active" style="background:#0c0c0e;" data-color="Obsidian Noir"></button>
-                <button class="color-dot" style="background:#9f1239;" data-color="Crimson Lacquer"></button>
-                <button class="color-dot" style="background:#f0f0f0;border:1px solid #ccc;" data-color="Alabaster Pearl"></button>
-                <span class="color-name">Obsidian Noir</span>
-              </div>
-              <button class="btn btn-black btn-block btn-add-cart"
-                data-id="obsidian-arc" data-title="The Obsidian Arc"
-                data-price="148000" data-img="/assets/hero-device.jpg">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
-              </button>
-            </div>
-          </article>
+            <!-- SLIDE 1: TOYS & DEVICES -->
+            <article class="showcase-slide active" data-index="0">
+              <div class="showcase-card">
+                <div class="showcase-content">
+                  <div class="showcase-meta">
+                    <span class="showcase-badge">ARCHIVE · 01</span>
+                    <span class="showcase-avail">12 Curated Devices</span>
+                  </div>
+                  <h3 class="showcase-headline">Toys & Devices</h3>
+                  <p class="showcase-pun">Engineered for the best climax. Sounds like silence, hits like anything but.</p>
+                  <div class="showcase-cta-row">
+                    <a href="/products.html?filter=toys" class="btn btn-ruby btn-lg showcase-btn">
+                      Explore Toys & Tech &rarr;
+                    </a>
+                    <span class="showcase-subnote">Discreet plain packaging · Lagos same-day</span>
+                  </div>
+                </div>
 
-          <!-- Product 2 -->
-          <article class="product-card" data-category="toys" data-id="rose-blossom">
-            <div class="product-img-wrap">
-              <span class="product-badge ruby-badge">HOT PICK</span>
-              <img src="/assets/product-rose.jpg" alt="Velvet Rose" class="product-img" loading="lazy" decoding="async" />
-              <div class="product-overlay">
-                <button class="btn-quick-view" data-product="rose-blossom">Quick Look</button>
+                <div class="showcase-visual">
+                  <div class="showcase-visual-frame">
+                    <img src="/assets/hero-device.jpg" alt="Toys and Devices Collection" class="showcase-img" loading="eager" />
+                    <div class="showcase-glass-pill">
+                      <span class="glass-dot"></span>
+                      <span>Signature: The Obsidian Arc</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="product-body">
-              <div class="product-top">
-                <span class="product-sku">FLORE · 02</span>
-                <span class="product-price">₦116,000</span>
-              </div>
-              <h3 class="product-name">Velvet Rose</h3>
-              <p class="product-line">No hands needed. You're welcome.</p>
-              <div class="product-pills">
-                <span>Touchless</span><span>8 Speeds</span><span>Waterproof</span>
-              </div>
-              <div class="color-row">
-                <button class="color-dot active" style="background:#0c0c0e;" data-color="Noir & Ruby"></button>
-                <button class="color-dot" style="background:#881337;" data-color="Midnight Burgundy"></button>
-                <span class="color-name">Noir & Ruby</span>
-              </div>
-              <button class="btn btn-black btn-block btn-add-cart"
-                data-id="rose-blossom" data-title="Velvet Rose"
-                data-price="116000" data-img="/assets/product-rose.jpg">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
-              </button>
-            </div>
-          </article>
+            </article>
 
-          <!-- Product 3 -->
-          <article class="product-card" data-category="toys" data-id="sceptre-wand">
-            <div class="product-img-wrap">
-              <span class="product-badge">HEAVY HITTER</span>
-              <img src="/assets/product-wand.jpg" alt="The Sceptre Wand" class="product-img" loading="lazy" decoding="async" />
-              <div class="product-overlay">
-                <button class="btn-quick-view" data-product="sceptre-wand">Quick Look</button>
-              </div>
-            </div>
-            <div class="product-body">
-              <div class="product-top">
-                <span class="product-sku">GRAND · 03</span>
-                <span class="product-price">₦156,000</span>
-              </div>
-              <h3 class="product-name">The Sceptre</h3>
-              <p class="product-line">Deep rumble. Big energy. No apologies.</p>
-              <div class="product-pills">
-                <span>Deep Wave</span><span>Brushless</span><span>Flex Neck</span>
-              </div>
-              <div class="color-row">
-                <button class="color-dot active" style="background:#0c0c0e;" data-color="Matte Noir"></button>
-                <button class="color-dot" style="background:#be123c;" data-color="Ruby Chrome"></button>
-                <span class="color-name">Matte Noir</span>
-              </div>
-              <button class="btn btn-black btn-block btn-add-cart"
-                data-id="sceptre-wand" data-title="The Sceptre"
-                data-price="156000" data-img="/assets/product-wand.jpg">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
-              </button>
-            </div>
-          </article>
+            <!-- SLIDE 2: LUXE LINGERIE -->
+            <article class="showcase-slide" data-index="1">
+              <div class="showcase-card">
+                <div class="showcase-content">
+                  <div class="showcase-meta">
+                    <span class="showcase-badge ruby-badge">ARCHIVE · 02</span>
+                    <span class="showcase-avail">8 Sculptural Pieces</span>
+                  </div>
+                  <h3 class="showcase-headline">Luxe Lingerie</h3>
+                  <p class="showcase-pun">Second skin. First priority. Made to turn heads and slip off in seconds.</p>
+                  <div class="showcase-cta-row">
+                    <a href="/products.html?filter=lingerie" class="btn btn-ruby btn-lg showcase-btn">
+                      Explore Luxe Lingerie &rarr;
+                    </a>
+                    <span class="showcase-subnote">Sculptural lace & satin · Hand-inspected quality</span>
+                  </div>
+                </div>
 
-          <!-- Product 4 -->
-          <article class="product-card" data-category="wellness" data-id="aura-elixir">
-            <div class="product-img-wrap">
-              <span class="product-badge">LIQUID GOLD</span>
-              <img src="/assets/product-serum.jpg" alt="Aura Elixir" class="product-img" loading="lazy" decoding="async" />
-              <div class="product-overlay">
-                <button class="btn-quick-view" data-product="aura-elixir">Quick Look</button>
+                <div class="showcase-visual">
+                  <div class="showcase-visual-frame">
+                    <img src="/assets/category-lingerie.jpg" alt="Luxe Lingerie Collection" class="showcase-img" loading="lazy" />
+                    <div class="showcase-glass-pill">
+                      <span class="glass-dot"></span>
+                      <span>Featured: Midnight Silk Slip</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="product-body">
-              <div class="product-top">
-                <span class="product-sku">APOTH · 04</span>
-                <span class="product-price">₦52,000</span>
-              </div>
-              <h3 class="product-name">Aura Elixir</h3>
-              <p class="product-line">Botanical. Silky. Sets the whole mood.</p>
-              <div class="product-pills">
-                <span>pH Balanced</span><span>Organic</span><span>30ml</span>
-              </div>
-              <div class="color-row">
-                <button class="size-pill active">30ml</button>
-                <button class="size-pill">60ml</button>
-              </div>
-              <button class="btn btn-black btn-block btn-add-cart"
-                data-id="aura-elixir" data-title="Aura Elixir"
-                data-price="52000" data-img="/assets/product-serum.jpg">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
-              </button>
-            </div>
-          </article>
+            </article>
 
+            <!-- SLIDE 3: ORGANIC LUBES & ELIXIRS -->
+            <article class="showcase-slide" data-index="2">
+              <div class="showcase-card">
+                <div class="showcase-content">
+                  <div class="showcase-meta">
+                    <span class="showcase-badge">ARCHIVE · 03</span>
+                    <span class="showcase-avail">6 Botanical Formulas</span>
+                  </div>
+                  <h3 class="showcase-headline">Organic Lubes & Elixirs</h3>
+                  <p class="showcase-pun">The chemistry of frictionless bliss.</p>
+                  <div class="showcase-cta-row">
+                    <a href="/products.html?filter=lubes" class="btn btn-ruby btn-lg showcase-btn">
+                      Explore Lubes & Elixirs &rarr;
+                    </a>
+                    <span class="showcase-subnote">100% water-based · Body-neutral formula</span>
+                  </div>
+                </div>
+
+                <div class="showcase-visual">
+                  <div class="showcase-visual-frame">
+                    <img src="/assets/product-serum.jpg" alt="Organic Lubes and Elixirs Collection" class="showcase-img" loading="lazy" />
+                    <div class="showcase-glass-pill">
+                      <span class="glass-dot"></span>
+                      <span>Signature: Aura Botanical Elixir</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- SLIDE 4: BDSM & SENSORY KITS -->
+            <article class="showcase-slide" data-index="3">
+              <div class="showcase-card">
+                <div class="showcase-content">
+                  <div class="showcase-meta">
+                    <span class="showcase-badge ruby-badge">ARCHIVE · 04</span>
+                    <span class="showcase-avail">5 Curated Sets</span>
+                  </div>
+                  <h3 class="showcase-headline">BDSM & Sensory Kits</h3>
+                  <p class="showcase-pun">Power play. Gentle surrender. For the daring and the deliciously curious.</p>
+                  <div class="showcase-cta-row">
+                    <a href="/products.html?filter=bdsm" class="btn btn-ruby btn-lg showcase-btn">
+                      Explore BDSM Kits &rarr;
+                    </a>
+                    <span class="showcase-subnote">Padded comfort · Beginner to advanced</span>
+                  </div>
+                </div>
+
+                <div class="showcase-visual">
+                  <div class="showcase-visual-frame">
+                    <img src="/assets/category-bdsm.jpg" alt="BDSM and Sensory Kits Collection" class="showcase-img" loading="lazy" />
+                    <div class="showcase-glass-pill">
+                      <span class="glass-dot"></span>
+                      <span>Featured: Crimson Velvet Sensory Kit</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+          </div>
         </div>
 
-        <div style="text-align: center; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border);">
-          <a href="/products.html" class="btn btn-black btn-lg" style="padding-left: 40px; padding-right: 40px;">
+        <!-- Slideshow Bottom Navigation Controls -->
+        <div class="showcase-controls-bar">
+          <div class="showcase-arrows">
+            <button class="showcase-arrow-btn" id="btn-showcase-prev" aria-label="Previous Slide">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            </button>
+            <button class="showcase-arrow-btn" id="btn-showcase-next" aria-label="Next Slide">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+
+          <!-- Progress Bar & Counter -->
+          <div class="showcase-progress-wrap">
+            <div class="showcase-counter">
+              <span id="showcase-current-idx">01</span>
+              <span class="slash">/</span>
+              <span>04</span>
+            </div>
+            <div class="showcase-progress-track">
+              <div class="showcase-progress-bar" id="showcase-progress-bar"></div>
+            </div>
+          </div>
+
+          <!-- Quick Jump Dots -->
+          <div class="showcase-dots" id="showcase-dots">
+            <button class="showcase-dot active" data-slide="0" aria-label="Slide 1"></button>
+            <button class="showcase-dot" data-slide="1" aria-label="Slide 2"></button>
+            <button class="showcase-dot" data-slide="2" aria-label="Slide 3"></button>
+            <button class="showcase-dot" data-slide="3" aria-label="Slide 4"></button>
+          </div>
+        </div>
+
+        <!-- Global Collection CTA -->
+        <div style="text-align: center; margin-top: 48px; padding-top: 28px; border-top: 1px solid rgba(255,255,255,0.08);">
+          <a href="/products.html" class="btn btn-black btn-lg" style="padding-left: 44px; padding-right: 44px; border: 1px solid rgba(255,255,255,0.2);">
             Shop Full Collection &rarr;
           </a>
         </div>
@@ -487,6 +533,7 @@
               <li><a href="#">WhatsApp</a></li>
               <li><a href="#">X (Twitter)</a></li>
               <li><a href="#faq">FAQ</a></li>
+              <li><a href="#" class="btn-install-trigger">Install App</a></li>
             </ul>
           </div>
         </div>
@@ -629,6 +676,25 @@
     <div id="toast" class="toast" hidden>
       <span class="toast-icon">✓</span>
       <span id="toast-message">Added to bag</span>
+    </div>
+
+    <!-- PWA Install Prompt Banner -->
+    <div id="pwa-install-banner" class="pwa-install-banner" hidden>
+      <div class="pwa-banner-main">
+        <img src="/assets/logo.jpg" alt="The Toys Virago" class="pwa-banner-icon" />
+        <div class="pwa-banner-copy">
+          <strong class="pwa-banner-title">TheToysVirago App</strong>
+          <span class="pwa-banner-sub">Install for quick, private shopping</span>
+        </div>
+        <div class="pwa-banner-actions">
+          <button id="btn-install-pwa" class="btn-pwa-install">Install</button>
+          <button id="btn-dismiss-pwa" class="btn-pwa-dismiss" aria-label="Close">✕</button>
+        </div>
+      </div>
+      <div id="pwa-ios-instructions" class="pwa-ios-instructions" hidden>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+        <span>Tap <strong>Share</strong> then <strong>Add to Home Screen</strong></span>
+      </div>
     </div>
 
   </div><!-- /app-wrapper -->
