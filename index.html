@@ -133,11 +133,15 @@
           <img src="/assets/logo.jpg" alt="The Toys Virago" class="brand-logo-img" />
         </a>
 
+        <!-- Desktop Navigation Links with Active States -->
+        <nav class="desktop-nav-links" aria-label="Main Navigation">
+          <a href="/" class="nav-menu-link active">Home</a>
+          <a href="/products.html" class="nav-menu-link">Shop</a>
+          <a href="#discretion" class="nav-menu-link">Privacy</a>
+          <a href="#faq" class="nav-menu-link">FAQ</a>
+        </nav>
+
         <div class="header-actions">
-          <button id="btn-desktop-install" class="desktop-install-pill desktop-only" hidden title="Install Desktop App">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            <span>Install App</span>
-          </button>
           <button id="btn-stealth-nav" class="stealth-pill" title="Stealth mode (Esc)">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             <span class="desktop-only">Stealth <kbd>Esc</kbd></span>
@@ -150,14 +154,16 @@
       
       <!-- Dropdown Menu -->
       <div id="nav-dropdown" class="nav-dropdown" hidden>
-        <a href="#collection" class="dropdown-link nav-closer">Shop</a>
-        <a href="#discretion" class="dropdown-link nav-closer">Privacy</a>
+        <a href="/" class="dropdown-link nav-closer active">Home</a>
+        <a href="/products.html" class="dropdown-link nav-closer">Shop</a>
         <a href="#faq" class="dropdown-link nav-closer">FAQ</a>
         <button id="btn-cart-dropdown" class="dropdown-link btn-cart-dropdown nav-closer">
-          Bag (<span id="cart-counter">0</span>)
+          <span>Bag</span>
+          <span class="nav-bag-count" id="cart-counter">0</span>
         </button>
-        <button class="dropdown-link btn-install-trigger nav-closer" style="text-align: left; background: none; border: none; font-size: inherit; font-family: inherit; cursor: pointer; color: inherit; padding: 12px 0;">
-          📲 Install App
+        <button id="btn-install-dropdown" class="dropdown-link btn-install-trigger nav-closer">
+          <span>Install App</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         </button>
       </div>
     </header>
@@ -253,10 +259,10 @@
 
                 <div class="showcase-visual">
                   <div class="showcase-visual-frame">
-                    <img src="/assets/hero-device.jpg" alt="Toys and Devices Collection" class="showcase-img" loading="eager" />
+                    <img src="/assets/product-rose.jpg" alt="The Rose Sucker - Toys & Devices Collection" class="showcase-img" loading="eager" />
                     <div class="showcase-glass-pill">
                       <span class="glass-dot"></span>
-                      <span>Signature: The Obsidian Arc</span>
+                      <span>Featured: The Rose Sucker</span>
                     </div>
                   </div>
                 </div>
@@ -383,7 +389,7 @@
         <!-- Global Collection CTA -->
         <div style="text-align: center; margin-top: 48px; padding-top: 28px; border-top: 1px solid rgba(255,255,255,0.08);">
           <a href="/products.html" class="btn btn-black btn-lg" style="padding-left: 44px; padding-right: 44px; border: 1px solid rgba(255,255,255,0.2);">
-            Shop Full Collection &rarr;
+            Shop All &rarr;
           </a>
         </div>
 
@@ -568,14 +574,44 @@
           </div>
           <div id="promo-feedback" class="promo-msg" hidden></div>
 
-          <div class="cart-lines">
-            <div class="cart-line"><span>Subtotal</span><span id="cart-subtotal">₦0</span></div>
-            <div class="cart-line" id="cart-discount-row" hidden><span>Discount (15%)</span><span id="cart-discount" class="green-txt">-₦0</span></div>
-            <div class="cart-line"><span>Delivery</span><span id="cart-shipping" class="green-txt">Free</span></div>
-            <div class="cart-line total-line"><span>Total</span><span id="cart-total" class="ruby-txt">₦0</span></div>
-          </div>
+          <!-- Collapsible Subtotal & Delivery Details -->
+          <button type="button" id="btn-toggle-cart-details" class="cart-collapse-toggle" aria-expanded="false" aria-controls="cart-collapsible-details">
+            <div class="collapse-toggle-left">
+              <span class="collapse-toggle-title">Subtotal &amp; Delivery Details</span>
+              <span class="collapse-toggle-hint">Tap to view</span>
+            </div>
+            <div class="collapse-toggle-right">
+              <span class="collapse-total-peek" id="cart-total-peek">₦0</span>
+              <svg class="collapse-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </button>
 
-        <!-- Trust Badges removed -->
+          <div id="cart-collapsible-details" class="cart-collapsible-details">
+            <div class="cart-lines">
+              <div class="cart-line"><span>Subtotal</span><span id="cart-subtotal">₦0</span></div>
+              <div class="cart-line" id="cart-discount-row" hidden><span>Discount (15%)</span><span id="cart-discount" class="green-txt">-₦0</span></div>
+              <div class="cart-line"><span>Delivery</span><span id="cart-shipping" class="green-txt">Free</span></div>
+              <div class="cart-line total-line"><span>Total</span><span id="cart-total" class="ruby-txt">₦0</span></div>
+            </div>
+
+            <div class="delivery-timeline-card in-drawer">
+              <div class="deliv-line">
+                <span class="deliv-line-left"><span class="deliv-dot"></span>Within Lagos</span>
+                <span class="deliv-line-val">Same or next business day</span>
+              </div>
+              <div class="deliv-line">
+                <span class="deliv-line-left"><span class="deliv-dot deliv-dot-amber"></span>Outside Lagos</span>
+                <span class="deliv-line-val">1 – 5 business days</span>
+              </div>
+              <div class="deliv-discreet-footer">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <span>Ships discreetly in a plain courier bag</span>
+              </div>
+              <div class="deliv-color-note">
+                *Items may be sent in an alternate color if selected shade is unavailable.
+              </div>
+            </div>
+          </div>
 
           <button id="btn-checkout" class="btn btn-black btn-block btn-lg">
             Checkout
@@ -590,8 +626,14 @@
       <div class="qv-card">
         <button id="btn-close-modal" class="btn-close-modal" onclick="document.getElementById('quickview-modal').style.display='none'; document.getElementById('quickview-modal').setAttribute('hidden','');">✕</button>
         <div class="qv-inner">
-          <div class="qv-img-wrap">
-            <img id="qv-img" src="/assets/hero-device.jpg" alt="" class="qv-img" />
+          <div class="qv-gallery-col">
+            <div class="qv-img-wrap">
+              <img id="qv-img" src="/assets/hero-device.jpg" alt="" class="qv-img" />
+              <video id="qv-video" class="qv-video" playsinline controls loop muted preload="auto" style="display:none;">
+                <source id="qv-video-src" src="" type="video/mp4" />
+              </video>
+            </div>
+            <div id="qv-thumbs" class="qv-thumbs-row" hidden></div>
           </div>
           <div class="qv-details">
             <span class="qv-badge" id="qv-badge">FLAGSHIP</span>
@@ -603,6 +645,23 @@
               <div class="spec-row"><span>Sound Level</span><span id="qv-acoustics">&lt; 28dB</span></div>
               <div class="spec-row"><span>Waterproof</span><span>IPX8 — Fully Submersible</span></div>
               <div class="spec-row"><span>Battery</span><span>Magnetic USB, 120min runtime</span></div>
+            </div>
+            <div class="delivery-timeline-card in-quickview">
+              <div class="deliv-line">
+                <span class="deliv-line-left"><span class="deliv-dot"></span>Within Lagos</span>
+                <span class="deliv-line-val">Same or next business day</span>
+              </div>
+              <div class="deliv-line">
+                <span class="deliv-line-left"><span class="deliv-dot deliv-dot-amber"></span>Outside Lagos</span>
+                <span class="deliv-line-val">1 – 5 business days</span>
+              </div>
+              <div class="deliv-discreet-footer">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <span>Ships discreetly in a plain courier bag</span>
+              </div>
+              <div class="deliv-color-note">
+                *Items may be sent in an alternate color if selected shade is unavailable.
+              </div>
             </div>
             <div class="qv-actions">
               <button id="qv-btn-add" class="btn btn-black btn-lg">Add to Bag</button>
@@ -631,6 +690,23 @@
             <div class="form-row-2">
               <input type="text" placeholder="City" required class="input-field" value="Ikoyi, Lagos" />
               <input type="text" placeholder="Phone" required class="input-field" value="+234 800 000 0000" />
+            </div>
+          </div>
+          <div class="delivery-timeline-card in-checkout">
+            <div class="deliv-line">
+              <span class="deliv-line-left"><span class="deliv-dot"></span>Within Lagos</span>
+              <span class="deliv-line-val">Same or next business day</span>
+            </div>
+            <div class="deliv-line">
+              <span class="deliv-line-left"><span class="deliv-dot deliv-dot-amber"></span>Outside Lagos</span>
+              <span class="deliv-line-val">1 – 5 business days</span>
+            </div>
+            <div class="deliv-discreet-footer">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <span>Ships discreetly in a plain courier bag</span>
+            </div>
+            <div class="deliv-color-note">
+              *Items may be sent in an alternate color if selected shade is unavailable.
             </div>
           </div>
           <div class="co-section">

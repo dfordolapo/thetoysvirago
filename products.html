@@ -132,11 +132,15 @@
           <img src="/assets/logo.jpg" alt="The Toys Virago" class="brand-logo-img" />
         </a>
 
+        <!-- Desktop Navigation Links with Active States -->
+        <nav class="desktop-nav-links" aria-label="Main Navigation">
+          <a href="/" class="nav-menu-link">Home</a>
+          <a href="/products.html" class="nav-menu-link active">Shop</a>
+          <a href="/#discretion" class="nav-menu-link">Privacy</a>
+          <a href="/#faq" class="nav-menu-link">FAQ</a>
+        </nav>
+
         <div class="header-actions">
-          <button id="btn-desktop-install" class="desktop-install-pill desktop-only" hidden title="Install Desktop App">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            <span>Install App</span>
-          </button>
           <button id="btn-stealth-nav" class="stealth-pill" title="Stealth mode (Esc)">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             <span class="desktop-only">Stealth <kbd>Esc</kbd></span>
@@ -149,14 +153,16 @@
       
       <!-- Dropdown Menu -->
       <div id="nav-dropdown" class="nav-dropdown" hidden>
-        <a href="#collection" class="dropdown-link nav-closer">Shop</a>
-        <a href="#discretion" class="dropdown-link nav-closer">Privacy</a>
-        <a href="#faq" class="dropdown-link nav-closer">FAQ</a>
+        <a href="/" class="dropdown-link nav-closer">Home</a>
+        <a href="/products.html" class="dropdown-link nav-closer active">Shop</a>
+        <a href="/#faq" class="dropdown-link nav-closer">FAQ</a>
         <button id="btn-cart-dropdown" class="dropdown-link btn-cart-dropdown nav-closer">
-          Bag (<span id="cart-counter">0</span>)
+          <span>Bag</span>
+          <span class="nav-bag-count" id="cart-counter">0</span>
         </button>
-        <button class="dropdown-link btn-install-trigger nav-closer" style="text-align: left; background: none; border: none; font-size: inherit; font-family: inherit; cursor: pointer; color: inherit; padding: 12px 0;">
-          📲 Install App
+        <button id="btn-install-dropdown" class="dropdown-link btn-install-trigger nav-closer">
+          <span>Install App</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         </button>
       </div>
     </header>
@@ -165,123 +171,208 @@
     
 
     <!-- ===== COLLECTION ===== -->
-    <section class="collection" id="collection">
+    <section class="collection collection-page-white" id="collection">
       <div class="section-inner">
-        <div class="collection-header" style="padding-top:60px;">
-          <h2 class="sh2">Full Collection</h2>
-          <div class="filter-row" id="filter-row">
-            <button class="filter-btn active" data-filter="all">All (12)</button>
-            <button class="filter-btn" data-filter="toys">Toys &amp; Devices</button>
-            <button class="filter-btn" data-filter="lingerie">Luxe Lingerie</button>
-            <button class="filter-btn" data-filter="lubes">Lubes &amp; Elixirs</button>
-            <button class="filter-btn" data-filter="bdsm">BDSM &amp; Kits</button>
+        <div class="collection-header">
+          <div class="collection-header-top">
+            <div>
+              <h2 class="sh2">Shop</h2>
+            </div>
+            <!-- Live Product Search -->
+            <div class="collection-search-wrap">
+              <span class="collection-search-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              </span>
+              <input type="text" id="product-search-input" class="collection-search-input" placeholder="Search by name, mood, or feature..." aria-label="Search products" autocomplete="off" />
+              <button id="product-search-clear" class="collection-search-clear" aria-label="Clear search">✕</button>
+            </div>
           </div>
+          
+          <div class="filter-row" id="filter-row">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="toys">Toys</button>
+            <button class="filter-btn" data-filter="lingerie">Lingerie</button>
+            <button class="filter-btn" data-filter="lubes">Lubes</button>
+            <button class="filter-btn" data-filter="bdsm">BDSM</button>
+          </div>
+        </div>
+
+        <div class="search-meta-row" id="search-meta-row">
+          <span id="search-count">Showing 14 products</span>
+        </div>
+
+        <!-- No Results Fallback -->
+        <div id="search-no-results" class="search-no-results" hidden>
+          <h3>No desires found</h3>
+          <p>We couldn't find anything matching "<strong id="no-results-query"></strong>". Try searching for 'rose', 'wand', 'app', 'lube', or reset filters.</p>
+          <button id="btn-reset-search" class="btn btn-black btn-md">Clear Search</button>
         </div>
 
         <div class="products-grid" id="products-grid">
 
-          <!-- 1. TOYS: Obsidian Arc -->
-          <article class="product-card" data-category="toys" data-id="obsidian-arc">
-            <div class="product-img-wrap">
-              <span class="product-badge">BESTSELLER</span>
-              <img src="/assets/hero-device.jpg" alt="The Obsidian Arc" class="product-img" loading="lazy" decoding="async" />
-              <div class="product-overlay">
-                <button class="btn-quick-view" data-product="obsidian-arc">Quick Look</button>
-              </div>
-            </div>
-            <div class="product-body">
-              <div class="product-top">
-                <span class="product-sku">NOIR · 01</span>
-                <span class="product-price">₦148,000</span>
-              </div>
-              <h3 class="product-name">The Obsidian Arc</h3>
-              <p class="product-line">Whisper-quiet. Feels like a secret.</p>
-              <div class="product-pills">
-                <span>Dual Motor</span><span>&lt;28dB</span><span>Waterproof</span>
-              </div>
-              <div class="color-row">
-                <button class="color-dot active" style="background:#0c0c0e;" data-color="Obsidian Noir"></button>
-                <button class="color-dot" style="background:#9f1239;" data-color="Crimson Lacquer"></button>
-                <button class="color-dot" style="background:#f0f0f0;border:1px solid #ccc;" data-color="Alabaster Pearl"></button>
-                <span class="color-name">Obsidian Noir</span>
-              </div>
-              <button class="btn btn-black btn-block btn-add-cart"
-                data-id="obsidian-arc" data-title="The Obsidian Arc"
-                data-price="148000" data-img="/assets/hero-device.jpg">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
-              </button>
-            </div>
-          </article>
 
-          <!-- 2. TOYS: Velvet Rose -->
-          <article class="product-card" data-category="toys" data-id="rose-blossom">
+          <!-- 1. TOYS: Rose Sucker -->
+          <article class="product-card" data-category="toys" data-id="rose-blossom" data-keywords="rose sucker suction air pulse vibrator oral clit clitoral vibe sex toy">
             <div class="product-img-wrap">
-              <span class="product-badge ruby-badge">HOT PICK</span>
-              <img src="/assets/product-rose.jpg" alt="Velvet Rose" class="product-img" loading="lazy" decoding="async" />
+              <span class="product-badge ruby-badge">BESTSELLER · 🎬 VIDEO</span>
+              <img src="/assets/product-rose.jpg" alt="The Rose Sucker" class="product-img" loading="lazy" decoding="async" />
               <div class="product-overlay">
                 <button class="btn-quick-view" data-product="rose-blossom">Quick Look</button>
               </div>
             </div>
             <div class="product-body">
               <div class="product-top">
-                <span class="product-sku">FLORE · 02</span>
-                <span class="product-price">₦116,000</span>
+                <span class="product-sku">FLORE · 01</span>
+                <span class="product-price">₦25,000</span>
               </div>
-              <h3 class="product-name">Velvet Rose</h3>
+              <h3 class="product-name">The Rose Sucker</h3>
               <p class="product-line">No hands needed. You're welcome.</p>
-              <div class="product-pills">
-                <span>Touchless</span><span>8 Speeds</span><span>Waterproof</span>
-              </div>
               <div class="color-row">
-                <button class="color-dot active" style="background:#0c0c0e;" data-color="Noir & Ruby"></button>
-                <button class="color-dot" style="background:#881337;" data-color="Midnight Burgundy"></button>
-                <span class="color-name">Noir & Ruby</span>
+                <button class="color-dot active" style="background:#9f1239;" data-color="Red"></button>
+                <button class="color-dot" style="background:#0c0c0e;" data-color="Black"></button>
+                <button class="color-dot" style="background:#f472b6;" data-color="Pink"></button>
+                <button class="color-dot" style="background:#7c3aed;" data-color="Purple"></button>
+                <button class="color-dot" style="background:#facc15;" data-color="Yellow"></button>
+                <button class="color-dot" style="background:#4ade80;" data-color="Green"></button>
+                <span class="color-name">Red</span>
               </div>
               <button class="btn btn-black btn-block btn-add-cart"
-                data-id="rose-blossom" data-title="Velvet Rose"
-                data-price="116000" data-img="/assets/product-rose.jpg">
+                data-id="rose-blossom" data-title="The Rose Sucker"
+                data-price="25000" data-img="/assets/product-rose.jpg">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
                 Add to Bag
               </button>
             </div>
           </article>
 
-          <!-- 3. TOYS: The Sceptre -->
-          <article class="product-card" data-category="toys" data-id="sceptre-wand">
+          <!-- 2. TOYS: The Mini Wand -->
+          <article class="product-card" data-category="toys" data-id="sceptre-wand" data-keywords="mini wand magic wand massager pocket vibrator rumble vibe sex toy">
             <div class="product-img-wrap">
-              <span class="product-badge">HEAVY HITTER</span>
-              <img src="/assets/product-wand.jpg" alt="The Sceptre Wand" class="product-img" loading="lazy" decoding="async" />
+              <span class="product-badge ruby-badge">POPULAR · 🎬 VIDEO</span>
+              <img src="/assets/product-wand.jpg" alt="The Mini Wand" class="product-img" loading="lazy" decoding="async" />
               <div class="product-overlay">
                 <button class="btn-quick-view" data-product="sceptre-wand">Quick Look</button>
               </div>
             </div>
             <div class="product-body">
               <div class="product-top">
-                <span class="product-sku">GRAND · 03</span>
-                <span class="product-price">₦156,000</span>
+                <span class="product-sku">WAND · 02</span>
+                <span class="product-price">₦15,000</span>
               </div>
-              <h3 class="product-name">The Sceptre</h3>
-              <p class="product-line">Deep rumble. Big energy. No apologies.</p>
-              <div class="product-pills">
-                <span>Deep Wave</span><span>Brushless</span><span>Flex Neck</span>
-              </div>
+              <h3 class="product-name">The Mini Wand</h3>
+              <p class="product-line">Small enough for your bag. Powerful enough to ruin your plans.</p>
               <div class="color-row">
-                <button class="color-dot active" style="background:#0c0c0e;" data-color="Matte Noir"></button>
-                <button class="color-dot" style="background:#be123c;" data-color="Ruby Chrome"></button>
-                <span class="color-name">Matte Noir</span>
+                <button class="color-dot active" style="background:#0c0c0e;" data-color="Black"></button>
+                <button class="color-dot" style="background:#ec4899;" data-color="Pink"></button>
+                <button class="color-dot" style="background:#8b5cf6;" data-color="Purple"></button>
+                <button class="color-dot" style="background:#22c55e;" data-color="Green"></button>
+                <span class="color-name">Black</span>
               </div>
               <button class="btn btn-black btn-block btn-add-cart"
-                data-id="sceptre-wand" data-title="The Sceptre"
-                data-price="156000" data-img="/assets/product-wand.jpg">
+                data-id="sceptre-wand" data-title="The Mini Wand"
+                data-price="15000" data-img="/assets/product-wand.jpg">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
                 Add to Bag
               </button>
             </div>
           </article>
 
-          <!-- 4. LINGERIE: Midnight Silk Slip -->
-          <article class="product-card" data-category="lingerie" data-id="midnight-silk-slip">
+          <!-- 3. TOYS: Siren App-Controlled -->
+          <article class="product-card" data-category="toys" data-id="siren-app" data-keywords="siren flamingo app controlled wearable long distance vibrator remote bluetooth vibe sex toy">
+            <div class="product-img-wrap">
+              <span class="product-badge ruby-badge">APP CONNECT · 🎬 VIDEO</span>
+              <img src="/assets/siren-app.jpg" alt="Siren App-Controlled" class="product-img" loading="lazy" decoding="async" />
+              <div class="product-overlay">
+                <button class="btn-quick-view" data-product="siren-app">Quick Look</button>
+              </div>
+            </div>
+            <div class="product-body">
+              <div class="product-top">
+                <span class="product-sku">CONNECT · 03</span>
+                <span class="product-price">₦27,000</span>
+              </div>
+              <h3 class="product-name">Siren App-Controlled</h3>
+              <p class="product-line">Across the room or across the globe. Hand over control.</p>
+              <div class="color-row">
+                <button class="color-dot active" style="background:#9f1239;" data-color="Red"></button>
+                <button class="color-dot" style="background:#ffffff;border:1px solid #cbd5e1;" data-color="White"></button>
+                <span class="color-name">Red</span>
+              </div>
+              <button class="btn btn-black btn-block btn-add-cart"
+                data-id="siren-app" data-title="Siren App-Controlled"
+                data-price="27000" data-img="/assets/siren-app.jpg">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                Add to Bag
+              </button>
+            </div>
+          </article>
+
+          <!-- 4. TOYS: The Lipstick Vibrator -->
+          <article class="product-card" data-category="toys" data-id="lipstick-vibe" data-keywords="lipstick vibrator bullet vibe discreet stealth hidden pocket secret travel sex toy">
+            <div class="product-img-wrap">
+              <span class="product-badge ruby-badge">STEALTH LUXE · 🎬 VIDEO</span>
+              <img src="/assets/lipstick-vibe.jpg" alt="The Lipstick Vibrator" class="product-img" loading="lazy" decoding="async" />
+              <div class="product-overlay">
+                <button class="btn-quick-view" data-product="lipstick-vibe">Quick Look</button>
+              </div>
+            </div>
+            <div class="product-body">
+              <div class="product-top">
+                <span class="product-sku">STEALTH · 04</span>
+                <span class="product-price">₦22,000</span>
+              </div>
+              <h3 class="product-name">The Lipstick Vibrator</h3>
+              <p class="product-line">Embarrassment-proof disguise. Fits right beside your gloss.</p>
+              <div class="color-row">
+                <button class="color-dot active" style="background:#ffffff;border:1px solid #cbd5e1;" data-color="White"></button>
+                <span class="color-name">White</span>
+              </div>
+              <button class="btn btn-black btn-block btn-add-cart"
+                data-id="lipstick-vibe" data-title="The Lipstick Vibrator"
+                data-price="22000" data-img="/assets/lipstick-vibe.jpg">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                Add to Bag
+              </button>
+            </div>
+          </article>
+
+          <!-- 5. TOYS: The Contour Shaft -->
+          <article class="product-card" data-category="toys" data-id="sculpted-dildo" data-keywords="dildo dildos contour shaft silicone suction base realistic sculpted toy sex toy">
+            <div class="product-img-wrap">
+              <span class="product-badge ruby-badge">DUAL SIZE · 3 SHADES</span>
+              <img src="/assets/dildo-trio.jpg" alt="The Contour Shaft" class="product-img" loading="lazy" decoding="async" />
+              <div class="product-overlay">
+                <button class="btn-quick-view" data-product="sculpted-dildo">Quick Look</button>
+              </div>
+            </div>
+            <div class="product-body">
+              <div class="product-top">
+                <span class="product-sku">SCULPT · 05</span>
+                <span class="product-price">₦15,000</span>
+              </div>
+              <h3 class="product-name">The Contour Shaft</h3>
+              <p class="product-line">Lifelike contour with hands-free suction lock base.</p>
+              <div class="color-row" style="margin-bottom: 8px;">
+                <button class="size-pill active" data-size="6&quot;" data-price="15000" data-pricestr="₦15,000">6&quot; (₦15,000)</button>
+                <button class="size-pill" data-size="7&quot;" data-price="17000" data-pricestr="₦17,000">7&quot; (₦17,000)</button>
+              </div>
+              <div class="color-row">
+                <button class="color-dot active" style="background:#f5c6aa;" data-color="Tan"></button>
+                <button class="color-dot" style="background:#854d27;" data-color="Brown"></button>
+                <button class="color-dot" style="background:#1c1917;" data-color="Black"></button>
+                <span class="color-name">Tan</span>
+              </div>
+              <button class="btn btn-black btn-block btn-add-cart"
+                data-id="sculpted-dildo" data-title="The Contour Shaft (6&quot;)"
+                data-price="15000" data-img="/assets/dildo-trio.jpg">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                Add to Bag
+              </button>
+            </div>
+          </article>
+
+          <!-- 6. LINGERIE: Midnight Silk Slip -->
+          <article class="product-card" data-category="lingerie" data-id="midnight-silk-slip" data-keywords="lingerie silk slip dress nightdress nightie sleepwear chemise">
             <div class="product-img-wrap">
               <span class="product-badge ruby-badge">NEW DROP</span>
               <img src="/assets/category-lingerie.jpg" alt="Midnight Mulberry Silk Slip" class="product-img" loading="lazy" decoding="async" />
@@ -291,18 +382,15 @@
             </div>
             <div class="product-body">
               <div class="product-top">
-                <span class="product-sku">SOIE · 04</span>
+                <span class="product-sku">SOIE · 06</span>
                 <span class="product-price">₦88,000</span>
               </div>
               <h3 class="product-name">Midnight Silk Slip</h3>
               <p class="product-line">Pure 22-momme silk. Slips off like liquid.</p>
-              <div class="product-pills">
-                <span>100% Silk</span><span>French Lace</span><span>Bias Cut</span>
-              </div>
               <div class="color-row">
-                <button class="color-dot active" style="background:#0c0c0e;" data-color="Noir Silk"></button>
-                <button class="color-dot" style="background:#881337;" data-color="Bordeaux"></button>
-                <span class="color-name">Noir Silk</span>
+                <button class="color-dot active" style="background:#0c0c0e;" data-color="Black"></button>
+                <button class="color-dot" style="background:#881337;" data-color="Wine"></button>
+                <span class="color-name">Black</span>
               </div>
               <button class="btn btn-black btn-block btn-add-cart"
                 data-id="midnight-silk-slip" data-title="Midnight Mulberry Silk Slip"
@@ -313,8 +401,8 @@
             </div>
           </article>
 
-          <!-- 5. LINGERIE: Noir Lace Bodysuit -->
-          <article class="product-card" data-category="lingerie" data-id="lace-noir-bodysuit">
+          <!-- 7. LINGERIE: Noir Lace Bodysuit -->
+          <article class="product-card" data-category="lingerie" data-id="lace-noir-bodysuit" data-keywords="lingerie lace bodysuit teddy one piece lingerie atelier undergarment">
             <div class="product-img-wrap">
               <span class="product-badge">ATELIER</span>
               <img src="/assets/category-lingerie.jpg" alt="Noir Floral Lace Bodysuit" class="product-img" loading="lazy" decoding="async" />
@@ -324,19 +412,17 @@
             </div>
             <div class="product-body">
               <div class="product-top">
-                <span class="product-sku">DENT · 05</span>
+                <span class="product-sku">DENT · 07</span>
                 <span class="product-price">₦74,000</span>
               </div>
               <h3 class="product-name">Noir Lace Bodysuit</h3>
               <p class="product-line">Sheer eyelash lace with architectural contour.</p>
-              <div class="product-pills">
-                <span>Sheer Lace</span><span>Contour Fit</span><span>Quick-Clasp</span>
-              </div>
               <div class="color-row">
-                <button class="size-pill active">S</button>
-                <button class="size-pill">M</button>
-                <button class="size-pill">L</button>
-                <button class="size-pill">XL</button>
+                <button class="size-pill active" data-size="S">S</button>
+                <button class="size-pill" data-size="M">M</button>
+                <button class="size-pill" data-size="L">L</button>
+                <button class="size-pill" data-size="XL">XL</button>
+                <span class="color-name">Size: S</span>
               </div>
               <button class="btn btn-black btn-block btn-add-cart"
                 data-id="lace-noir-bodysuit" data-title="Noir Floral Lace Bodysuit"
@@ -347,8 +433,8 @@
             </div>
           </article>
 
-          <!-- 6. LINGERIE: Obsidian Kimono Robe -->
-          <article class="product-card" data-category="lingerie" data-id="satin-kimono-robe">
+          <!-- 8. LINGERIE: Obsidian Kimono Robe -->
+          <article class="product-card" data-category="lingerie" data-id="satin-kimono-robe" data-keywords="lingerie kimono robe silk loungewear dressing gown nightgown">
             <div class="product-img-wrap">
               <span class="product-badge">ESSENTIAL</span>
               <img src="/assets/category-lingerie.jpg" alt="Obsidian Silk Kimono Robe" class="product-img" loading="lazy" decoding="async" />
@@ -358,18 +444,15 @@
             </div>
             <div class="product-body">
               <div class="product-top">
-                <span class="product-sku">ROBE · 06</span>
+                <span class="product-sku">ROBE · 08</span>
                 <span class="product-price">₦96,000</span>
               </div>
               <h3 class="product-name">Obsidian Kimono Robe</h3>
               <p class="product-line">Weightless drape. Post-pleasure perfection.</p>
-              <div class="product-pills">
-                <span>Pure Silk</span><span>Velvet Tie</span><span>Floor Length</span>
-              </div>
               <div class="color-row">
-                <button class="color-dot active" style="background:#0c0c0e;" data-color="Obsidian"></button>
-                <button class="color-dot" style="background:#be123c;" data-color="Ruby Wine"></button>
-                <span class="color-name">Obsidian</span>
+                <button class="color-dot active" style="background:#0c0c0e;" data-color="Black"></button>
+                <button class="color-dot" style="background:#be123c;" data-color="Wine"></button>
+                <span class="color-name">Black</span>
               </div>
               <button class="btn btn-black btn-block btn-add-cart"
                 data-id="satin-kimono-robe" data-title="Obsidian Silk Kimono Robe"
@@ -380,8 +463,8 @@
             </div>
           </article>
 
-          <!-- 7. LUBES: Aura Elixir -->
-          <article class="product-card" data-category="lubes" data-id="aura-elixir">
+          <!-- 9. LUBES: Aura Botanical Elixir -->
+          <article class="product-card" data-category="lubes" data-id="aura-elixir" data-keywords="lube lubricant serum oil damiana organic natural moisture wellness">
             <div class="product-img-wrap">
               <span class="product-badge">LIQUID GOLD</span>
               <img src="/assets/product-serum.jpg" alt="Aura Elixir" class="product-img" loading="lazy" decoding="async" />
@@ -391,17 +474,15 @@
             </div>
             <div class="product-body">
               <div class="product-top">
-                <span class="product-sku">APOTH · 07</span>
+                <span class="product-sku">APOTH · 09</span>
                 <span class="product-price">₦52,000</span>
               </div>
               <h3 class="product-name">Aura Botanical Elixir</h3>
               <p class="product-line">Botanical. Silky. Sets the whole mood.</p>
-              <div class="product-pills">
-                <span>pH Balanced</span><span>100% Organic</span><span>Toy Safe</span>
-              </div>
               <div class="color-row">
-                <button class="size-pill active">30ml</button>
-                <button class="size-pill">60ml</button>
+                <button class="size-pill active" data-size="30ml">30ml</button>
+                <button class="size-pill" data-size="60ml">60ml</button>
+                <span class="color-name">30ml</span>
               </div>
               <button class="btn btn-black btn-block btn-add-cart"
                 data-id="aura-elixir" data-title="Aura Botanical Elixir"
@@ -412,8 +493,8 @@
             </div>
           </article>
 
-          <!-- 8. LUBES: Velvet Water-Hybrid Glide -->
-          <article class="product-card" data-category="lubes" data-id="velvet-glide-serum">
+          <!-- 10. LUBES: Velvet Water-Hybrid Glide -->
+          <article class="product-card" data-category="lubes" data-id="velvet-glide-serum" data-keywords="lube lubricant water glide hybrid aloe moisture wellness zero stick">
             <div class="product-img-wrap">
               <span class="product-badge ruby-badge">NO-STICK</span>
               <img src="/assets/product-serum.jpg" alt="Velvet Water-Hybrid Glide" class="product-img" loading="lazy" decoding="async" />
@@ -423,17 +504,15 @@
             </div>
             <div class="product-body">
               <div class="product-top">
-                <span class="product-sku">GLIDE · 08</span>
+                <span class="product-sku">GLIDE · 10</span>
                 <span class="product-price">₦38,000</span>
               </div>
               <h3 class="product-name">Velvet Water Glide</h3>
               <p class="product-line">Silicone longevity with effortless water rinse.</p>
-              <div class="product-pills">
-                <span>Aloe Vera</span><span>Zero Residue</span><span>100ml</span>
-              </div>
               <div class="color-row">
-                <button class="size-pill active">100ml</button>
-                <button class="size-pill">200ml</button>
+                <button class="size-pill active" data-size="100ml">100ml</button>
+                <button class="size-pill" data-size="200ml">200ml</button>
+                <span class="color-name">100ml</span>
               </div>
               <button class="btn btn-black btn-block btn-add-cart"
                 data-id="velvet-glide-serum" data-title="Velvet Water-Hybrid Glide"
@@ -444,8 +523,8 @@
             </div>
           </article>
 
-          <!-- 9. LUBES: Sensory Warming Oil -->
-          <article class="product-card" data-category="lubes" data-id="sensory-warming-oil">
+          <!-- 11. LUBES: Sensory Warming Oil -->
+          <article class="product-card" data-category="lubes" data-id="sensory-warming-oil" data-keywords="lube warming oil massage oil edible elixir wellness ginger thermal">
             <div class="product-img-wrap">
               <span class="product-badge">THERMAL</span>
               <img src="/assets/product-serum.jpg" alt="Sensory Warming Elixir" class="product-img" loading="lazy" decoding="async" />
@@ -455,16 +534,14 @@
             </div>
             <div class="product-body">
               <div class="product-top">
-                <span class="product-sku">WARM · 09</span>
+                <span class="product-sku">WARM · 11</span>
                 <span class="product-price">₦46,000</span>
               </div>
               <h3 class="product-name">Sensory Warming Oil</h3>
               <p class="product-line">Gently warms upon breath. Heightens every touch.</p>
-              <div class="product-pills">
-                <span>Ginger & Jojoba</span><span>Edible</span><span>Warming</span>
-              </div>
               <div class="color-row">
-                <button class="size-pill active">50ml</button>
+                <button class="size-pill active" data-size="50ml">50ml</button>
+                <span class="color-name">50ml</span>
               </div>
               <button class="btn btn-black btn-block btn-add-cart"
                 data-id="sensory-warming-oil" data-title="Sensory Botanical Warming Elixir"
@@ -475,8 +552,8 @@
             </div>
           </article>
 
-          <!-- 10. BDSM: Crimson Velvet Restraints -->
-          <article class="product-card" data-category="bdsm" data-id="velvet-restraint-kit">
+          <!-- 12. BDSM: Crimson Velvet Restraints -->
+          <article class="product-card" data-category="bdsm" data-id="velvet-restraint-kit" data-keywords="bdsm cuffs restraints handcuffs bondage velvet collar fetish">
             <div class="product-img-wrap">
               <span class="product-badge ruby-badge">CURATED</span>
               <img src="/assets/category-bdsm.jpg" alt="Crimson Velvet Restraint Kit" class="product-img" loading="lazy" decoding="async" />
@@ -486,18 +563,15 @@
             </div>
             <div class="product-body">
               <div class="product-top">
-                <span class="product-sku">BOND · 10</span>
+                <span class="product-sku">BOND · 12</span>
                 <span class="product-price">₦68,000</span>
               </div>
               <h3 class="product-name">Crimson Velvet Cuffs</h3>
               <p class="product-line">Memory foam padding. Safe quick-release swivels.</p>
-              <div class="product-pills">
-                <span>Padded Velvet</span><span>Quick-Release</span><span>Gold Plated</span>
-              </div>
               <div class="color-row">
-                <button class="color-dot active" style="background:#881337;" data-color="Crimson Velvet"></button>
-                <button class="color-dot" style="background:#0c0c0e;" data-color="Noir Velvet"></button>
-                <span class="color-name">Crimson Velvet</span>
+                <button class="color-dot active" style="background:#881337;" data-color="Red"></button>
+                <button class="color-dot" style="background:#0c0c0e;" data-color="Black"></button>
+                <span class="color-name">Red</span>
               </div>
               <button class="btn btn-black btn-block btn-add-cart"
                 data-id="velvet-restraint-kit" data-title="Crimson Velvet Cuffs & Collar"
@@ -508,8 +582,8 @@
             </div>
           </article>
 
-          <!-- 11. BDSM: Silk Mask & Feather Plume -->
-          <article class="product-card" data-category="bdsm" data-id="sensory-blindfold-whip">
+          <!-- 13. BDSM: Silk Mask & Feather Kit -->
+          <article class="product-card" data-category="bdsm" data-id="sensory-blindfold-whip" data-keywords="bdsm blindfold silk mask feather tickler teaser sensory deprivation bondage">
             <div class="product-img-wrap">
               <span class="product-badge">SENSORY</span>
               <img src="/assets/category-bdsm.jpg" alt="Silk Blackout Mask & Feather Tickler" class="product-img" loading="lazy" decoding="async" />
@@ -519,17 +593,14 @@
             </div>
             <div class="product-body">
               <div class="product-top">
-                <span class="product-sku">TEASE · 11</span>
+                <span class="product-sku">TEASE · 13</span>
                 <span class="product-price">₦42,000</span>
               </div>
               <h3 class="product-name">Silk Mask & Feather Kit</h3>
               <p class="product-line">Complete blackout deprivation + goosebump teaser.</p>
-              <div class="product-pills">
-                <span>Blackout Silk</span><span>Ostrich Plume</span><span>Elastic Fit</span>
-              </div>
               <div class="color-row">
-                <button class="color-dot active" style="background:#0c0c0e;" data-color="Noir & Ruby"></button>
-                <span class="color-name">Noir & Ruby</span>
+                <button class="color-dot active" style="background:#0c0c0e;" data-color="Black"></button>
+                <span class="color-name">Black</span>
               </div>
               <button class="btn btn-black btn-block btn-add-cart"
                 data-id="sensory-blindfold-whip" data-title="Silk Blackout Mask & Feather Tickler"
@@ -540,8 +611,8 @@
             </div>
           </article>
 
-          <!-- 12. BDSM: Sovereign Sensory Suite -->
-          <article class="product-card" data-category="bdsm" data-id="sensory-bundle-deluxe">
+          <!-- 14. BDSM: Sovereign Sensory Suite -->
+          <article class="product-card" data-category="bdsm" data-id="sensory-bundle-deluxe" data-keywords="bdsm bondage kit sensory suite bundle 5 piece cuffs restraints fetish">
             <div class="product-img-wrap">
               <span class="product-badge ruby-badge">COLLECTOR</span>
               <img src="/assets/category-bdsm.jpg" alt="The Sovereign Sensory Suite" class="product-img" loading="lazy" decoding="async" />
@@ -551,17 +622,14 @@
             </div>
             <div class="product-body">
               <div class="product-top">
-                <span class="product-sku">SUITE · 12</span>
+                <span class="product-sku">SUITE · 14</span>
                 <span class="product-price">₦125,000</span>
               </div>
               <h3 class="product-name">Sovereign Sensory Suite</h3>
               <p class="product-line">The ultimate 5-piece archive in a lockable case.</p>
-              <div class="product-pills">
-                <span>5-Piece Set</span><span>Lockable Pouch</span><span>Complete Play</span>
-              </div>
               <div class="color-row">
-                <button class="color-dot active" style="background:#881337;" data-color="Velvet Crimson"></button>
-                <span class="color-name">Velvet Crimson</span>
+                <button class="color-dot active" style="background:#881337;" data-color="Red"></button>
+                <span class="color-name">Red</span>
               </div>
               <button class="btn btn-black btn-block btn-add-cart"
                 data-id="sensory-bundle-deluxe" data-title="The Sovereign Sensory Suite"
@@ -669,14 +737,44 @@
           </div>
           <div id="promo-feedback" class="promo-msg" hidden></div>
 
-          <div class="cart-lines">
-            <div class="cart-line"><span>Subtotal</span><span id="cart-subtotal">₦0</span></div>
-            <div class="cart-line" id="cart-discount-row" hidden><span>Discount (15%)</span><span id="cart-discount" class="green-txt">-₦0</span></div>
-            <div class="cart-line"><span>Delivery</span><span id="cart-shipping" class="green-txt">Free</span></div>
-            <div class="cart-line total-line"><span>Total</span><span id="cart-total" class="ruby-txt">₦0</span></div>
-          </div>
+          <!-- Collapsible Subtotal & Delivery Details -->
+          <button type="button" id="btn-toggle-cart-details" class="cart-collapse-toggle" aria-expanded="false" aria-controls="cart-collapsible-details">
+            <div class="collapse-toggle-left">
+              <span class="collapse-toggle-title">Subtotal &amp; Delivery Details</span>
+              <span class="collapse-toggle-hint">Tap to view</span>
+            </div>
+            <div class="collapse-toggle-right">
+              <span class="collapse-total-peek" id="cart-total-peek">₦0</span>
+              <svg class="collapse-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </button>
 
-        <!-- Trust Badges removed -->
+          <div id="cart-collapsible-details" class="cart-collapsible-details">
+            <div class="cart-lines">
+              <div class="cart-line"><span>Subtotal</span><span id="cart-subtotal">₦0</span></div>
+              <div class="cart-line" id="cart-discount-row" hidden><span>Discount (15%)</span><span id="cart-discount" class="green-txt">-₦0</span></div>
+              <div class="cart-line"><span>Delivery</span><span id="cart-shipping" class="green-txt">Free</span></div>
+              <div class="cart-line total-line"><span>Total</span><span id="cart-total" class="ruby-txt">₦0</span></div>
+            </div>
+
+            <div class="delivery-timeline-card in-drawer">
+              <div class="deliv-line">
+                <span class="deliv-line-left"><span class="deliv-dot"></span>Within Lagos</span>
+                <span class="deliv-line-val">Same or next business day</span>
+              </div>
+              <div class="deliv-line">
+                <span class="deliv-line-left"><span class="deliv-dot deliv-dot-amber"></span>Outside Lagos</span>
+                <span class="deliv-line-val">1 – 5 business days</span>
+              </div>
+              <div class="deliv-discreet-footer">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <span>Ships discreetly in a plain courier bag</span>
+              </div>
+              <div class="deliv-color-note">
+                *Items may be sent in an alternate color if selected shade is unavailable.
+              </div>
+            </div>
+          </div>
 
           <button id="btn-checkout" class="btn btn-black btn-block btn-lg">
             Checkout
@@ -691,8 +789,14 @@
       <div class="qv-card">
         <button id="btn-close-modal" class="btn-close-modal" onclick="document.getElementById('quickview-modal').style.display='none'; document.getElementById('quickview-modal').setAttribute('hidden','');">✕</button>
         <div class="qv-inner">
-          <div class="qv-img-wrap">
-            <img id="qv-img" src="/assets/hero-device.jpg" alt="" class="qv-img" />
+          <div class="qv-gallery-col">
+            <div class="qv-img-wrap">
+              <img id="qv-img" src="/assets/hero-device.jpg" alt="" class="qv-img" />
+              <video id="qv-video" class="qv-video" playsinline controls loop muted preload="auto" style="display:none;">
+                <source id="qv-video-src" src="" type="video/mp4" />
+              </video>
+            </div>
+            <div id="qv-thumbs" class="qv-thumbs-row" hidden></div>
           </div>
           <div class="qv-details">
             <span class="qv-badge" id="qv-badge">FLAGSHIP</span>
@@ -704,6 +808,23 @@
               <div class="spec-row"><span>Sound Level</span><span id="qv-acoustics">&lt; 28dB</span></div>
               <div class="spec-row"><span>Waterproof</span><span>IPX8 — Fully Submersible</span></div>
               <div class="spec-row"><span>Battery</span><span>Magnetic USB, 120min runtime</span></div>
+            </div>
+            <div class="delivery-timeline-card in-quickview">
+              <div class="deliv-line">
+                <span class="deliv-line-left"><span class="deliv-dot"></span>Within Lagos</span>
+                <span class="deliv-line-val">Same or next business day</span>
+              </div>
+              <div class="deliv-line">
+                <span class="deliv-line-left"><span class="deliv-dot deliv-dot-amber"></span>Outside Lagos</span>
+                <span class="deliv-line-val">1 – 5 business days</span>
+              </div>
+              <div class="deliv-discreet-footer">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <span>Ships discreetly in a plain courier bag</span>
+              </div>
+              <div class="deliv-color-note">
+                *Items may be sent in an alternate color if selected shade is unavailable.
+              </div>
             </div>
             <div class="qv-actions">
               <button id="qv-btn-add" class="btn btn-black btn-lg">Add to Bag</button>
@@ -732,6 +853,23 @@
             <div class="form-row-2">
               <input type="text" placeholder="City" required class="input-field" value="Ikoyi, Lagos" />
               <input type="text" placeholder="Phone" required class="input-field" value="+234 800 000 0000" />
+            </div>
+          </div>
+          <div class="delivery-timeline-card in-checkout">
+            <div class="deliv-line">
+              <span class="deliv-line-left"><span class="deliv-dot"></span>Within Lagos</span>
+              <span class="deliv-line-val">Same or next business day</span>
+            </div>
+            <div class="deliv-line">
+              <span class="deliv-line-left"><span class="deliv-dot deliv-dot-amber"></span>Outside Lagos</span>
+              <span class="deliv-line-val">1 – 5 business days</span>
+            </div>
+            <div class="deliv-discreet-footer">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <span>Ships discreetly in a plain courier bag</span>
+            </div>
+            <div class="deliv-color-note">
+              *Items may be sent in an alternate color if selected shade is unavailable.
             </div>
           </div>
           <div class="co-section">
