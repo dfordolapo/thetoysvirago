@@ -621,7 +621,7 @@ const PRODUCT_DATABASE = {
   'lace-noir-bodysuit': {
     id: 'lace-noir-bodysuit',
     title: 'Noir Floral Lace Bodysuit',
-    badge: 'SCULPTURAL • SHEER',
+    badge: 'DELICATE • SHEER',
     price: 74000,
     priceStr: '₦74,000',
     img: '/assets/category-lingerie.jpg',
