@@ -1808,10 +1808,11 @@ body.cart-open .main-header,
 /* ── THE CONFESSIONS CARDBOARD BOX SLIDESHOW (SCATTERED PILLS) ── */
 .toybox-section {
   padding: 48px 0 56px;
-  background: #000000 !important;
+  background: var(--ink) !important;
   border-top: none !important;
   border-bottom: none !important;
   position: relative;
+  overflow: hidden;
 }
 
 .toybox-header {
@@ -1867,7 +1868,7 @@ body.cart-open .main-header,
 .confessions-slider-viewport {
   width: 100%;
   min-height: 180px;
-  overflow: hidden;
+  overflow: visible;
   position: relative;
   pointer-events: auto;
 }
@@ -1876,7 +1877,7 @@ body.cart-open .main-header,
   display: flex;
   width: 100%;
   height: 100%;
-  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
 }
 
@@ -1890,6 +1891,13 @@ body.cart-open .main-header,
   align-items: center;
   justify-content: center;
   padding: 8px 4px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+.confession-slide.active {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 /* Scattered Pills Cluster */
@@ -2263,10 +2271,10 @@ body.cart-open .main-header,
 }
 
 
-/* ── BIG SQUIGGLY SECTION DIVIDERS (CONTRASTING RUBY WAVES) ── */
+/* ── SQUIGGLY SECTION DIVIDER (ON DARK SURFACES - ZERO GRADIENTS) ── */
 .luxe-divider-wrap {
   width: 100%;
-  height: 72px;
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2277,27 +2285,9 @@ body.cart-open .main-header,
   pointer-events: none;
   border: none !important;
   outline: none !important;
-  margin: -1px 0;
-}
-
-/* Background Gradients to Smooth Contrast between Sections */
-.luxe-divider-wrap.divider-white-to-dark {
-  background: linear-gradient(180deg, #ffffff 0%, #0a0b10 100%);
-}
-.luxe-divider-wrap.divider-dark-to-black {
-  background: linear-gradient(180deg, #0a0b10 0%, #000000 100%);
-}
-.luxe-divider-wrap.divider-black-to-white {
-  background: linear-gradient(180deg, #000000 0%, #ffffff 100%);
-}
-.luxe-divider-wrap.divider-dark-to-off {
-  background: linear-gradient(180deg, #0a0b10 0%, #f8f8fa 100%);
-}
-.luxe-divider-wrap.divider-white-to-black {
-  background: linear-gradient(180deg, #ffffff 0%, #000000 100%);
-}
-.luxe-divider-wrap.divider-black-to-off {
-  background: linear-gradient(180deg, #000000 0%, #f8f8fa 100%);
+  background: var(--ink) !important; /* Solid black, zero gradient */
+  margin-top: -1px;
+  margin-bottom: -1px;
 }
 
 .squiggly-svg {
@@ -2322,7 +2312,7 @@ body.cart-open .main-header,
 
 @media (max-width: 600px) {
   .luxe-divider-wrap {
-    height: 52px;
+    height: 48px;
   }
   .squiggly-main {
     stroke-width: 2.8px;
@@ -2330,4 +2320,128 @@ body.cart-open .main-header,
   .squiggly-echo {
     stroke-width: 1.5px;
   }
+}/* -- CONFESSIONS SMARTPHONE MOCKUP -- */
+.confessions-phone-section {
+  padding: 5rem 0;
+  position: relative;
+  z-index: 5;
+}
+
+.phone-mockup-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.phone-mockup {
+  width: 300px;
+  height: 600px;
+  background-color: #111;
+  border-radius: 40px;
+  border: 8px solid #333;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.phone-screen {
+  background-color: #08080c;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.phone-header {
+  background-color: rgba(20, 20, 20, 0.9);
+  padding: 1.5rem 1rem 1rem;
+  text-align: center;
+  border-bottom: 1px solid #333;
+  backdrop-filter: blur(10px);
+}
+
+.phone-contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.phone-contact .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--ruby-red);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.phone-contact span {
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.phone-chat-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.chat-bubble {
+  max-width: 80%;
+  padding: 0.75rem 1rem;
+  border-radius: 1.25rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  animation: popIn 0.5s ease-out backwards;
+}
+
+.chat-bubble.received {
+  align-self: flex-start;
+  background-color: #2a2a2a;
+  color: #f0f0f0;
+  border-bottom-left-radius: 0.25rem;
+}
+
+.chat-bubble.sent {
+  align-self: flex-end;
+  background-color: var(--ruby-red);
+  color: #fff;
+  border-bottom-right-radius: 0.25rem;
+}
+
+.chat-bubble:nth-child(1) { animation-delay: 0.2s; }
+.chat-bubble:nth-child(2) { animation-delay: 1.2s; }
+.chat-bubble:nth-child(3) { animation-delay: 2.2s; }
+.chat-bubble:nth-child(4) { animation-delay: 3.2s; }
+.chat-bubble:nth-child(5) { animation-delay: 4.2s; }
+
+@keyframes popIn {
+  from { opacity: 0; transform: translateY(10px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Pill Positions (Desktop) */
+.pill-pos-1 { position: absolute; top: 12%; left: -2%; transform: rotate(-4deg); z-index: 5; }
+.pill-pos-2 { position: absolute; top: 25%; right: -5%; transform: rotate(5deg); z-index: 5; }
+.pill-pos-3 { position: absolute; top: 48%; left: -8%; transform: rotate(2deg); z-index: 5; }
+.pill-pos-4 { position: absolute; top: 65%; right: -2%; transform: rotate(-3deg); z-index: 5; }
+.pill-pos-5 { position: absolute; top: 82%; left: 4%; transform: rotate(4deg); z-index: 5; }
+
+/* Mobile Pill Positions (Bring closer to center) */
+@media (max-width: 600px) {
+  .pill-pos-1 { left: 12%; right: auto; top: 12%; transform: rotate(-2deg) scale(0.9); }
+  .pill-pos-2 { right: 12%; left: auto; top: 28%; transform: rotate(3deg) scale(0.9); }
+  .pill-pos-3 { left: 8%; right: auto; top: 48%; transform: rotate(1deg) scale(0.9); }
+  .pill-pos-4 { right: 8%; left: auto; top: 68%; transform: rotate(-2deg) scale(0.9); }
+  .pill-pos-5 { left: 15%; right: auto; top: 84%; transform: rotate(2deg) scale(0.9); }
 }

@@ -4494,12 +4494,12 @@ function initConfessionsSlideshow() {
     });
   }
 
-  // Automatic looping interval (every 3.6s)
+  // Automatic looping interval (every 1.0s)
   function startLoop() {
     stopLoop();
     loopTimer = setInterval(() => {
       goToSlide(currentSlide + 1);
-    }, 3600);
+    }, 1000);
   }
 
   function stopLoop() {
