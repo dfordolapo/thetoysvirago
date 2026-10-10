@@ -377,8 +377,7 @@ body.cart-open .main-header,
 .float-div { width: 1px; height: 30px; background: var(--border); }
 
 /* ── COLLECTION SHOWCASE SLIDESHOW ────────────── */
-.collection { padding: 60px 0; background: var(--ink); color: var(--white); scroll-margin-top: 48px; border: none; }
-
+.collection { padding: 80px 0; background: var(--ink); color: var(--white); scroll-margin-top: 48px; }
 .collection-header {
   display: flex; align-items: center; justify-content: space-between;
   margin-bottom: 36px; gap: 20px; flex-wrap: wrap;
@@ -666,12 +665,12 @@ body.cart-open .main-header,
 #discretion {
   scroll-margin-top: 24px;
 }
-.discretion-strip { background: var(--white); padding: 60px 0; color: var(--ink); border: none; }
-
+.discretion-strip {
+  background: var(--white); padding: 80px 0; color: var(--ink);
+  border-top: none; border-bottom: none;
+}
 .discretion-inner {
   display: grid; grid-template-columns: 1.1fr .9fr; gap: 72px; align-items: center;
-  position: relative;
-  z-index: 2;
 }
 .discretion-copy .sh2 { margin-bottom: 12px; color: var(--ink); }
 .discretion-sub { font-size: 16px; color: var(--ink-2); margin-bottom: 36px; }
@@ -718,12 +717,7 @@ body.cart-open .main-header,
 .box-statement strong { font-size: 14px; color: #16a34a; }
 
 /* ── FAQ ────────────────────────────────── */
-.faq-section { padding: 60px 0; background: var(--ink); color: var(--white); border: none; }
-
-.faq-section .section-inner {
-  position: relative;
-  z-index: 2;
-}
+.faq-section { padding: 80px 0; background: var(--ink); color: var(--white); }
 .faq-section .sh2 { margin-bottom: 48px; color: var(--white); text-align: center; }
 .faq-accordion { display: flex; flex-direction: column; gap: 16px; max-width: 800px; margin: 0 auto; }
 .faq-item {
@@ -741,7 +735,7 @@ body.cart-open .main-header,
 .faq-item p { padding: 0 28px 24px; font-size: 13.5px; color: var(--ink-4); line-height: 1.6; margin: 0; }
 
 /* ── FEEDBACK MARQUEE ───────────────────── */
-.feedback-marquee { background: var(--off); color: var(--ink); padding: 40px 0; overflow: hidden; white-space: nowrap; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.feedback-marquee { background: var(--off); color: var(--ink); padding: 40px 0; overflow: hidden; white-space: nowrap; border-top: none; border-bottom: none; }
 .marquee-track { display: inline-block; animation: scrollLeft 40s linear infinite; }
 .fb-item { display: inline-block; font-family: var(--serif); font-size: 18px; font-weight: 500; margin-right: 48px; }
 @keyframes scrollLeft { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
@@ -2269,155 +2263,71 @@ body.cart-open .main-header,
 }
 
 
-
-/* ── ULTRA-SMOOTH EASING SECTION TRANSITIONS (NO SHARP LINES) ── */
-.section-blend {
+/* ── BIG SQUIGGLY SECTION DIVIDERS (CONTRASTING RUBY WAVES) ── */
+.luxe-divider-wrap {
   width: 100%;
-  display: block;
-  margin-top: -1px;
-  margin-bottom: -1px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
-  z-index: 1;
+  z-index: 5;
+  overflow: hidden;
+  user-select: none;
   pointer-events: none;
+  border: none !important;
+  outline: none !important;
+  margin: -1px 0;
 }
 
-/* Hero (White) -> Collection (Dark Ink) */
-.blend-hero-collection {
-  height: 180px;
-  background: linear-gradient(
-    180deg,
-    #ffffff 0%,
-    #fafafc 8.1%,
-    #f1f1f5 15.5%,
-    #dfdfe5 22.5%,
-    #c4c4ce 29%,
-    #a1a1b0 35.3%,
-    #7a7a8d 41.2%,
-    #535366 47.1%,
-    #333344 53.5%,
-    #1d1d29 61.2%,
-    #13131c 71.5%,
-    #0c0c13 83.4%,
-    #0a0a10 100%
-  );
+/* Background Gradients to Smooth Contrast between Sections */
+.luxe-divider-wrap.divider-white-to-dark {
+  background: linear-gradient(180deg, #ffffff 0%, #0a0b10 100%);
+}
+.luxe-divider-wrap.divider-dark-to-black {
+  background: linear-gradient(180deg, #0a0b10 0%, #000000 100%);
+}
+.luxe-divider-wrap.divider-black-to-white {
+  background: linear-gradient(180deg, #000000 0%, #ffffff 100%);
+}
+.luxe-divider-wrap.divider-dark-to-off {
+  background: linear-gradient(180deg, #0a0b10 0%, #f8f8fa 100%);
+}
+.luxe-divider-wrap.divider-white-to-black {
+  background: linear-gradient(180deg, #ffffff 0%, #000000 100%);
+}
+.luxe-divider-wrap.divider-black-to-off {
+  background: linear-gradient(180deg, #000000 0%, #f8f8fa 100%);
 }
 
-/* Collection (Dark Ink) -> Confessions (Pure Black) */
-.blend-collection-confessions {
-  height: 140px;
-  background: linear-gradient(
-    180deg,
-    #0a0a10 0%,
-    #08080d 12%,
-    #06060a 26%,
-    #040407 42%,
-    #030305 60%,
-    #020203 78%,
-    #010101 90%,
-    #000000 100%
-  );
+.squiggly-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
-/* Confessions (Pure Black) -> Discretion (Pure White) */
-.blend-confessions-discretion {
-  height: 220px;
-  background: linear-gradient(
-    180deg,
-    #000000 0%,
-    #030305 8%,
-    #0b0b10 17%,
-    #181822 27%,
-    #2c2c3a 38%,
-    #4a4a5b 49%,
-    #707083 60%,
-    #9c9cb0 71%,
-    #c7c7d6 82%,
-    #e7e7ee 91%,
-    #f8f8fa 96%,
-    #ffffff 100%
-  );
+.squiggly-echo {
+  stroke: rgba(251, 113, 133, 0.45);
+  stroke-width: 2px;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 6px rgba(251, 113, 133, 0.35));
 }
 
-/* Discretion (Pure White) -> FAQ (Dark Ink) */
-.blend-discretion-faq {
-  height: 180px;
-  background: linear-gradient(
-    180deg,
-    #ffffff 0%,
-    #fafafc 8.1%,
-    #f1f1f5 15.5%,
-    #dfdfe5 22.5%,
-    #c4c4ce 29%,
-    #a1a1b0 35.3%,
-    #7a7a8d 41.2%,
-    #535366 47.1%,
-    #333344 53.5%,
-    #1d1d29 61.2%,
-    #13131c 71.5%,
-    #0c0c13 83.4%,
-    #0a0a10 100%
-  );
-}
-
-/* FAQ (Dark Ink) -> Footer (Off-White) */
-.blend-faq-footer {
-  height: 180px;
-  background: linear-gradient(
-    180deg,
-    #0a0a10 0%,
-    #0d0d15 9%,
-    #161622 19%,
-    #242433 30%,
-    #3b3b4d 42%,
-    #5d5d71 54%,
-    #86869a 66%,
-    #b2b2c1 78%,
-    #dadbe4 88%,
-    #f1f1f5 95%,
-    #fafafa 100%
-  );
-}
-
-/* Products Page: White Collection -> Confessions Black */
-.blend-white-to-black {
-  height: 180px;
-  background: linear-gradient(
-    180deg,
-    #ffffff 0%,
-    #fafafc 8%,
-    #e8e8ed 17%,
-    #c9c9d5 27%,
-    #9f9fb0 38%,
-    #727284 49%,
-    #484858 60%,
-    #282835 71%,
-    #14141c 82%,
-    #08080c 91%,
-    #000000 100%
-  );
-}
-
-/* Products Page: Confessions Black -> Footer Off-white */
-.blend-black-to-off {
-  height: 180px;
-  background: linear-gradient(
-    180deg,
-    #000000 0%,
-    #050508 8%,
-    #0f0f16 17%,
-    #20202c 27%,
-    #393949 38%,
-    #5a5a6c 49%,
-    #828295 60%,
-    #aeaec0 71%,
-    #d6d6e2 82%,
-    #ececf2 91%,
-    #fafafa 100%
-  );
+.squiggly-main {
+  stroke: #e11d48;
+  stroke-width: 3.5px;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 10px rgba(225, 29, 72, 0.8));
 }
 
 @media (max-width: 600px) {
-  .section-blend {
-    height: 120px !important;
+  .luxe-divider-wrap {
+    height: 52px;
+  }
+  .squiggly-main {
+    stroke-width: 2.8px;
+  }
+  .squiggly-echo {
+    stroke-width: 1.5px;
   }
 }
