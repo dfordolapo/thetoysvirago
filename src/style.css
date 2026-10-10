@@ -1,6 +1,6 @@
 /* ============================================================
-   THETOYSVIRAGO — Premium. Playful. Nigerian.
-   White / Ink / Ruby — No gradients. No fuss.
+   THETOYSVIRAGO - Premium. Playful. Nigerian.
+   White / Ink / Ruby - No gradients. No fuss.
    ============================================================ */
 
 :root {
@@ -89,7 +89,7 @@ ul { list-style: none; }
 /* ── AGE GATE ───────────────────────────── */
 .age-gate-overlay {
   position: fixed; inset: 0; z-index: 999999;
-  background: url('/assets/age-gate-bg-final.jpg') center/cover no-repeat;
+  background: url('/assets/age-gate-bg-final.webp') center/cover no-repeat;
   display: flex; align-items: center; justify-content: center; padding: 24px;
   transition: opacity .4s ease;
 }
@@ -329,7 +329,7 @@ body.cart-open .main-header,
 .hero {
   padding: 120px 24px 80px;
   background: var(--white); color: var(--ink);
-  border-bottom: 1px solid var(--border);
+  border-bottom: none;
 }
 .hero-inner {
   max-width: 1240px; margin: 0 auto;
@@ -377,7 +377,8 @@ body.cart-open .main-header,
 .float-div { width: 1px; height: 30px; background: var(--border); }
 
 /* ── COLLECTION SHOWCASE SLIDESHOW ────────────── */
-.collection { padding: 80px 0; background: var(--ink); color: var(--white); scroll-margin-top: 48px; }
+.collection { padding: 60px 0; background: var(--ink); color: var(--white); scroll-margin-top: 48px; border: none; }
+
 .collection-header {
   display: flex; align-items: center; justify-content: space-between;
   margin-bottom: 36px; gap: 20px; flex-wrap: wrap;
@@ -665,12 +666,12 @@ body.cart-open .main-header,
 #discretion {
   scroll-margin-top: 24px;
 }
-.discretion-strip {
-  background: var(--white); padding: 80px 0; color: var(--ink);
-  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-}
+.discretion-strip { background: var(--white); padding: 60px 0; color: var(--ink); border: none; }
+
 .discretion-inner {
   display: grid; grid-template-columns: 1.1fr .9fr; gap: 72px; align-items: center;
+  position: relative;
+  z-index: 2;
 }
 .discretion-copy .sh2 { margin-bottom: 12px; color: var(--ink); }
 .discretion-sub { font-size: 16px; color: var(--ink-2); margin-bottom: 36px; }
@@ -717,7 +718,12 @@ body.cart-open .main-header,
 .box-statement strong { font-size: 14px; color: #16a34a; }
 
 /* ── FAQ ────────────────────────────────── */
-.faq-section { padding: 80px 0; background: var(--ink); color: var(--white); }
+.faq-section { padding: 60px 0; background: var(--ink); color: var(--white); border: none; }
+
+.faq-section .section-inner {
+  position: relative;
+  z-index: 2;
+}
 .faq-section .sh2 { margin-bottom: 48px; color: var(--white); text-align: center; }
 .faq-accordion { display: flex; flex-direction: column; gap: 16px; max-width: 800px; margin: 0 auto; }
 .faq-item {
@@ -743,7 +749,7 @@ body.cart-open .main-header,
 /* ── FOOTER ─────────────────────────────── */
 .footer {
   background: var(--off); padding: 72px 0 36px; color: var(--ink);
-  border-top: 1px solid var(--border); overflow: hidden;
+  border-top: none; overflow: hidden;
 }
 .footer-top {
   display: flex; justify-content: space-between; align-items: flex-start;
@@ -944,7 +950,26 @@ body.cart-open .main-header,
 .btn-remove-item { background: none; border: none; color: var(--ink-4); font-size: 11px; cursor: pointer; text-decoration: underline; font-family: var(--sans); }
 .btn-remove-item:hover { color: var(--ruby); }
 
-.drawer-foot { padding: 18px 20px; border-top: 1px solid var(--border); }
+.drawer-items {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  min-height: 0;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.drawer-foot {
+  flex-shrink: 0;
+  padding: 14px 20px 18px 20px;
+  border-top: 1px solid var(--border);
+  background: var(--white);
+  max-height: 72vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
 .promo-row { display: flex; gap: 8px; margin-bottom: 12px; }
 .promo-input { flex: 1; }
 .btn-promo { background: var(--mist); border: 1px solid var(--border-d); color: var(--ink); padding: 0 14px; border-radius: var(--r-sm); font-size: 12px; font-weight: 700; cursor: pointer; transition: var(--ease); font-family: var(--sans); }
@@ -1014,14 +1039,13 @@ body.cart-open .main-header,
   max-height: 0;
   overflow: hidden;
   opacity: 0;
-  transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, margin 0.25s ease;
+  transition: max-height 0.32s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
   margin-bottom: 0;
 }
 .cart-collapsible-details.is-expanded {
-  max-height: 480px;
-  overflow-y: auto;
+  max-height: 600px;
   opacity: 1;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .cart-lines { display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px; }
@@ -1383,6 +1407,25 @@ body.cart-open .main-header,
   .qv-inner { grid-template-columns: 1fr; }
 
   /* Showcase Slider Tablet */
+  .collection-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .showcase-category-tabs {
+    width: 100%;
+    max-width: 580px;
+    gap: 4px;
+    padding: 4px;
+  }
+  .showcase-tab {
+    flex: 1 1 auto;
+    text-align: center;
+    justify-content: center;
+    padding: 8px 10px;
+    font-size: 12px;
+  }
   .showcase-card {
     grid-template-columns: 1fr;
     gap: 32px;
@@ -1402,6 +1445,7 @@ body.cart-open .main-header,
   
   .sh2 { font-size: 28px; }
   .collection { padding: 48px 0; scroll-margin-top: 42px; }
+  .collection .section-inner { padding: 0 16px; }
   .products-grid { grid-template-columns: 1fr; gap: 16px; }
   .footer-grid { grid-template-columns: 1fr; gap: 32px; }
   .hero-float-card { padding: 12px; bottom: 0; }
@@ -1420,38 +1464,46 @@ body.cart-open .main-header,
   .collection-header {
     flex-direction: column;
     align-items: stretch;
-    gap: 16px;
-    margin-bottom: 24px;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .collection-header-titles {
+    text-align: left;
+  }
+  .collection-header .sh2 {
+    font-size: clamp(24px, 6vw, 28px);
+    line-height: 1.15;
+    margin: 0;
   }
   .showcase-category-tabs {
     width: 100%;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 4px;
-    padding: 4px;
-    overflow-x: visible;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 3px;
+    border-radius: var(--r-pill);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     box-sizing: border-box;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
   }
+  .showcase-category-tabs::-webkit-scrollbar { display: none; }
   .showcase-tab {
-    padding: 8px 2px;
-    font-size: 11px;
-    gap: 4px;
+    flex: 1 1 auto;
+    padding: 7px 4px;
+    font-size: clamp(10px, 2.7vw, 11.5px);
+    font-weight: 700;
     justify-content: center;
     text-align: center;
-    width: 100%;
     min-width: 0;
-    box-sizing: border-box;
-  }
-  .showcase-tab .tab-num {
-    font-size: 9.5px;
-  }
-  .showcase-tab .tab-txt {
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: clip;
+    border-radius: var(--r-pill);
+    letter-spacing: -0.015em;
   }
-  .showcase-card { padding: 24px 18px; gap: 22px; border-radius: var(--r-md); }
-  .showcase-headline { font-size: 26px; }
+  .showcase-card { padding: 24px 18px; gap: 20px; border-radius: var(--r-md); }
+  .showcase-headline { font-size: clamp(22px, 5.5vw, 26px); line-height: 1.18; margin-bottom: 12px; }
   .showcase-pun { font-size: 15px; margin-bottom: 20px; }
   .showcase-cta-row { flex-direction: column; align-items: stretch; width: 100%; gap: 10px; }
   .showcase-btn { width: 100%; text-align: center; justify-content: center; }
@@ -1509,12 +1561,26 @@ body.cart-open .main-header,
   .cart-drawer {
     max-width: 100%;
     width: 100%;
-    height: 86vh;
+    height: 90vh;
+    max-height: 90vh;
     border: 1px solid rgba(0,0,0,.08);
     border-radius: 26px !important;
     animation: slideUp .32s cubic-bezier(.16,1,.3,1);
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
   }
+  .drawer-foot {
+    max-height: 65vh;
+    overflow-y: auto;
+    padding: 12px 16px 18px 16px;
+  }
+}
+
+@media (max-width: 380px) {
+  .collection .section-inner { padding: 0 10px; }
+  .showcase-category-tabs { gap: 2px; padding: 2px; }
+  .showcase-tab { padding: 6px 2px; font-size: 9.8px; letter-spacing: -0.02em; }
 }
 
 /* ── HEADER INSTALL APP BUTTON ────────────── */
@@ -1743,3 +1809,615 @@ body.cart-open .main-header,
   background: #f0f0f4 !important;
 }
 
+
+
+/* ── THE CONFESSIONS CARDBOARD BOX SLIDESHOW (SCATTERED PILLS) ── */
+.toybox-section {
+  padding: 48px 0 56px;
+  background: #000000 !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  position: relative;
+}
+
+.toybox-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+.toybox-header .sh2 {
+  font-size: clamp(26px, 4vw, 36px);
+  margin: 0;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+/* 3D Box Container Stage */
+.toybox-stage {
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.cardboard-box-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 540px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cardboard-box-img {
+  width: 100%;
+  height: auto;
+  max-height: 390px;
+  object-fit: contain;
+  display: block;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ── SLIDESHOW VIEWPORT FOR SCATTERED PILLS ──────────────── */
+.confessions-slider-wrap {
+  position: absolute;
+  top: 9%;
+  width: 95%;
+  max-width: 440px;
+  z-index: 10;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.confessions-slider-viewport {
+  width: 100%;
+  min-height: 180px;
+  overflow: hidden;
+  position: relative;
+  pointer-events: auto;
+}
+
+.confessions-slides-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.confession-slide {
+  min-width: 100%;
+  max-width: 100%;
+  width: 100%;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 4px;
+}
+
+/* Scattered Pills Cluster */
+.confession-pills-cluster {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 400px;
+  align-items: center;
+}
+
+/* Single line pills with NO dropshadow */
+.confession-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: 9999px;
+  padding: 7px 15px;
+  color: #0b0c12;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap !important;
+  box-shadow: none !important;
+  transition: transform 0.25s ease;
+  pointer-events: auto;
+  cursor: default;
+  will-change: transform, opacity;
+  width: max-content;
+  max-width: 100%;
+}
+
+.confession-pill:hover {
+  background: #ffffff;
+  box-shadow: none !important;
+  transform: scale(1.03) !important;
+}
+
+.pill-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #e11d48;
+  flex-shrink: 0;
+}
+
+.pill-text {
+  color: #0b0c12;
+  font-weight: 600;
+  white-space: nowrap !important;
+}
+
+/* Organic Scatter Positions & Rotations */
+.pill-scatter-1 {
+  align-self: flex-start;
+  margin-left: 10px;
+  transform: rotate(-2.5deg);
+}
+
+.pill-scatter-2 {
+  align-self: flex-end;
+  margin-right: 10px;
+  transform: rotate(2.5deg);
+}
+
+.pill-scatter-3 {
+  align-self: center;
+  transform: rotate(-1deg);
+}
+
+/* Staggered Pop-out Animation from Inside the Box */
+.confession-slide.active .confession-pill.pill-scatter-1 {
+  animation: popOutPill1 0.46s cubic-bezier(0.16, 1, 0.3, 1) 0.03s both;
+}
+
+.confession-slide.active .confession-pill.pill-scatter-2 {
+  animation: popOutPill2 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.11s both;
+}
+
+.confession-slide.active .confession-pill.pill-scatter-3 {
+  animation: popOutPill3 0.54s cubic-bezier(0.16, 1, 0.3, 1) 0.19s both;
+}
+
+@keyframes popOutPill1 {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) rotate(-2.5deg) scale(0.68);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(-3px) rotate(-2.5deg) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotate(-2.5deg) scale(1);
+  }
+}
+
+@keyframes popOutPill2 {
+  0% {
+    opacity: 0;
+    transform: translateY(45px) rotate(2.5deg) scale(0.68);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(-3px) rotate(2.5deg) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotate(2.5deg) scale(1);
+  }
+}
+
+@keyframes popOutPill3 {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) rotate(-1deg) scale(0.68);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(-3px) rotate(-1deg) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotate(-1deg) scale(1);
+  }
+}
+
+/* Slideshow Left/Right Arrow Navs */
+.confession-slider-nav {
+  position: absolute;
+  top: 50%;
+  left: -20px;
+  right: -20px;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 30;
+}
+
+.confession-arrow-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(20, 20, 28, 0.9);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+}
+
+.confession-arrow-btn:hover {
+  background: #e11d48;
+  border-color: #e11d48;
+  transform: scale(1.08);
+}
+
+/* ── TOYS UNDERNEATH: IMAGE-ONLY ROUND ICONS ─────── */
+.toy-selector-section {
+  max-width: 500px;
+  margin: 20px auto 0;
+}
+
+.toy-selector-scroll-wrap {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding: 6px;
+}
+.toy-selector-scroll-wrap::-webkit-scrollbar {
+  display: none;
+}
+
+.toy-selector-track {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  min-width: max-content;
+  padding: 0 4px;
+}
+
+.toy-tab-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
+  padding: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+.toy-tab-card:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+.toy-tab-card.active {
+  background: rgba(225, 29, 72, 0.25);
+  border-color: #fb7185;
+  transform: translateY(-3px) scale(1.08);
+  box-shadow: 0 0 16px rgba(225, 29, 72, 0.5);
+}
+
+.toy-tab-img-wrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.toy-tab-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.toy-tab-name {
+  display: none !important;
+}
+
+/* ── CTA: "SHARE YOUR CONFESSION" ───────────────── */
+.toybox-share-row {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+}
+.btn-share-confession {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #be123c;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  padding: 12px 28px;
+  border-radius: var(--r-pill);
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-share-confession:hover {
+  background: #e11d48;
+  transform: translateY(-2px);
+  border-color: #ffffff;
+}
+
+/* Mobile: Box BIGGER, Pills Single Line, Image Only Toys */
+@media (max-width: 600px) {
+  .toybox-section {
+    padding: 28px 0 36px;
+  }
+  .toybox-stage {
+    padding: 0;
+    width: 100%;
+  }
+  .cardboard-box-wrapper {
+    max-width: 100%;
+    width: 100%;
+  }
+  .cardboard-box-img {
+    max-height: 410px;
+    width: 100%;
+    max-width: 100%;
+    transform: scale(1.06);
+  }
+  .confessions-slider-wrap {
+    top: 6%;
+    width: 96%;
+    max-width: 320px;
+  }
+  .confessions-slider-viewport {
+    min-height: 145px;
+  }
+  .confession-pills-cluster {
+    gap: 7px;
+    width: 100%;
+    max-width: 100%;
+  }
+  .confession-pill {
+    padding: 4.5px 10px;
+    font-size: clamp(9px, 2.7vw, 11px);
+    white-space: nowrap !important;
+    box-shadow: none !important;
+    gap: 5px;
+  }
+  .pill-dot {
+    width: 4.5px;
+    height: 4.5px;
+  }
+  .pill-scatter-1 {
+    margin-left: 2px;
+    align-self: flex-start;
+  }
+  .pill-scatter-2 {
+    margin-right: 2px;
+    align-self: flex-end;
+  }
+  .pill-scatter-3 {
+    align-self: center;
+  }
+  .confession-slider-nav {
+    left: -12px;
+    right: -12px;
+  }
+  .confession-arrow-btn {
+    width: 28px;
+    height: 28px;
+  }
+  .toy-selector-section {
+    margin-top: 16px;
+  }
+  .toy-selector-track {
+    gap: 10px;
+  }
+  .toy-tab-card {
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
+    padding: 5px;
+  }
+  .btn-share-confession {
+    font-size: 12.5px;
+    padding: 10px 22px;
+  }
+}
+
+
+/* Share Link Button */
+.btn-share-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.btn-share-link:hover {
+  border-color: var(--ruby);
+  color: var(--ruby);
+}
+
+@media (max-width: 900px) {
+  .whispers-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+}
+@media (max-width: 600px) {
+  .whispers-header .sh2 { font-size: 28px; }
+  .whispers-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+
+
+/* ── ULTRA-SMOOTH EASING SECTION TRANSITIONS (NO SHARP LINES) ── */
+.section-blend {
+  width: 100%;
+  display: block;
+  margin-top: -1px;
+  margin-bottom: -1px;
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Hero (White) -> Collection (Dark Ink) */
+.blend-hero-collection {
+  height: 180px;
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #fafafc 8.1%,
+    #f1f1f5 15.5%,
+    #dfdfe5 22.5%,
+    #c4c4ce 29%,
+    #a1a1b0 35.3%,
+    #7a7a8d 41.2%,
+    #535366 47.1%,
+    #333344 53.5%,
+    #1d1d29 61.2%,
+    #13131c 71.5%,
+    #0c0c13 83.4%,
+    #0a0a10 100%
+  );
+}
+
+/* Collection (Dark Ink) -> Confessions (Pure Black) */
+.blend-collection-confessions {
+  height: 140px;
+  background: linear-gradient(
+    180deg,
+    #0a0a10 0%,
+    #08080d 12%,
+    #06060a 26%,
+    #040407 42%,
+    #030305 60%,
+    #020203 78%,
+    #010101 90%,
+    #000000 100%
+  );
+}
+
+/* Confessions (Pure Black) -> Discretion (Pure White) */
+.blend-confessions-discretion {
+  height: 220px;
+  background: linear-gradient(
+    180deg,
+    #000000 0%,
+    #030305 8%,
+    #0b0b10 17%,
+    #181822 27%,
+    #2c2c3a 38%,
+    #4a4a5b 49%,
+    #707083 60%,
+    #9c9cb0 71%,
+    #c7c7d6 82%,
+    #e7e7ee 91%,
+    #f8f8fa 96%,
+    #ffffff 100%
+  );
+}
+
+/* Discretion (Pure White) -> FAQ (Dark Ink) */
+.blend-discretion-faq {
+  height: 180px;
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #fafafc 8.1%,
+    #f1f1f5 15.5%,
+    #dfdfe5 22.5%,
+    #c4c4ce 29%,
+    #a1a1b0 35.3%,
+    #7a7a8d 41.2%,
+    #535366 47.1%,
+    #333344 53.5%,
+    #1d1d29 61.2%,
+    #13131c 71.5%,
+    #0c0c13 83.4%,
+    #0a0a10 100%
+  );
+}
+
+/* FAQ (Dark Ink) -> Footer (Off-White) */
+.blend-faq-footer {
+  height: 180px;
+  background: linear-gradient(
+    180deg,
+    #0a0a10 0%,
+    #0d0d15 9%,
+    #161622 19%,
+    #242433 30%,
+    #3b3b4d 42%,
+    #5d5d71 54%,
+    #86869a 66%,
+    #b2b2c1 78%,
+    #dadbe4 88%,
+    #f1f1f5 95%,
+    #fafafa 100%
+  );
+}
+
+/* Products Page: White Collection -> Confessions Black */
+.blend-white-to-black {
+  height: 180px;
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #fafafc 8%,
+    #e8e8ed 17%,
+    #c9c9d5 27%,
+    #9f9fb0 38%,
+    #727284 49%,
+    #484858 60%,
+    #282835 71%,
+    #14141c 82%,
+    #08080c 91%,
+    #000000 100%
+  );
+}
+
+/* Products Page: Confessions Black -> Footer Off-white */
+.blend-black-to-off {
+  height: 180px;
+  background: linear-gradient(
+    180deg,
+    #000000 0%,
+    #050508 8%,
+    #0f0f16 17%,
+    #20202c 27%,
+    #393949 38%,
+    #5a5a6c 49%,
+    #828295 60%,
+    #aeaec0 71%,
+    #d6d6e2 82%,
+    #ececf2 91%,
+    #fafafa 100%
+  );
+}
+
+@media (max-width: 600px) {
+  .section-blend {
+    height: 120px !important;
+  }
+}
