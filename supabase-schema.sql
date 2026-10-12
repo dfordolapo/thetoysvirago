@@ -80,3 +80,11 @@ create policy "Allow public read access to products"
   for select
   to anon, authenticated
   using (true);
+
+-- Allow admin product uploads and updates
+create policy "Allow insert and update on products"
+  on public.products
+  for all
+  to anon, authenticated
+  using (true)
+  with check (true);

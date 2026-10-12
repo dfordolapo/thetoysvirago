@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin &amp; Product Vault — TheToysVirago</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#ffffff" />
+  <link rel="icon" type="image/jpeg" href="/assets/logo.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/style.css" />
+  <style>
+    /* ================= LUXURY LIGHT MODE ADMIN STYLING ================= */
+    :root {
+      --admin-bg: #f8fafc;
+      --admin-surface: #ffffff;
+      --admin-border: #e2e8f0;
+      --admin-text-main: #0f172a;
+      --admin-text-muted: #64748b;
+      --admin-ruby: #e11d48;
+      --admin-ruby-hover: #be123c;
+      --admin-ruby-light: rgba(225, 29, 72, 0.08);
+      --admin-ruby-border: rgba(225, 29, 72, 0.25);
+      --admin-input-bg: #ffffff;
+      --admin-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+      --admin-card-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    }
+
+    body.admin-body {
+      background-color: var(--admin-bg);
+      color: var(--admin-text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+
+    .admin-wrapper {
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 24px 24px 80px;
+    }
+
+    /* Admin Navigation Bar */
+    .admin-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 26px;
+      background: var(--admin-surface);
+      border: 1px solid var(--admin-border);
+      border-radius: 16px;
+      margin-bottom: 24px;
+      box-shadow: var(--admin-shadow);
+    }
+
+    .admin-nav-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .admin-logo-img {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--admin-ruby-border);
+    }
+
+    .admin-brand-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .admin-badge-pill {
+      background: var(--admin-ruby-light);
+      color: var(--admin-ruby);
+      border: 1px solid var(--admin-ruby-border);
+      padding: 2px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .admin-nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .admin-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: none;
+    }
+
+    .admin-btn-ruby {
+      background: var(--admin-ruby);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(225, 29, 72, 0.28);
+    }
+    .admin-btn-ruby:hover {
+      background: var(--admin-ruby-hover);
+      transform: translateY(-1px);
+    }
+
+    .admin-btn-outline {
+      background: #ffffff;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+    }
+    .admin-btn-outline:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+      border-color: #94a3b8;
+    }
+
+    .admin-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: #f0fdf4;
+      color: #16a34a;
+      border: 1px solid #bbf7d0;
+    }
+    .admin-status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #16a34a;
+      box-shadow: 0 0 8px #22c55e;
+    }
+
+    /* Stats Banner: Single Total Products Card */
+    .admin-stats-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .admin-stat-card {
+      background: #ffffff;
+      border: 1px solid var(--admin-border);
+      border-radius: 14px;
+      padding: 22px 28px;
+      box-shadow: var(--admin-shadow);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .admin-stat-left {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .admin-stat-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--admin-text-muted);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .admin-stat-val {
+      font-size: 34px;
+      font-weight: 700;
+      color: #0f172a;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      line-height: 1.1;
+    }
+
+    .admin-stat-sub {
+      font-size: 13px;
+      color: #64748b;
+      margin-top: 4px;
+    }
+
+    /* Tabs Bar */
+    .admin-tabs-bar {
+      display: flex;
+      gap: 10px;
+      border-bottom: 1px solid var(--admin-border);
+      padding-bottom: 14px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .admin-tab-btn {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      color: #475569;
+      padding: 10px 22px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .admin-tab-btn.active {
+      background: var(--admin-ruby);
+      color: #ffffff;
+      border-color: var(--admin-ruby);
+      box-shadow: 0 4px 14px rgba(225, 29, 72, 0.22);
+    }
+    .admin-tab-btn:hover:not(.active) {
+      color: #0f172a;
+      border-color: #94a3b8;
+      background: #f1f5f9;
+    }
+
+    /* Form Panels */
+    .admin-panel {
+      display: none;
+    }
+    .admin-panel.active {
+      display: block;
+    }
+
+    .admin-grid-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.35fr;
+      gap: 24px;
+    }
+    @media (max-width: 992px) {
+      .admin-grid-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .admin-card {
+      background: #ffffff;
+      border: 1px solid var(--admin-border);
+      border-radius: 16px;
+      padding: 26px;
+      box-shadow: var(--admin-card-shadow);
+    }
+
+    .admin-card-head {
+      margin-bottom: 22px;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .admin-card-title {
+      font-size: 21px;
+      font-weight: 700;
+      color: #0f172a;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      letter-spacing: 0.3px;
+      margin: 0;
+    }
+
+    .admin-card-subtitle {
+      font-size: 12px;
+      color: var(--admin-text-muted);
+      margin-top: 2px;
+    }
+
+    /* Image Dropzone & Preview */
+    .admin-dropzone {
+      border: 2px dashed #fda4af;
+      background: #fff1f2;
+      border-radius: 14px;
+      padding: 28px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+    .admin-dropzone:hover, .admin-dropzone.dragover {
+      border-color: var(--admin-ruby);
+      background: #ffe4e6;
+    }
+
+    .admin-dropzone-icon {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 12px;
+      border-radius: 50%;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--admin-ruby);
+      box-shadow: 0 4px 10px rgba(225, 29, 72, 0.12);
+    }
+
+    .admin-dropzone-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+
+    .admin-dropzone-desc {
+      font-size: 12px;
+      color: var(--admin-text-muted);
+    }
+
+    .admin-preview-box {
+      margin-top: 18px;
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      min-height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .admin-preview-img {
+      max-width: 100%;
+      max-height: 380px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .admin-preview-remove {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #ffffff;
+      color: #0f172a;
+      border: 1px solid #cbd5e1;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: all 0.2s;
+    }
+    .admin-preview-remove:hover {
+      background: var(--admin-ruby);
+      color: #fff;
+      border-color: var(--admin-ruby);
+    }
+
+    /* Palette Extraction Bar */
+    .admin-palette-wrap {
+      margin-top: 14px;
+      padding: 12px 14px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .admin-palette-label {
+      font-size: 12px;
+      color: #475569;
+      font-weight: 600;
+    }
+    .admin-palette-swatches {
+      display: flex;
+      gap: 8px;
+    }
+    .admin-swatch {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid #ffffff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .admin-swatch:hover {
+      transform: scale(1.2);
+    }
+
+    /* AI Generator Hero Box */
+    .ai-generator-box {
+      background: linear-gradient(135deg, #fff1f2 0%, #ffffff 100%);
+      border: 1px solid #fecdd3;
+      border-radius: 14px;
+      padding: 20px 22px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(225, 29, 72, 0.06);
+    }
+
+    .ai-gen-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .ai-gen-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #be123c;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ai-mood-select {
+      background: #ffffff;
+      color: #0f172a;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 7px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      outline: none;
+      font-family: inherit;
+    }
+
+    .ai-btn-generate {
+      background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+      color: #ffffff;
+      border: none;
+      padding: 11px 20px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 16px rgba(225, 29, 72, 0.28);
+      transition: all 0.2s;
+    }
+    .ai-btn-generate:hover {
+      background: #be123c;
+      transform: translateY(-1px);
+    }
+    .ai-btn-generate:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .ai-status-text {
+      font-size: 12px;
+      color: #475569;
+      margin-top: 8px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Form Fields */
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 6px;
+    }
+
+    .form-input, .form-textarea, .form-select {
+      width: 100%;
+      background: var(--admin-input-bg);
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 11px 14px;
+      color: #0f172a;
+      font-family: inherit;
+      font-size: 14px;
+      box-sizing: border-box;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+      border-color: var(--admin-ruby);
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.12);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 120px;
+      line-height: 1.6;
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .form-row-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 600px) {
+      .form-row-2, .form-row-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Variant Tags Input */
+    .tags-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .tag-chip {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 999px;
+      padding: 5px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #1e293b;
+    }
+    .tag-chip-del {
+      cursor: pointer;
+      color: #64748b;
+      font-weight: 700;
+    }
+    .tag-chip-del:hover {
+      color: var(--admin-ruby);
+    }
+
+    /* Catalog Table */
+    .admin-inventory-search-bar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .admin-search-input {
+      flex: 1;
+      min-width: 240px;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 10px 16px;
+      color: #0f172a;
+      font-family: inherit;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .admin-filter-pill-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .admin-filter-pill {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      color: #475569;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .admin-filter-pill.active {
+      background: var(--admin-ruby);
+      color: #ffffff;
+      border-color: var(--admin-ruby);
+    }
+
+    .admin-table-wrap {
+      overflow-x: auto;
+      border-radius: 14px;
+      border: 1px solid var(--admin-border);
+      background: #ffffff;
+    }
+
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13px;
+    }
+
+    .admin-table th {
+      background: #f8fafc;
+      padding: 14px 18px;
+      font-weight: 700;
+      color: #475569;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.8px;
+      border-bottom: 1px solid var(--admin-border);
+    }
+
+    .admin-table td {
+      padding: 14px 18px;
+      border-bottom: 1px solid #f1f5f9;
+      vertical-align: middle;
+      color: #1e293b;
+    }
+
+    .admin-table tr:hover td {
+      background: #f8fafc;
+    }
+
+    .admin-prod-thumb {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+    }
+
+    .admin-prod-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .admin-prod-name {
+      font-weight: 600;
+      color: #0f172a;
+    }
+    .admin-prod-sku {
+      font-size: 11px;
+      color: #64748b;
+    }
+
+    .admin-cat-badge {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .cat-lingerie { background: #ffe4e6; color: #be123c; border: 1px solid #fecdd3; }
+    .cat-toys { background: #f3e8ff; color: #7e22ce; border: 1px solid #e9d5ff; }
+    .cat-lubes { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+    .cat-bdsm { background: #fef9c3; color: #a16207; border: 1px solid #fef08a; }
+    .cat-games { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+
+    /* Switch toggle */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 42px;
+      height: 24px;
+    }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background-color: #cbd5e1;
+      transition: .3s;
+      border-radius: 24px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    input:checked + .slider { background-color: #16a34a; }
+    input:checked + .slider:before { transform: translateX(18px); }
+
+    /* Password Gate Modal */
+    .admin-gate-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(16px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999999;
+      padding: 20px;
+    }
+
+    .admin-gate-card {
+      background: #ffffff;
+      border: 1px solid var(--admin-border);
+      border-radius: 20px;
+      padding: 36px 32px;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    }
+
+    .admin-gate-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #fff1f2;
+      border: 1px solid #fecdd3;
+      color: var(--admin-ruby);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+
+    .admin-gate-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 0 0 8px;
+    }
+
+    .admin-gate-desc {
+      font-size: 13px;
+      color: #64748b;
+      margin: 0 0 24px;
+      line-height: 1.5;
+    }
+
+    /* Toast Notification */
+    .admin-toast {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background: #0f172a;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+      padding: 14px 22px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 9999999;
+      transform: translateY(40px);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .admin-toast.show {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Supabase Cloud Immediate Feedback Banner */
+    .supabase-cloud-banner {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #15803d;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 12px;
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Mobile Responsive Optimizations */
+    .btn-text-label {
+      display: inline;
+    }
+
+    .admin-form-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .admin-tab-chevron {
+      margin-left: auto;
+      display: none;
+      transition: transform 0.2s ease;
+    }
+
+    @media (max-width: 768px) {
+      .admin-wrapper {
+        padding: 12px 12px 60px;
+      }
+
+      .admin-nav {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        padding: 12px 14px;
+        margin-bottom: 16px;
+      }
+
+      .admin-nav-left {
+        justify-content: flex-start;
+      }
+
+      .admin-brand-subtitle {
+        display: none;
+      }
+
+      .admin-brand-title {
+        font-size: 18px;
+      }
+
+      /* Icons at the top arranged two on each line on mobile */
+      .admin-nav-right {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        width: 100%;
+      }
+
+      .admin-nav-right .btn-text-label {
+        display: none;
+      }
+
+      .admin-nav-right .admin-btn,
+      .admin-nav-right .admin-status-pill {
+        width: 100%;
+        justify-content: center;
+        padding: 10px 12px;
+        border-radius: 10px;
+        box-sizing: border-box;
+        margin: 0;
+      }
+
+      .admin-nav-right .admin-status-pill .btn-text-label {
+        display: none;
+      }
+
+      /* Tab buttons: stacked with chevron instead of rendering on one crowded line */
+      .admin-tabs-bar {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        border-bottom: none;
+        padding-bottom: 8px;
+        margin-bottom: 16px;
+      }
+
+      .admin-tab-btn {
+        width: 100%;
+        justify-content: flex-start;
+        padding: 12px 16px;
+        border-radius: 10px;
+        font-size: 14px;
+      }
+
+      .admin-tab-chevron {
+        display: inline-flex;
+        align-items: center;
+      }
+
+      /* Action buttons fit on one line each (full width stacked) */
+      .admin-form-actions {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .admin-form-actions .admin-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+  </style>
+</head>
+<body class="admin-body">
+
+  <!-- ================= AUTHENTICATION GATE ================= -->
+  <div id="admin-gate-modal" class="admin-gate-overlay" style="display: none;">
+    <div class="admin-gate-card">
+      <div class="admin-gate-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <h2 class="admin-gate-title">Admin Product Vault</h2>
+      <p class="admin-gate-desc">This studio is reserved for store curators to upload products and manage inventory.</p>
+      <form id="admin-gate-form">
+        <div class="form-group">
+          <input type="password" id="admin-passcode-input" class="form-input" placeholder="Enter Access PIN (default: virago2026)" required autocomplete="current-password" style="text-align: center; letter-spacing: 2px;" />
+        </div>
+        <button type="submit" class="admin-btn admin-btn-ruby" style="width: 100%; justify-content: center; padding: 12px;">
+          Unlock Vault
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </form>
+      <div style="margin-top: 16px;">
+        <a href="/products.html" style="font-size: 12px; color: #64748b; text-decoration: none;">&larr; Return to Public Shop</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="admin-wrapper" id="admin-main-content">
+
+    <!-- ================= NAVBAR ================= -->
+    <header class="admin-nav">
+      <div class="admin-nav-left">
+        <img src="/assets/logo.jpg" alt="The Toys Virago" class="admin-logo-img" />
+        <div>
+          <div class="admin-brand-title">
+            TheToysVirago
+          </div>
+          <div class="admin-brand-subtitle" style="font-size: 12px; color: #64748b; margin-top: 2px;">
+            Product Management &amp; Supabase Direct Cloud Sync
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-nav-right">
+        <div id="admin-sync-status" class="admin-status-pill" title="Supabase Database Status">
+          <span class="admin-status-dot"></span>
+          <span id="sync-status-text" class="btn-text-label">Supabase Cloud Connected</span>
+        </div>
+
+        <a href="/products.html" target="_blank" class="admin-btn admin-btn-outline" title="View Shop">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          <span class="btn-text-label">View Shop</span>
+        </a>
+
+        <button id="btn-open-settings" class="admin-btn admin-btn-outline" title="Settings">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span class="btn-text-label">Settings</span>
+        </button>
+
+        <button id="btn-lock-admin" class="admin-btn admin-btn-outline" title="Lock">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span class="btn-text-label">Lock</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ================= METRICS STATS BAR (ONLY TOTAL PRODUCTS) ================= -->
+    <div class="admin-stats-grid">
+      <div class="admin-stat-card">
+        <div class="admin-stat-left">
+          <div class="admin-stat-title">Total Products</div>
+          <div class="admin-stat-val" id="stat-total-products">80</div>
+          <div class="admin-stat-sub">Products in your boutique catalog</div>
+        </div>
+        <div style="width: 52px; height: 52px; border-radius: 12px; background: #fff1f2; display: flex; align-items: center; justify-content: center; color: #e11d48;">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= TABS ================= -->
+    <div class="admin-tabs-bar">
+      <button class="admin-tab-btn active" data-tab="upload-panel">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        <span>Upload Product Studio</span>
+        <svg class="admin-tab-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <button class="admin-tab-btn" data-tab="inventory-panel">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span>Products Inventory (<span id="tab-inventory-count">80</span>)</span>
+        <svg class="admin-tab-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <button class="admin-tab-btn" data-tab="export-panel">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>
+        <span>Supabase Cloud Sync &amp; Export</span>
+        <svg class="admin-tab-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+
+    <!-- ================= PANEL 1: UPLOAD PRODUCT STUDIO ================= -->
+    <div id="upload-panel" class="admin-panel active">
+      <form id="product-upload-form">
+        <div class="admin-grid-layout">
+
+          <!-- Left Column: Media & Visual Analysis -->
+          <div>
+            <div class="admin-card">
+              <div class="admin-card-head">
+                <div>
+                  <h3 class="admin-card-title">1. Product Image</h3>
+                  <div class="admin-card-subtitle">Upload image file or paste asset path</div>
+                </div>
+              </div>
+
+              <!-- Drag and drop zone -->
+              <div id="dropzone" class="admin-dropzone">
+                <input type="file" id="file-input" accept="image/*" style="display: none;" />
+                <div class="admin-dropzone-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                </div>
+                <div class="admin-dropzone-title">Drop your product photo here</div>
+                <div class="admin-dropzone-desc">or click to browse from device (JPG, PNG, WEBP)</div>
+              </div>
+
+              <div style="margin-top: 14px;">
+                <label class="form-label">Or Image URL / Asset Path</label>
+                <input type="text" id="prod-img-url" class="form-input" placeholder="e.g. /assets/category-lingerie.webp or https://..." />
+              </div>
+
+              <!-- Live Preview -->
+              <div id="preview-box" class="admin-preview-box" style="display: none;">
+                <img id="preview-img" src="" alt="Product Preview" class="admin-preview-img" />
+                <button type="button" id="btn-remove-preview" class="admin-preview-remove" title="Remove image">&times;</button>
+              </div>
+
+              <!-- Color Palette extracted from Canvas -->
+              <div id="palette-wrap" class="admin-palette-wrap" style="display: none;">
+                <span class="admin-palette-label">Sampled Tones:</span>
+                <div id="palette-swatches" class="admin-palette-swatches"></div>
+              </div>
+
+              <!-- AI Visual Description Callout -->
+              <div style="margin-top: 24px;">
+                <div class="ai-generator-box">
+                  <div class="ai-gen-head">
+                    <span class="ai-gen-title">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                      Boudoir AI Copywriter
+                    </span>
+                    <select id="ai-mood-select" class="ai-mood-select">
+                      <option value="seductive">💋 Seductive &amp; Sultry</option>
+                      <option value="luxe">👑 Haute Luxury &amp; Poetic</option>
+                      <option value="playful">🔥 Playful &amp; Teasing</option>
+                      <option value="sensory">🔬 Sensory &amp; High-Detail</option>
+                    </select>
+                  </div>
+                  <p style="font-size: 13px; color: #475569; margin: 0 0 12px; line-height: 1.5;">
+                    Automatically synthesizes seductive descriptions, sensory specifications, taglines, and badges tailored to the uploaded image and category.
+                  </p>
+                  <button type="button" id="btn-auto-generate-ai" class="ai-btn-generate">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                    Auto-Generate Description
+                  </button>
+                  <div id="ai-status" class="ai-status-text" style="display: none;"></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Right Column: Product Details & Copywriting -->
+          <div>
+            <div class="admin-card">
+              <div class="admin-card-head">
+                <div>
+                  <h3 class="admin-card-title">2. Product Details &amp; Copy</h3>
+                  <div class="admin-card-subtitle">Review, edit, or customize details before publishing</div>
+                </div>
+                <button type="button" id="btn-reset-form" class="admin-btn admin-btn-outline" style="font-size: 12px; padding: 6px 14px;">Reset</button>
+              </div>
+
+              <input type="hidden" id="editing-product-id" value="" />
+
+              <div class="form-group">
+                <label class="form-label">Product Name / Title *</label>
+                <input type="text" id="prod-title" class="form-input" placeholder="e.g. Noir Chantilly Lace Teddy" required />
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label class="form-label">Category *</label>
+                  <select id="prod-category" class="form-select" required>
+                    <option value="lingerie" selected>Lingerie</option>
+                    <option value="toys">Toys</option>
+                    <option value="lubes">Lubes &amp; Wellness</option>
+                    <option value="bdsm">BDSM &amp; Restraints</option>
+                    <option value="games">Games &amp; Intimacy</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Badge / Callout</label>
+                  <input type="text" id="prod-badge" class="form-input" placeholder="e.g. LUXE LINGERIE, BESTSELLER" />
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label class="form-label">Price (₦) *</label>
+                  <input type="number" id="prod-price" class="form-input" placeholder="e.g. 35000" min="0" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Original Price (₦ strike-through)</label>
+                  <input type="number" id="prod-original-price" class="form-input" placeholder="e.g. 42000 (optional)" min="0" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">1-Line Hook / Pun</label>
+                <input type="text" id="prod-tagline" class="form-input" placeholder="e.g. Delicate French lace with dangerous plunge decolletage." />
+              </div>
+
+              <div class="form-group">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <label class="form-label" style="margin-bottom: 0;">Full Product Description *</label>
+                  <span id="char-count" style="font-size: 11px; color: #64748b;">0 words</span>
+                </div>
+                <textarea id="prod-desc" class="form-textarea" placeholder="Detailed seductive description celebrating materials, sensations, and boudoir elegance..." required></textarea>
+              </div>
+
+              <!-- Specifications & Highlights -->
+              <div class="form-group">
+                <label class="form-label">Sensual Specs &amp; Highlights</label>
+                <div class="form-row-2">
+                  <input type="text" id="prod-material" class="form-input" placeholder="Material: e.g. French Floral Lace &amp; Silk Satin" />
+                  <input type="text" id="prod-acoustics" class="form-input" placeholder="Feel/Sound: e.g. Whisper-Soft on Bare Skin" />
+                </div>
+              </div>
+
+              <!-- Color Variants -->
+              <div class="form-group">
+                <label class="form-label">Color Variants</label>
+                <div style="display: flex; gap: 8px;">
+                  <input type="text" id="new-variant-name" class="form-input" placeholder="Color Name (e.g. Noir Black, Ruby Wine)" />
+                  <input type="color" id="new-variant-color" value="#e11d48" style="height: 44px; width: 50px; background: none; border: 1px solid #cbd5e1; border-radius: 8px; cursor: pointer;" />
+                  <button type="button" id="btn-add-variant" class="admin-btn admin-btn-outline" style="white-space: nowrap;">Add</button>
+                </div>
+                <div id="variants-list" class="tags-container"></div>
+              </div>
+
+              <!-- Size Pills -->
+              <div class="form-group">
+                <label class="form-label">Sizes Available</label>
+                <div style="display: flex; gap: 8px;">
+                  <input type="text" id="new-size-name" class="form-input" placeholder="Size (e.g. S, M, L, XL, One Size)" />
+                  <button type="button" id="btn-add-size" class="admin-btn admin-btn-outline" style="white-space: nowrap;">Add Size</button>
+                </div>
+                <div id="sizes-list" class="tags-container"></div>
+              </div>
+
+              <div class="form-group" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0;">
+                <div>
+                  <div style="font-weight: 600; color: #0f172a; font-size: 13px;">Stock Status</div>
+                  <div style="font-size: 12px; color: #64748b;">Available for instant purchase in boutique bag</div>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="prod-in-stock" checked />
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="admin-form-actions">
+                <button type="submit" id="btn-save-product" class="admin-btn admin-btn-ruby" style="flex: 1; justify-content: center; padding: 14px; font-size: 14px;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                  Save Product to Catalog
+                </button>
+                <button type="button" id="btn-save-and-view" class="admin-btn admin-btn-outline" style="padding: 14px 20px;">
+                  Save &amp; View on Shop
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </div>
+
+    <!-- ================= PANEL 2: PRODUCTS INVENTORY ================= -->
+    <div id="inventory-panel" class="admin-panel">
+      <div class="admin-card">
+        <div class="admin-card-head">
+          <div>
+            <h3 class="admin-card-title">Catalog Inventory (<span id="inventory-count-badge">80</span>)</h3>
+            <div class="admin-card-subtitle">Manage stock, edit titles, and preview products</div>
+          </div>
+          <button id="btn-switch-to-upload" class="admin-btn admin-btn-ruby" style="font-size: 12px;">+ Add New Product</button>
+        </div>
+
+        <div class="admin-inventory-search-bar">
+          <input type="text" id="inventory-search" class="admin-search-input" placeholder="Search by name, SKU, or category..." />
+          <div class="admin-filter-pill-group" id="inventory-category-filters">
+            <button class="admin-filter-pill active" data-cat="all">All</button>
+            <button class="admin-filter-pill" data-cat="lingerie">Lingerie</button>
+            <button class="admin-filter-pill" data-cat="toys">Toys</button>
+            <button class="admin-filter-pill" data-cat="lubes">Lubes</button>
+            <button class="admin-filter-pill" data-cat="bdsm">BDSM</button>
+            <button class="admin-filter-pill" data-cat="games">Games</button>
+          </div>
+        </div>
+
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th style="width: 60px;">Image</th>
+                <th>Product &amp; SKU</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th style="text-align: right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="inventory-table-body">
+              <!-- Dynamically populated by admin.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= PANEL 3: EXPORT & SQL SYNC ================= -->
+    <div id="export-panel" class="admin-panel">
+      <div class="admin-grid-layout">
+        <div class="admin-card">
+          <div class="admin-card-head">
+            <div>
+              <h3 class="admin-card-title">Live Supabase Sync</h3>
+              <div class="admin-card-subtitle">Push custom products directly to Supabase products table</div>
+            </div>
+          </div>
+          <p style="font-size: 13px; color: #475569; line-height: 1.6;">
+            Your uploaded products go directly to Supabase. You can also trigger a full re-sync of all <strong id="export-custom-count">2</strong> custom items below.
+          </p>
+          <button id="btn-sync-supabase-now" class="admin-btn admin-btn-ruby" style="width: 100%; justify-content: center; margin-top: 12px; padding: 12px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>
+            Sync All Custom Products to Supabase Cloud
+          </button>
+          <div id="supabase-sync-log" style="margin-top: 14px; font-size: 13px; color: #475569;"></div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-head">
+            <div>
+              <h3 class="admin-card-title">Catalog Export (JSON &amp; SQL)</h3>
+              <div class="admin-card-subtitle">Download or copy data for repository or database</div>
+            </div>
+          </div>
+          <div style="display: flex; gap: 10px; margin-bottom: 14px;">
+            <button id="btn-copy-sql" class="admin-btn admin-btn-outline" style="flex: 1; justify-content: center;">Copy SQL INSERT</button>
+            <button id="btn-download-json" class="admin-btn admin-btn-outline" style="flex: 1; justify-content: center;">Download JSON</button>
+          </div>
+          <textarea id="export-code-box" class="form-textarea" style="font-family: monospace; font-size: 11px; height: 180px; background: #f8fafc;" readonly></textarea>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /admin-wrapper -->
+
+  <!-- ================= SETTINGS & API KEY MODAL ================= -->
+  <div id="settings-modal" class="admin-gate-overlay" style="display: none;">
+    <div class="admin-gate-card" style="max-width: 520px; text-align: left;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+        <h3 class="admin-card-title" style="margin: 0; font-size: 20px;">Admin Settings &amp; Cloud Keys</h3>
+        <button id="btn-close-settings" class="admin-preview-remove" style="position: static;">&times;</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Google Gemini API Key (Vision AI)</label>
+        <input type="password" id="gemini-api-key" class="form-input" placeholder="AIzaSy... (optional for live Vision AI)" />
+        <div style="font-size: 11px; color: #64748b; margin-top: 4px;">
+          Leave empty to use the built-in Haute Boudoir Copywriting Engine. If provided, Gemini Flash directly analyzes the actual image pixels!
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Supabase Service Role Key (Optional RLS Bypass)</label>
+        <input type="password" id="supabase-service-key" class="form-input" placeholder="eyJhbG... (optional for full cloud write access)" />
+        <div style="font-size: 11px; color: #64748b; margin-top: 4px;">
+          Optional: Allows immediate writes to Supabase without needing to configure Row-Level Security policies.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Admin Access Passcode</label>
+        <input type="text" id="admin-custom-pin" class="form-input" placeholder="Default: virago2026" />
+        <div style="font-size: 11px; color: #64748b; margin-top: 4px;">
+          Change your private PIN for the Admin session gate.
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 12px; margin-top: 20px;">
+        <button id="btn-save-settings" class="admin-btn admin-btn-ruby" style="flex: 1; justify-content: center;">Save Settings</button>
+        <button id="btn-cancel-settings" class="admin-btn admin-btn-outline">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Element -->
+  <div id="admin-toast" class="admin-toast">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    <span id="toast-text">Product saved</span>
+  </div>
+
+  <script type="module" src="/src/admin.js"></script>
+</body>
+</html>
