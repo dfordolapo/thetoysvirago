@@ -936,6 +936,36 @@
             <div class="conf-counter" id="conf-char-count">0/500</div>
           </div>
 
+          <!-- Name & Location Fields -->
+          <div class="confession-meta-grid">
+            <div class="conf-meta-field">
+              <label for="conf-name" class="conf-meta-label">
+                Name / Alias <span class="conf-meta-hint">(optional)</span>
+              </label>
+              <input
+                type="text"
+                id="conf-name"
+                class="confession-input-field"
+                placeholder="e.g. Amara or T."
+                maxlength="35"
+                autocomplete="nickname"
+              />
+            </div>
+            <div class="conf-meta-field">
+              <label for="conf-location" class="conf-meta-label">
+                Location <span class="conf-meta-hint">(optional)</span>
+              </label>
+              <input
+                type="text"
+                id="conf-location"
+                class="confession-input-field"
+                placeholder="e.g. Lekki, Abuja"
+                maxlength="35"
+                autocomplete="address-level2"
+              />
+            </div>
+          </div>
+
           <!-- Anonymous Toggle Row -->
           <div class="confession-anon-row">
             <div class="confession-anon-label">

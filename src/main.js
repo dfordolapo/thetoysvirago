@@ -4724,17 +4724,35 @@ function getStoredConfessions() {
   return [...DEFAULT_COMMUNITY_CONFESSIONS];
 }
 
-function saveConfession(text, isAnonymous = true) {
+function saveConfession(text, isAnonymous = true, name = '', location = '') {
   const list = getStoredConfessions();
   const dots = ['ruby', 'gold', 'emerald', 'violet', 'rose'];
   const locations = ['Lekki', 'Maitama', 'Victoria Island', 'Wuse II', 'Ikoyi', 'Abuja', 'Ikeja GRA', 'Asokoro'];
-  const randomLoc = locations[Math.floor(Math.random() * locations.length)];
+  const fallbackLoc = locations[Math.floor(Math.random() * locations.length)];
   const randomDot = dots[Math.floor(Math.random() * dots.length)];
+
+  const cleanLoc = (location || '').trim();
+  const cleanName = (name || '').trim();
+
+  let authorTag = 'Anonymous';
+  if (isAnonymous) {
+    authorTag = cleanLoc ? `Anonymous · ${cleanLoc}` : 'Anonymous · Just now';
+  } else {
+    if (cleanName && cleanLoc) {
+      authorTag = `${cleanName} · ${cleanLoc}`;
+    } else if (cleanName) {
+      authorTag = cleanName;
+    } else if (cleanLoc) {
+      authorTag = `Client · ${cleanLoc}`;
+    } else {
+      authorTag = `Client · ${fallbackLoc}`;
+    }
+  }
 
   const newEntry = {
     id: Date.now(),
     text: text,
-    author: isAnonymous ? 'Anonymous · Just now' : `Client · ${randomLoc}`,
+    author: authorTag,
     dot: randomDot,
     time: 'Just now',
     date: new Date().toISOString()
@@ -4944,20 +4962,31 @@ function initConfessionsSlideshow() {
 
   // Handle confession submission: Saves, prepends to Slide 0 & displays on phone + pills
   if (form) {
+    const textInput = document.getElementById('conf-text');
+    const countEl = document.getElementById('conf-char-count');
+    if (textInput && countEl) {
+      textInput.addEventListener('input', () => {
+        countEl.textContent = `${textInput.value.length}/500`;
+      });
+    }
+
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      const textInput = document.getElementById('conf-text');
       const text = textInput ? textInput.value.trim() : '';
       const isAnonInput = document.getElementById('conf-anon');
       const isAnon = isAnonInput ? isAnonInput.checked : true;
+      const nameInput = document.getElementById('conf-name');
+      const name = nameInput ? nameInput.value.trim() : '';
+      const locInput = document.getElementById('conf-location');
+      const location = locInput ? locInput.value.trim() : '';
 
       if (text) {
-        saveConfession(text, isAnon);
+        saveConfession(text, isAnon, name, location);
       }
 
       closeConfessionModal();
       form.reset();
-      const countEl = document.getElementById('conf-char-count');
+      if (isAnonInput) isAnonInput.checked = true;
       if (countEl) countEl.textContent = '0/500';
 
       if (typeof showToast === 'function') {
