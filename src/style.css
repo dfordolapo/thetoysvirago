@@ -3496,14 +3496,25 @@ body.modal-open {
   overscroll-behavior: contain !important;
 }
 
-/* Prevent mobile keyboard auto-zoom on iOS/Android (min 16px font-size) */
-@media (max-width: 680px) {
+/* Universal Anti-Auto-Zoom on Mobile Devices (min 16px font-size prevents iOS/Android auto-zoom site-wide) */
+@media (max-width: 800px) {
+  input,
+  textarea,
+  select,
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="password"],
+  input[type="search"],
+  input[type="number"],
   .confession-textarea,
   .confession-input-field,
   .co-field input,
   .co-field select,
   .modal-overlay input,
-  .modal-overlay textarea {
+  .modal-overlay textarea,
+  .search-input,
+  .form-input {
     font-size: 16px !important;
   }
 }

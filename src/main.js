@@ -831,7 +831,6 @@ if (searchClearBtn) {
   searchClearBtn.addEventListener('click', () => {
     searchInput.value = '';
     filterProducts();
-    searchInput.focus();
   });
 }
 if (btnResetSearch) {
