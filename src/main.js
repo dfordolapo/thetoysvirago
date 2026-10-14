@@ -4672,26 +4672,28 @@ renderCart();
 
 // Default community whispers with distinct verified locations and jewel-toned dots
 const DEFAULT_COMMUNITY_CONFESSIONS = [
-  { text: "three rounds back to back, my legs were actually shaking", author: "Client · Lekki", dot: "ruby", time: "12m ago" },
   { text: "the battery life is insane... literally lasted the entire weekend", author: "Client · Maitama", dot: "gold", time: "34m ago" },
-  { text: "so quiet my flatmate had zero clue in the next room", author: "Anonymous · 1h ago", dot: "emerald", time: "1h ago" },
-  { text: "arrived discreet in an unbranded matte box. 10/10 privacy", author: "Client · Victoria Island", dot: "violet", time: "2h ago" },
   { text: "my partner begged me to bring it to the bedroom tonight", author: "Client · Wuse II", dot: "rose", time: "3h ago" },
-
   { text: "the suction mode feels like witchcraft, no joke", author: "Client · Ikoyi", dot: "ruby", time: "4h ago" },
   { text: "first time ordering, customer care was so respectful & private", author: "Verified Buyer · Abuja", dot: "gold", time: "5h ago" },
   { text: "i gasped out loud the moment the pulse rhythm shifted", author: "Anonymous · 7h ago", dot: "emerald", time: "7h ago" },
+
   { text: "softest medical silicone i have ever touched. pure luxury", author: "Client · Port Harcourt", dot: "violet", time: "8h ago" },
   { text: "bought as a secret gift for myself, zero regrets at all", author: "Client · Ikeja GRA", dot: "rose", time: "10h ago" },
-
   { text: "the warm-up feature took it to an entirely different planet", author: "Client · Asokoro", dot: "ruby", time: "14h ago" },
   { text: "sent to my office in plain wrap. absolute discretion", author: "Client · Marina", dot: "gold", time: "18h ago" },
   { text: "never reaching for anything basic ever again", author: "Anonymous · 1d ago", dot: "emerald", time: "1d ago" },
+
   { text: "whisper quiet but powerful enough to make me see stars", author: "Client · Garki", dot: "violet", time: "1d ago" },
   { text: "15 minutes in and i had to hold back the scream", author: "Client · Banana Island", dot: "rose", time: "2d ago" }
 ];
 
-const CONFESSIONS_STORAGE_KEY = 'thetoysvirago_community_confessions';
+const CONFESSIONS_STORAGE_KEY = 'thetoysvirago_community_confessions_v2';
+const REMOVED_CONFESSIONS_TEXTS = [
+  "three rounds back to back, my legs were actually shaking",
+  "so quiet my flatmate had zero clue in the next room",
+  "arrived discreet in an unbranded matte box. 10/10 privacy"
+];
 let confessionsCurrentSlide = 0;
 let confessionsAutoTimer = null;
 
@@ -4707,11 +4709,15 @@ function escapeConfHtml(str) {
 
 function getStoredConfessions() {
   try {
+    // Clear old storage key if present
+    localStorage.removeItem('thetoysvirago_community_confessions');
     const raw = localStorage.getItem(CONFESSIONS_STORAGE_KEY);
     if (raw) {
       const parsed = JSON.parse(raw);
       if (Array.isArray(parsed) && parsed.length > 0) {
-        return parsed;
+        // Filter out any removed confessions
+        const filtered = parsed.filter(c => !REMOVED_CONFESSIONS_TEXTS.includes(c.text));
+        if (filtered.length > 0) return filtered;
       }
     }
   } catch (e) {
