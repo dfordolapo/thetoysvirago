@@ -4875,7 +4875,7 @@ function prevConfessionsSlide() {
 
 function resetConfessionsAutoTimer() {
   if (confessionsAutoTimer) clearInterval(confessionsAutoTimer);
-  confessionsAutoTimer = setInterval(nextConfessionsSlide, 4200);
+  confessionsAutoTimer = setInterval(nextConfessionsSlide, 2400);
 }
 
 function initConfessionsSlideshow() {

@@ -1947,8 +1947,8 @@ body.cart-open .main-header,
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  transform: scale(0.96);
+  transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: scale(0.97);
 }
 .confession-slide.active {
   opacity: 1;
@@ -2087,19 +2087,19 @@ body.cart-open .main-header,
 
 /* Staggered Pop-in Animations */
 .confession-slide.active .confession-pill.pill-pos-1 {
-  animation: popPillPos1 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.03s both;
+  animation: popPillPos1 0.32s cubic-bezier(0.16, 1, 0.3, 1) 0.02s both;
 }
 .confession-slide.active .confession-pill.pill-pos-2 {
-  animation: popPillPos2 0.48s cubic-bezier(0.16, 1, 0.3, 1) 0.09s both;
+  animation: popPillPos2 0.34s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
 }
 .confession-slide.active .confession-pill.pill-pos-3 {
-  animation: popPillPos3 0.52s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+  animation: popPillPos3 0.36s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
 }
 .confession-slide.active .confession-pill.pill-pos-4 {
-  animation: popPillPos4 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.21s both;
+  animation: popPillPos4 0.38s cubic-bezier(0.16, 1, 0.3, 1) 0.11s both;
 }
 .confession-slide.active .confession-pill.pill-pos-5 {
-  animation: popPillPos5 0.58s cubic-bezier(0.16, 1, 0.3, 1) 0.27s both;
+  animation: popPillPos5 0.40s cubic-bezier(0.16, 1, 0.3, 1) 0.14s both;
 }
 
 @keyframes popPillPos1 {
