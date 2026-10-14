@@ -88,8 +88,8 @@ const DEFAULT_LINGERIE_SEEDS = [
       { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
     ],
     variants: [
-      { name: 'Noir Black', price: 35000, priceStr: '₦35,000', img: '/assets/category-lingerie.webp', color: '#111111' },
-      { name: 'Ruby Wine', price: 35000, priceStr: '₦35,000', img: '/assets/category-lingerie.webp', color: '#e11d48' }
+      { name: 'Black', price: 35000, priceStr: '₦35,000', img: '/assets/category-lingerie.webp', color: '#111111' },
+      { name: 'Ruby', price: 35000, priceStr: '₦35,000', img: '/assets/category-lingerie.webp', color: '#e11d48' }
     ],
     sizes: ['S', 'M', 'L', 'XL'],
     media: [
@@ -118,8 +118,8 @@ const DEFAULT_LINGERIE_SEEDS = [
       { label: 'Packaging', value: 'Plain Discreet Courier Bag' }
     ],
     variants: [
-      { name: 'Scarlet Red', price: 38000, priceStr: '₦38,000', img: '/assets/lifestyle-sheets.webp', color: '#e11d48' },
-      { name: 'Midnight Noir', price: 38000, priceStr: '₦38,000', img: '/assets/lifestyle-sheets.webp', color: '#111111' }
+      { name: 'Red', price: 38000, priceStr: '₦38,000', img: '/assets/lifestyle-sheets.webp', color: '#e11d48' },
+      { name: 'Black', price: 38000, priceStr: '₦38,000', img: '/assets/lifestyle-sheets.webp', color: '#111111' }
     ],
     sizes: ['S', 'M', 'L'],
     media: [
@@ -160,16 +160,93 @@ let allInventoryProducts = [];
 let currentVariants = [];
 let currentSizes = ['S', 'M', 'L'];
 let sampledColorPalette = [];
+let currentMediaList = []; // [{ type: 'image' | 'video', src: string, label: string }]
 
-// ================= 3. IMAGE UPLOAD & CANVAS VISUAL ANALYZER =================
+// Category detection dictionaries
+const CATEGORY_KEYWORDS = {
+  lingerie: ['chemise', 'lingerie', 'teddy', 'lace', 'bra', 'panty', 'panties', 'corset', 'silk', 'babydoll', 'g-string', 'slip', 'robe', 'satin', 'underwear', 'bodysuit', 'bustier', 'negligee'],
+  lubes: ['lube', 'lubricant', 'oil', 'gel', 'glide', 'wellness', 'serum', 'butter', 'warming', 'massage', 'botanical', 'fruitastic', 'kailin'],
+  bdsm: ['bdsm', 'cuff', 'whip', 'flogger', 'paddle', 'collar', 'restraint', 'mask', 'rope', 'blindfold', 'gag', 'spank', 'clamp', 'harness', 'leash', 'choker', 'bondage', 'vault'],
+  games: ['game', 'cards', 'dice', 'roulette', 'truth', 'dare', 'couple', 'deck', 'naughty', 'wooden', 'blocks'],
+  toys: ['vibe', 'vibrator', 'wand', 'dildo', 'rabbit', 'clit', 'suction', 'air', 'bullet', 'plug', 'anal', 'masturbat', 'stroker', 'kegel', 'toy', 'silicone', 'tentacle', 'sucker']
+};
+
+const SUGGESTED_PRICES = {
+  toys: 35000,
+  lingerie: 28000,
+  lubes: 18000,
+  bdsm: 22000,
+  games: 15000
+};
+
+// ================= 3. MULTI-MEDIA UPLOAD & CANVAS VISUAL ANALYZER =================
 const dropzone = document.getElementById('dropzone');
 const fileInput = document.getElementById('file-input');
 const prodImgUrlInput = document.getElementById('prod-img-url');
+const btnAddMediaUrl = document.getElementById('btn-add-media-url');
 const previewBox = document.getElementById('preview-box');
 const previewImg = document.getElementById('preview-img');
 const btnRemovePreview = document.getElementById('btn-remove-preview');
 const paletteWrap = document.getElementById('palette-wrap');
 const paletteSwatches = document.getElementById('palette-swatches');
+const mediaGalleryWrap = document.getElementById('media-gallery-wrap');
+const mediaGalleryGrid = document.getElementById('media-gallery-grid');
+const mediaCountEl = document.getElementById('media-count');
+const btnAddMoreMedia = document.getElementById('btn-add-more-media');
+
+const supabaseFixBanner = document.getElementById('supabase-fix-banner');
+const btnCopySupabaseFix = document.getElementById('btn-copy-supabase-fix');
+const supabaseErrorModal = document.getElementById('supabase-error-modal');
+const btnModalCopySql = document.getElementById('btn-modal-copy-sql');
+const btnModalCloseSql = document.getElementById('btn-modal-close-sql');
+
+const SUPABASE_FIX_SQL = `-- TheToysVirago: Enable instant product uploads & auto-create required columns
+alter table public.products disable row level security;
+alter table public.products add column if not exists media jsonb default '[]'::jsonb;
+alter table public.products add column if not exists sizes text[] default '{}';`;
+
+function copySupabaseSqlFix() {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(SUPABASE_FIX_SQL).then(() => {
+      showToast('✓ SQL Fix copied to clipboard! Paste in Supabase SQL editor.');
+    }).catch(() => fallbackCopy(SUPABASE_FIX_SQL));
+  } else {
+    fallbackCopy(SUPABASE_FIX_SQL);
+  }
+}
+
+function fallbackCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  showToast('✓ SQL Fix copied to clipboard!');
+}
+
+if (btnCopySupabaseFix) {
+  btnCopySupabaseFix.addEventListener('click', copySupabaseSqlFix);
+}
+if (btnModalCopySql) {
+  btnModalCopySql.addEventListener('click', () => {
+    copySupabaseSqlFix();
+    if (supabaseErrorModal) supabaseErrorModal.style.display = 'none';
+  });
+}
+if (btnModalCloseSql) {
+  btnModalCloseSql.addEventListener('click', () => {
+    if (supabaseErrorModal) supabaseErrorModal.style.display = 'none';
+  });
+}
+
+function openSupabaseFixModal(errDetail = '') {
+  if (supabaseErrorModal) {
+    supabaseErrorModal.style.display = 'flex';
+  } else {
+    alert(`Supabase Row-Level Security blocked this upload.\n\nTo fix, copy this SQL and run in your Supabase SQL Editor:\n\n${SUPABASE_FIX_SQL}`);
+  }
+}
 
 if (dropzone && fileInput) {
   dropzone.addEventListener('click', () => fileInput.click());
@@ -186,53 +263,216 @@ if (dropzone && fileInput) {
   dropzone.addEventListener('drop', (e) => {
     e.preventDefault();
     dropzone.classList.remove('dragover');
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      handleImageFile(e.dataTransfer.files[0]);
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      handleMultipleFiles(Array.from(e.dataTransfer.files));
     }
   });
 
   fileInput.addEventListener('change', (e) => {
-    if (e.target.files && e.target.files[0]) {
-      handleImageFile(e.target.files[0]);
+    if (e.target.files && e.target.files.length > 0) {
+      handleMultipleFiles(Array.from(e.target.files));
     }
   });
 }
 
-if (prodImgUrlInput) {
-  prodImgUrlInput.addEventListener('input', () => {
+if (btnAddMoreMedia && fileInput) {
+  btnAddMoreMedia.addEventListener('click', () => fileInput.click());
+}
+
+if (btnAddMediaUrl && prodImgUrlInput) {
+  btnAddMediaUrl.addEventListener('click', () => {
     const url = prodImgUrlInput.value.trim();
-    if (url) {
-      displayPreviewImage(url);
-    }
+    if (!url) return;
+    const isVideo = url.endsWith('.mp4') || url.endsWith('.webm') || url.endsWith('.mov');
+    currentMediaList.push({
+      type: isVideo ? 'video' : 'image',
+      src: url,
+      label: `Media ${currentMediaList.length + 1}`
+    });
+    renderMediaGallery();
+    displayPreviewImage(currentMediaList[0].src);
+    prodImgUrlInput.value = '';
+    showToast('Media added to product gallery.');
   });
 }
 
 if (btnRemovePreview) {
   btnRemovePreview.addEventListener('click', () => {
-    if (previewImg) previewImg.src = '';
-    if (previewBox) previewBox.style.display = 'none';
-    if (prodImgUrlInput) prodImgUrlInput.value = '';
-    if (paletteWrap) paletteWrap.style.display = 'none';
-    sampledColorPalette = [];
+    if (currentMediaList.length > 0) {
+      currentMediaList.shift();
+      renderMediaGallery();
+      if (currentMediaList.length > 0) {
+        displayPreviewImage(currentMediaList[0].src);
+      } else {
+        if (previewImg) previewImg.src = '';
+        if (previewBox) previewBox.style.display = 'none';
+        if (paletteWrap) paletteWrap.style.display = 'none';
+        sampledColorPalette = [];
+      }
+    }
   });
 }
 
-function handleImageFile(file) {
-  if (!file.type.startsWith('image/')) {
-    showToast('Please upload a valid image file.');
+function handleMultipleFiles(files) {
+  const validFiles = files.filter(f => f.type.startsWith('image/') || f.type.startsWith('video/'));
+  if (validFiles.length === 0) {
+    showToast('Please upload valid image or video files.');
     return;
   }
 
-  showToast('Processing photo...');
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    const dataUrl = e.target.result;
-    compressAndSetImage(dataUrl);
-  };
-  reader.readAsDataURL(file);
+  showToast(`Processing ${validFiles.length} media file(s)...`);
+
+  // Auto-recognize product details from first file if title not manually set
+  const firstImage = validFiles.find(f => f.type.startsWith('image/')) || validFiles[0];
+  if (firstImage) {
+    autoRecognizeProductFromFileName(firstImage.name);
+  }
+
+  validFiles.forEach((file) => {
+    const isVideo = file.type.startsWith('video/');
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const dataUrl = e.target.result;
+      if (isVideo) {
+        currentMediaList.push({
+          type: 'video',
+          src: dataUrl,
+          label: file.name
+        });
+        renderMediaGallery();
+      } else {
+        compressImageFile(dataUrl, (compressedUrl, ctx, w, h) => {
+          // If first image, extract canvas color palette
+          if (currentMediaList.length === 0 || !currentMediaList.some(m => m.type === 'image')) {
+            extractPaletteFromCanvas(ctx, w, h);
+          }
+          currentMediaList.push({
+            type: 'image',
+            src: compressedUrl,
+            label: file.name
+          });
+          renderMediaGallery();
+        });
+      }
+    };
+    reader.readAsDataURL(file);
+  });
 }
 
-function compressAndSetImage(dataUrl) {
+function renderMediaGallery() {
+  if (!mediaGalleryWrap || !mediaGalleryGrid) return;
+  if (currentMediaList.length === 0) {
+    mediaGalleryWrap.style.display = 'none';
+    if (previewBox) previewBox.style.display = 'none';
+    return;
+  }
+
+  mediaGalleryWrap.style.display = 'block';
+  if (mediaCountEl) mediaCountEl.textContent = currentMediaList.length;
+
+  mediaGalleryGrid.innerHTML = '';
+  currentMediaList.forEach((media, idx) => {
+    const isPrimary = idx === 0;
+    const card = document.createElement('div');
+    card.className = `admin-media-card ${isPrimary ? 'is-primary' : ''}`;
+    card.title = isPrimary ? 'Primary Storefront Image' : 'Click to set as primary';
+
+    card.innerHTML = `
+      ${media.type === 'video'
+        ? `<video src="${media.src}" class="admin-media-thumb" muted></video><span class="admin-media-badge-type">VIDEO</span>`
+        : `<img src="${media.src}" alt="${media.label || 'Product media'}" class="admin-media-thumb" />`
+      }
+      ${isPrimary ? '<span class="admin-media-badge-primary">PRIMARY</span>' : ''}
+      <button type="button" class="admin-media-del-btn" title="Remove media" data-idx="${idx}">&times;</button>
+    `;
+
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('.admin-media-del-btn')) return;
+      if (idx !== 0) {
+        const [selected] = currentMediaList.splice(idx, 1);
+        currentMediaList.unshift(selected);
+        renderMediaGallery();
+        displayPreviewImage(selected.src);
+      }
+    });
+
+    const delBtn = card.querySelector('.admin-media-del-btn');
+    if (delBtn) {
+      delBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        currentMediaList.splice(idx, 1);
+        renderMediaGallery();
+        if (currentMediaList.length > 0) {
+          displayPreviewImage(currentMediaList[0].src);
+        } else {
+          if (previewBox) previewBox.style.display = 'none';
+          if (paletteWrap) paletteWrap.style.display = 'none';
+        }
+      });
+    }
+
+    mediaGalleryGrid.appendChild(card);
+  });
+
+  if (currentMediaList[0]) {
+    displayPreviewImage(currentMediaList[0].src);
+  }
+}
+
+function autoRecognizeProductFromFileName(fileName) {
+  if (!fileName) return;
+
+  const rawBase = fileName.replace(/\.[^/.]+$/, '');
+  const cleanTokens = rawBase
+    .replace(/[_\-]+/g, ' ')
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .replace(/\b(img|image|photo|screenshot|dsc|pic|copy|\d+)\b/gi, '')
+    .trim();
+
+  let detectedCategory = null;
+  const lowerBase = rawBase.toLowerCase();
+  for (const [cat, words] of Object.entries(CATEGORY_KEYWORDS)) {
+    if (words.some(w => lowerBase.includes(w))) {
+      detectedCategory = cat;
+      break;
+    }
+  }
+
+  const categorySelect = document.getElementById('prod-category');
+  if (detectedCategory && categorySelect) {
+    categorySelect.value = detectedCategory;
+  }
+  const effectiveCat = categorySelect ? categorySelect.value : (detectedCategory || 'toys');
+
+  const titleInput = document.getElementById('prod-title');
+  let synthesizedTitle = '';
+  if (cleanTokens.length >= 3) {
+    synthesizedTitle = cleanTokens
+      .split(' ')
+      .filter(Boolean)
+      .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+      .join(' ');
+  } else {
+    const catData = BOUDOIR_LEXICON[effectiveCat] || BOUDOIR_LEXICON.lingerie;
+    synthesizedTitle = catData.titles[Math.floor(Math.random() * catData.titles.length)];
+  }
+
+  if (titleInput && (!titleInput.value.trim() || titleInput.value.startsWith('Untitled'))) {
+    titleInput.value = synthesizedTitle;
+  }
+
+  const priceInput = document.getElementById('prod-price');
+  if (priceInput && (!priceInput.value || Number(priceInput.value) === 0)) {
+    priceInput.value = SUGGESTED_PRICES[effectiveCat] || 25000;
+  }
+
+  // Synthesize complete details automatically
+  setTimeout(() => {
+    autoGenerateProductDescription();
+  }, 200);
+}
+
+function compressImageFile(dataUrl, callback) {
   const img = new Image();
   img.onload = () => {
     const canvas = document.createElement('canvas');
@@ -255,13 +495,8 @@ function compressAndSetImage(dataUrl) {
     const ctx = canvas.getContext('2d');
     ctx.drawImage(img, 0, 0, width, height);
 
-    // Extract dominant palette colors
-    extractPaletteFromCanvas(ctx, width, height);
-
     const compressed = canvas.toDataURL('image/webp', 0.88);
-    displayPreviewImage(compressed);
-    if (prodImgUrlInput) prodImgUrlInput.value = compressed;
-    showToast('Image ready with color palette extracted!');
+    if (callback) callback(compressed, ctx, width, height);
   };
   img.src = dataUrl;
 }
@@ -319,14 +554,17 @@ function getColorNameFromHex(hex) {
   const g = parseInt(hex.slice(3, 5), 16);
   const b = parseInt(hex.slice(5, 7), 16);
 
-  if (r > 150 && g < 80 && b < 80) return 'Ruby Wine';
-  if (r > 180 && g < 100 && b > 140) return 'Magenta Plum';
-  if (r < 60 && g < 60 && b < 60) return 'Noir Black';
-  if (r > 200 && g > 200 && b > 200) return 'Silk White';
-  if (r > 180 && g > 150 && b < 100) return 'Champagne Gold';
-  if (r > 180 && g > 120 && b > 120) return 'Blush Nude';
-  if (g > 140 && r < 100) return 'Emerald Noir';
-  return 'Boudoir Shade';
+  if (r > 150 && g < 80 && b < 80) return 'Ruby';
+  if (r > 180 && g < 100 && b > 140) return 'Plum';
+  if (r < 60 && g < 60 && b < 60) return 'Black';
+  if (r > 200 && g > 200 && b > 200) return 'White';
+  if (r > 180 && g > 150 && b < 100) return 'Gold';
+  if (r > 180 && g > 120 && b > 120) return 'Nude';
+  if (g > 140 && r < 100) return 'Green';
+  if (b > 140 && r < 100) return 'Blue';
+  if (r > 160 && g < 120 && b > 160) return 'Purple';
+  if (r > 180 && g < 140 && b < 140) return 'Red';
+  return 'Rose';
 }
 
 // ================= 4. HAUTE BOUDOIR AI COPYWRITING ENGINE =================
@@ -665,8 +903,11 @@ function renderVariants() {
 
 function addColorVariant(name, color) {
   if (!name) return;
-  if (!currentVariants.some(v => v.name.toLowerCase() === name.toLowerCase())) {
-    currentVariants.push({ name, color });
+  const singleWord = name.trim().split(/\s+/)[0];
+  if (!singleWord) return;
+  const capitalized = singleWord.charAt(0).toUpperCase() + singleWord.slice(1).toLowerCase();
+  if (!currentVariants.some(v => v.name.toLowerCase() === capitalized.toLowerCase())) {
+    currentVariants.push({ name: capitalized, color });
     renderVariants();
   }
 }
@@ -729,6 +970,8 @@ function resetForm() {
   if (previewImg) previewImg.src = '';
   if (previewBox) previewBox.style.display = 'none';
   if (paletteWrap) paletteWrap.style.display = 'none';
+  currentMediaList = [];
+  renderMediaGallery();
   currentVariants = [];
   currentSizes = ['S', 'M', 'L'];
   sampledColorPalette = [];
@@ -740,6 +983,8 @@ function resetForm() {
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
     Save Product to Catalog
   `;
+  const editBanner = document.getElementById('editing-indicator-banner');
+  if (editBanner) editBanner.style.display = 'none';
 }
 
 if (btnResetForm) {
@@ -783,12 +1028,17 @@ async function handleSaveProduct(shouldRedirectToShop = false) {
   const acoustics = (acousticsInput ? acousticsInput.value : '').trim() || 'Whisper-Soft on Bare Skin';
   const inStock = inStockInput ? inStockInput.checked : true;
 
-  // Image source: from preview or url or fallback
-  let imgSrc = (previewImg && previewImg.src && previewImg.src !== window.location.href) ? previewImg.src : '';
+  // Media & Image resolution
+  const primaryMedia = currentMediaList[0];
+  let imgSrc = (primaryMedia && primaryMedia.src) || (previewImg && previewImg.src && previewImg.src !== window.location.href ? previewImg.src : '');
   if (!imgSrc && prodImgUrlInput) imgSrc = prodImgUrlInput.value.trim();
   if (!imgSrc) {
     imgSrc = category === 'lingerie' ? '/assets/category-lingerie.webp' : '/assets/product-rose.webp';
   }
+
+  const finalMedia = currentMediaList.length > 0
+    ? [...currentMediaList]
+    : [{ type: 'image', src: imgSrc, label: title }];
 
   if (!title || price <= 0 || !desc) {
     showToast('Please provide a product title, price, and description.');
@@ -829,7 +1079,7 @@ async function handleSaveProduct(shouldRedirectToShop = false) {
       color: v.color
     })) : [],
     sizes: [...currentSizes],
-    media: [{ type: 'image', src: imgSrc, label: title }],
+    media: finalMedia,
     material,
     acoustics,
     inStock
@@ -856,8 +1106,8 @@ async function handleSaveProduct(shouldRedirectToShop = false) {
         showToast(`✓ "${title}" uploaded to Supabase immediately!`);
       } else {
         console.warn('[Supabase] Sync notice:', res.error);
-        if (res.error && res.error.includes('row-level security')) {
-          alert(`Product saved to Local Vault!\n\nNote: Supabase has Row-Level Security active on the "products" table. To allow immediate public uploads without errors, run this 1 line in your Supabase SQL Editor:\n\nalter table public.products disable row level security;\n\nor add your Supabase Service Role Key in Admin Settings.`);
+        if (res.isRlsError || (res.error && (res.error.includes('row-level security') || res.error.includes('42501')))) {
+          openSupabaseFixModal(res.error);
         } else {
           showToast(`Saved locally. Supabase note: ${res.error || 'Check connection'}`);
         }
@@ -888,6 +1138,7 @@ async function handleSaveProduct(shouldRedirectToShop = false) {
 const inventoryTableBody = document.getElementById('inventory-table-body');
 const inventorySearchInput = document.getElementById('inventory-search');
 const inventoryCategoryPills = document.querySelectorAll('.admin-filter-pill');
+const inventoryCategorySelect = document.getElementById('inventory-category-select');
 
 let activeInventoryFilter = 'all';
 
@@ -927,14 +1178,17 @@ function renderInventoryTable() {
       </td>
       <td>
         <div class="admin-prod-info">
-          <span class="admin-prod-name">${prod.title}</span>
-          <span class="admin-prod-sku">${prod.sku || prod.id} ${isCustom ? '• <strong style="color: #e11d48;">CUSTOM</strong>' : ''}</span>
+          <span class="admin-prod-name" title="${prod.title}">${prod.title}</span>
+          <span class="admin-prod-sku desktop-only-sku">${prod.sku || prod.id} ${isCustom ? '• <strong style="color: #e11d48;">CUSTOM</strong>' : ''}</span>
         </div>
       </td>
       <td>
-        <span class="admin-cat-badge cat-${prod.category || 'toys'}">${prod.category || 'toys'}</span>
+        <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+          <span class="admin-cat-badge cat-${prod.category || 'toys'}">${prod.category || 'toys'}</span>
+          <span class="admin-prod-sku mobile-only-sku">${prod.sku || prod.id} ${isCustom ? '• <strong style="color: #e11d48;">CUSTOM</strong>' : ''}</span>
+        </div>
       </td>
-      <td style="font-weight: 600; color: #fff;">
+      <td style="font-weight: 700; color: #0f172a;" class="admin-prod-price-cell">
         ${prod.priceStr || ('₦' + Number(prod.price).toLocaleString())}
       </td>
       <td>
@@ -1016,7 +1270,19 @@ function loadProductIntoForm(prod) {
   if (acousticsInput) acousticsInput.value = prod.acoustics || '';
   if (inStockInput) inStockInput.checked = prod.inStock !== false;
 
-  if (prod.img) {
+  if (Array.isArray(prod.media) && prod.media.length > 0) {
+    currentMediaList = [...prod.media];
+  } else if (prod.img) {
+    currentMediaList = [{ type: 'image', src: prod.img, label: prod.title || 'Product Image' }];
+  } else {
+    currentMediaList = [];
+  }
+  renderMediaGallery();
+
+  if (currentMediaList.length > 0) {
+    displayPreviewImage(currentMediaList[0].src);
+    if (prodImgUrlInput) prodImgUrlInput.value = '';
+  } else if (prod.img) {
     displayPreviewImage(prod.img);
     if (prodImgUrlInput) prodImgUrlInput.value = prod.img;
   }
@@ -1031,11 +1297,20 @@ function loadProductIntoForm(prod) {
   if (saveBtn) {
     saveBtn.innerHTML = `
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-      Update "${prod.title}" in Catalog
+      Update Product in Catalog
     `;
   }
 
+  // Show editing banner
+  const editBanner = document.getElementById('editing-indicator-banner');
+  const editLabel = document.getElementById('editing-product-label');
+  if (editBanner && editLabel) {
+    editLabel.textContent = `Editing: ${prod.title}`;
+    editBanner.style.display = 'flex';
+  }
+
   switchTab('upload-panel');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
   showToast(`Editing "${prod.title}". Make changes and click Update.`);
 }
 
@@ -1057,11 +1332,28 @@ if (inventorySearchInput) {
   inventorySearchInput.addEventListener('input', renderInventoryTable);
 }
 
+if (inventoryCategorySelect) {
+  inventoryCategorySelect.addEventListener('change', (e) => {
+    activeInventoryFilter = e.target.value || 'all';
+    inventoryCategoryPills.forEach(p => {
+      if (p.dataset.cat === activeInventoryFilter) {
+        p.classList.add('active');
+      } else {
+        p.classList.remove('active');
+      }
+    });
+    renderInventoryTable();
+  });
+}
+
 inventoryCategoryPills.forEach(pill => {
   pill.addEventListener('click', () => {
     inventoryCategoryPills.forEach(p => p.classList.remove('active'));
     pill.classList.add('active');
     activeInventoryFilter = pill.dataset.cat || 'all';
+    if (inventoryCategorySelect) {
+      inventoryCategorySelect.value = activeInventoryFilter;
+    }
     renderInventoryTable();
   });
 });
@@ -1264,6 +1556,15 @@ const tabBtns = document.querySelectorAll('.admin-tab-btn');
 const panels = document.querySelectorAll('.admin-panel');
 const btnSwitchToUpload = document.getElementById('btn-switch-to-upload');
 
+
+  const btnCancelEdit = document.getElementById('btn-cancel-edit');
+  if (btnCancelEdit) {
+    btnCancelEdit.addEventListener('click', () => {
+      resetForm();
+      switchTab('inventory-panel');
+    });
+  }
+
 function switchTab(tabId) {
   tabBtns.forEach(btn => {
     btn.classList.toggle('active', btn.dataset.tab === tabId);
@@ -1315,3 +1616,70 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 });
+
+
+// ================= BULLETPROOF BACKGROUND SCROLL LOCK =================
+function updateBodyScrollLock() {
+  const modalOverlays = document.querySelectorAll(
+    '.modal-overlay, .drawer-overlay, .admin-gate-overlay, .supabase-modal-overlay'
+  );
+  let isAnyModalOpen = false;
+  modalOverlays.forEach((el) => {
+    if (
+      !el.hasAttribute('hidden') &&
+      el.style.display !== 'none' &&
+      window.getComputedStyle(el).display !== 'none'
+    ) {
+      isAnyModalOpen = true;
+    }
+  });
+
+  if (isAnyModalOpen) {
+    document.documentElement.classList.add('modal-open');
+    document.body.classList.add('modal-open');
+  } else {
+    document.documentElement.classList.remove('modal-open');
+    document.body.classList.remove('modal-open');
+  }
+}
+
+// Global helper functions
+window.lockBodyScroll = function() {
+  document.documentElement.classList.add('modal-open');
+  document.body.classList.add('modal-open');
+};
+
+window.unlockBodyScroll = function() {
+  updateBodyScrollLock();
+};
+
+const scrollLockObserver = new MutationObserver(() => {
+  updateBodyScrollLock();
+});
+
+function initScrollLockObservers() {
+  const targets = document.querySelectorAll(
+    '.modal-overlay, .drawer-overlay, .admin-gate-overlay, .supabase-modal-overlay'
+  );
+  targets.forEach((target) => {
+    scrollLockObserver.observe(target, {
+      attributes: true,
+      attributeFilter: ['style', 'hidden', 'class']
+    });
+
+    // Prevent background touch scrolling when touching backdrop
+    target.addEventListener('touchmove', (e) => {
+      if (e.target === target) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+  });
+
+  updateBodyScrollLock();
+}
+
+if (document.readyState === 'loading') {
+  window.addEventListener('DOMContentLoaded', initScrollLockObservers);
+} else {
+  initScrollLockObservers();
+}

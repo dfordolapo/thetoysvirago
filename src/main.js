@@ -543,18 +543,179 @@ const GENERAL_PRODUCT_TERMS = {
   'african-brute': 'african brute herbal tincture tonic stamina endurance libido energy sex drive nafdac supplement wellness potion liquid oral aphrodisiac lube'
 };
 
-function filterProducts() {
+// ── CATALOG PAGINATION & TOUCH SWIPE LOGIC ──
+let currentCatalogPage = 1;
+const CATALOG_PAGE_SIZE = 6;
+let currentMatchingCatalogCards = [];
+
+function updateCatalogPage(page, smoothScroll = false) {
+  const totalCards = currentMatchingCatalogCards.length;
+  const totalPages = Math.ceil(totalCards / CATALOG_PAGE_SIZE) || 1;
+  currentCatalogPage = Math.max(1, Math.min(page, totalPages));
+
+  const startIdx = (currentCatalogPage - 1) * CATALOG_PAGE_SIZE;
+  const endIdx = startIdx + CATALOG_PAGE_SIZE;
+
+  const grid = document.getElementById('products-grid');
+  if (grid) {
+    grid.classList.add('page-transitioning');
+  }
+
+  // Show only matching cards within the current page window
+  currentMatchingCatalogCards.forEach((card, index) => {
+    if (index >= startIdx && index < endIdx) {
+      card.style.display = 'flex';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+
+  setTimeout(() => {
+    if (grid) grid.classList.remove('page-transitioning');
+  }, 120);
+
+  renderPaginationControls(totalPages, totalCards, startIdx, endIdx);
+
+  if (smoothScroll && grid) {
+    const rect = grid.getBoundingClientRect();
+    if (rect.top < 0 || rect.top > 250) {
+      const topOffset = window.pageYOffset + rect.top - 90;
+      window.scrollTo({ top: topOffset, behavior: 'smooth' });
+    }
+  }
+}
+
+function renderPaginationControls(totalPages, totalCards, startIdx, endIdx) {
+  const container = document.getElementById('products-pagination');
+  const btnRow = document.getElementById('pagination-buttons-row');
+  const infoEl = document.getElementById('pagination-info');
+  if (!container || !btnRow) return;
+
+  if (totalCards === 0) {
+    container.style.display = 'none';
+    return;
+  }
+  container.style.display = 'flex';
+
+  const displayedEnd = Math.min(endIdx, totalCards);
+  const displayedStart = totalCards > 0 ? startIdx + 1 : 0;
+  if (infoEl) {
+    infoEl.textContent = `Showing ${displayedStart}–${displayedEnd} of ${totalCards} products · Page ${currentCatalogPage} of ${totalPages}`;
+  }
+
+  if (totalPages <= 1) {
+    btnRow.innerHTML = '';
+    return;
+  }
+
+  let html = '';
+
+  // Prev Button
+  const prevDisabled = currentCatalogPage === 1 ? 'disabled' : '';
+  html += `<button type="button" class="page-nav-btn" data-page="${currentCatalogPage - 1}" ${prevDisabled}>&larr; Prev</button>`;
+
+  // Smart Page Numbers with Ellipses
+  const pagesToShow = [];
+  for (let i = 1; i <= totalPages; i++) {
+    if (i === 1 || i === totalPages || (i >= currentCatalogPage - 1 && i <= currentCatalogPage + 1)) {
+      pagesToShow.push(i);
+    }
+  }
+
+  let lastP = 0;
+  pagesToShow.forEach(p => {
+    if (lastP && p - lastP > 1) {
+      html += `<span class="pagination-ellipsis">&hellip;</span>`;
+    }
+    const activeClass = p === currentCatalogPage ? 'active' : '';
+    html += `<button type="button" class="page-num-btn ${activeClass}" data-page="${p}">${p}</button>`;
+    lastP = p;
+  });
+
+  // Next Button
+  const nextDisabled = currentCatalogPage === totalPages ? 'disabled' : '';
+  html += `<button type="button" class="page-nav-btn" data-page="${currentCatalogPage + 1}" ${nextDisabled}>Next &rarr;</button>`;
+
+  btnRow.innerHTML = html;
+
+  // Bind pagination click events
+  btnRow.querySelectorAll('button[data-page]').forEach(b => {
+    b.addEventListener('click', () => {
+      const p = Number(b.dataset.page);
+      if (!isNaN(p) && p !== currentCatalogPage) {
+        updateCatalogPage(p, true);
+      }
+    });
+  });
+}
+
+function initCatalogTouchSwipe() {
+  const grid = document.getElementById('products-grid');
+  if (!grid) return;
+
+  let startX = 0;
+  let startY = 0;
+
+  grid.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 1) {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    }
+  }, { passive: true });
+
+  grid.addEventListener('touchend', (e) => {
+    if (e.changedTouches.length === 1) {
+      const diffX = e.changedTouches[0].clientX - startX;
+      const diffY = e.changedTouches[0].clientY - startY;
+
+      // Deliberate horizontal swipe
+      if (Math.abs(diffX) > 48 && Math.abs(diffX) > Math.abs(diffY) * 1.3) {
+        const totalCards = currentMatchingCatalogCards.length;
+        const totalPages = Math.ceil(totalCards / CATALOG_PAGE_SIZE) || 1;
+        if (diffX < 0 && currentCatalogPage < totalPages) {
+          updateCatalogPage(currentCatalogPage + 1, true);
+        } else if (diffX > 0 && currentCatalogPage > 1) {
+          updateCatalogPage(currentCatalogPage - 1, true);
+        }
+      }
+    }
+  }, { passive: true });
+}
+
+function initAbujaCarousel() {
+  const track = document.getElementById('abuja-carousel-track');
+  const btnPrev = document.getElementById('btn-abuja-prev');
+  const btnNext = document.getElementById('btn-abuja-next');
+  if (!track) return;
+
+  if (btnNext) {
+    btnNext.addEventListener('click', () => {
+      track.scrollBy({ left: 300, behavior: 'smooth' });
+    });
+  }
+  if (btnPrev) {
+    btnPrev.addEventListener('click', () => {
+      track.scrollBy({ left: -300, behavior: 'smooth' });
+    });
+  }
+}
+
+function filterProducts(resetPage = true) {
   const query = (searchInput ? searchInput.value : '').trim().toLowerCase();
   const activeBtn = document.querySelector('.filter-btn.active');
   const activeCategory = activeBtn ? activeBtn.dataset.filter : 'all';
-  let visibleCount = 0;
 
   if (searchClearBtn) {
     searchClearBtn.style.display = query ? 'block' : 'none';
   }
 
-  const currentCards = document.querySelectorAll('.product-card');
-  currentCards.forEach((card) => {
+  const catalogCards = document.querySelectorAll('#products-grid .product-card');
+  const abujaCards = document.querySelectorAll('#abuja-carousel-track .product-card');
+
+  currentMatchingCatalogCards = [];
+  let visibleAbujaCount = 0;
+
+  catalogCards.forEach((card) => {
     const cardCat = card.dataset.category || '';
     const cardId = card.dataset.id || '';
     const generalTerms = (GENERAL_PRODUCT_TERMS[cardId] || '').toLowerCase();
@@ -565,24 +726,50 @@ function filterProducts() {
     const colors = Array.from(card.querySelectorAll('.color-dot')).map(d => (d.dataset.color || '').toLowerCase()).join(' ');
 
     const allSearchable = `${name} ${sku} ${line} ${cardKeywords} ${generalTerms} ${colors} ${cardCat}`;
-
-    // If query is provided, check if it matches either the card's details or general product terms
     const matchesSearch = !query || allSearchable.includes(query);
-
-    // When searching with a query, if the item matches the query we show it even if filtered,
-    // otherwise respect category (if 'all' or no button active, show all)
     const matchesCat = (activeCategory === 'all' || !activeCategory || cardCat === activeCategory || (query && matchesSearch));
 
     if (matchesSearch && matchesCat) {
-      card.style.display = 'flex';
-      visibleCount++;
+      currentMatchingCatalogCards.push(card);
     } else {
       card.style.display = 'none';
     }
   });
 
+  // Filter cards in Abuja carousel track
+  abujaCards.forEach((card) => {
+    const cardCat = card.dataset.category || '';
+    const cardId = card.dataset.id || '';
+    const generalTerms = (GENERAL_PRODUCT_TERMS[cardId] || '').toLowerCase();
+    const cardKeywords = (card.dataset.keywords || '').toLowerCase();
+    const name = (card.querySelector('.product-name')?.textContent || '').toLowerCase();
+    const sku = (card.querySelector('.product-sku')?.textContent || '').toLowerCase();
+
+    const allSearchable = `${name} ${sku} ${cardKeywords} ${generalTerms} ${cardCat}`;
+    const matchesSearch = !query || allSearchable.includes(query);
+    const matchesCat = (activeCategory === 'all' || !activeCategory || cardCat === activeCategory || (query && matchesSearch));
+
+    if (matchesSearch && matchesCat) {
+      card.style.display = 'flex';
+      visibleAbujaCount++;
+    } else {
+      card.style.display = 'none';
+    }
+  });
+
+  const abujaSection = document.getElementById('abuja');
+  if (abujaSection) {
+    if (activeCategory !== 'all' && activeCategory && visibleAbujaCount === 0 && !query) {
+      abujaSection.style.display = 'none';
+    } else {
+      abujaSection.style.display = 'block';
+    }
+  }
+
+  const totalVisible = currentMatchingCatalogCards.length + visibleAbujaCount;
+
   if (searchNoResults) {
-    if (visibleCount === 0) {
+    if (totalVisible === 0) {
       searchNoResults.removeAttribute('hidden');
       searchNoResults.style.display = 'block';
       const noResultsTitle = document.getElementById('no-results-title');
@@ -606,8 +793,12 @@ function filterProducts() {
   }
 
   if (searchCount) {
-    searchCount.textContent = `Showing ${visibleCount} of ${currentCards.length} products`;
+    const totalAllCards = catalogCards.length + abujaCards.length;
+    searchCount.textContent = `Showing ${totalVisible} of ${totalAllCards} products`;
   }
+
+  // Display page 1 of paginated matching catalog cards
+  updateCatalogPage(resetPage ? 1 : currentCatalogPage, false);
 }
 
 function applyProductFilter(category) {
@@ -615,7 +806,7 @@ function applyProductFilter(category) {
   allBtns.forEach((b) => {
     b.classList.toggle('active', b.dataset.filter === category);
   });
-  filterProducts();
+  filterProducts(true);
 }
 
 document.querySelectorAll('.filter-btn').forEach((btn) => {
@@ -623,12 +814,15 @@ document.querySelectorAll('.filter-btn').forEach((btn) => {
     const isAlreadyActive = btn.classList.contains('active');
     if (isAlreadyActive) {
       btn.classList.remove('active');
-      filterProducts();
+      filterProducts(true);
     } else {
       applyProductFilter(btn.dataset.filter);
     }
   });
 });
+
+initCatalogTouchSwipe();
+initAbujaCarousel();
 
 if (searchInput) {
   searchInput.addEventListener('input', filterProducts);
@@ -667,7 +861,11 @@ if (initialFilter) {
 
   if (matchBtn) {
     applyProductFilter(matchBtn.dataset.filter);
+  } else {
+    filterProducts(true);
   }
+} else {
+  filterProducts(true);
 }
 
 // Interactive Finish / Color Dots
@@ -684,9 +882,7 @@ document.querySelectorAll('.color-selector, .color-row').forEach((selector) => {
       dots.forEach((d) => d.classList.remove('active'));
       dot.classList.add('active');
       const chosenColor = dot.dataset.color;
-      if (label && chosenColor) {
-        label.textContent = chosenColor;
-      }
+      
 
       // Update card preview image if color dot has an individual image
       if (dot.dataset.img && cardImg) {
@@ -800,7 +996,7 @@ const PRODUCT_DATABASE = {
   'rose-blossom': {
     id: 'rose-blossom',
     title: 'The Rose Sucker',
-    badge: 'BESTSELLER • AIR-PULSE SUCTION',
+    badge: 'BESTSELLER',
     price: 25000,
     priceStr: '₦25,000',
     img: '/assets/product-rose.jpg',
@@ -834,7 +1030,7 @@ const PRODUCT_DATABASE = {
   'pulsating-rose': {
     id: 'pulsating-rose',
     title: 'Pulsating Rose',
-    badge: 'NEW • SUCKER & LICKER',
+    badge: 'NEW ARRIVAL',
     price: 35000,
     priceStr: '₦35,000',
     img: '/assets/rose-pair-duo.webp',
@@ -864,7 +1060,7 @@ const PRODUCT_DATABASE = {
   'sceptre-wand': {
     id: 'sceptre-wand',
     title: 'The Mini Wand',
-    badge: 'DEEP RUMBLE • POCKET MASSAGER',
+    badge: 'DEEP RUMBLE',
     price: 15000,
     priceStr: '₦15,000',
     img: '/assets/product-wand.jpg',
@@ -895,7 +1091,7 @@ const PRODUCT_DATABASE = {
   'siren-app': {
     id: 'siren-app',
     title: 'The Siren',
-    badge: 'APP CONNECT • LONG DISTANCE',
+    badge: 'APP CONNECT',
     price: 27000,
     priceStr: '₦27,000',
     img: '/assets/siren-app-red.webp',
@@ -925,7 +1121,7 @@ const PRODUCT_DATABASE = {
   'lipstick-vibe': {
     id: 'lipstick-vibe',
     title: 'Lipstick Vibe',
-    badge: 'RECHARGEABLE • STEALTH LUXE',
+    badge: 'RECHARGEABLE',
     price: 22000,
     priceStr: '₦22,000',
     img: '/assets/lipstick-hand.webp',
@@ -949,7 +1145,7 @@ const PRODUCT_DATABASE = {
   'sculpted-dildo': {
     id: 'sculpted-dildo',
     title: 'The Contour Shaft',
-    badge: 'DUAL SIZE • SUCTION BASE',
+    badge: 'DUAL SIZE',
     price: 15000,
     priceStr: '₦15,000 (6") • ₦17,000 (7")',
     img: '/assets/dildo-trio.webp',
@@ -982,7 +1178,7 @@ const PRODUCT_DATABASE = {
   'thrusting-dildo': {
     id: 'thrusting-dildo',
     title: 'Kinetic Thrusting Shaft',
-    badge: 'REMOTE CONTROLLED • MOTORIZED THRUST',
+    badge: 'REMOTE CONTROLLED',
     price: 45000,
     priceStr: '₦45,000',
     img: '/assets/thrusting-dildo-duo.webp',
@@ -1018,7 +1214,7 @@ const PRODUCT_DATABASE = {
   'sucking-rabbit': {
     id: 'sucking-rabbit',
     title: 'The Sucking Rabbit',
-    badge: 'AIR-PULSE SUCTION • DUAL STIM',
+    badge: 'AIR-PULSE SUCTION',
     price: 35000,
     priceStr: '₦35,000',
     img: '/assets/sucking-rabbit.webp',
@@ -1043,7 +1239,7 @@ const PRODUCT_DATABASE = {
   'non-vibrating-plugs': {
     id: 'non-vibrating-plugs',
     title: 'Contour Crystal Plugs',
-    badge: 'NON-VIBRATING • 3 SIZES',
+    badge: 'NON-VIBRATING',
     price: 8000,
     priceStr: '₦8,000 (S) • ₦9,000 (M) • ₦10,000 (L)',
     img: '/assets/plugs-vault-chest.webp',
@@ -1078,7 +1274,7 @@ const PRODUCT_DATABASE = {
   'rabbit-cock-ring': {
     id: 'rabbit-cock-ring',
     title: 'Rabbit Cock Ring',
-    badge: 'RECHARGEABLE • DUAL STAMINA',
+    badge: 'RECHARGEABLE',
     price: 25000,
     priceStr: '₦25,000',
     img: '/assets/rabbit-cock-ring.webp',
@@ -1103,7 +1299,7 @@ const PRODUCT_DATABASE = {
   'creature-cock-ring': {
     id: 'creature-cock-ring',
     title: 'Creature Cock Ring',
-    badge: 'STAMINA LOCK • NON-VIBRATING',
+    badge: 'STAMINA LOCK',
     price: 15000,
     priceStr: '₦15,000',
     img: '/assets/creature-cock-ring.webp',
@@ -1129,7 +1325,7 @@ const PRODUCT_DATABASE = {
   'pocket-bullet': {
     id: 'pocket-bullet',
     title: 'Velvet Pocket Bullet',
-    badge: 'POCKET POWER • 10 MODES',
+    badge: 'POCKET POWER',
     price: 15000,
     priceStr: '₦15,000',
     img: '/assets/bullet-vibe-all-colors.webp',
@@ -1162,7 +1358,7 @@ const PRODUCT_DATABASE = {
   'contour-bullet-6inch': {
     id: 'contour-bullet-6inch',
     title: 'Heart Bullet 6"',
-    badge: '6 INCHES • 🎬 VIDEO',
+    badge: '6 INCHES',
     price: 18000,
     priceStr: '₦18,000',
     img: '/assets/bullet-6inch-in-hand.webp',
@@ -1193,7 +1389,7 @@ const PRODUCT_DATABASE = {
   'sleek-bullet-7inch': {
     id: 'sleek-bullet-7inch',
     title: 'Sleek Bullet 7"',
-    badge: '7 INCHES • 🎬 VIDEO',
+    badge: '7 INCHES',
     price: 20000,
     priceStr: '₦20,000',
     img: '/assets/bullet-7inch-metallic-pair.webp',
@@ -1225,7 +1421,7 @@ const PRODUCT_DATABASE = {
   'rose-jump-egg': {
     id: 'rose-jump-egg',
     title: 'Rose Jump Egg',
-    badge: 'APP CONNECT • 🎬 VIDEO',
+    badge: 'APP CONNECT',
     price: 28000,
     priceStr: '₦28,000',
     img: '/assets/rose-jump-egg-kit.webp',
@@ -1721,6 +1917,7 @@ const PRODUCT_DATABASE = {
     "priceStr": "",
     "img": "/assets/IMG_2193.webp",
     "desc": "Dual cylinder suction pumps engineered with a smooth twist-action screw piston. Simply position the soft silicone rim over nipples or clitoris and twist the dial clockwise to dial in calibrated vacuum pressure.",
+    "sizes": ["Small", "Large"],
     "specs": [
         {
             "label": "Operation",
@@ -3980,7 +4177,7 @@ if (btnQvShare) {
         document.execCommand('copy');
         document.body.removeChild(temp);
       }
-      showShareToast('DM link copied! Ready to share in DMs.');
+      showShareToast('Link copied to clipboard!');
     } catch (err) {
       window.prompt('Copy product link:', shareUrl);
     }
@@ -4472,151 +4669,302 @@ renderCart();
 
 
 // ================= 10. CONFESSIONS SLIDESHOW LOGIC =================
-function initConfessionsSlideshow() {
-  const track = document.getElementById('confessions-slides-track');
-  const slides = document.querySelectorAll('.confession-slide');
-  const toyTabs = document.querySelectorAll('.toy-tab-card');
-  const btnPrev = document.getElementById('btn-confession-prev');
-  const btnNext = document.getElementById('btn-confession-next');
-  const sliderWrap = document.getElementById('confessions-slider-wrap');
-  const stage = document.querySelector('.toybox-stage');
 
-  if (!track || !slides.length) return;
+// Default community whispers with distinct verified locations and jewel-toned dots
+const DEFAULT_COMMUNITY_CONFESSIONS = [
+  { text: "three rounds back to back, my legs were actually shaking", author: "Client · Lekki", dot: "ruby", time: "12m ago" },
+  { text: "the battery life is insane... literally lasted the entire weekend", author: "Client · Maitama", dot: "gold", time: "34m ago" },
+  { text: "so quiet my flatmate had zero clue in the next room", author: "Anonymous · 1h ago", dot: "emerald", time: "1h ago" },
+  { text: "arrived discreet in an unbranded matte box. 10/10 privacy", author: "Client · Victoria Island", dot: "violet", time: "2h ago" },
+  { text: "my partner begged me to bring it to the bedroom tonight", author: "Client · Wuse II", dot: "rose", time: "3h ago" },
 
-  let currentSlide = 0;
-  const totalSlides = slides.length;
-  let loopTimer = null;
+  { text: "the suction mode feels like witchcraft, no joke", author: "Client · Ikoyi", dot: "ruby", time: "4h ago" },
+  { text: "first time ordering, customer care was so respectful & private", author: "Verified Buyer · Abuja", dot: "gold", time: "5h ago" },
+  { text: "i gasped out loud the moment the pulse rhythm shifted", author: "Anonymous · 7h ago", dot: "emerald", time: "7h ago" },
+  { text: "softest medical silicone i have ever touched. pure luxury", author: "Client · Port Harcourt", dot: "violet", time: "8h ago" },
+  { text: "bought as a secret gift for myself, zero regrets at all", author: "Client · Ikeja GRA", dot: "rose", time: "10h ago" },
 
-  function goToSlide(index) {
-    if (index < 0) index = totalSlides - 1;
-    if (index >= totalSlides) index = 0;
-    currentSlide = index;
+  { text: "the warm-up feature took it to an entirely different planet", author: "Client · Asokoro", dot: "ruby", time: "14h ago" },
+  { text: "sent to my office in plain wrap. absolute discretion", author: "Client · Marina", dot: "gold", time: "18h ago" },
+  { text: "never reaching for anything basic ever again", author: "Anonymous · 1d ago", dot: "emerald", time: "1d ago" },
+  { text: "whisper quiet but powerful enough to make me see stars", author: "Client · Garki", dot: "violet", time: "1d ago" },
+  { text: "15 minutes in and i had to hold back the scream", author: "Client · Banana Island", dot: "rose", time: "2d ago" }
+];
 
-    // Shift track like collections slideshow
-    track.style.transform = `translateX(-${currentSlide * 100}%)`;
+const CONFESSIONS_STORAGE_KEY = 'thetoysvirago_community_confessions';
+let confessionsCurrentSlide = 0;
+let confessionsAutoTimer = null;
 
-    // Active slide class triggers staggered pop-out animations for pills
-    slides.forEach((s, i) => {
-      s.classList.toggle('active', i === currentSlide);
-    });
+function escapeConfHtml(str) {
+  if (!str) return '';
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
 
-    // Update active toy tab underneath
-    toyTabs.forEach((tab, i) => {
-      tab.classList.toggle('active', i === currentSlide);
-    });
-  }
-
-  // Automatic looping interval (every 1.0s)
-  function startLoop() {
-    stopLoop();
-    loopTimer = setInterval(() => {
-      goToSlide(currentSlide + 1);
-    }, 1000);
-  }
-
-  function stopLoop() {
-    if (loopTimer) {
-      clearInterval(loopTimer);
-      loopTimer = null;
+function getStoredConfessions() {
+  try {
+    const raw = localStorage.getItem(CONFESSIONS_STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed;
+      }
     }
+  } catch (e) {
+    console.warn('Confessions localStorage read error:', e);
+  }
+  // Initialize default verified community confessions
+  try {
+    localStorage.setItem(CONFESSIONS_STORAGE_KEY, JSON.stringify(DEFAULT_COMMUNITY_CONFESSIONS));
+  } catch (e) {}
+  return [...DEFAULT_COMMUNITY_CONFESSIONS];
+}
+
+function saveConfession(text, isAnonymous = true) {
+  const list = getStoredConfessions();
+  const dots = ['ruby', 'gold', 'emerald', 'violet', 'rose'];
+  const locations = ['Lekki', 'Maitama', 'Victoria Island', 'Wuse II', 'Ikoyi', 'Abuja', 'Ikeja GRA', 'Asokoro'];
+  const randomLoc = locations[Math.floor(Math.random() * locations.length)];
+  const randomDot = dots[Math.floor(Math.random() * dots.length)];
+
+  const newEntry = {
+    id: Date.now(),
+    text: text,
+    author: isAnonymous ? 'Anonymous · Just now' : `Client · ${randomLoc}`,
+    dot: randomDot,
+    time: 'Just now',
+    date: new Date().toISOString()
+  };
+
+  list.unshift(newEntry);
+  try {
+    localStorage.setItem(CONFESSIONS_STORAGE_KEY, JSON.stringify(list));
+  } catch (e) {
+    console.warn('Confessions localStorage save error:', e);
   }
 
-  toyTabs.forEach((tab, i) => {
-    tab.addEventListener('click', () => {
-      goToSlide(i);
-      startLoop();
-    });
+  confessionsCurrentSlide = 0;
+  renderDynamicConfessionsSlides(true);
+  return newEntry;
+}
+
+function renderDynamicConfessionsSlides(highlightFirst = false) {
+  const tracks = document.querySelectorAll('#confessions-slides-track');
+  const feed = document.getElementById('confessions-phone-feed');
+  const confessions = getStoredConfessions();
+  const CHUNK_SIZE = 5;
+  const totalSlides = Math.max(1, Math.ceil(confessions.length / CHUNK_SIZE));
+
+  if (confessionsCurrentSlide >= totalSlides) {
+    confessionsCurrentSlide = 0;
+  }
+
+  // 1. Render Floating Pills Slides on all tracks (index and products)
+  tracks.forEach(track => {
+    track.innerHTML = '';
+
+    for (let s = 0; s < totalSlides; s++) {
+      const slideChunk = confessions.slice(s * CHUNK_SIZE, (s + 1) * CHUNK_SIZE);
+      const slideEl = document.createElement('div');
+      slideEl.className = `confession-slide ${s === confessionsCurrentSlide ? 'active' : ''}`;
+      slideEl.setAttribute('data-slide-index', s);
+
+      slideChunk.forEach((c, idx) => {
+        const pillNum = idx + 1;
+        const pillEl = document.createElement('div');
+        const isNewHighlight = highlightFirst && s === 0 && idx === 0;
+        pillEl.className = `confession-pill pill-pos-${pillNum} ${isNewHighlight ? 'is-new' : ''}`;
+        
+        const dotColor = c.dot || 'ruby';
+        const authorText = c.author || 'Anonymous';
+        
+        pillEl.innerHTML = `
+          <div class="pill-header">
+            <span class="pill-dot dot-${dotColor}"></span>
+            <span class="pill-author">[${escapeConfHtml(authorText)}]</span>
+          </div>
+          <div class="pill-text">"${escapeConfHtml(c.text)}"</div>
+        `;
+        slideEl.appendChild(pillEl);
+      });
+
+      track.appendChild(slideEl);
+    }
   });
 
-  if (btnPrev) {
-    btnPrev.addEventListener('click', () => {
-      goToSlide(currentSlide - 1);
-      startLoop();
-    });
-  }
-  if (btnNext) {
-    btnNext.addEventListener('click', () => {
-      goToSlide(currentSlide + 1);
-      startLoop();
-    });
-  }
+  // 2. Render Pagination Dots and Status Tags
+  const dotsContainers = document.querySelectorAll('#confessions-dots-track');
+  dotsContainers.forEach(container => {
+    container.innerHTML = '';
+    for (let s = 0; s < totalSlides; s++) {
+      const dotBtn = document.createElement('button');
+      dotBtn.type = 'button';
+      dotBtn.className = `confession-dot-btn ${s === confessionsCurrentSlide ? 'active' : ''}`;
+      dotBtn.setAttribute('aria-label', `Go to confessions slide ${s + 1}`);
+      dotBtn.addEventListener('click', () => {
+        goToConfessionsSlide(s);
+        resetConfessionsAutoTimer();
+      });
+      container.appendChild(dotBtn);
+    }
+  });
+}
 
-  // Pause loop on hover for desktop readability, resume on leave
-  if (stage) {
-    stage.addEventListener('mouseenter', stopLoop);
-    stage.addEventListener('mouseleave', startLoop);
-  }
+function goToConfessionsSlide(targetIndex) {
+  const confessions = getStoredConfessions();
+  const CHUNK_SIZE = 5;
+  const totalSlides = Math.max(1, Math.ceil(confessions.length / CHUNK_SIZE));
 
-  // Touch Swipe Support
-  if (sliderWrap) {
-    let touchStartX = 0;
-    let touchEndX = 0;
-    sliderWrap.addEventListener('touchstart', (e) => {
-      stopLoop();
-      touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
+  confessionsCurrentSlide = (targetIndex + totalSlides) % totalSlides;
 
-    sliderWrap.addEventListener('touchend', (e) => {
-      touchEndX = e.changedTouches[0].screenX;
-      const diff = touchEndX - touchStartX;
-      if (Math.abs(diff) > 40) {
-        if (diff > 0) {
-          goToSlide(currentSlide - 1);
-        } else {
-          goToSlide(currentSlide + 1);
-        }
-      }
-      startLoop();
-    }, { passive: true });
-  }
+  // Toggle active class on all slide elements
+  document.querySelectorAll('.confession-slide').forEach(slide => {
+    const sIdx = parseInt(slide.getAttribute('data-slide-index'), 10);
+    if (sIdx === confessionsCurrentSlide) {
+      slide.classList.add('active');
+    } else {
+      slide.classList.remove('active');
+    }
+  });
 
-  // Modal open
+  // Update dots
+  document.querySelectorAll('.confession-dot-btn').forEach((btn, idx) => {
+    if (idx === confessionsCurrentSlide) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+}
+
+function nextConfessionsSlide() {
+  goToConfessionsSlide(confessionsCurrentSlide + 1);
+}
+
+function prevConfessionsSlide() {
+  goToConfessionsSlide(confessionsCurrentSlide - 1);
+}
+
+function resetConfessionsAutoTimer() {
+  if (confessionsAutoTimer) clearInterval(confessionsAutoTimer);
+  confessionsAutoTimer = setInterval(nextConfessionsSlide, 4200);
+}
+
+function initConfessionsSlideshow() {
   const modal = document.getElementById('confession-modal');
   const btnOpen = document.getElementById('btn-open-confession');
+  const btnPhoneQuick = document.getElementById('btn-phone-quick-confess');
+  const btnPhoneQuickProd = document.getElementById('btn-phone-quick-confess-prod');
   const btnClose = document.getElementById('btn-close-confession');
   const form = document.getElementById('confession-form');
 
-  if (btnOpen && modal) {
-    btnOpen.addEventListener('click', () => {
-      stopLoop();
+  // Initial render of dynamic slides
+  renderDynamicConfessionsSlides();
+  resetConfessionsAutoTimer();
+
+  // Navigation Buttons (Next / Prev)
+  document.querySelectorAll('#btn-confession-next').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      nextConfessionsSlide();
+      resetConfessionsAutoTimer();
+    });
+  });
+
+  document.querySelectorAll('#btn-confession-prev').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      prevConfessionsSlide();
+      resetConfessionsAutoTimer();
+    });
+  });
+
+  // Pause on hover / touch
+  document.querySelectorAll('#cardboard-box-wrap, #confessions-slider-wrap').forEach(wrapper => {
+    wrapper.addEventListener('mouseenter', () => {
+      if (confessionsAutoTimer) clearInterval(confessionsAutoTimer);
+    });
+    wrapper.addEventListener('mouseleave', () => {
+      resetConfessionsAutoTimer();
+    });
+
+    // Touch swipe support
+    let touchStartX = 0;
+    let touchEndX = 0;
+    wrapper.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      if (confessionsAutoTimer) clearInterval(confessionsAutoTimer);
+    }, { passive: true });
+
+    wrapper.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      const diff = touchEndX - touchStartX;
+      if (Math.abs(diff) > 40) {
+        if (diff < 0) {
+          nextConfessionsSlide();
+        } else {
+          prevConfessionsSlide();
+        }
+      }
+      resetConfessionsAutoTimer();
+    }, { passive: true });
+  });
+
+  // Modal open triggers
+  function openConfessionModal() {
+    if (modal) {
       modal.removeAttribute('hidden');
       modal.style.display = 'flex';
-    });
+      const textInput = document.getElementById('conf-text');
+      if (textInput) textInput.focus();
+    }
   }
 
-  if (btnClose && modal) {
-    btnClose.addEventListener('click', () => {
+  function closeConfessionModal() {
+    if (modal) {
       modal.setAttribute('hidden', '');
       modal.style.display = 'none';
-      startLoop();
-    });
+    }
   }
+
+  if (btnOpen) btnOpen.addEventListener('click', openConfessionModal);
+  if (btnPhoneQuick) btnPhoneQuick.addEventListener('click', openConfessionModal);
+  if (btnPhoneQuickProd) btnPhoneQuickProd.addEventListener('click', openConfessionModal);
+  if (btnClose) btnClose.addEventListener('click', closeConfessionModal);
 
   if (modal) {
     modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.setAttribute('hidden', '');
-        modal.style.display = 'none';
-        startLoop();
-      }
+      if (e.target === modal) closeConfessionModal();
     });
   }
 
-  if (form && modal) {
+  // Handle confession submission: Saves, prepends to Slide 0 & displays on phone + pills
+  if (form) {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      modal.setAttribute('hidden', '');
-      modal.style.display = 'none';
+      const textInput = document.getElementById('conf-text');
+      const text = textInput ? textInput.value.trim() : '';
+      const isAnonInput = document.getElementById('conf-anon');
+      const isAnon = isAnonInput ? isAnonInput.checked : true;
+
+      if (text) {
+        saveConfession(text, isAnon);
+      }
+
+      closeConfessionModal();
       form.reset();
-      startLoop();
+      const countEl = document.getElementById('conf-char-count');
+      if (countEl) countEl.textContent = '0/500';
+
       if (typeof showToast === 'function') {
-        showToast('Confession placed inside the vault with zero trace. Thank you.');
+        showToast('Confession pinned! It is now live in the community whispers.');
       }
     });
   }
-
-  goToSlide(0);
-  startLoop();
 }
 
 if (document.readyState === 'loading') {
@@ -4663,8 +5011,8 @@ export async function initCustomCatalogProducts() {
           { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
         ],
         variants: [
-          { name: 'Noir Black', price: 35000, priceStr: '₦35,000', img: '/assets/category-lingerie.webp', color: '#111111' },
-          { name: 'Ruby Wine', price: 35000, priceStr: '₦35,000', img: '/assets/category-lingerie.webp', color: '#e11d48' }
+          { name: 'Black', price: 35000, priceStr: '₦35,000', img: '/assets/category-lingerie.webp', color: '#111111' },
+          { name: 'Ruby', price: 35000, priceStr: '₦35,000', img: '/assets/category-lingerie.webp', color: '#e11d48' }
         ],
         sizes: ['S', 'M', 'L', 'XL'],
         media: [
@@ -4693,8 +5041,8 @@ export async function initCustomCatalogProducts() {
           { label: 'Packaging', value: 'Plain Discreet Courier Bag' }
         ],
         variants: [
-          { name: 'Scarlet Red', price: 38000, priceStr: '₦38,000', img: '/assets/lifestyle-sheets.webp', color: '#e11d48' },
-          { name: 'Midnight Noir', price: 38000, priceStr: '₦38,000', img: '/assets/lifestyle-sheets.webp', color: '#111111' }
+          { name: 'Red', price: 38000, priceStr: '₦38,000', img: '/assets/lifestyle-sheets.webp', color: '#e11d48' },
+          { name: 'Black', price: 38000, priceStr: '₦38,000', img: '/assets/lifestyle-sheets.webp', color: '#111111' }
         ],
         sizes: ['S', 'M', 'L'],
         media: [
@@ -4883,4 +5231,71 @@ if (typeof window !== 'undefined') {
   } else {
     initCustomCatalogProducts();
   }
+}
+
+
+// ================= BULLETPROOF BACKGROUND SCROLL LOCK =================
+function updateBodyScrollLock() {
+  const modalOverlays = document.querySelectorAll(
+    '.modal-overlay, .drawer-overlay, .admin-gate-overlay, .supabase-modal-overlay'
+  );
+  let isAnyModalOpen = false;
+  modalOverlays.forEach((el) => {
+    if (
+      !el.hasAttribute('hidden') &&
+      el.style.display !== 'none' &&
+      window.getComputedStyle(el).display !== 'none'
+    ) {
+      isAnyModalOpen = true;
+    }
+  });
+
+  if (isAnyModalOpen) {
+    document.documentElement.classList.add('modal-open');
+    document.body.classList.add('modal-open');
+  } else {
+    document.documentElement.classList.remove('modal-open');
+    document.body.classList.remove('modal-open');
+  }
+}
+
+// Global helper functions
+window.lockBodyScroll = function() {
+  document.documentElement.classList.add('modal-open');
+  document.body.classList.add('modal-open');
+};
+
+window.unlockBodyScroll = function() {
+  updateBodyScrollLock();
+};
+
+const scrollLockObserver = new MutationObserver(() => {
+  updateBodyScrollLock();
+});
+
+function initScrollLockObservers() {
+  const targets = document.querySelectorAll(
+    '.modal-overlay, .drawer-overlay, .admin-gate-overlay, .supabase-modal-overlay'
+  );
+  targets.forEach((target) => {
+    scrollLockObserver.observe(target, {
+      attributes: true,
+      attributeFilter: ['style', 'hidden', 'class']
+    });
+
+    // Prevent background touch scrolling when touching backdrop
+    target.addEventListener('touchmove', (e) => {
+      if (e.target === target) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+  });
+
+  updateBodyScrollLock();
+}
+
+if (document.readyState === 'loading') {
+  window.addEventListener('DOMContentLoaded', initScrollLockObservers);
+} else {
+  initScrollLockObservers();
 }

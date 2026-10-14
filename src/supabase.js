@@ -121,18 +121,34 @@ export async function upsertSupabaseProduct(product) {
       description: product.desc || product.description || '',
       specs: Array.isArray(product.specs) ? product.specs.map(s => typeof s === 'string' ? s : `${s.label}: ${s.value}`) : [],
       variants: Array.isArray(product.variants) ? product.variants : [],
+      sizes: Array.isArray(product.sizes) ? product.sizes : [],
+      media: Array.isArray(product.media) ? product.media : [{ type: 'image', src: product.img || product.image || '', label: product.title }],
       in_stock: product.inStock !== false,
       updated_at: new Date().toISOString()
     };
 
-    const { data, error } = await client
+    let { data, error } = await client
       .from('products')
       .upsert([payload], { onConflict: 'id' })
       .select();
 
+    // If remote table lacks media or sizes columns, gracefully strip and retry
+    if (error && (error.message.includes('column "media"') || error.message.includes('column "sizes"'))) {
+      console.warn('[Supabase] Missing optional columns (media/sizes). Retrying with core schema...');
+      delete payload.media;
+      delete payload.sizes;
+      const retry = await client
+        .from('products')
+        .upsert([payload], { onConflict: 'id' })
+        .select();
+      data = retry.data;
+      error = retry.error;
+    }
+
     if (error) {
       console.warn('[Supabase] Error upserting product:', error.message);
-      return { success: false, error: error.message };
+      const isRls = error.message.includes('row-level security') || error.code === '42501';
+      return { success: false, error: error.message, isRlsError: isRls, code: error.code };
     }
     return { success: true, data };
   } catch (err) {

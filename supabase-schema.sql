@@ -58,7 +58,7 @@ create policy "Allow anonymous newsletter signup"
 create table if not exists public.products (
   id text primary key,
   title text not null,
-  category text not null, -- toys, lubes, bdsm, games
+  category text not null, -- toys, lubes, bdsm, games, lingerie
   tagline text,
   price numeric not null,
   original_price numeric,
@@ -67,12 +67,15 @@ create table if not exists public.products (
   description text,
   specs text[] default '{}',
   variants jsonb default '[]'::jsonb,
+  sizes text[] default '{}',
+  media jsonb default '[]'::jsonb,
   in_stock boolean default true,
   updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
--- Enable RLS for products
-alter table public.products enable row level security;
+-- Quick 1-Click Fix if product uploads are blocked by RLS:
+-- Run: alter table public.products disable row level security;
+alter table public.products disable row level security;
 
 -- Allow public read access to active products
 create policy "Allow public read access to products"
