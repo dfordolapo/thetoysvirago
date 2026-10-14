@@ -4943,8 +4943,6 @@ function initConfessionsSlideshow() {
     if (modal) {
       modal.removeAttribute('hidden');
       modal.style.display = 'flex';
-      const textInput = document.getElementById('conf-text');
-      if (textInput) textInput.focus();
     }
   }
 
@@ -5269,7 +5267,10 @@ if (typeof window !== 'undefined') {
 }
 
 
-// ================= BULLETPROOF BACKGROUND SCROLL LOCK =================
+// ================= BULLETPROOF BACKGROUND SCROLL LOCK (PRESERVES SCROLL POSITION) =================
+let savedScrollY = 0;
+let isScrollLocked = false;
+
 function updateBodyScrollLock() {
   const modalOverlays = document.querySelectorAll(
     '.modal-overlay, .drawer-overlay, .admin-gate-overlay, .supabase-modal-overlay'
@@ -5286,18 +5287,27 @@ function updateBodyScrollLock() {
   });
 
   if (isAnyModalOpen) {
-    document.documentElement.classList.add('modal-open');
-    document.body.classList.add('modal-open');
+    if (!isScrollLocked) {
+      savedScrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      isScrollLocked = true;
+      document.body.classList.add('modal-open');
+    }
   } else {
-    document.documentElement.classList.remove('modal-open');
-    document.body.classList.remove('modal-open');
+    if (isScrollLocked) {
+      isScrollLocked = false;
+      document.body.classList.remove('modal-open');
+      window.scrollTo(0, savedScrollY);
+    }
   }
 }
 
 // Global helper functions
 window.lockBodyScroll = function() {
-  document.documentElement.classList.add('modal-open');
-  document.body.classList.add('modal-open');
+  if (!isScrollLocked) {
+    savedScrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    isScrollLocked = true;
+    document.body.classList.add('modal-open');
+  }
 };
 
 window.unlockBodyScroll = function() {

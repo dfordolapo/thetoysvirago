@@ -3490,13 +3490,22 @@ button.btn-unavailable[disabled],
 }
 
 
-/* ── BULLETPROOF MODAL BACKGROUND SCROLL LOCK ── */
-html.modal-open,
+/* ── BULLETPROOF MODAL BACKGROUND SCROLL LOCK (NO HEIGHT COLLAPSE) ── */
 body.modal-open {
   overflow: hidden !important;
-  height: 100% !important;
-  touch-action: none;
   overscroll-behavior: contain !important;
+}
+
+/* Prevent mobile keyboard auto-zoom on iOS/Android (min 16px font-size) */
+@media (max-width: 680px) {
+  .confession-textarea,
+  .confession-input-field,
+  .co-field input,
+  .co-field select,
+  .modal-overlay input,
+  .modal-overlay textarea {
+    font-size: 16px !important;
+  }
 }
 
 .modal-overlay,
