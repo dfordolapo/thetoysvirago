@@ -166,7 +166,7 @@ let currentMediaList = []; // [{ type: 'image' | 'video', src: string, label: st
 const CATEGORY_KEYWORDS = {
   lingerie: ['chemise', 'lingerie', 'teddy', 'lace', 'bra', 'panty', 'panties', 'corset', 'silk', 'babydoll', 'g-string', 'slip', 'robe', 'satin', 'underwear', 'bodysuit', 'bustier', 'negligee'],
   lubes: ['lube', 'lubricant', 'oil', 'gel', 'glide', 'wellness', 'serum', 'butter', 'warming', 'massage', 'botanical', 'fruitastic', 'kailin'],
-  bdsm: ['bdsm', 'cuff', 'whip', 'flogger', 'paddle', 'collar', 'restraint', 'mask', 'rope', 'blindfold', 'gag', 'spank', 'clamp', 'harness', 'leash', 'choker', 'bondage', 'vault'],
+  bdsm: ['bdsm', 'hogtie', 'cuff', 'whip', 'flogger', 'paddle', 'collar', 'restraint', 'mask', 'rope', 'blindfold', 'gag', 'spank', 'clamp', 'harness', 'leash', 'choker', 'bondage', 'vault'],
   games: ['game', 'cards', 'dice', 'roulette', 'truth', 'dare', 'couple', 'deck', 'naughty', 'wooden', 'blocks'],
   toys: ['vibe', 'vibrator', 'wand', 'dildo', 'rabbit', 'clit', 'suction', 'air', 'bullet', 'plug', 'anal', 'masturbat', 'stroker', 'kegel', 'toy', 'silicone', 'tentacle', 'sucker']
 };

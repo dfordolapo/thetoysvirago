@@ -1718,6 +1718,52 @@ const PRODUCT_DATABASE = {
         }
     ]
 },
+  'hogtie-set': {
+    "id": "hogtie-set",
+    "title": "Hogtie Set",
+    "badge": "BDSM RESTRAINT",
+    "price": 10000,
+    "priceStr": "₦10,000",
+    "img": "/assets/category-bdsm.webp",
+    "desc": "A classic hogtie restraint set engineered for delicious immobility and surrender. Features durable reinforced straps with secure quick-connect swivel clips to anchor wrists and ankles in sensual submission. Only available in noir black.",
+    "specs": [
+        {
+            "label": "Color",
+            "value": "Noir Black"
+        },
+        {
+            "label": "Hardware",
+            "value": "Reinforced Metal Swivel Clasps"
+        },
+        {
+            "label": "Fit",
+            "value": "Fully Adjustable Wrist & Ankle Straps"
+        },
+        {
+            "label": "Comfort",
+            "value": "Smooth Skin-Safe Padded Straps"
+        }
+    ],
+    "material": "Durable Reinforced Leatherette & Heavy-Duty Hardware",
+    "acoustics": "Complete Surrender & Bondage Play",
+    "freq": 70,
+    "pattern": "luxe",
+    "variants": [
+        {
+            "name": "Black",
+            "price": 10000,
+            "priceStr": "₦10,000",
+            "img": "/assets/category-bdsm.webp"
+        }
+    ],
+    "media": [
+        {
+            "type": "image",
+            "src": "/assets/category-bdsm.webp",
+            "label": "Hogtie Set"
+        }
+    ]
+},
   'restraint-bed-harness': {
     "id": "restraint-bed-harness",
     "title": "Boudoir Bed Harness",
