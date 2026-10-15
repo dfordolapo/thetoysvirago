@@ -998,7 +998,7 @@ const PRODUCT_DATABASE = {
     badge: 'SATIN & VELVET',
     sku: 'LINGERIE · 01',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/boudoir-pasties-hero.webp',
     desc: "Playful satin and velvet nipple pasties featuring flirty boudoir motifs and provocative script. Crafted with medical-grade hypoallergenic adhesive for secure, skin-safe wear and effortless peel-away removal.",
     specs: [
@@ -1015,25 +1015,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/boudoir-pasties-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/boudoir-pasties-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/boudoir-pasties-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/boudoir-pasties-hero.webp"
         }
 ],
@@ -1061,7 +1061,7 @@ const PRODUCT_DATABASE = {
     badge: '3-PIECE SET',
     sku: 'LINGERIE · 02',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/zebra-set-hero.webp',
     desc: "Untamed scarlet zebra-print lingerie ensemble featuring a structured underwire demi bra, matching strappy G-string, opera-length sheer mesh gloves, and coordinating thigh-high stockings for an unforgettable wild encounter.",
     specs: [
@@ -1078,25 +1078,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/zebra-set-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/zebra-set-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/zebra-set-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/zebra-set-hero.webp"
         }
 ],
@@ -1124,7 +1124,7 @@ const PRODUCT_DATABASE = {
     badge: 'SEAMLESS KNIT',
     sku: 'LINGERIE · 03',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/lilac-bodystocking-hero.webp',
     desc: "Ethereal lavender open-knit bodystocking with ribbed contour paneling, delicate long sleeves, and tantalizing peekaboo decolletage cutouts. Ultra-stretchy micro-mesh hugs every natural curve like liquid silk.",
     specs: [
@@ -1141,25 +1141,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/lilac-bodystocking-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/lilac-bodystocking-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/lilac-bodystocking-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/lilac-bodystocking-hero.webp"
         }
 ],
@@ -1197,7 +1197,7 @@ const PRODUCT_DATABASE = {
     badge: '2-PIECE SET',
     sku: 'LINGERIE · 04',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/cyan-coord-hero.webp',
     desc: "Electric cyan two-piece knit set featuring a sparkling rhinestone-embellished long-sleeve crop top with flared bell cuffs and a matching low-rise mini skirt with seductive hip ladder cutouts.",
     specs: [
@@ -1214,25 +1214,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/cyan-coord-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/cyan-coord-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/cyan-coord-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/cyan-coord-hero.webp"
         }
 ],
@@ -1265,7 +1265,7 @@ const PRODUCT_DATABASE = {
     badge: 'HEART CUTOUT',
     sku: 'LINGERIE · 05',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/heart-teddy-hero.webp',
     desc: "Romantic blush pink teddy featuring heart-shaped embroidered mesh cups, adjustable satin garter straps, and scalloped lace trim. Seductively contours your silhouette while framing your decolletage in sweet allure.",
     specs: [
@@ -1282,25 +1282,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/heart-teddy-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/heart-teddy-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/heart-teddy-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/heart-teddy-hero.webp"
         }
 ],
@@ -1333,7 +1333,7 @@ const PRODUCT_DATABASE = {
     badge: 'MAXI SHEER',
     sku: 'LINGERIE · 06',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/noir-slip-hero.webp',
     desc: "Dramatic midnight black sheer mesh maxi slip dress with intricate floral eyelash lace underwire cups, adjustable spaghetti straps, and a daring sheer cascade that billows with every sensual step.",
     specs: [
@@ -1350,25 +1350,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/noir-slip-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/noir-slip-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/noir-slip-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/noir-slip-hero.webp"
         }
 ],
@@ -1396,7 +1396,7 @@ const PRODUCT_DATABASE = {
     badge: 'LACE-UP BACK',
     sku: 'LINGERIE · 07',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/scarlet-corset-hero.webp',
     desc: "Fiery scarlet backless teddy with a dramatic crisscross corset tie running the full length of the spine. Features a deep sweetheart neckline and high-cut thong back designed to accentuate waist curvature.",
     specs: [
@@ -1413,25 +1413,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/scarlet-corset-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/scarlet-corset-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/scarlet-corset-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/scarlet-corset-hero.webp"
         }
 ],
@@ -1459,7 +1459,7 @@ const PRODUCT_DATABASE = {
     badge: 'CHERRY KNIT',
     sku: 'LINGERIE · 08',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/heart-mini-hero.webp',
     desc: "Playful bubblegum pink fishnet mini dress with off-shoulder long sleeves and charming green-stemmed cherry and heart motifs across the neckline. Stretches seamlessly over curves for flirty boudoir lounging.",
     specs: [
@@ -1476,25 +1476,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/heart-mini-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/heart-mini-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/heart-mini-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/heart-mini-hero.webp"
         }
 ],
@@ -1527,7 +1527,7 @@ const PRODUCT_DATABASE = {
     badge: 'COBALT LACE',
     sku: 'LINGERIE · 09',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/royal-slip-hero.webp',
     desc: "Sultry cobalt royal blue sheer lace chemise featuring an open lace front, plunging triangle cups, built-in garter loops, and a matching G-string. The vibrant sapphire hue elevates every boudoir setting.",
     specs: [
@@ -1544,25 +1544,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/royal-slip-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/royal-slip-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/royal-slip-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/royal-slip-hero.webp"
         }
 ],
@@ -1590,7 +1590,7 @@ const PRODUCT_DATABASE = {
     badge: 'STAY-UP SILICONE',
     sku: 'LINGERIE · 10',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/thigh-stockings-hero.webp',
     desc: "Classic ultra-sheer thigh-high stockings with wide satin comfort top bands lined with stay-up silicone ribbing. Available in both timeless noir black and bridal alabaster white for seamless pairing with any lingerie ensemble.",
     specs: [
@@ -1607,25 +1607,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/thigh-stockings-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/thigh-stockings-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/thigh-stockings-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/thigh-stockings-hero.webp"
         }
 ],
@@ -1653,7 +1653,7 @@ const PRODUCT_DATABASE = {
     badge: 'SATIN BUSTIER',
     sku: 'LINGERIE · 11',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/ruby-corset-hero.webp',
     desc: "Luxe crimson satin and sheer illusion mesh corseted bodysuit with padded underwire cups, adjustable thigh garter straps, and a matching satin cheeky thong with delicate gold hardware accents.",
     specs: [
@@ -1670,25 +1670,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/ruby-corset-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/ruby-corset-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/ruby-corset-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/ruby-corset-hero.webp"
         }
 ],
@@ -1716,7 +1716,7 @@ const PRODUCT_DATABASE = {
     badge: 'DIAMOND CUTOUT',
     sku: 'LINGERIE · 12',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/white-bodystocking-hero.webp',
     desc: "Seductive pure white high-neck bodystocking woven with intricate diamond lattice cutouts and open fishnet thighs. Designed to flatter the hourglass silhouette with dramatic skin reveals from collarbone to hip.",
     specs: [
@@ -1733,25 +1733,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/white-bodystocking-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/white-bodystocking-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/white-bodystocking-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/white-bodystocking-hero.webp"
         }
 ],
@@ -1779,7 +1779,7 @@ const PRODUCT_DATABASE = {
     badge: 'ROLEPLAY COSTUME',
     sku: 'LINGERIE · 13',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/schoolgirl-set-hero.webp',
     desc: "Classic boudoir roleplay outfit featuring a pleated red tartan mini skirt, sheer white floral lace tie-front crop top, matching lace choker collar with red ribbon bow, and cheeky lace thong.",
     specs: [
@@ -1796,25 +1796,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/schoolgirl-set-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/schoolgirl-set-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/schoolgirl-set-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/schoolgirl-set-hero.webp"
         }
 ],
@@ -1837,7 +1837,7 @@ const PRODUCT_DATABASE = {
     badge: 'MAXI SLIT',
     sku: 'LINGERIE · 14',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/floral-gown-hero.webp',
     desc: "Whimsical powder blue floral sheer chiffon maxi gown featuring double hip-high front slits that flutter dramatically with every motion, delicate sweetheart bust, and adjustable shoulder ribbons.",
     specs: [
@@ -1854,25 +1854,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/floral-gown-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/floral-gown-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/floral-gown-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/floral-gown-hero.webp"
         }
 ],
@@ -1900,7 +1900,7 @@ const PRODUCT_DATABASE = {
     badge: 'BELTED SATIN',
     sku: 'LINGERIE · 15',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/scarlet-gown-hero.webp',
     desc: "Show-stopping scarlet red sheer mesh and liquid satin evening gown with structured underwire cups, gold buckled waist belt, and an ultra-daring thigh-high slit that commands pure adoration.",
     specs: [
@@ -1917,25 +1917,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/scarlet-gown-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/scarlet-gown-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/scarlet-gown-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/scarlet-gown-hero.webp"
         }
 ],
@@ -1957,76 +1957,13 @@ const PRODUCT_DATABASE = {
         }
 ]
   },
-  'pink-chemise': {
-    id: 'pink-chemise',
-    title: 'Pink Chemise',
-    badge: 'ROSE LACE',
-    sku: 'LINGERIE · 16',
-    price: 0,
-    priceStr: 'Price on Request',
-    img: '/assets/lingerie-catalog/pink-chemise-hero.webp',
-    desc: "Delicate blush pink floral lace mini chemise with soft wireless cups, matching satin garter ribbons, and sheer side panels that create a dreamy, romantic boudoir fantasy.",
-    specs: [
-      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
-      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
-      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
-      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
-    ],
-    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
-    acoustics: 'Whisper-Soft on Bare Skin',
-    freq: 0,
-    pattern: 'lingerie',
-    variants: [
-        {
-                "name": "S",
-                "price": 0,
-                "priceStr": "Price on Request",
-                "img": "/assets/lingerie-catalog/pink-chemise-hero.webp"
-        },
-        {
-                "name": "M",
-                "price": 0,
-                "priceStr": "Price on Request",
-                "img": "/assets/lingerie-catalog/pink-chemise-hero.webp"
-        },
-        {
-                "name": "L",
-                "price": 0,
-                "priceStr": "Price on Request",
-                "img": "/assets/lingerie-catalog/pink-chemise-hero.webp"
-        },
-        {
-                "name": "XL",
-                "price": 0,
-                "priceStr": "Price on Request",
-                "img": "/assets/lingerie-catalog/pink-chemise-hero.webp"
-        }
-],
-    media: [
-        {
-                "type": "image",
-                "src": "/assets/lingerie-catalog/pink-chemise-media-1.webp",
-                "label": "Model Front View"
-        },
-        {
-                "type": "image",
-                "src": "/assets/lingerie-catalog/pink-chemise-media-2.webp",
-                "label": "Side Profile"
-        },
-        {
-                "type": "image",
-                "src": "/assets/lingerie-catalog/pink-chemise-media-3.webp",
-                "label": "Full Length"
-        }
-]
-  },
   'crochet-set': {
     id: 'crochet-set',
     title: 'Crochet Set',
     badge: '2-PIECE SET',
-    sku: 'LINGERIE · 17',
+    sku: 'LINGERIE · 16',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/crochet-set-hero.webp',
     desc: "Sensual textured open-knit 2-piece loungewear set featuring a short-sleeve crop top and high-waisted seamless leggings. Available in fiery scarlet red and sleek noir black.",
     specs: [
@@ -2043,25 +1980,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/crochet-set-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/crochet-set-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/crochet-set-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/crochet-set-hero.webp"
         }
 ],
@@ -2087,9 +2024,9 @@ const PRODUCT_DATABASE = {
     id: 'feather-teddy',
     title: 'Feather Teddy',
     badge: 'PLUME ACCENT',
-    sku: 'LINGERIE · 18',
+    sku: 'LINGERIE · 17',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/feather-teddy-hero.webp',
     desc: "Exquisite baby pink ribbed knit bodysuit trimmed with luxurious matching marabou feathers along the shoulder straps and delicate scalloped lace along the plunging bustline and leg openings.",
     specs: [
@@ -2106,25 +2043,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/feather-teddy-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/feather-teddy-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/feather-teddy-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/feather-teddy-hero.webp"
         }
 ],
@@ -2150,9 +2087,9 @@ const PRODUCT_DATABASE = {
     id: 'corset-babydoll',
     title: 'Corset Babydoll',
     badge: 'NOIR FLARE',
-    sku: 'LINGERIE · 19',
+    sku: 'LINGERIE · 18',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/corset-babydoll-hero.webp',
     desc: "Sleek noir black boned corset mini babydoll dress featuring ruffled shoulder cap sleeves, front lace-up eyelets, and a flared pleated skater skirt that twirls provocatively.",
     specs: [
@@ -2169,25 +2106,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/corset-babydoll-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/corset-babydoll-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/corset-babydoll-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/corset-babydoll-hero.webp"
         }
 ],
@@ -2208,9 +2145,9 @@ const PRODUCT_DATABASE = {
     id: 'ombre-mini',
     title: 'Ombre Mini',
     badge: 'GRADIENT NET',
-    sku: 'LINGERIE · 20',
+    sku: 'LINGERIE · 19',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/ombre-mini-hero.webp',
     desc: "Hypnotic scarlet-to-black ombre sheer fishnet mini dress with long sleeves, dramatic diamond-weave chest cutouts, and seamless stretch knit that clings sculpturally to every curve.",
     specs: [
@@ -2227,25 +2164,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/ombre-mini-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/ombre-mini-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/ombre-mini-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/ombre-mini-hero.webp"
         }
 ],
@@ -2271,9 +2208,9 @@ const PRODUCT_DATABASE = {
     id: 'pearl-mini',
     title: 'Pearl Mini',
     badge: 'RING CUTOUT',
-    sku: 'LINGERIE · 21',
+    sku: 'LINGERIE · 20',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/pearl-mini-hero.webp',
     desc: "Midnight navy off-shoulder mini dress featuring shimmering silver O-ring and pearl cutout accents down the bust and sleeves, paired with textured animal print sheer mesh side paneling.",
     specs: [
@@ -2290,25 +2227,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/pearl-mini-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/pearl-mini-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/pearl-mini-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/pearl-mini-hero.webp"
         }
 ],
@@ -2334,9 +2271,9 @@ const PRODUCT_DATABASE = {
     id: 'ruby-net',
     title: 'Ruby Net',
     badge: 'SEAMLESS MINI',
-    sku: 'LINGERIE · 22',
+    sku: 'LINGERIE · 21',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/ruby-net-hero.webp',
     desc: "Alluring deep ruby red seamless fishnet t-shirt mini dress with short sleeves and fine honeycomb mesh that flatters natural contours with an effortless second-skin feel.",
     specs: [
@@ -2353,25 +2290,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/ruby-net-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/ruby-net-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/ruby-net-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/ruby-net-hero.webp"
         }
 ],
@@ -2397,9 +2334,9 @@ const PRODUCT_DATABASE = {
     id: 'blush-halter',
     title: 'Blush Halter',
     badge: 'HALTER MINI',
-    sku: 'LINGERIE · 23',
+    sku: 'LINGERIE · 22',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/blush-halter-hero.webp',
     desc: "Pastel blush pink halter neck fishnet mini dress with an alluring keyhole bust cutout, backless design, and intricate laser-distressed ladder ribbing along the hemline.",
     specs: [
@@ -2416,25 +2353,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/blush-halter-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/blush-halter-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/blush-halter-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/blush-halter-hero.webp"
         }
 ],
@@ -2455,9 +2392,9 @@ const PRODUCT_DATABASE = {
     id: 'ribbon-teddy',
     title: 'Ribbon Teddy',
     badge: 'SATIN BOWS',
-    sku: 'LINGERIE · 24',
+    sku: 'LINGERIE · 23',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/ribbon-teddy-hero.webp',
     desc: "Vintage-inspired baby pink floral lace bodysuit adorned with charming satin ribbon bows along the plunging decolletage, delicate ruffle leg trims, and coordinating pink fishnet stockings.",
     specs: [
@@ -2474,25 +2411,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/ribbon-teddy-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/ribbon-teddy-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/ribbon-teddy-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/ribbon-teddy-hero.webp"
         }
 ],
@@ -2518,9 +2455,9 @@ const PRODUCT_DATABASE = {
     id: 'heart-romper',
     title: 'Heart Romper',
     badge: 'PASTEL CO-ORD',
-    sku: 'LINGERIE · 25',
+    sku: 'LINGERIE · 24',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/heart-romper-hero.webp',
     desc: "Sweet and sultry two-tone pastel yellow and lavender mesh halter romper featuring an open back, high-cut cheeky bottoms, and an adorable heart-accented choker neckline.",
     specs: [
@@ -2537,25 +2474,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/heart-romper-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/heart-romper-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/heart-romper-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/heart-romper-hero.webp"
         }
 ],
@@ -2581,9 +2518,9 @@ const PRODUCT_DATABASE = {
     id: 'lattice-gown',
     title: 'Lattice Gown',
     badge: 'WINE LACE',
-    sku: 'LINGERIE · 26',
+    sku: 'LINGERIE · 25',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/lattice-gown-hero.webp',
     desc: "Sumptuous rich wine red floral lace backless gown featuring intricate lattice crisscross strapping along the hips and thighs, an open rear silhouette, and built-in underwire support.",
     specs: [
@@ -2600,25 +2537,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/lattice-gown-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/lattice-gown-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/lattice-gown-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/lattice-gown-hero.webp"
         }
 ],
@@ -2644,9 +2581,9 @@ const PRODUCT_DATABASE = {
     id: 'teal-mini',
     title: 'Teal Mini',
     badge: 'AQUA NET',
-    sku: 'LINGERIE · 27',
+    sku: 'LINGERIE · 26',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/teal-mini-hero.webp',
     desc: "Vibrant aqua teal open-work fishnet mini dress with long sleeves, delicate halter tie accent, and an organic webbed texture that frames your shape in striking island colors.",
     specs: [
@@ -2663,25 +2600,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/teal-mini-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/teal-mini-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/teal-mini-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/teal-mini-hero.webp"
         }
 ],
@@ -2707,9 +2644,9 @@ const PRODUCT_DATABASE = {
     id: 'maroon-babydoll',
     title: 'Maroon Babydoll',
     badge: 'RUFFLE CORSET',
-    sku: 'LINGERIE · 28',
+    sku: 'LINGERIE · 27',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/maroon-babydoll-hero.webp',
     desc: "Deep maroon lace-up corset babydoll with underwire floral lace cups, playful chiffon ruffled mini hemline, lace-up front midsection, and integrated adjustable garter straps.",
     specs: [
@@ -2726,25 +2663,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/maroon-babydoll-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/maroon-babydoll-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/maroon-babydoll-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/maroon-babydoll-hero.webp"
         }
 ],
@@ -2770,9 +2707,9 @@ const PRODUCT_DATABASE = {
     id: 'kiss-chemise',
     title: 'Kiss Chemise',
     badge: 'EMBROIDERED LIPS',
-    sku: 'LINGERIE · 29',
+    sku: 'LINGERIE · 28',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/kiss-chemise-hero.webp',
     desc: "Seductive black sheer mesh babydoll slip embroidered with vibrant red lipstick kiss motifs, satin red center ribbon bow, scalloped lace trim, and matching kiss-print G-string.",
     specs: [
@@ -2789,25 +2726,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/kiss-chemise-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/kiss-chemise-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/kiss-chemise-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/kiss-chemise-hero.webp"
         }
 ],
@@ -2838,9 +2775,9 @@ const PRODUCT_DATABASE = {
     id: 'floral-corset',
     title: 'Floral Corset',
     badge: 'GARDEN LACE',
-    sku: 'LINGERIE · 30',
+    sku: 'LINGERIE · 29',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/floral-corset-hero.webp',
     desc: "Angelic vintage garden floral print corset teddy with pristine white eyelet lace trim along the underwire cups, adjustable garter ribbons with dainty bows, and boned waistline contouring.",
     specs: [
@@ -2857,25 +2794,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/floral-corset-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/floral-corset-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/floral-corset-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/floral-corset-hero.webp"
         }
 ],
@@ -2897,73 +2834,15 @@ const PRODUCT_DATABASE = {
         }
 ]
   },
-  'neon-slip': {
-    id: 'neon-slip',
-    title: 'Neon Slip',
-    badge: 'HOT PINK',
-    sku: 'LINGERIE · 31',
-    price: 0,
-    priceStr: 'Price on Request',
-    img: '/assets/lingerie-catalog/neon-slip-hero.webp',
-    desc: "Striking noir black sheer micro-mesh slip featuring hot neon magenta eyelash lace accents along the bust and scalloped hem, adjustable spaghetti straps, and matching cheeky thong.",
-    specs: [
-      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
-      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
-      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
-      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
-    ],
-    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
-    acoustics: 'Whisper-Soft on Bare Skin',
-    freq: 0,
-    pattern: 'lingerie',
-    variants: [
-        {
-                "name": "S",
-                "price": 0,
-                "priceStr": "Price on Request",
-                "img": "/assets/lingerie-catalog/neon-slip-hero.webp"
-        },
-        {
-                "name": "M",
-                "price": 0,
-                "priceStr": "Price on Request",
-                "img": "/assets/lingerie-catalog/neon-slip-hero.webp"
-        },
-        {
-                "name": "L",
-                "price": 0,
-                "priceStr": "Price on Request",
-                "img": "/assets/lingerie-catalog/neon-slip-hero.webp"
-        },
-        {
-                "name": "XL",
-                "price": 0,
-                "priceStr": "Price on Request",
-                "img": "/assets/lingerie-catalog/neon-slip-hero.webp"
-        }
-],
-    media: [
-        {
-                "type": "image",
-                "src": "/assets/lingerie-catalog/neon-slip-media-1.webp",
-                "label": "Front View"
-        },
-        {
-                "type": "image",
-                "src": "/assets/lingerie-catalog/neon-slip-media-2.webp",
-                "label": "Side View"
-        }
-]
-  },
   'nurse-set': {
     id: 'nurse-set',
     title: 'Nurse Set',
     badge: 'ROLEPLAY COSTUME',
-    sku: 'LINGERIE · 32',
+    sku: 'LINGERIE · 30',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/nurse-set-hero.webp',
-    desc: "Provocative white and red emergency nurse roleplay uniform dress featuring a zippered plunge front, corset waist lattice cutouts, matching nurse headpiece, and attached garter loops.",
+    desc: "Provocative white and red emergency nurse roleplay uniform dress featuring a zippered plunge front, corset waist lattice cutouts, matching nurse headpiece, and coordinating noir boudoir slip with neon lace trim.",
     specs: [
       { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
       { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
@@ -2978,33 +2857,43 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/nurse-set-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/nurse-set-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/nurse-set-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/nurse-set-hero.webp"
         }
 ],
     media: [
         {
                 "type": "image",
-                "src": "/assets/lingerie-catalog/nurse-set-media-1.webp",
-                "label": "Full Costume"
+                "src": "/assets/lingerie-catalog/nurse-set-hero.webp",
+                "label": "Nurse Uniform Set"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/neon-slip-media-1.webp",
+                "label": "Boudoir Slip (Front View)"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/neon-slip-media-2.webp",
+                "label": "Boudoir Slip (Side View)"
         }
 ]
   },
@@ -3012,9 +2901,9 @@ const PRODUCT_DATABASE = {
     id: 'mermaid-set',
     title: 'Mermaid Set',
     badge: 'MAXI 2-PIECE',
-    sku: 'LINGERIE · 33',
+    sku: 'LINGERIE · 31',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/mermaid-set-hero.webp',
     desc: "Breathtaking turquoise and lavender gradient knit 2-piece set featuring a high-neck halter crop top with keyhole cutout and a floor-sweeping sheer ombre mermaid skirt.",
     specs: [
@@ -3031,25 +2920,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/mermaid-set-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/mermaid-set-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/mermaid-set-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/mermaid-set-hero.webp"
         }
 ],
@@ -3075,9 +2964,9 @@ const PRODUCT_DATABASE = {
     id: 'noir-chemise',
     title: 'Noir Chemise',
     badge: 'FAN EMBROIDERY',
-    sku: 'LINGERIE · 34',
+    sku: 'LINGERIE · 32',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/noir-chemise-hero.webp',
     desc: "Ultra-luxe noir black sheer mini chemise featuring architectural fan-embroidered sheer underwire cups, ruched side seams that sculpt the hips, and a delicate flirty ruffle hem.",
     specs: [
@@ -3094,25 +2983,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/noir-chemise-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/noir-chemise-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/noir-chemise-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/noir-chemise-hero.webp"
         }
 ],
@@ -3133,9 +3022,9 @@ const PRODUCT_DATABASE = {
     id: 'lace-romper',
     title: 'Lace Romper',
     badge: 'FLORAL PLAYSUIT',
-    sku: 'LINGERIE · 35',
+    sku: 'LINGERIE · 33',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/lace-romper-hero.webp',
     desc: "Sultry noir black floral lace romper playsuit featuring a plunging V-neckline, supportive underbust band, strappy back details, and semi-sheer boy-short bottoms for effortless elegance.",
     specs: [
@@ -3152,25 +3041,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/lace-romper-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/lace-romper-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/lace-romper-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/lace-romper-hero.webp"
         }
 ],
@@ -3191,9 +3080,9 @@ const PRODUCT_DATABASE = {
     id: 'cutout-mini',
     title: 'Cutout Mini',
     badge: 'O-RING DETAIL',
-    sku: 'LINGERIE · 36',
+    sku: 'LINGERIE · 34',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/cutout-mini-hero.webp',
     desc: "Architectural sheer noir mesh mini dress featuring a daring circular underboob cutout, high choker neckline, central silver O-ring connector, and an ultra-short sheer skirt.",
     specs: [
@@ -3210,25 +3099,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/cutout-mini-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/cutout-mini-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/cutout-mini-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/cutout-mini-hero.webp"
         }
 ],
@@ -3249,9 +3138,9 @@ const PRODUCT_DATABASE = {
     id: 'leopard-bodysuit',
     title: 'Leopard Bodysuit',
     badge: 'SLEEVE SET',
-    sku: 'LINGERIE · 37',
+    sku: 'LINGERIE · 35',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/leopard-bodysuit-hero.webp',
     desc: "Exotic warm leopard and blue butterfly print sheer off-shoulder bodysuit featuring strappy hip cutouts with adjustable tie bows and separate matching flared long sleeves.",
     specs: [
@@ -3268,25 +3157,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/leopard-bodysuit-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/leopard-bodysuit-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/leopard-bodysuit-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/leopard-bodysuit-hero.webp"
         }
 ],
@@ -3312,9 +3201,9 @@ const PRODUCT_DATABASE = {
     id: 'chain-teddy',
     title: 'Chain Teddy',
     badge: 'CHAIN HARNESS',
-    sku: 'LINGERIE · 38',
+    sku: 'LINGERIE · 36',
     price: 0,
-    priceStr: 'Price on Request',
+    priceStr: '₦',
     img: '/assets/lingerie-catalog/chain-teddy-hero.webp',
     desc: "Dominant and exquisite black floral lace teddy elevated with shimmering gold chain shoulder straps and draping bust chains, waist harness belt, and chain-linked thigh garter bands.",
     specs: [
@@ -3331,25 +3220,25 @@ const PRODUCT_DATABASE = {
         {
                 "name": "S",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/chain-teddy-hero.webp"
         },
         {
                 "name": "M",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/chain-teddy-hero.webp"
         },
         {
                 "name": "L",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/chain-teddy-hero.webp"
         },
         {
                 "name": "XL",
                 "price": 0,
-                "priceStr": "Price on Request",
+                "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/chain-teddy-hero.webp"
         }
 ],
@@ -3366,6 +3255,7 @@ const PRODUCT_DATABASE = {
         }
 ]
   },
+
   'rose-blossom': {
     id: 'rose-blossom',
     title: 'The Rose Sucker',
