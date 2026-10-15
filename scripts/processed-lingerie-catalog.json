@@ -4,8 +4,8 @@
     "title": "Boudoir Pasties",
     "badge": "SATIN & VELVET",
     "sku": "LINGERIE · 01",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 4500,
+    "priceStr": "₦4,500",
     "desc": "Playful satin and velvet nipple pasties featuring flirty boudoir motifs and provocative script. Crafted with medical-grade hypoallergenic adhesive for secure, skin-safe wear and effortless peel-away removal.",
     "heroSource": "PHOTO-2026-08-14-17-43-41.jpg",
     "mediaSources": [
@@ -39,6 +39,9 @@
         "src": "/assets/lingerie-catalog/boudoir-pasties-media-3.webp",
         "label": "Alternate View"
       }
+    ],
+    "sizes": [
+      "One Size"
     ]
   },
   {
@@ -81,6 +84,12 @@
         "src": "/assets/lingerie-catalog/zebra-set-media-3.webp",
         "label": "Detail Angle"
       }
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
     ]
   },
   {
@@ -88,8 +97,8 @@
     "title": "Lilac Bodystocking",
     "badge": "SEAMLESS KNIT",
     "sku": "LINGERIE · 03",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 12000,
+    "priceStr": "₦12,000",
     "desc": "Ethereal lavender open-knit bodystocking with ribbed contour paneling, delicate long sleeves, and tantalizing peekaboo decolletage cutouts. Ultra-stretchy micro-mesh hugs every natural curve like liquid silk.",
     "heroSource": "PHOTO-2026-09-16-14-16-36.jpg",
     "mediaSources": [
@@ -142,6 +151,9 @@
         "src": "/assets/Lingerie/VIDEO-2026-08-14-17-47-48.mp4",
         "label": "Live Video Clip"
       }
+    ],
+    "sizes": [
+      "One Size"
     ]
   },
   {
@@ -149,8 +161,8 @@
     "title": "Cyan Co-ord",
     "badge": "2-PIECE SET",
     "sku": "LINGERIE · 04",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 12000,
+    "priceStr": "₦12,000",
     "desc": "Electric cyan two-piece knit set featuring a sparkling rhinestone-embellished long-sleeve crop top with flared bell cuffs and a matching low-rise mini skirt with seductive hip ladder cutouts.",
     "heroSource": "PHOTO-2026-08-14-17-50-33.jpg",
     "mediaSources": [
@@ -194,6 +206,9 @@
         "src": "/assets/Lingerie/VIDEO-2026-08-14-17-50-40.mp4",
         "label": "Live Video Clip"
       }
+    ],
+    "sizes": [
+      "One Size"
     ]
   },
   {
@@ -201,8 +216,8 @@
     "title": "Heart Teddy",
     "badge": "HEART CUTOUT",
     "sku": "LINGERIE · 05",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 21000,
+    "priceStr": "₦21,000",
     "desc": "Romantic blush pink teddy featuring heart-shaped embroidered mesh cups, adjustable satin garter straps, and scalloped lace trim. Seductively contours your silhouette while framing your decolletage in sweet allure.",
     "heroSource": "PHOTO-2026-08-19-16-42-45.jpg",
     "mediaSources": [
@@ -246,6 +261,11 @@
         "src": "/assets/Lingerie/VIDEO-2026-08-19-16-44-48.mp4",
         "label": "Live Video Clip"
       }
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
     ]
   },
   {
@@ -253,8 +273,8 @@
     "title": "Noir Slip",
     "badge": "MAXI SHEER",
     "sku": "LINGERIE · 06",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 23000,
+    "priceStr": "₦23,000",
     "desc": "Dramatic midnight black sheer mesh maxi slip dress with intricate floral eyelash lace underwire cups, adjustable spaghetti straps, and a daring sheer cascade that billows with every sensual step.",
     "heroSource": "PHOTO-2026-08-19-17-04-45.jpg",
     "mediaSources": [
@@ -288,6 +308,11 @@
         "src": "/assets/lingerie-catalog/noir-slip-media-3.webp",
         "label": "Back View"
       }
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
     ]
   },
   {
@@ -295,8 +320,8 @@
     "title": "Scarlet Corset",
     "badge": "LACE-UP BACK",
     "sku": "LINGERIE · 07",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 21000,
+    "priceStr": "₦21,000",
     "desc": "Fiery scarlet backless teddy with a dramatic crisscross corset tie running the full length of the spine. Features a deep sweetheart neckline and high-cut thong back designed to accentuate waist curvature.",
     "heroSource": "PHOTO-2026-08-19-17-14-15.jpg",
     "mediaSources": [
@@ -330,12 +355,17 @@
         "src": "/assets/lingerie-catalog/scarlet-corset-media-3.webp",
         "label": "Side Profile"
       }
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
     ]
   },
   {
     "id": "heart-mini",
     "title": "Heart Mini",
-    "badge": "CHERRY KNIT",
+    "badge": "UNAVAILABLE",
     "sku": "LINGERIE · 08",
     "price": 0,
     "priceStr": "₦",
@@ -382,15 +412,16 @@
         "src": "/assets/Lingerie/VIDEO-2026-08-19-17-22-40.mp4",
         "label": "Live Video Clip"
       }
-    ]
+    ],
+    "unavailable": true
   },
   {
     "id": "royal-slip",
     "title": "Royal Slip",
     "badge": "COBALT LACE",
     "sku": "LINGERIE · 09",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 23000,
+    "priceStr": "₦23,000",
     "desc": "Sultry cobalt royal blue sheer lace chemise featuring an open lace front, plunging triangle cups, built-in garter loops, and a matching G-string. The vibrant sapphire hue elevates every boudoir setting.",
     "heroSource": "PHOTO-2026-08-24-17-30-20.jpg",
     "mediaSources": [
@@ -424,6 +455,10 @@
         "src": "/assets/lingerie-catalog/royal-slip-media-3.webp",
         "label": "Live Mannequin View"
       }
+    ],
+    "sizes": [
+      "L",
+      "XL"
     ]
   },
   {
@@ -466,6 +501,12 @@
         "src": "/assets/lingerie-catalog/thigh-stockings-media-3.webp",
         "label": "White Stocking"
       }
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
     ]
   },
   {
@@ -508,6 +549,12 @@
         "src": "/assets/lingerie-catalog/ruby-corset-media-3.webp",
         "label": "Back View"
       }
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
     ]
   },
   {
@@ -550,6 +597,12 @@
         "src": "/assets/lingerie-catalog/white-bodystocking-media-3.webp",
         "label": "Live Mannequin View"
       }
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
     ]
   },
   {
@@ -583,6 +636,12 @@
         "src": "/assets/lingerie-catalog/schoolgirl-set-media-2.webp",
         "label": "Back Angle"
       }
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
     ]
   },
   {
@@ -625,6 +684,12 @@
         "src": "/assets/lingerie-catalog/floral-gown-media-3.webp",
         "label": "Back View"
       }
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
     ]
   },
   {
@@ -668,6 +733,12 @@
         "src": "/assets/Lingerie/VIDEO-2026-09-14-10-30-10.mp4",
         "label": "Live Video Clip"
       }
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
     ]
   },
   {
@@ -710,6 +781,12 @@
         "src": "/assets/lingerie-catalog/crochet-set-media-3.webp",
         "label": "Black Colorway"
       }
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
     ]
   },
   {
@@ -752,6 +829,12 @@
         "src": "/assets/lingerie-catalog/feather-teddy-media-3.webp",
         "label": "Back Angle"
       }
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
     ]
   },
   {
@@ -785,6 +868,12 @@
         "src": "/assets/lingerie-catalog/corset-babydoll-media-2.webp",
         "label": "Side Angle"
       }
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
     ]
   },
   {
@@ -827,6 +916,12 @@
         "src": "/assets/lingerie-catalog/ombre-mini-media-3.webp",
         "label": "Back View"
       }
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
     ]
   },
   {
@@ -869,6 +964,12 @@
         "src": "/assets/lingerie-catalog/pearl-mini-media-3.webp",
         "label": "Detail View"
       }
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
     ]
   },
   {
@@ -911,6 +1012,12 @@
         "src": "/assets/lingerie-catalog/ruby-net-media-3.webp",
         "label": "Back View"
       }
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
     ]
   },
   {
@@ -944,6 +1051,12 @@
         "src": "/assets/lingerie-catalog/blush-halter-media-2.webp",
         "label": "Backless View"
       }
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
     ]
   },
   {
@@ -987,6 +1100,12 @@
         "src": "/assets/Lingerie/VIDEO-2026-09-22-15-36-57.mp4",
         "label": "Live Video Clip"
       }
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
     ]
   },
   {
@@ -1029,6 +1148,12 @@
         "src": "/assets/lingerie-catalog/heart-romper-media-3.webp",
         "label": "Live Mannequin View"
       }
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
     ]
   },
   {
@@ -1072,6 +1197,12 @@
         "src": "/assets/Lingerie/VIDEO-2026-09-22-17-11-53.mp4",
         "label": "Live Video Clip"
       }
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
     ]
   },
   {
@@ -1114,6 +1245,12 @@
         "src": "/assets/lingerie-catalog/teal-mini-media-3.webp",
         "label": "Back View"
       }
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
     ]
   },
   {
@@ -1156,6 +1293,12 @@
         "src": "/assets/lingerie-catalog/maroon-babydoll-media-3.webp",
         "label": "Live Mannequin View"
       }
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
     ]
   },
   {
@@ -1208,6 +1351,12 @@
         "src": "/assets/Lingerie/VIDEO-2026-09-25-12-48-11.mp4",
         "label": "Live Video Clip"
       }
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
     ]
   },
   {
@@ -1251,6 +1400,12 @@
         "src": "/assets/Lingerie/VIDEO-2026-09-26-18-07-23.mp4",
         "label": "Live Video Clip"
       }
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
     ]
   },
   {
@@ -1258,8 +1413,8 @@
     "title": "Nurse Set",
     "badge": "ROLEPLAY COSTUME",
     "sku": "LINGERIE · 30",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 22000,
+    "priceStr": "₦22,000",
     "desc": "Provocative white and red emergency nurse roleplay uniform dress featuring a zippered plunge front, corset waist lattice cutouts, matching nurse headpiece, and coordinating noir boudoir slip with neon lace trim.",
     "heroSource": "PHOTO-2026-09-26-18-17-01 2.jpg",
     "mediaSources": [
@@ -1285,6 +1440,12 @@
         "src": "/assets/lingerie-catalog/neon-slip-media-2.webp",
         "label": "Boudoir Slip (Side View)"
       }
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
     ]
   },
   {
@@ -1292,8 +1453,8 @@
     "title": "Mermaid Set",
     "badge": "MAXI 2-PIECE",
     "sku": "LINGERIE · 31",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 18000,
+    "priceStr": "₦18,000",
     "desc": "Breathtaking turquoise and lavender gradient knit 2-piece set featuring a high-neck halter crop top with keyhole cutout and a floor-sweeping sheer ombre mermaid skirt.",
     "heroSource": "PHOTO-2026-09-29-16-27-32.jpg",
     "mediaSources": [
@@ -1327,6 +1488,9 @@
         "src": "/assets/lingerie-catalog/mermaid-set-media-3.webp",
         "label": "Back Angle"
       }
+    ],
+    "sizes": [
+      "One Size"
     ]
   },
   {
@@ -1360,6 +1524,12 @@
         "src": "/assets/lingerie-catalog/noir-chemise-media-2.webp",
         "label": "Back Angle"
       }
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
     ]
   },
   {
@@ -1367,8 +1537,8 @@
     "title": "Lace Romper",
     "badge": "FLORAL PLAYSUIT",
     "sku": "LINGERIE · 33",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 18000,
+    "priceStr": "₦18,000",
     "desc": "Sultry noir black floral lace romper playsuit featuring a plunging V-neckline, supportive underbust band, strappy back details, and semi-sheer boy-short bottoms for effortless elegance.",
     "heroSource": "PHOTO-2026-09-29-16-31-43.jpg",
     "mediaSources": [
@@ -1393,6 +1563,11 @@
         "src": "/assets/lingerie-catalog/lace-romper-media-2.webp",
         "label": "Back Angle"
       }
+    ],
+    "sizes": [
+      "M",
+      "L",
+      "XL"
     ]
   },
   {
@@ -1426,6 +1601,12 @@
         "src": "/assets/lingerie-catalog/cutout-mini-media-2.webp",
         "label": "Back Angle"
       }
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
     ]
   },
   {
@@ -1433,8 +1614,8 @@
     "title": "Leopard Bodysuit",
     "badge": "SLEEVE SET",
     "sku": "LINGERIE · 35",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 17000,
+    "priceStr": "₦17,000",
     "desc": "Exotic warm leopard and blue butterfly print sheer off-shoulder bodysuit featuring strappy hip cutouts with adjustable tie bows and separate matching flared long sleeves.",
     "heroSource": "PHOTO-2026-10-01-10-18-37.jpg",
     "mediaSources": [
@@ -1468,6 +1649,12 @@
         "src": "/assets/lingerie-catalog/leopard-bodysuit-media-3.webp",
         "label": "Sleeve Detail"
       }
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
     ]
   },
   {
@@ -1475,8 +1662,8 @@
     "title": "Chain Teddy",
     "badge": "CHAIN HARNESS",
     "sku": "LINGERIE · 36",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 15000,
+    "priceStr": "₦15,000",
     "desc": "Dominant and exquisite black floral lace teddy elevated with shimmering gold chain shoulder straps and draping bust chains, waist harness belt, and chain-linked thigh garter bands.",
     "heroSource": "PHOTO-2026-10-01-10-21-38.jpg",
     "mediaSources": [
@@ -1501,6 +1688,11 @@
         "src": "/assets/lingerie-catalog/chain-teddy-media-2.webp",
         "label": "Back View"
       }
+    ],
+    "sizes": [
+      "M",
+      "L",
+      "XL"
     ]
   }
 ]
