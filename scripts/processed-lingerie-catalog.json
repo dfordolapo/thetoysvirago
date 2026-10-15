@@ -466,8 +466,8 @@
     "title": "Thigh Stockings",
     "badge": "STAY-UP SILICONE",
     "sku": "LINGERIE · 10",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 6500,
+    "priceStr": "₦6,500",
     "desc": "Classic ultra-sheer thigh-high stockings with wide satin comfort top bands lined with stay-up silicone ribbing. Available in both timeless noir black and bridal alabaster white for seamless pairing with any lingerie ensemble.",
     "heroSource": "PHOTO-2026-08-24-17-31-37.jpg",
     "mediaSources": [
@@ -503,10 +503,7 @@
       }
     ],
     "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL"
+      "One Size"
     ]
   },
   {
@@ -514,8 +511,8 @@
     "title": "Ruby Corset",
     "badge": "SATIN BUSTIER",
     "sku": "LINGERIE · 11",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 22000,
+    "priceStr": "₦22,000",
     "desc": "Luxe crimson satin and sheer illusion mesh corseted bodysuit with padded underwire cups, adjustable thigh garter straps, and a matching satin cheeky thong with delicate gold hardware accents.",
     "heroSource": "PHOTO-2026-08-24-17-32-48.jpg",
     "mediaSources": [
@@ -562,8 +559,8 @@
     "title": "White Bodystocking",
     "badge": "DIAMOND CUTOUT",
     "sku": "LINGERIE · 12",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 12000,
+    "priceStr": "₦12,000",
     "desc": "Seductive pure white high-neck bodystocking woven with intricate diamond lattice cutouts and open fishnet thighs. Designed to flatter the hourglass silhouette with dramatic skin reveals from collarbone to hip.",
     "heroSource": "PHOTO-2026-08-24-17-38-02.jpg",
     "mediaSources": [
@@ -599,16 +596,13 @@
       }
     ],
     "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL"
+      "One Size"
     ]
   },
   {
     "id": "schoolgirl-set",
     "title": "Schoolgirl Set",
-    "badge": "ROLEPLAY COSTUME",
+    "badge": "UNAVAILABLE",
     "sku": "LINGERIE · 13",
     "price": 0,
     "priceStr": "₦",
@@ -642,7 +636,8 @@
       "M",
       "L",
       "XL"
-    ]
+    ],
+    "unavailable": true
   },
   {
     "id": "floral-gown",
@@ -686,19 +681,20 @@
       }
     ],
     "sizes": [
-      "S",
       "M",
       "L",
-      "XL"
-    ]
+      "XL",
+      "XXL"
+    ],
+    "colorNote": "Blue Only"
   },
   {
     "id": "scarlet-gown",
     "title": "Scarlet Gown",
     "badge": "BELTED SATIN",
     "sku": "LINGERIE · 15",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 23000,
+    "priceStr": "₦23,000",
     "desc": "Show-stopping scarlet red sheer mesh and liquid satin evening gown with structured underwire cups, gold buckled waist belt, and an ultra-daring thigh-high slit that commands pure adoration.",
     "heroSource": "PHOTO-2026-09-14-10-30-07.jpg",
     "mediaSources": [
@@ -746,8 +742,8 @@
     "title": "Crochet Set",
     "badge": "2-PIECE SET",
     "sku": "LINGERIE · 16",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 12000,
+    "priceStr": "₦12,000",
     "desc": "Sensual textured open-knit 2-piece loungewear set featuring a short-sleeve crop top and high-waisted seamless leggings. Available in fiery scarlet red and sleek noir black.",
     "heroSource": "PHOTO-2026-09-14-10-48-49.jpg",
     "mediaSources": [
@@ -783,10 +779,7 @@
       }
     ],
     "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL"
+      "One Size"
     ]
   },
   {
@@ -794,8 +787,8 @@
     "title": "Feather Teddy",
     "badge": "PLUME ACCENT",
     "sku": "LINGERIE · 17",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 22000,
+    "priceStr": "₦22,000",
     "desc": "Exquisite baby pink ribbed knit bodysuit trimmed with luxurious matching marabou feathers along the shoulder straps and delicate scalloped lace along the plunging bustline and leg openings.",
     "heroSource": "PHOTO-2026-09-14-10-59-25 2.jpg",
     "mediaSources": [
@@ -833,14 +826,13 @@
     "sizes": [
       "S",
       "M",
-      "L",
-      "XL"
+      "L"
     ]
   },
   {
     "id": "corset-babydoll",
     "title": "Corset Babydoll",
-    "badge": "NOIR FLARE",
+    "badge": "UNAVAILABLE",
     "sku": "LINGERIE · 18",
     "price": 0,
     "priceStr": "₦",
@@ -874,15 +866,16 @@
       "M",
       "L",
       "XL"
-    ]
+    ],
+    "unavailable": true
   },
   {
     "id": "ombre-mini",
     "title": "Ombre Mini",
     "badge": "GRADIENT NET",
     "sku": "LINGERIE · 19",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 11000,
+    "priceStr": "₦11,000",
     "desc": "Hypnotic scarlet-to-black ombre sheer fishnet mini dress with long sleeves, dramatic diamond-weave chest cutouts, and seamless stretch knit that clings sculpturally to every curve.",
     "heroSource": "PHOTO-2026-09-16-13-57-51.jpg",
     "mediaSources": [
@@ -918,10 +911,7 @@
       }
     ],
     "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL"
+      "One Size"
     ]
   },
   {
@@ -929,8 +919,8 @@
     "title": "Pearl Mini",
     "badge": "RING CUTOUT",
     "sku": "LINGERIE · 20",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 11000,
+    "priceStr": "₦11,000",
     "desc": "Midnight navy off-shoulder mini dress featuring shimmering silver O-ring and pearl cutout accents down the bust and sleeves, paired with textured animal print sheer mesh side paneling.",
     "heroSource": "PHOTO-2026-09-16-14-05-27.jpg",
     "mediaSources": [
@@ -966,10 +956,7 @@
       }
     ],
     "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL"
+      "One Size"
     ]
   },
   {
@@ -977,8 +964,8 @@
     "title": "Ruby Net",
     "badge": "SEAMLESS MINI",
     "sku": "LINGERIE · 21",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 11000,
+    "priceStr": "₦11,000",
     "desc": "Alluring deep ruby red seamless fishnet t-shirt mini dress with short sleeves and fine honeycomb mesh that flatters natural contours with an effortless second-skin feel.",
     "heroSource": "PHOTO-2026-09-16-14-23-34.jpg",
     "mediaSources": [
@@ -1014,10 +1001,7 @@
       }
     ],
     "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL"
+      "One Size"
     ]
   },
   {
@@ -1025,8 +1009,8 @@
     "title": "Blush Halter",
     "badge": "HALTER MINI",
     "sku": "LINGERIE · 22",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 12000,
+    "priceStr": "₦12,000",
     "desc": "Pastel blush pink halter neck fishnet mini dress with an alluring keyhole bust cutout, backless design, and intricate laser-distressed ladder ribbing along the hemline.",
     "heroSource": "PHOTO-2026-09-16-14-26-50.jpg",
     "mediaSources": [
@@ -1053,10 +1037,7 @@
       }
     ],
     "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL"
+      "One Size"
     ]
   },
   {
@@ -1064,8 +1045,8 @@
     "title": "Ribbon Teddy",
     "badge": "SATIN BOWS",
     "sku": "LINGERIE · 23",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 15000,
+    "priceStr": "₦15,000",
     "desc": "Vintage-inspired baby pink floral lace bodysuit adorned with charming satin ribbon bows along the plunging decolletage, delicate ruffle leg trims, and coordinating pink fishnet stockings.",
     "heroSource": "PHOTO-2026-09-22-15-36-55 2.jpg",
     "mediaSources": [
@@ -1102,10 +1083,7 @@
       }
     ],
     "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL"
+      "One Size"
     ]
   },
   {
@@ -1113,8 +1091,8 @@
     "title": "Heart Romper",
     "badge": "PASTEL CO-ORD",
     "sku": "LINGERIE · 24",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 15000,
+    "priceStr": "₦15,000",
     "desc": "Sweet and sultry two-tone pastel yellow and lavender mesh halter romper featuring an open back, high-cut cheeky bottoms, and an adorable heart-accented choker neckline.",
     "heroSource": "PHOTO-2026-09-22-15-45-36.jpg",
     "mediaSources": [
@@ -1150,10 +1128,7 @@
       }
     ],
     "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL"
+      "One Size"
     ]
   },
   {

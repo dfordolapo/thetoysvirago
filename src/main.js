@@ -1514,13 +1514,13 @@ const PRODUCT_DATABASE = {
     title: 'Thigh Stockings',
     badge: 'STAY-UP SILICONE',
     sku: 'LINGERIE · 10',
-    price: 0,
-    priceStr: '₦',
+    price: 6500,
+    priceStr: '₦6,500',
     img: '/assets/lingerie-catalog/thigh-stockings-hero.webp',
     desc: "Classic ultra-sheer thigh-high stockings with wide satin comfort top bands lined with stay-up silicone ribbing. Available in both timeless noir black and bridal alabaster white for seamless pairing with any lingerie ensemble.",
     specs: [
       { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
-      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Sizing', value: 'One Size (Standard Boudoir Fit)' },
       { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
       { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
     ],
@@ -1531,27 +1531,9 @@ const PRODUCT_DATABASE = {
     inStock: true,
     variants: [
         {
-                "name": "S",
-                "price": 0,
-                "priceStr": "₦",
-                "img": "/assets/lingerie-catalog/thigh-stockings-hero.webp"
-        },
-        {
-                "name": "M",
-                "price": 0,
-                "priceStr": "₦",
-                "img": "/assets/lingerie-catalog/thigh-stockings-hero.webp"
-        },
-        {
-                "name": "L",
-                "price": 0,
-                "priceStr": "₦",
-                "img": "/assets/lingerie-catalog/thigh-stockings-hero.webp"
-        },
-        {
-                "name": "XL",
-                "price": 0,
-                "priceStr": "₦",
+                "name": "One Size",
+                "price": 6500,
+                "priceStr": "₦6,500",
                 "img": "/assets/lingerie-catalog/thigh-stockings-hero.webp"
         }
 ],
@@ -1578,8 +1560,8 @@ const PRODUCT_DATABASE = {
     title: 'Ruby Corset',
     badge: 'SATIN BUSTIER',
     sku: 'LINGERIE · 11',
-    price: 0,
-    priceStr: '₦',
+    price: 22000,
+    priceStr: '₦22,000',
     img: '/assets/lingerie-catalog/ruby-corset-hero.webp',
     desc: "Luxe crimson satin and sheer illusion mesh corseted bodysuit with padded underwire cups, adjustable thigh garter straps, and a matching satin cheeky thong with delicate gold hardware accents.",
     specs: [
@@ -1596,26 +1578,26 @@ const PRODUCT_DATABASE = {
     variants: [
         {
                 "name": "S",
-                "price": 0,
-                "priceStr": "₦",
+                "price": 22000,
+                "priceStr": "₦22,000",
                 "img": "/assets/lingerie-catalog/ruby-corset-hero.webp"
         },
         {
                 "name": "M",
-                "price": 0,
-                "priceStr": "₦",
+                "price": 22000,
+                "priceStr": "₦22,000",
                 "img": "/assets/lingerie-catalog/ruby-corset-hero.webp"
         },
         {
                 "name": "L",
-                "price": 0,
-                "priceStr": "₦",
+                "price": 22000,
+                "priceStr": "₦22,000",
                 "img": "/assets/lingerie-catalog/ruby-corset-hero.webp"
         },
         {
                 "name": "XL",
-                "price": 0,
-                "priceStr": "₦",
+                "price": 22000,
+                "priceStr": "₦22,000",
                 "img": "/assets/lingerie-catalog/ruby-corset-hero.webp"
         }
 ],
@@ -1642,13 +1624,13 @@ const PRODUCT_DATABASE = {
     title: 'White Bodystocking',
     badge: 'DIAMOND CUTOUT',
     sku: 'LINGERIE · 12',
-    price: 0,
-    priceStr: '₦',
+    price: 12000,
+    priceStr: '₦12,000',
     img: '/assets/lingerie-catalog/white-bodystocking-hero.webp',
     desc: "Seductive pure white high-neck bodystocking woven with intricate diamond lattice cutouts and open fishnet thighs. Designed to flatter the hourglass silhouette with dramatic skin reveals from collarbone to hip.",
     specs: [
       { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
-      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Sizing', value: 'One Size (Standard Boudoir Fit)' },
       { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
       { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
     ],
@@ -1659,27 +1641,9 @@ const PRODUCT_DATABASE = {
     inStock: true,
     variants: [
         {
-                "name": "S",
-                "price": 0,
-                "priceStr": "₦",
-                "img": "/assets/lingerie-catalog/white-bodystocking-hero.webp"
-        },
-        {
-                "name": "M",
-                "price": 0,
-                "priceStr": "₦",
-                "img": "/assets/lingerie-catalog/white-bodystocking-hero.webp"
-        },
-        {
-                "name": "L",
-                "price": 0,
-                "priceStr": "₦",
-                "img": "/assets/lingerie-catalog/white-bodystocking-hero.webp"
-        },
-        {
-                "name": "XL",
-                "price": 0,
-                "priceStr": "₦",
+                "name": "One Size",
+                "price": 12000,
+                "priceStr": "₦12,000",
                 "img": "/assets/lingerie-catalog/white-bodystocking-hero.webp"
         }
 ],
@@ -1704,7 +1668,7 @@ const PRODUCT_DATABASE = {
   'schoolgirl-set': {
     id: 'schoolgirl-set',
     title: 'Schoolgirl Set',
-    badge: 'ROLEPLAY COSTUME',
+    badge: 'UNAVAILABLE',
     sku: 'LINGERIE · 13',
     price: 0,
     priceStr: '₦',
@@ -1720,7 +1684,7 @@ const PRODUCT_DATABASE = {
     acoustics: 'Whisper-Soft on Bare Skin',
     freq: 0,
     pattern: 'lingerie',
-    inStock: true,
+    inStock: false,
     variants: [
         {
                 "name": "S",
@@ -1771,7 +1735,7 @@ const PRODUCT_DATABASE = {
     desc: "Whimsical powder blue floral sheer chiffon maxi gown featuring double hip-high front slits that flutter dramatically with every motion, delicate sweetheart bust, and adjustable shoulder ribbons.",
     specs: [
       { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
-      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Sizing', value: 'M · L · XL · XXL (Standard Boudoir Fit)' },
       { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
       { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
     ],
@@ -1781,12 +1745,6 @@ const PRODUCT_DATABASE = {
     pattern: 'lingerie',
     inStock: true,
     variants: [
-        {
-                "name": "S",
-                "price": 0,
-                "priceStr": "₦",
-                "img": "/assets/lingerie-catalog/floral-gown-hero.webp"
-        },
         {
                 "name": "M",
                 "price": 0,
@@ -1801,6 +1759,12 @@ const PRODUCT_DATABASE = {
         },
         {
                 "name": "XL",
+                "price": 0,
+                "priceStr": "₦",
+                "img": "/assets/lingerie-catalog/floral-gown-hero.webp"
+        },
+        {
+                "name": "XXL",
                 "price": 0,
                 "priceStr": "₦",
                 "img": "/assets/lingerie-catalog/floral-gown-hero.webp"
@@ -1829,8 +1793,8 @@ const PRODUCT_DATABASE = {
     title: 'Scarlet Gown',
     badge: 'BELTED SATIN',
     sku: 'LINGERIE · 15',
-    price: 0,
-    priceStr: '₦',
+    price: 23000,
+    priceStr: '₦23,000',
     img: '/assets/lingerie-catalog/scarlet-gown-hero.webp',
     desc: "Show-stopping scarlet red sheer mesh and liquid satin evening gown with structured underwire cups, gold buckled waist belt, and an ultra-daring thigh-high slit that commands pure adoration.",
     specs: [
@@ -1847,26 +1811,26 @@ const PRODUCT_DATABASE = {
     variants: [
         {
                 "name": "S",
-                "price": 0,
-                "priceStr": "₦",
+                "price": 23000,
+                "priceStr": "₦23,000",
                 "img": "/assets/lingerie-catalog/scarlet-gown-hero.webp"
         },
         {
                 "name": "M",
-                "price": 0,
-                "priceStr": "₦",
+                "price": 23000,
+                "priceStr": "₦23,000",
                 "img": "/assets/lingerie-catalog/scarlet-gown-hero.webp"
         },
         {
                 "name": "L",
-                "price": 0,
-                "priceStr": "₦",
+                "price": 23000,
+                "priceStr": "₦23,000",
                 "img": "/assets/lingerie-catalog/scarlet-gown-hero.webp"
         },
         {
                 "name": "XL",
-                "price": 0,
-                "priceStr": "₦",
+                "price": 23000,
+                "priceStr": "₦23,000",
                 "img": "/assets/lingerie-catalog/scarlet-gown-hero.webp"
         }
 ],
@@ -1893,13 +1857,13 @@ const PRODUCT_DATABASE = {
     title: 'Crochet Set',
     badge: '2-PIECE SET',
     sku: 'LINGERIE · 16',
-    price: 0,
-    priceStr: '₦',
+    price: 12000,
+    priceStr: '₦12,000',
     img: '/assets/lingerie-catalog/crochet-set-hero.webp',
     desc: "Sensual textured open-knit 2-piece loungewear set featuring a short-sleeve crop top and high-waisted seamless leggings. Available in fiery scarlet red and sleek noir black.",
     specs: [
       { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
-      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Sizing', value: 'One Size (Standard Boudoir Fit)' },
       { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
       { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
     ],
@@ -1910,27 +1874,9 @@ const PRODUCT_DATABASE = {
     inStock: true,
     variants: [
         {
-                "name": "S",
-                "price": 0,
-                "priceStr": "₦",
-                "img": "/assets/lingerie-catalog/crochet-set-hero.webp"
-        },
-        {
-                "name": "M",
-                "price": 0,
-                "priceStr": "₦",
-                "img": "/assets/lingerie-catalog/crochet-set-hero.webp"
-        },
-        {
-                "name": "L",
-                "price": 0,
-                "priceStr": "₦",
-                "img": "/assets/lingerie-catalog/crochet-set-hero.webp"
-        },
-        {
-                "name": "XL",
-                "price": 0,
-                "priceStr": "₦",
+                "name": "One Size",
+                "price": 12000,
+                "priceStr": "₦12,000",
                 "img": "/assets/lingerie-catalog/crochet-set-hero.webp"
         }
 ],
@@ -1957,13 +1903,13 @@ const PRODUCT_DATABASE = {
     title: 'Feather Teddy',
     badge: 'PLUME ACCENT',
     sku: 'LINGERIE · 17',
-    price: 0,
-    priceStr: '₦',
+    price: 22000,
+    priceStr: '₦22,000',
     img: '/assets/lingerie-catalog/feather-teddy-hero.webp',
     desc: "Exquisite baby pink ribbed knit bodysuit trimmed with luxurious matching marabou feathers along the shoulder straps and delicate scalloped lace along the plunging bustline and leg openings.",
     specs: [
       { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
-      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Sizing', value: 'S · M · L (Standard Boudoir Fit)' },
       { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
       { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
     ],
@@ -1975,26 +1921,20 @@ const PRODUCT_DATABASE = {
     variants: [
         {
                 "name": "S",
-                "price": 0,
-                "priceStr": "₦",
+                "price": 22000,
+                "priceStr": "₦22,000",
                 "img": "/assets/lingerie-catalog/feather-teddy-hero.webp"
         },
         {
                 "name": "M",
-                "price": 0,
-                "priceStr": "₦",
+                "price": 22000,
+                "priceStr": "₦22,000",
                 "img": "/assets/lingerie-catalog/feather-teddy-hero.webp"
         },
         {
                 "name": "L",
-                "price": 0,
-                "priceStr": "₦",
-                "img": "/assets/lingerie-catalog/feather-teddy-hero.webp"
-        },
-        {
-                "name": "XL",
-                "price": 0,
-                "priceStr": "₦",
+                "price": 22000,
+                "priceStr": "₦22,000",
                 "img": "/assets/lingerie-catalog/feather-teddy-hero.webp"
         }
 ],
@@ -2019,7 +1959,7 @@ const PRODUCT_DATABASE = {
   'corset-babydoll': {
     id: 'corset-babydoll',
     title: 'Corset Babydoll',
-    badge: 'NOIR FLARE',
+    badge: 'UNAVAILABLE',
     sku: 'LINGERIE · 18',
     price: 0,
     priceStr: '₦',
@@ -2035,7 +1975,7 @@ const PRODUCT_DATABASE = {
     acoustics: 'Whisper-Soft on Bare Skin',
     freq: 0,
     pattern: 'lingerie',
-    inStock: true,
+    inStock: false,
     variants: [
         {
                 "name": "S",
@@ -2080,13 +2020,13 @@ const PRODUCT_DATABASE = {
     title: 'Ombre Mini',
     badge: 'GRADIENT NET',
     sku: 'LINGERIE · 19',
-    price: 0,
-    priceStr: '₦',
+    price: 11000,
+    priceStr: '₦11,000',
     img: '/assets/lingerie-catalog/ombre-mini-hero.webp',
     desc: "Hypnotic scarlet-to-black ombre sheer fishnet mini dress with long sleeves, dramatic diamond-weave chest cutouts, and seamless stretch knit that clings sculpturally to every curve.",
     specs: [
       { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
-      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Sizing', value: 'One Size (Standard Boudoir Fit)' },
       { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
       { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
     ],
@@ -2097,27 +2037,9 @@ const PRODUCT_DATABASE = {
     inStock: true,
     variants: [
         {
-                "name": "S",
-                "price": 0,
-                "priceStr": "₦",
-                "img": "/assets/lingerie-catalog/ombre-mini-hero.webp"
-        },
-        {
-                "name": "M",
-                "price": 0,
-                "priceStr": "₦",
-                "img": "/assets/lingerie-catalog/ombre-mini-hero.webp"
-        },
-        {
-                "name": "L",
-                "price": 0,
-                "priceStr": "₦",
-                "img": "/assets/lingerie-catalog/ombre-mini-hero.webp"
-        },
-        {
-                "name": "XL",
-                "price": 0,
-                "priceStr": "₦",
+                "name": "One Size",
+                "price": 11000,
+                "priceStr": "₦11,000",
                 "img": "/assets/lingerie-catalog/ombre-mini-hero.webp"
         }
 ],
@@ -2144,13 +2066,13 @@ const PRODUCT_DATABASE = {
     title: 'Pearl Mini',
     badge: 'RING CUTOUT',
     sku: 'LINGERIE · 20',
-    price: 0,
-    priceStr: '₦',
+    price: 11000,
+    priceStr: '₦11,000',
     img: '/assets/lingerie-catalog/pearl-mini-hero.webp',
     desc: "Midnight navy off-shoulder mini dress featuring shimmering silver O-ring and pearl cutout accents down the bust and sleeves, paired with textured animal print sheer mesh side paneling.",
     specs: [
       { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
-      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Sizing', value: 'One Size (Standard Boudoir Fit)' },
       { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
       { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
     ],
@@ -2161,27 +2083,9 @@ const PRODUCT_DATABASE = {
     inStock: true,
     variants: [
         {
-                "name": "S",
-                "price": 0,
-                "priceStr": "₦",
-                "img": "/assets/lingerie-catalog/pearl-mini-hero.webp"
-        },
-        {
-                "name": "M",
-                "price": 0,
-                "priceStr": "₦",
-                "img": "/assets/lingerie-catalog/pearl-mini-hero.webp"
-        },
-        {
-                "name": "L",
-                "price": 0,
-                "priceStr": "₦",
-                "img": "/assets/lingerie-catalog/pearl-mini-hero.webp"
-        },
-        {
-                "name": "XL",
-                "price": 0,
-                "priceStr": "₦",
+                "name": "One Size",
+                "price": 11000,
+                "priceStr": "₦11,000",
                 "img": "/assets/lingerie-catalog/pearl-mini-hero.webp"
         }
 ],
@@ -2208,13 +2112,13 @@ const PRODUCT_DATABASE = {
     title: 'Ruby Net',
     badge: 'SEAMLESS MINI',
     sku: 'LINGERIE · 21',
-    price: 0,
-    priceStr: '₦',
+    price: 11000,
+    priceStr: '₦11,000',
     img: '/assets/lingerie-catalog/ruby-net-hero.webp',
     desc: "Alluring deep ruby red seamless fishnet t-shirt mini dress with short sleeves and fine honeycomb mesh that flatters natural contours with an effortless second-skin feel.",
     specs: [
       { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
-      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Sizing', value: 'One Size (Standard Boudoir Fit)' },
       { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
       { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
     ],
@@ -2225,27 +2129,9 @@ const PRODUCT_DATABASE = {
     inStock: true,
     variants: [
         {
-                "name": "S",
-                "price": 0,
-                "priceStr": "₦",
-                "img": "/assets/lingerie-catalog/ruby-net-hero.webp"
-        },
-        {
-                "name": "M",
-                "price": 0,
-                "priceStr": "₦",
-                "img": "/assets/lingerie-catalog/ruby-net-hero.webp"
-        },
-        {
-                "name": "L",
-                "price": 0,
-                "priceStr": "₦",
-                "img": "/assets/lingerie-catalog/ruby-net-hero.webp"
-        },
-        {
-                "name": "XL",
-                "price": 0,
-                "priceStr": "₦",
+                "name": "One Size",
+                "price": 11000,
+                "priceStr": "₦11,000",
                 "img": "/assets/lingerie-catalog/ruby-net-hero.webp"
         }
 ],
@@ -2272,13 +2158,13 @@ const PRODUCT_DATABASE = {
     title: 'Blush Halter',
     badge: 'HALTER MINI',
     sku: 'LINGERIE · 22',
-    price: 0,
-    priceStr: '₦',
+    price: 12000,
+    priceStr: '₦12,000',
     img: '/assets/lingerie-catalog/blush-halter-hero.webp',
     desc: "Pastel blush pink halter neck fishnet mini dress with an alluring keyhole bust cutout, backless design, and intricate laser-distressed ladder ribbing along the hemline.",
     specs: [
       { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
-      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Sizing', value: 'One Size (Standard Boudoir Fit)' },
       { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
       { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
     ],
@@ -2289,27 +2175,9 @@ const PRODUCT_DATABASE = {
     inStock: true,
     variants: [
         {
-                "name": "S",
-                "price": 0,
-                "priceStr": "₦",
-                "img": "/assets/lingerie-catalog/blush-halter-hero.webp"
-        },
-        {
-                "name": "M",
-                "price": 0,
-                "priceStr": "₦",
-                "img": "/assets/lingerie-catalog/blush-halter-hero.webp"
-        },
-        {
-                "name": "L",
-                "price": 0,
-                "priceStr": "₦",
-                "img": "/assets/lingerie-catalog/blush-halter-hero.webp"
-        },
-        {
-                "name": "XL",
-                "price": 0,
-                "priceStr": "₦",
+                "name": "One Size",
+                "price": 12000,
+                "priceStr": "₦12,000",
                 "img": "/assets/lingerie-catalog/blush-halter-hero.webp"
         }
 ],
@@ -2331,13 +2199,13 @@ const PRODUCT_DATABASE = {
     title: 'Ribbon Teddy',
     badge: 'SATIN BOWS',
     sku: 'LINGERIE · 23',
-    price: 0,
-    priceStr: '₦',
+    price: 15000,
+    priceStr: '₦15,000',
     img: '/assets/lingerie-catalog/ribbon-teddy-hero.webp',
     desc: "Vintage-inspired baby pink floral lace bodysuit adorned with charming satin ribbon bows along the plunging decolletage, delicate ruffle leg trims, and coordinating pink fishnet stockings.",
     specs: [
       { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
-      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Sizing', value: 'One Size (Standard Boudoir Fit)' },
       { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
       { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
     ],
@@ -2348,27 +2216,9 @@ const PRODUCT_DATABASE = {
     inStock: true,
     variants: [
         {
-                "name": "S",
-                "price": 0,
-                "priceStr": "₦",
-                "img": "/assets/lingerie-catalog/ribbon-teddy-hero.webp"
-        },
-        {
-                "name": "M",
-                "price": 0,
-                "priceStr": "₦",
-                "img": "/assets/lingerie-catalog/ribbon-teddy-hero.webp"
-        },
-        {
-                "name": "L",
-                "price": 0,
-                "priceStr": "₦",
-                "img": "/assets/lingerie-catalog/ribbon-teddy-hero.webp"
-        },
-        {
-                "name": "XL",
-                "price": 0,
-                "priceStr": "₦",
+                "name": "One Size",
+                "price": 15000,
+                "priceStr": "₦15,000",
                 "img": "/assets/lingerie-catalog/ribbon-teddy-hero.webp"
         }
 ],
@@ -2395,13 +2245,13 @@ const PRODUCT_DATABASE = {
     title: 'Heart Romper',
     badge: 'PASTEL CO-ORD',
     sku: 'LINGERIE · 24',
-    price: 0,
-    priceStr: '₦',
+    price: 15000,
+    priceStr: '₦15,000',
     img: '/assets/lingerie-catalog/heart-romper-hero.webp',
     desc: "Sweet and sultry two-tone pastel yellow and lavender mesh halter romper featuring an open back, high-cut cheeky bottoms, and an adorable heart-accented choker neckline.",
     specs: [
       { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
-      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Sizing', value: 'One Size (Standard Boudoir Fit)' },
       { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
       { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
     ],
@@ -2412,27 +2262,9 @@ const PRODUCT_DATABASE = {
     inStock: true,
     variants: [
         {
-                "name": "S",
-                "price": 0,
-                "priceStr": "₦",
-                "img": "/assets/lingerie-catalog/heart-romper-hero.webp"
-        },
-        {
-                "name": "M",
-                "price": 0,
-                "priceStr": "₦",
-                "img": "/assets/lingerie-catalog/heart-romper-hero.webp"
-        },
-        {
-                "name": "L",
-                "price": 0,
-                "priceStr": "₦",
-                "img": "/assets/lingerie-catalog/heart-romper-hero.webp"
-        },
-        {
-                "name": "XL",
-                "price": 0,
-                "priceStr": "₦",
+                "name": "One Size",
+                "price": 15000,
+                "priceStr": "₦15,000",
                 "img": "/assets/lingerie-catalog/heart-romper-hero.webp"
         }
 ],
@@ -3177,6 +3009,7 @@ const PRODUCT_DATABASE = {
         }
 ]
   },
+
 
 
 
@@ -4370,9 +4203,10 @@ const PRODUCT_DATABASE = {
   'kailin-water-lube': {
     "id": "kailin-water-lube",
     "title": "Kailin Pure Lube",
-    "badge": "WATER-BASED 200ML",
-    "price": 0,
-    "priceStr": "",
+    "badge": "ABUJA EXCLUSIVE",
+    "price": 10000,
+    "priceStr": "₦10,000",
+    "inStock": false,
     "img": "/assets/IMG_3632.webp",
     "desc": "Crystal-clear, non-sticky water-based personal lubricant formulated for long-lasting glide and effortless cleanup. 100% condom and silicone-toy compatible, pH-balanced, hypoallergenic, and never leaves a tacky residue.",
     "specs": [
