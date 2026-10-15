@@ -91,3 +91,43 @@ create policy "Allow insert and update on products"
   to anon, authenticated
   using (true)
   with check (true);
+
+
+-- 4. CONFESSIONS TABLE
+create table if not exists public.confessions (
+  id uuid primary key default gen_random_uuid(),
+  text text not null,
+  author text,
+  name text,
+  location text,
+  dot text default 'ruby',
+  is_anonymous boolean default true,
+  is_approved boolean default true,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- Enable RLS for confessions
+alter table public.confessions enable row level security;
+
+-- Allow anonymous visitors to submit confessions
+create policy "Allow anonymous confession submission"
+  on public.confessions
+  for insert
+  to anon, authenticated
+  with check (true);
+
+-- Allow public read access to approved confessions
+create policy "Allow public read on approved confessions"
+  on public.confessions
+  for select
+  to anon, authenticated
+  using (is_approved = true);
+
+-- Allow full access to authenticated admins
+create policy "Allow all on confessions for authenticated"
+  on public.confessions
+  for all
+  to authenticated
+  using (true)
+  with check (true);
+

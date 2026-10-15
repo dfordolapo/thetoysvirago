@@ -1,4 +1,4 @@
-import { getSupabaseProducts } from './supabase.js';
+import { getSupabaseProducts, recordSupabaseConfession, getSupabaseConfessions } from './supabase.js';
 
 /**
  * ROUGE NOIR - Haute Intimité & Sensual Wellness
@@ -4816,6 +4816,19 @@ function saveConfession(text, isAnonymous = true, name = '', location = '') {
     console.warn('Confessions localStorage save error:', e);
   }
 
+  // Sync confession remotely to Supabase database
+  recordSupabaseConfession({
+    text: text,
+    author: authorTag,
+    name: cleanName || null,
+    location: cleanLoc || null,
+    dot: randomDot,
+    is_anonymous: isAnonymous,
+    is_approved: true
+  }).catch(err => {
+    console.warn('[Supabase] Confession remote recording notice:', err);
+  });
+
   confessionsCurrentSlide = 0;
   renderDynamicConfessionsSlides(true);
   return newEntry;
@@ -4934,6 +4947,37 @@ function initConfessionsSlideshow() {
   // Initial render of dynamic slides
   renderDynamicConfessionsSlides();
   resetConfessionsAutoTimer();
+
+  // Asynchronously load any remote approved confessions from Supabase
+  getSupabaseConfessions().then(remoteList => {
+    if (remoteList && remoteList.length > 0) {
+      const stored = getStoredConfessions();
+      const existingTexts = new Set(stored.map(c => c.text));
+      let updated = false;
+
+      remoteList.forEach(rc => {
+        if (rc.text && !existingTexts.has(rc.text)) {
+          stored.push({
+            id: rc.id || Date.now(),
+            text: rc.text,
+            author: rc.author || 'Anonymous',
+            dot: rc.dot || 'ruby',
+            time: 'Recent'
+          });
+          existingTexts.add(rc.text);
+          updated = true;
+        }
+      });
+
+      if (updated) {
+        try {
+          localStorage.setItem(CONFESSIONS_STORAGE_KEY, JSON.stringify(stored));
+        } catch (e) {}
+        renderDynamicConfessionsSlides();
+      }
+    }
+  }).catch(() => {});
+
 
   // Navigation Buttons (Next / Prev)
   document.querySelectorAll('#btn-confession-next').forEach(btn => {

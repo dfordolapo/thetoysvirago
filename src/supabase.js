@@ -180,3 +180,49 @@ export async function deleteSupabaseProduct(id) {
   }
 }
 
+/**
+ * Save anonymous confession to Supabase `confessions` table.
+ */
+export async function recordSupabaseConfession(confession) {
+  if (!supabase) return { success: false, reason: 'unconfigured' };
+  try {
+    const { data, error } = await supabase
+      .from('confessions')
+      .insert([confession])
+      .select();
+
+    if (error) {
+      console.warn('[Supabase] Error saving confession:', error.message);
+      return { success: false, error: error.message };
+    }
+    return { success: true, data };
+  } catch (err) {
+    console.error('[Supabase] Unexpected confession recording error:', err);
+    return { success: false, error: err.message };
+  }
+}
+
+/**
+ * Fetch approved community confessions from Supabase.
+ */
+export async function getSupabaseConfessions() {
+  if (!supabase) return null;
+  try {
+    const { data, error } = await supabase
+      .from('confessions')
+      .select('*')
+      .eq('is_approved', true)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      // If table doesn't exist yet, gracefully return null
+      return null;
+    }
+    return data;
+  } catch (err) {
+    console.error('[Supabase] Unexpected confessions fetch error:', err);
+    return null;
+  }
+}
+
+
