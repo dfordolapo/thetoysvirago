@@ -992,6 +992,2380 @@ const qvBtnAdd = document.getElementById('qv-btn-add');
 let currentQvProduct = null;
 
 const PRODUCT_DATABASE = {
+  'boudoir-pasties': {
+    id: 'boudoir-pasties',
+    title: 'Boudoir Pasties',
+    badge: 'SATIN & VELVET',
+    sku: 'LINGERIE · 01',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/boudoir-pasties-hero.webp',
+    desc: "Playful satin and velvet nipple pasties featuring flirty boudoir motifs and provocative script. Crafted with medical-grade hypoallergenic adhesive for secure, skin-safe wear and effortless peel-away removal.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/boudoir-pasties-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/boudoir-pasties-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/boudoir-pasties-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/boudoir-pasties-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/boudoir-pasties-media-1.webp",
+                "label": "Pasties Collection"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/boudoir-pasties-media-2.webp",
+                "label": "Detail View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/boudoir-pasties-media-3.webp",
+                "label": "Alternate View"
+        }
+]
+  },
+  'zebra-set': {
+    id: 'zebra-set',
+    title: 'Zebra Set',
+    badge: '3-PIECE SET',
+    sku: 'LINGERIE · 02',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/zebra-set-hero.webp',
+    desc: "Untamed scarlet zebra-print lingerie ensemble featuring a structured underwire demi bra, matching strappy G-string, opera-length sheer mesh gloves, and coordinating thigh-high stockings for an unforgettable wild encounter.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/zebra-set-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/zebra-set-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/zebra-set-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/zebra-set-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/zebra-set-media-1.webp",
+                "label": "Front View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/zebra-set-media-2.webp",
+                "label": "Full Ensemble"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/zebra-set-media-3.webp",
+                "label": "Detail Angle"
+        }
+]
+  },
+  'lilac-bodystocking': {
+    id: 'lilac-bodystocking',
+    title: 'Lilac Bodystocking',
+    badge: 'SEAMLESS KNIT',
+    sku: 'LINGERIE · 03',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/lilac-bodystocking-hero.webp',
+    desc: "Ethereal lavender open-knit bodystocking with ribbed contour paneling, delicate long sleeves, and tantalizing peekaboo decolletage cutouts. Ultra-stretchy micro-mesh hugs every natural curve like liquid silk.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/lilac-bodystocking-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/lilac-bodystocking-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/lilac-bodystocking-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/lilac-bodystocking-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/lilac-bodystocking-media-1.webp",
+                "label": "Model Front"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/lilac-bodystocking-media-2.webp",
+                "label": "Model Angle"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/lilac-bodystocking-media-3.webp",
+                "label": "Live Mannequin View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/lilac-bodystocking-media-4.webp",
+                "label": "Back Angle"
+        },
+        {
+                "type": "video",
+                "src": "/assets/Lingerie/VIDEO-2026-08-14-17-47-48.mp4",
+                "label": "Live Video Clip"
+        }
+]
+  },
+  'cyan-coord': {
+    id: 'cyan-coord',
+    title: 'Cyan Co-ord',
+    badge: '2-PIECE SET',
+    sku: 'LINGERIE · 04',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/cyan-coord-hero.webp',
+    desc: "Electric cyan two-piece knit set featuring a sparkling rhinestone-embellished long-sleeve crop top with flared bell cuffs and a matching low-rise mini skirt with seductive hip ladder cutouts.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/cyan-coord-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/cyan-coord-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/cyan-coord-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/cyan-coord-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/cyan-coord-media-1.webp",
+                "label": "Model Front"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/cyan-coord-media-2.webp",
+                "label": "Model Side View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/cyan-coord-media-3.webp",
+                "label": "Studio Shot"
+        },
+        {
+                "type": "video",
+                "src": "/assets/Lingerie/VIDEO-2026-08-14-17-50-40.mp4",
+                "label": "Live Video Clip"
+        }
+]
+  },
+  'heart-teddy': {
+    id: 'heart-teddy',
+    title: 'Heart Teddy',
+    badge: 'HEART CUTOUT',
+    sku: 'LINGERIE · 05',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/heart-teddy-hero.webp',
+    desc: "Romantic blush pink teddy featuring heart-shaped embroidered mesh cups, adjustable satin garter straps, and scalloped lace trim. Seductively contours your silhouette while framing your decolletage in sweet allure.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/heart-teddy-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/heart-teddy-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/heart-teddy-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/heart-teddy-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/heart-teddy-media-1.webp",
+                "label": "Model Front View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/heart-teddy-media-2.webp",
+                "label": "Model Back View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/heart-teddy-media-3.webp",
+                "label": "Live Mannequin View"
+        },
+        {
+                "type": "video",
+                "src": "/assets/Lingerie/VIDEO-2026-08-19-16-44-48.mp4",
+                "label": "Live Video Clip"
+        }
+]
+  },
+  'noir-slip': {
+    id: 'noir-slip',
+    title: 'Noir Slip',
+    badge: 'MAXI SHEER',
+    sku: 'LINGERIE · 06',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/noir-slip-hero.webp',
+    desc: "Dramatic midnight black sheer mesh maxi slip dress with intricate floral eyelash lace underwire cups, adjustable spaghetti straps, and a daring sheer cascade that billows with every sensual step.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/noir-slip-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/noir-slip-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/noir-slip-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/noir-slip-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/noir-slip-media-1.webp",
+                "label": "Front View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/noir-slip-media-2.webp",
+                "label": "Side Angle"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/noir-slip-media-3.webp",
+                "label": "Back View"
+        }
+]
+  },
+  'scarlet-corset': {
+    id: 'scarlet-corset',
+    title: 'Scarlet Corset',
+    badge: 'LACE-UP BACK',
+    sku: 'LINGERIE · 07',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/scarlet-corset-hero.webp',
+    desc: "Fiery scarlet backless teddy with a dramatic crisscross corset tie running the full length of the spine. Features a deep sweetheart neckline and high-cut thong back designed to accentuate waist curvature.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/scarlet-corset-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/scarlet-corset-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/scarlet-corset-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/scarlet-corset-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/scarlet-corset-media-1.webp",
+                "label": "Lace-Up Back"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/scarlet-corset-media-2.webp",
+                "label": "Front Angle"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/scarlet-corset-media-3.webp",
+                "label": "Side Profile"
+        }
+]
+  },
+  'heart-mini': {
+    id: 'heart-mini',
+    title: 'Heart Mini',
+    badge: 'CHERRY KNIT',
+    sku: 'LINGERIE · 08',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/heart-mini-hero.webp',
+    desc: "Playful bubblegum pink fishnet mini dress with off-shoulder long sleeves and charming green-stemmed cherry and heart motifs across the neckline. Stretches seamlessly over curves for flirty boudoir lounging.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/heart-mini-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/heart-mini-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/heart-mini-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/heart-mini-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/heart-mini-media-1.webp",
+                "label": "Live Front View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/heart-mini-media-2.webp",
+                "label": "Side Angle"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/heart-mini-media-3.webp",
+                "label": "Back Angle"
+        },
+        {
+                "type": "video",
+                "src": "/assets/Lingerie/VIDEO-2026-08-19-17-22-40.mp4",
+                "label": "Live Video Clip"
+        }
+]
+  },
+  'royal-slip': {
+    id: 'royal-slip',
+    title: 'Royal Slip',
+    badge: 'COBALT LACE',
+    sku: 'LINGERIE · 09',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/royal-slip-hero.webp',
+    desc: "Sultry cobalt royal blue sheer lace chemise featuring an open lace front, plunging triangle cups, built-in garter loops, and a matching G-string. The vibrant sapphire hue elevates every boudoir setting.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/royal-slip-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/royal-slip-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/royal-slip-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/royal-slip-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/royal-slip-media-1.webp",
+                "label": "Model Front View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/royal-slip-media-2.webp",
+                "label": "Model Back View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/royal-slip-media-3.webp",
+                "label": "Live Mannequin View"
+        }
+]
+  },
+  'thigh-stockings': {
+    id: 'thigh-stockings',
+    title: 'Thigh Stockings',
+    badge: 'STAY-UP SILICONE',
+    sku: 'LINGERIE · 10',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/thigh-stockings-hero.webp',
+    desc: "Classic ultra-sheer thigh-high stockings with wide satin comfort top bands lined with stay-up silicone ribbing. Available in both timeless noir black and bridal alabaster white for seamless pairing with any lingerie ensemble.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/thigh-stockings-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/thigh-stockings-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/thigh-stockings-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/thigh-stockings-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/thigh-stockings-media-1.webp",
+                "label": "Black & White Pair"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/thigh-stockings-media-2.webp",
+                "label": "Black Stocking"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/thigh-stockings-media-3.webp",
+                "label": "White Stocking"
+        }
+]
+  },
+  'ruby-corset': {
+    id: 'ruby-corset',
+    title: 'Ruby Corset',
+    badge: 'SATIN BUSTIER',
+    sku: 'LINGERIE · 11',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/ruby-corset-hero.webp',
+    desc: "Luxe crimson satin and sheer illusion mesh corseted bodysuit with padded underwire cups, adjustable thigh garter straps, and a matching satin cheeky thong with delicate gold hardware accents.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/ruby-corset-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/ruby-corset-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/ruby-corset-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/ruby-corset-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/ruby-corset-media-1.webp",
+                "label": "Front View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/ruby-corset-media-2.webp",
+                "label": "Mirror Angle"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/ruby-corset-media-3.webp",
+                "label": "Back View"
+        }
+]
+  },
+  'white-bodystocking': {
+    id: 'white-bodystocking',
+    title: 'White Bodystocking',
+    badge: 'DIAMOND CUTOUT',
+    sku: 'LINGERIE · 12',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/white-bodystocking-hero.webp',
+    desc: "Seductive pure white high-neck bodystocking woven with intricate diamond lattice cutouts and open fishnet thighs. Designed to flatter the hourglass silhouette with dramatic skin reveals from collarbone to hip.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/white-bodystocking-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/white-bodystocking-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/white-bodystocking-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/white-bodystocking-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/white-bodystocking-media-1.webp",
+                "label": "Model Front View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/white-bodystocking-media-2.webp",
+                "label": "Model Angle"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/white-bodystocking-media-3.webp",
+                "label": "Live Mannequin View"
+        }
+]
+  },
+  'schoolgirl-set': {
+    id: 'schoolgirl-set',
+    title: 'Schoolgirl Set',
+    badge: 'ROLEPLAY COSTUME',
+    sku: 'LINGERIE · 13',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/schoolgirl-set-hero.webp',
+    desc: "Classic boudoir roleplay outfit featuring a pleated red tartan mini skirt, sheer white floral lace tie-front crop top, matching lace choker collar with red ribbon bow, and cheeky lace thong.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/schoolgirl-set-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/schoolgirl-set-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/schoolgirl-set-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/schoolgirl-set-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/schoolgirl-set-media-1.webp",
+                "label": "Model Front View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/schoolgirl-set-media-2.webp",
+                "label": "Back Angle"
+        }
+]
+  },
+  'floral-gown': {
+    id: 'floral-gown',
+    title: 'Floral Gown',
+    badge: 'MAXI SLIT',
+    sku: 'LINGERIE · 14',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/floral-gown-hero.webp',
+    desc: "Whimsical powder blue floral sheer chiffon maxi gown featuring double hip-high front slits that flutter dramatically with every motion, delicate sweetheart bust, and adjustable shoulder ribbons.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/floral-gown-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/floral-gown-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/floral-gown-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/floral-gown-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/floral-gown-media-1.webp",
+                "label": "Model Front View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/floral-gown-media-2.webp",
+                "label": "Side Slit Detail"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/floral-gown-media-3.webp",
+                "label": "Back View"
+        }
+]
+  },
+  'scarlet-gown': {
+    id: 'scarlet-gown',
+    title: 'Scarlet Gown',
+    badge: 'BELTED SATIN',
+    sku: 'LINGERIE · 15',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/scarlet-gown-hero.webp',
+    desc: "Show-stopping scarlet red sheer mesh and liquid satin evening gown with structured underwire cups, gold buckled waist belt, and an ultra-daring thigh-high slit that commands pure adoration.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/scarlet-gown-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/scarlet-gown-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/scarlet-gown-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/scarlet-gown-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/scarlet-gown-media-1.webp",
+                "label": "Front View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/scarlet-gown-media-2.webp",
+                "label": "Slit Detail"
+        },
+        {
+                "type": "video",
+                "src": "/assets/Lingerie/VIDEO-2026-09-14-10-30-10.mp4",
+                "label": "Live Video Clip"
+        }
+]
+  },
+  'pink-chemise': {
+    id: 'pink-chemise',
+    title: 'Pink Chemise',
+    badge: 'ROSE LACE',
+    sku: 'LINGERIE · 16',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/pink-chemise-hero.webp',
+    desc: "Delicate blush pink floral lace mini chemise with soft wireless cups, matching satin garter ribbons, and sheer side panels that create a dreamy, romantic boudoir fantasy.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/pink-chemise-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/pink-chemise-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/pink-chemise-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/pink-chemise-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/pink-chemise-media-1.webp",
+                "label": "Model Front View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/pink-chemise-media-2.webp",
+                "label": "Side Profile"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/pink-chemise-media-3.webp",
+                "label": "Full Length"
+        }
+]
+  },
+  'crochet-set': {
+    id: 'crochet-set',
+    title: 'Crochet Set',
+    badge: '2-PIECE SET',
+    sku: 'LINGERIE · 17',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/crochet-set-hero.webp',
+    desc: "Sensual textured open-knit 2-piece loungewear set featuring a short-sleeve crop top and high-waisted seamless leggings. Available in fiery scarlet red and sleek noir black.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/crochet-set-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/crochet-set-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/crochet-set-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/crochet-set-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/crochet-set-media-1.webp",
+                "label": "Red Colorway"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/crochet-set-media-2.webp",
+                "label": "Seated Pose"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/crochet-set-media-3.webp",
+                "label": "Black Colorway"
+        }
+]
+  },
+  'feather-teddy': {
+    id: 'feather-teddy',
+    title: 'Feather Teddy',
+    badge: 'PLUME ACCENT',
+    sku: 'LINGERIE · 18',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/feather-teddy-hero.webp',
+    desc: "Exquisite baby pink ribbed knit bodysuit trimmed with luxurious matching marabou feathers along the shoulder straps and delicate scalloped lace along the plunging bustline and leg openings.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/feather-teddy-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/feather-teddy-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/feather-teddy-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/feather-teddy-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/feather-teddy-media-1.webp",
+                "label": "Front View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/feather-teddy-media-2.webp",
+                "label": "Feather Detail"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/feather-teddy-media-3.webp",
+                "label": "Back Angle"
+        }
+]
+  },
+  'corset-babydoll': {
+    id: 'corset-babydoll',
+    title: 'Corset Babydoll',
+    badge: 'NOIR FLARE',
+    sku: 'LINGERIE · 19',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/corset-babydoll-hero.webp',
+    desc: "Sleek noir black boned corset mini babydoll dress featuring ruffled shoulder cap sleeves, front lace-up eyelets, and a flared pleated skater skirt that twirls provocatively.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/corset-babydoll-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/corset-babydoll-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/corset-babydoll-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/corset-babydoll-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/corset-babydoll-media-1.webp",
+                "label": "Front View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/corset-babydoll-media-2.webp",
+                "label": "Side Angle"
+        }
+]
+  },
+  'ombre-mini': {
+    id: 'ombre-mini',
+    title: 'Ombre Mini',
+    badge: 'GRADIENT NET',
+    sku: 'LINGERIE · 20',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/ombre-mini-hero.webp',
+    desc: "Hypnotic scarlet-to-black ombre sheer fishnet mini dress with long sleeves, dramatic diamond-weave chest cutouts, and seamless stretch knit that clings sculpturally to every curve.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/ombre-mini-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/ombre-mini-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/ombre-mini-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/ombre-mini-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/ombre-mini-media-1.webp",
+                "label": "Front View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/ombre-mini-media-2.webp",
+                "label": "Side Profile"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/ombre-mini-media-3.webp",
+                "label": "Back View"
+        }
+]
+  },
+  'pearl-mini': {
+    id: 'pearl-mini',
+    title: 'Pearl Mini',
+    badge: 'RING CUTOUT',
+    sku: 'LINGERIE · 21',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/pearl-mini-hero.webp',
+    desc: "Midnight navy off-shoulder mini dress featuring shimmering silver O-ring and pearl cutout accents down the bust and sleeves, paired with textured animal print sheer mesh side paneling.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/pearl-mini-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/pearl-mini-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/pearl-mini-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/pearl-mini-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/pearl-mini-media-1.webp",
+                "label": "Front Angle"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/pearl-mini-media-2.webp",
+                "label": "Seated Profile"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/pearl-mini-media-3.webp",
+                "label": "Detail View"
+        }
+]
+  },
+  'ruby-net': {
+    id: 'ruby-net',
+    title: 'Ruby Net',
+    badge: 'SEAMLESS MINI',
+    sku: 'LINGERIE · 22',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/ruby-net-hero.webp',
+    desc: "Alluring deep ruby red seamless fishnet t-shirt mini dress with short sleeves and fine honeycomb mesh that flatters natural contours with an effortless second-skin feel.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/ruby-net-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/ruby-net-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/ruby-net-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/ruby-net-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/ruby-net-media-1.webp",
+                "label": "Front Curve"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/ruby-net-media-2.webp",
+                "label": "Side Profile"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/ruby-net-media-3.webp",
+                "label": "Back View"
+        }
+]
+  },
+  'blush-halter': {
+    id: 'blush-halter',
+    title: 'Blush Halter',
+    badge: 'HALTER MINI',
+    sku: 'LINGERIE · 23',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/blush-halter-hero.webp',
+    desc: "Pastel blush pink halter neck fishnet mini dress with an alluring keyhole bust cutout, backless design, and intricate laser-distressed ladder ribbing along the hemline.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/blush-halter-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/blush-halter-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/blush-halter-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/blush-halter-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/blush-halter-media-1.webp",
+                "label": "Front View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/blush-halter-media-2.webp",
+                "label": "Backless View"
+        }
+]
+  },
+  'ribbon-teddy': {
+    id: 'ribbon-teddy',
+    title: 'Ribbon Teddy',
+    badge: 'SATIN BOWS',
+    sku: 'LINGERIE · 24',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/ribbon-teddy-hero.webp',
+    desc: "Vintage-inspired baby pink floral lace bodysuit adorned with charming satin ribbon bows along the plunging decolletage, delicate ruffle leg trims, and coordinating pink fishnet stockings.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/ribbon-teddy-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/ribbon-teddy-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/ribbon-teddy-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/ribbon-teddy-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/ribbon-teddy-media-1.webp",
+                "label": "Boudoir Bed View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/ribbon-teddy-media-2.webp",
+                "label": "Stockings Detail"
+        },
+        {
+                "type": "video",
+                "src": "/assets/Lingerie/VIDEO-2026-09-22-15-36-57.mp4",
+                "label": "Live Video Clip"
+        }
+]
+  },
+  'heart-romper': {
+    id: 'heart-romper',
+    title: 'Heart Romper',
+    badge: 'PASTEL CO-ORD',
+    sku: 'LINGERIE · 25',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/heart-romper-hero.webp',
+    desc: "Sweet and sultry two-tone pastel yellow and lavender mesh halter romper featuring an open back, high-cut cheeky bottoms, and an adorable heart-accented choker neckline.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/heart-romper-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/heart-romper-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/heart-romper-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/heart-romper-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/heart-romper-media-1.webp",
+                "label": "Model Front View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/heart-romper-media-2.webp",
+                "label": "Back Angle"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/heart-romper-media-3.webp",
+                "label": "Live Mannequin View"
+        }
+]
+  },
+  'lattice-gown': {
+    id: 'lattice-gown',
+    title: 'Lattice Gown',
+    badge: 'WINE LACE',
+    sku: 'LINGERIE · 26',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/lattice-gown-hero.webp',
+    desc: "Sumptuous rich wine red floral lace backless gown featuring intricate lattice crisscross strapping along the hips and thighs, an open rear silhouette, and built-in underwire support.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/lattice-gown-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/lattice-gown-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/lattice-gown-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/lattice-gown-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/lattice-gown-media-1.webp",
+                "label": "Back Lattice View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/lattice-gown-media-2.webp",
+                "label": "Front Angle"
+        },
+        {
+                "type": "video",
+                "src": "/assets/Lingerie/VIDEO-2026-09-22-17-11-53.mp4",
+                "label": "Live Video Clip"
+        }
+]
+  },
+  'teal-mini': {
+    id: 'teal-mini',
+    title: 'Teal Mini',
+    badge: 'AQUA NET',
+    sku: 'LINGERIE · 27',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/teal-mini-hero.webp',
+    desc: "Vibrant aqua teal open-work fishnet mini dress with long sleeves, delicate halter tie accent, and an organic webbed texture that frames your shape in striking island colors.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/teal-mini-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/teal-mini-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/teal-mini-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/teal-mini-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/teal-mini-media-1.webp",
+                "label": "Front View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/teal-mini-media-2.webp",
+                "label": "Mirror Angle"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/teal-mini-media-3.webp",
+                "label": "Back View"
+        }
+]
+  },
+  'maroon-babydoll': {
+    id: 'maroon-babydoll',
+    title: 'Maroon Babydoll',
+    badge: 'RUFFLE CORSET',
+    sku: 'LINGERIE · 28',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/maroon-babydoll-hero.webp',
+    desc: "Deep maroon lace-up corset babydoll with underwire floral lace cups, playful chiffon ruffled mini hemline, lace-up front midsection, and integrated adjustable garter straps.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/maroon-babydoll-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/maroon-babydoll-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/maroon-babydoll-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/maroon-babydoll-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/maroon-babydoll-media-1.webp",
+                "label": "Model Front View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/maroon-babydoll-media-2.webp",
+                "label": "Model Back View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/maroon-babydoll-media-3.webp",
+                "label": "Live Mannequin View"
+        }
+]
+  },
+  'kiss-chemise': {
+    id: 'kiss-chemise',
+    title: 'Kiss Chemise',
+    badge: 'EMBROIDERED LIPS',
+    sku: 'LINGERIE · 29',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/kiss-chemise-hero.webp',
+    desc: "Seductive black sheer mesh babydoll slip embroidered with vibrant red lipstick kiss motifs, satin red center ribbon bow, scalloped lace trim, and matching kiss-print G-string.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/kiss-chemise-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/kiss-chemise-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/kiss-chemise-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/kiss-chemise-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/kiss-chemise-media-1.webp",
+                "label": "Model Seated"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/kiss-chemise-media-2.webp",
+                "label": "Model Standing"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/kiss-chemise-media-3.webp",
+                "label": "Live Mannequin View"
+        },
+        {
+                "type": "video",
+                "src": "/assets/Lingerie/VIDEO-2026-09-25-12-48-11.mp4",
+                "label": "Live Video Clip"
+        }
+]
+  },
+  'floral-corset': {
+    id: 'floral-corset',
+    title: 'Floral Corset',
+    badge: 'GARDEN LACE',
+    sku: 'LINGERIE · 30',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/floral-corset-hero.webp',
+    desc: "Angelic vintage garden floral print corset teddy with pristine white eyelet lace trim along the underwire cups, adjustable garter ribbons with dainty bows, and boned waistline contouring.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/floral-corset-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/floral-corset-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/floral-corset-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/floral-corset-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/floral-corset-media-1.webp",
+                "label": "Front View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/floral-corset-media-2.webp",
+                "label": "Side Angle"
+        },
+        {
+                "type": "video",
+                "src": "/assets/Lingerie/VIDEO-2026-09-26-18-07-23.mp4",
+                "label": "Live Video Clip"
+        }
+]
+  },
+  'neon-slip': {
+    id: 'neon-slip',
+    title: 'Neon Slip',
+    badge: 'HOT PINK',
+    sku: 'LINGERIE · 31',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/neon-slip-hero.webp',
+    desc: "Striking noir black sheer micro-mesh slip featuring hot neon magenta eyelash lace accents along the bust and scalloped hem, adjustable spaghetti straps, and matching cheeky thong.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/neon-slip-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/neon-slip-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/neon-slip-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/neon-slip-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/neon-slip-media-1.webp",
+                "label": "Front View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/neon-slip-media-2.webp",
+                "label": "Side View"
+        }
+]
+  },
+  'nurse-set': {
+    id: 'nurse-set',
+    title: 'Nurse Set',
+    badge: 'ROLEPLAY COSTUME',
+    sku: 'LINGERIE · 32',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/nurse-set-hero.webp',
+    desc: "Provocative white and red emergency nurse roleplay uniform dress featuring a zippered plunge front, corset waist lattice cutouts, matching nurse headpiece, and attached garter loops.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/nurse-set-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/nurse-set-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/nurse-set-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/nurse-set-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/nurse-set-media-1.webp",
+                "label": "Full Costume"
+        }
+]
+  },
+  'mermaid-set': {
+    id: 'mermaid-set',
+    title: 'Mermaid Set',
+    badge: 'MAXI 2-PIECE',
+    sku: 'LINGERIE · 33',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/mermaid-set-hero.webp',
+    desc: "Breathtaking turquoise and lavender gradient knit 2-piece set featuring a high-neck halter crop top with keyhole cutout and a floor-sweeping sheer ombre mermaid skirt.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/mermaid-set-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/mermaid-set-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/mermaid-set-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/mermaid-set-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/mermaid-set-media-1.webp",
+                "label": "Full Set"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/mermaid-set-media-2.webp",
+                "label": "Crop Top Detail"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/mermaid-set-media-3.webp",
+                "label": "Back Angle"
+        }
+]
+  },
+  'noir-chemise': {
+    id: 'noir-chemise',
+    title: 'Noir Chemise',
+    badge: 'FAN EMBROIDERY',
+    sku: 'LINGERIE · 34',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/noir-chemise-hero.webp',
+    desc: "Ultra-luxe noir black sheer mini chemise featuring architectural fan-embroidered sheer underwire cups, ruched side seams that sculpt the hips, and a delicate flirty ruffle hem.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/noir-chemise-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/noir-chemise-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/noir-chemise-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/noir-chemise-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/noir-chemise-media-1.webp",
+                "label": "Front View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/noir-chemise-media-2.webp",
+                "label": "Back Angle"
+        }
+]
+  },
+  'lace-romper': {
+    id: 'lace-romper',
+    title: 'Lace Romper',
+    badge: 'FLORAL PLAYSUIT',
+    sku: 'LINGERIE · 35',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/lace-romper-hero.webp',
+    desc: "Sultry noir black floral lace romper playsuit featuring a plunging V-neckline, supportive underbust band, strappy back details, and semi-sheer boy-short bottoms for effortless elegance.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/lace-romper-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/lace-romper-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/lace-romper-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/lace-romper-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/lace-romper-media-1.webp",
+                "label": "Front View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/lace-romper-media-2.webp",
+                "label": "Back Angle"
+        }
+]
+  },
+  'cutout-mini': {
+    id: 'cutout-mini',
+    title: 'Cutout Mini',
+    badge: 'O-RING DETAIL',
+    sku: 'LINGERIE · 36',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/cutout-mini-hero.webp',
+    desc: "Architectural sheer noir mesh mini dress featuring a daring circular underboob cutout, high choker neckline, central silver O-ring connector, and an ultra-short sheer skirt.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/cutout-mini-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/cutout-mini-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/cutout-mini-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/cutout-mini-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/cutout-mini-media-1.webp",
+                "label": "Front View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/cutout-mini-media-2.webp",
+                "label": "Back Angle"
+        }
+]
+  },
+  'leopard-bodysuit': {
+    id: 'leopard-bodysuit',
+    title: 'Leopard Bodysuit',
+    badge: 'SLEEVE SET',
+    sku: 'LINGERIE · 37',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/leopard-bodysuit-hero.webp',
+    desc: "Exotic warm leopard and blue butterfly print sheer off-shoulder bodysuit featuring strappy hip cutouts with adjustable tie bows and separate matching flared long sleeves.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/leopard-bodysuit-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/leopard-bodysuit-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/leopard-bodysuit-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/leopard-bodysuit-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/leopard-bodysuit-media-1.webp",
+                "label": "Front View"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/leopard-bodysuit-media-2.webp",
+                "label": "Back Angle"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/leopard-bodysuit-media-3.webp",
+                "label": "Sleeve Detail"
+        }
+]
+  },
+  'chain-teddy': {
+    id: 'chain-teddy',
+    title: 'Chain Teddy',
+    badge: 'CHAIN HARNESS',
+    sku: 'LINGERIE · 38',
+    price: 0,
+    priceStr: 'Price on Request',
+    img: '/assets/lingerie-catalog/chain-teddy-hero.webp',
+    desc: "Dominant and exquisite black floral lace teddy elevated with shimmering gold chain shoulder straps and draping bust chains, waist harness belt, and chain-linked thigh garter bands.",
+    specs: [
+      { label: 'Silhouette', value: 'Hourglass Contour & Boudoir Cut' },
+      { label: 'Sizing', value: 'S · M · L · XL (Standard Boudoir Fit)' },
+      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Luxe Stretch Mesh & Delicate Floral Lace',
+    acoustics: 'Whisper-Soft on Bare Skin',
+    freq: 0,
+    pattern: 'lingerie',
+    variants: [
+        {
+                "name": "S",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/chain-teddy-hero.webp"
+        },
+        {
+                "name": "M",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/chain-teddy-hero.webp"
+        },
+        {
+                "name": "L",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/chain-teddy-hero.webp"
+        },
+        {
+                "name": "XL",
+                "price": 0,
+                "priceStr": "Price on Request",
+                "img": "/assets/lingerie-catalog/chain-teddy-hero.webp"
+        }
+],
+    media: [
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/chain-teddy-media-1.webp",
+                "label": "Front Harness"
+        },
+        {
+                "type": "image",
+                "src": "/assets/lingerie-catalog/chain-teddy-media-2.webp",
+                "label": "Back View"
+        }
+]
+  },
   'rose-blossom': {
     id: 'rose-blossom',
     title: 'The Rose Sucker',
@@ -5111,74 +7485,7 @@ export async function initCustomCatalogProducts() {
     console.warn('[Catalog] Error reading custom products:', e);
   }
 
-  // Pre-seed sample curated lingerie items if none exist yet
-  if (!customProds || customProds.length === 0) {
-    customProds = [
-      {
-        id: 'noir-chantilly-teddy',
-        title: 'Noir Chantilly Lace Teddy',
-        category: 'lingerie',
-        sku: 'LINGERIE · 01',
-        badge: 'LUXE LINGERIE',
-        tagline: 'Delicate floral lace with dangerous plunge decolletage.',
-        price: 35000,
-        priceStr: '₦35,000',
-        originalPrice: 42000,
-        img: '/assets/category-lingerie.webp',
-        desc: 'Crafted from delicate French floral lace with scalloped eyelash trims, plunging wire-free decolletage, and adjustable silk ribbon cross-back ties. Drapes sensually against the skin while celebrating natural feminine curves.',
-        specs: [
-          { label: 'Material', value: 'French Floral Lace & Sheer Stretch Mesh' },
-          { label: 'Fit & Feel', value: 'Plunging V-Neck with Ribbon Ties' },
-          { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
-          { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
-        ],
-        variants: [
-          { name: 'Black', price: 35000, priceStr: '₦35,000', img: '/assets/category-lingerie.webp', color: '#111111' },
-          { name: 'Ruby', price: 35000, priceStr: '₦35,000', img: '/assets/category-lingerie.webp', color: '#e11d48' }
-        ],
-        sizes: ['S', 'M', 'L', 'XL'],
-        media: [
-          { type: 'image', src: '/assets/category-lingerie.webp', label: 'Noir Chantilly Lace Teddy' }
-        ],
-        material: 'French Floral Lace & Sheer Stretch Mesh',
-        acoustics: 'Whisper-Soft on Bare Skin',
-        inStock: true
-      },
-      {
-        id: 'scarlet-silk-chemise',
-        title: 'Scarlet Silk Ribbon Chemise',
-        category: 'lingerie',
-        sku: 'LINGERIE · 02',
-        badge: 'NEW ARRIVAL',
-        tagline: 'Liquid satin drape with seductive sheer side slits.',
-        price: 38000,
-        priceStr: '₦38,000',
-        originalPrice: 45000,
-        img: '/assets/lifestyle-sheets.webp',
-        desc: 'Pure liquid satin chemise featuring delicate eyelash lace trim along the cups and thigh-high side slits. Designed for unforgettable boudoir evenings with adjustable double shoulder straps and an open-back silhouette.',
-        specs: [
-          { label: 'Material', value: 'Pure Mulberry Satin Silk & Scalloped Lace' },
-          { label: 'Silhouette', value: 'Bias-Cut Slip with Open Low Back' },
-          { label: 'Care', value: 'Delicate Silk Wash or Dry Clean' },
-          { label: 'Packaging', value: 'Plain Discreet Courier Bag' }
-        ],
-        variants: [
-          { name: 'Red', price: 38000, priceStr: '₦38,000', img: '/assets/lifestyle-sheets.webp', color: '#e11d48' },
-          { name: 'Black', price: 38000, priceStr: '₦38,000', img: '/assets/lifestyle-sheets.webp', color: '#111111' }
-        ],
-        sizes: ['S', 'M', 'L'],
-        media: [
-          { type: 'image', src: '/assets/lifestyle-sheets.webp', label: 'Scarlet Silk Ribbon Chemise' }
-        ],
-        material: 'Pure Mulberry Satin Silk & Scalloped Lace',
-        acoustics: 'Sensuous Liquid Satin Glide',
-        inStock: true
-      }
-    ];
-    try {
-      localStorage.setItem('thetoysvirago_custom_products', JSON.stringify(customProds));
-    } catch(e) {}
-  }
+  if (!customProds) { customProds = []; }
 
   // Also check Supabase for remote products
   try {
