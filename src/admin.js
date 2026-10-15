@@ -68,78 +68,20 @@ if (btnLockAdmin) {
 // ================= 2. DATA STORAGE & INITIAL SEEDING =================
 const CUSTOM_STORAGE_KEY = 'thetoysvirago_custom_products';
 
-const DEFAULT_LINGERIE_SEEDS = [
-  {
-    id: 'noir-chantilly-teddy',
-    title: 'Noir Chantilly Lace Teddy',
-    category: 'lingerie',
-    sku: 'LINGERIE · 01',
-    badge: 'LUXE LINGERIE',
-    tagline: 'Delicate floral lace with dangerous plunge decolletage.',
-    price: 35000,
-    priceStr: '₦35,000',
-    originalPrice: 42000,
-    img: '/assets/category-lingerie.webp',
-    desc: 'Crafted from delicate French floral lace with scalloped eyelash trims, plunging wire-free decolletage, and adjustable silk ribbon cross-back ties. Drapes sensually against the skin while celebrating natural feminine curves.',
-    specs: [
-      { label: 'Material', value: 'French Floral Lace & Sheer Stretch Mesh' },
-      { label: 'Fit & Feel', value: 'Plunging V-Neck with Ribbon Ties' },
-      { label: 'Care', value: 'Hand Wash Cold, Lay Flat to Dry' },
-      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
-    ],
-    variants: [
-      { name: 'Black', price: 35000, priceStr: '₦35,000', img: '/assets/category-lingerie.webp', color: '#111111' },
-      { name: 'Ruby', price: 35000, priceStr: '₦35,000', img: '/assets/category-lingerie.webp', color: '#e11d48' }
-    ],
-    sizes: ['S', 'M', 'L', 'XL'],
-    media: [
-      { type: 'image', src: '/assets/category-lingerie.webp', label: 'Noir Chantilly Lace Teddy' }
-    ],
-    material: 'French Floral Lace & Sheer Stretch Mesh',
-    acoustics: 'Whisper-Soft on Bare Skin',
-    inStock: true
-  },
-  {
-    id: 'scarlet-silk-chemise',
-    title: 'Scarlet Silk Ribbon Chemise',
-    category: 'lingerie',
-    sku: 'LINGERIE · 02',
-    badge: 'NEW ARRIVAL',
-    tagline: 'Liquid satin drape with seductive sheer side slits.',
-    price: 38000,
-    priceStr: '₦38,000',
-    originalPrice: 45000,
-    img: '/assets/lifestyle-sheets.webp',
-    desc: 'Pure liquid satin chemise featuring delicate eyelash lace trim along the cups and thigh-high side slits. Designed for unforgettable boudoir evenings with adjustable double shoulder straps and an open-back silhouette.',
-    specs: [
-      { label: 'Material', value: 'Pure Mulberry Satin Silk & Scalloped Lace' },
-      { label: 'Silhouette', value: 'Bias-Cut Slip with Open Low Back' },
-      { label: 'Care', value: 'Delicate Silk Wash or Dry Clean' },
-      { label: 'Packaging', value: 'Plain Discreet Courier Bag' }
-    ],
-    variants: [
-      { name: 'Red', price: 38000, priceStr: '₦38,000', img: '/assets/lifestyle-sheets.webp', color: '#e11d48' },
-      { name: 'Black', price: 38000, priceStr: '₦38,000', img: '/assets/lifestyle-sheets.webp', color: '#111111' }
-    ],
-    sizes: ['S', 'M', 'L'],
-    media: [
-      { type: 'image', src: '/assets/lifestyle-sheets.webp', label: 'Scarlet Silk Ribbon Chemise' }
-    ],
-    material: 'Pure Mulberry Satin Silk & Scalloped Lace',
-    acoustics: 'Sensuous Liquid Satin Glide',
-    inStock: true
-  }
-];
+const DEFAULT_LINGERIE_SEEDS = [];
 
 function getCustomProducts() {
   try {
     const raw = localStorage.getItem(CUSTOM_STORAGE_KEY);
     if (!raw) {
-      localStorage.setItem(CUSTOM_STORAGE_KEY, JSON.stringify(DEFAULT_LINGERIE_SEEDS));
-      return [...DEFAULT_LINGERIE_SEEDS];
+      return [];
     }
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
+    const cleaned = (Array.isArray(parsed) ? parsed : []).filter(p => p && p.id !== 'noir-chantilly-teddy' && p.id !== 'scarlet-silk-chemise');
+    if (cleaned.length !== (Array.isArray(parsed) ? parsed.length : 0)) {
+      localStorage.setItem(CUSTOM_STORAGE_KEY, JSON.stringify(cleaned));
+    }
+    return cleaned;
   } catch (e) {
     console.error('Error reading custom products:', e);
     return [];
@@ -575,8 +517,8 @@ const aiStatusText = document.getElementById('ai-status');
 const BOUDOIR_LEXICON = {
   lingerie: {
     titles: [
-      'Noir Chantilly Lace Teddy',
-      'Scarlet Silk Ribbon Chemise',
+      'Zebra Set',
+      'Heart Teddy',
       'Velvet Boudoir Plunge Bodysuit',
       'Aphrodite Sheer Eyelash Bralette',
       'Midnight Provocateur Corset Set',

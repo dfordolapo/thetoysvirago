@@ -7475,11 +7475,20 @@ export async function initCustomCatalogProducts() {
   const grid = document.getElementById('products-grid');
   if (!grid) return;
 
+  // Purge any obsolete placeholder cards from the DOM
+  document.querySelectorAll('.product-card[data-id="noir-chantilly-teddy"], .product-card[data-id="scarlet-silk-chemise"]').forEach(el => el.remove());
+
   let customProds = [];
   try {
     const stored = localStorage.getItem('thetoysvirago_custom_products');
     if (stored) {
-      customProds = JSON.parse(stored);
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed)) {
+        customProds = parsed.filter(p => p && p.id !== 'noir-chantilly-teddy' && p.id !== 'scarlet-silk-chemise');
+        if (customProds.length !== parsed.length) {
+          localStorage.setItem('thetoysvirago_custom_products', JSON.stringify(customProds));
+        }
+      }
     }
   } catch (e) {
     console.warn('[Catalog] Error reading custom products:', e);
