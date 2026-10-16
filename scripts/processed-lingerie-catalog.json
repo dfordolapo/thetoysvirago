@@ -1136,8 +1136,8 @@
     "title": "Lattice Gown",
     "badge": "WINE LACE",
     "sku": "LINGERIE · 25",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 22000,
+    "priceStr": "₦22,000",
     "desc": "Sumptuous rich wine red floral lace backless gown featuring intricate lattice crisscross strapping along the hips and thighs, an open rear silhouette, and built-in underwire support.",
     "heroSource": "PHOTO-2026-09-22-15-50-42.jpg",
     "mediaSources": [
@@ -1185,8 +1185,8 @@
     "title": "Teal Mini",
     "badge": "AQUA NET",
     "sku": "LINGERIE · 26",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 14000,
+    "priceStr": "₦14,000",
     "desc": "Vibrant aqua teal open-work fishnet mini dress with long sleeves, delicate halter tie accent, and an organic webbed texture that frames your shape in striking island colors.",
     "heroSource": "PHOTO-2026-09-23-12-57-35.jpg",
     "mediaSources": [
@@ -1222,10 +1222,7 @@
       }
     ],
     "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL"
+      "One Size"
     ]
   },
   {
@@ -1233,8 +1230,8 @@
     "title": "Maroon Babydoll",
     "badge": "RUFFLE CORSET",
     "sku": "LINGERIE · 27",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 21000,
+    "priceStr": "₦21,000",
     "desc": "Deep maroon lace-up corset babydoll with underwire floral lace cups, playful chiffon ruffled mini hemline, lace-up front midsection, and integrated adjustable garter straps.",
     "heroSource": "PHOTO-2026-09-24-15-50-09.jpg",
     "mediaSources": [
@@ -1281,8 +1278,8 @@
     "title": "Kiss Chemise",
     "badge": "EMBROIDERED LIPS",
     "sku": "LINGERIE · 28",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 19000,
+    "priceStr": "₦19,000",
     "desc": "Seductive black sheer mesh babydoll slip embroidered with vibrant red lipstick kiss motifs, satin red center ribbon bow, scalloped lace trim, and matching kiss-print G-string.",
     "heroSource": "PHOTO-2026-09-26-13-11-22.jpg",
     "mediaSources": [
@@ -1335,13 +1332,13 @@
     ]
   },
   {
-    "id": "floral-corset",
-    "title": "Floral Corset",
-    "badge": "GARDEN LACE",
+    "id": "floral-slip",
+    "title": "Floral Slip",
+    "badge": "FLORAL LACE",
     "sku": "LINGERIE · 29",
-    "price": 0,
-    "priceStr": "₦",
-    "desc": "Angelic vintage garden floral print corset teddy with pristine white eyelet lace trim along the underwire cups, adjustable garter ribbons with dainty bows, and boned waistline contouring.",
+    "price": 18000,
+    "priceStr": "₦18,000",
+    "desc": "Alluring black sheer mesh slip dress featuring vibrant hot pink floral lace underwire demi cups, a delicate center accent, adjustable satin straps, and scalloped pink lace hem.",
     "heroSource": "PHOTO-2026-09-26-17-30-12.jpg",
     "mediaSources": [
       {
@@ -1473,8 +1470,8 @@
     "title": "Noir Chemise",
     "badge": "FAN EMBROIDERY",
     "sku": "LINGERIE · 32",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 17000,
+    "priceStr": "₦17,000",
     "desc": "Ultra-luxe noir black sheer mini chemise featuring architectural fan-embroidered sheer underwire cups, ruched side seams that sculpt the hips, and a delicate flirty ruffle hem.",
     "heroSource": "PHOTO-2026-09-29-16-29-35.jpg",
     "mediaSources": [
@@ -1548,7 +1545,7 @@
   {
     "id": "cutout-mini",
     "title": "Cutout Mini",
-    "badge": "O-RING DETAIL",
+    "badge": "UNAVAILABLE",
     "sku": "LINGERIE · 34",
     "price": 0,
     "priceStr": "₦",
@@ -1582,7 +1579,8 @@
       "M",
       "L",
       "XL"
-    ]
+    ],
+    "unavailable": true
   },
   {
     "id": "leopard-bodysuit",
