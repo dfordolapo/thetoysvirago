@@ -120,7 +120,13 @@ export async function upsertSupabaseProduct(product) {
       image: product.img || product.image || '',
       description: product.desc || product.description || '',
       specs: Array.isArray(product.specs) ? product.specs.map(s => typeof s === 'string' ? s : `${s.label}: ${s.value}`) : [],
-      variants: Array.isArray(product.variants) ? product.variants : [],
+      variants: Array.isArray(product.variants) ? product.variants.map(v => ({
+        name: v.name,
+        price: Number(v.price) || Number(product.price) || 0,
+        priceStr: v.priceStr || `₦${Number(v.price || product.price).toLocaleString()}`,
+        color: v.color || '',
+        img: (v.img && !v.img.startsWith('data:')) ? v.img : (v.img === (product.img || product.image) ? '' : (v.img || ''))
+      })) : [],
       sizes: Array.isArray(product.sizes) ? product.sizes : [],
       media: Array.isArray(product.media) ? product.media : [{ type: 'image', src: product.img || product.image || '', label: product.title }],
       in_stock: product.inStock !== false,

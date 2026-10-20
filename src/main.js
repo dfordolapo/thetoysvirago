@@ -7568,9 +7568,108 @@ if (document.readyState === 'loading') {
 
 
 // ================= 8. DYNAMIC CUSTOM PRODUCTS & LINGERIE CATALOG LOADER =================
+function createStoreProductCard(prod, idx) {
+  const card = document.createElement('article');
+  card.className = 'product-card';
+  card.dataset.category = prod.category || 'lingerie';
+  card.dataset.id = prod.id;
+  card.dataset.keywords = `${prod.title} ${prod.category} ${prod.badge || ''} lingerie lace sensual boudoir`;
+
+  const variantDotsHtml = (prod.variants && prod.variants.length > 0)
+    ? `<div class="color-row">
+        ${prod.variants.map((v, i) => `<span class="color-dot ${i === 0 ? 'active' : ''}" data-color="${v.name}" data-img="${v.img || prod.img}" title="${v.name}" style="background: ${v.color || (v.name.toLowerCase().includes('red') || v.name.toLowerCase().includes('ruby') ? '#e11d48' : '#111')};"></span>`).join('')}
+        <span class="color-name">${prod.variants[0]?.name || ''}</span>
+      </div>`
+    : '';
+
+  const sizePillsHtml = (prod.sizes && prod.sizes.length > 0)
+    ? `<div class="size-row" style="display: flex; gap: 6px; margin: 8px 0; flex-wrap: wrap;">
+        ${prod.sizes.map((s, i) => `<button type="button" class="size-pill ${i === 0 ? 'active' : ''}" data-size="${s}">${s}</button>`).join('')}
+      </div>`
+    : '';
+
+  card.innerHTML = `
+    <div class="product-img-wrap">
+      <span class="product-badge ruby-badge">${prod.badge || 'NEW ARRIVAL'}</span>
+      <img src="${prod.img}" alt="${prod.title}" class="product-img" loading="lazy" decoding="async" />
+      <div class="product-overlay">
+        <button class="btn-quick-view" data-product="${prod.id}">Quick Look</button>
+      </div>
+    </div>
+    <div class="product-body">
+      <div class="product-top">
+        <span class="product-sku">${prod.sku || (prod.category.toUpperCase() + ' · ' + String(idx + 1).padStart(2, '0'))}</span>
+        <span class="product-price">${prod.priceStr || ('₦' + Number(prod.price).toLocaleString())}</span>
+      </div>
+      <h3 class="product-name">${prod.title}</h3>
+      <p class="product-line">${prod.tagline || prod.desc || ''}</p>
+      ${variantDotsHtml}
+      ${sizePillsHtml}
+      <button class="btn btn-black btn-block btn-add-cart"
+        data-id="${prod.id}"
+        data-title="${prod.title}"
+        data-price="${prod.price}"
+        data-pricestr="${prod.priceStr || ('₦' + Number(prod.price).toLocaleString())}"
+        data-img="${prod.img}">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        Add to Bag
+      </button>
+    </div>
+  `;
+
+  // Wire quickview button
+  const qvBtn = card.querySelector('.btn-quick-view');
+  if (qvBtn) {
+    qvBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openQuickviewForProduct(prod.id, card);
+    });
+  }
+
+  // Wire add to bag button
+  const addBtn = card.querySelector('.btn-add-cart');
+  if (addBtn) {
+    addBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const itemData = getCardVariantInfo(card, addBtn);
+      addToCart(itemData);
+    });
+  }
+
+  // Wire variant dots
+  card.querySelectorAll('.color-dot').forEach(dot => {
+    dot.addEventListener('click', (e) => {
+      e.stopPropagation();
+      card.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
+      dot.classList.add('active');
+      const colorName = card.querySelector('.color-name');
+      if (colorName) colorName.textContent = dot.dataset.color;
+      if (dot.dataset.img) {
+        const cImg = card.querySelector('.product-img');
+        if (cImg) cImg.src = dot.dataset.img;
+        if (addBtn) addBtn.dataset.img = dot.dataset.img;
+      }
+      if (addBtn) {
+        addBtn.dataset.title = `${prod.title} (${dot.dataset.color})`;
+      }
+    });
+  });
+
+  // Wire size pills
+  card.querySelectorAll('.size-pill').forEach(pill => {
+    pill.addEventListener('click', (e) => {
+      e.stopPropagation();
+      card.querySelectorAll('.size-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+    });
+  });
+
+  return card;
+}
+
 export async function initCustomCatalogProducts() {
   const grid = document.getElementById('products-grid');
-  if (!grid) return;
+  const arrivalsGrid = document.getElementById('new-arrivals-grid');
 
   // Purge any obsolete placeholder cards from the DOM
   document.querySelectorAll('.product-card[data-id="noir-chantilly-teddy"], .product-card[data-id="scarlet-silk-chemise"]').forEach(el => el.remove());
@@ -7593,7 +7692,7 @@ export async function initCustomCatalogProducts() {
 
   if (!customProds) { customProds = []; }
 
-  // Also check Supabase for remote products
+  // Check Supabase for remote products
   try {
     const remoteProds = await getSupabaseProducts();
     if (remoteProds && Array.isArray(remoteProds) && remoteProds.length > 0) {
@@ -7616,6 +7715,8 @@ export async function initCustomCatalogProducts() {
             return { label: parts[0] ? parts[0].trim() : 'Feature', value: parts[1] ? parts[1].trim() : s };
           }) : [],
           variants: Array.isArray(rp.variants) ? rp.variants : [],
+          sizes: Array.isArray(rp.sizes) ? rp.sizes : (rp.category === 'lingerie' ? ['S', 'M', 'L'] : []),
+          media: Array.isArray(rp.media) && rp.media.length > 0 ? rp.media : [{ type: 'image', src: rp.image || '/assets/category-lingerie.webp', label: rp.title }],
           material: 'Body-Safe Luxury Materials',
           acoustics: 'Discreet Sensation',
           inStock: rp.in_stock !== false
@@ -7631,8 +7732,8 @@ export async function initCustomCatalogProducts() {
     console.info('[Supabase] Live sync notice:', e.message);
   }
 
-  // Inject cards and register in PRODUCT_DATABASE
-  customProds.forEach((prod, idx) => {
+  // Register all products in PRODUCT_DATABASE and GENERAL_PRODUCT_TERMS
+  customProds.forEach((prod) => {
     PRODUCT_DATABASE[prod.id] = {
       id: prod.id,
       title: prod.title,
@@ -7643,119 +7744,46 @@ export async function initCustomCatalogProducts() {
       desc: prod.desc || prod.tagline || '',
       specs: prod.specs || [],
       variants: prod.variants || [],
+      sizes: prod.sizes || [],
       material: prod.material || 'Luxe Body-Safe Materials',
       acoustics: prod.acoustics || 'Sensual Touch',
       freq: 0,
       pattern: prod.category || 'lingerie',
-      media: prod.media && prod.media.length > 0 ? prod.media : [{ type: 'image', src: prod.img, label: prod.title }]
+      media: (prod.media && Array.isArray(prod.media) && prod.media.length > 0)
+        ? prod.media
+        : [{ type: 'image', src: prod.img, label: prod.title }]
     };
 
     GENERAL_PRODUCT_TERMS[prod.id] = `${prod.title} ${prod.category} ${prod.tagline || ''} ${prod.desc || ''} lingerie underwear boudoir lace bra panties corset`;
-
-    // Only inject if card doesn't already exist in DOM
-    if (!document.querySelector(`.product-card[data-id="${prod.id}"]`)) {
-      const card = document.createElement('article');
-      card.className = 'product-card';
-      card.dataset.category = prod.category || 'lingerie';
-      card.dataset.id = prod.id;
-      card.dataset.keywords = `${prod.title} ${prod.category} ${prod.badge || ''} lingerie lace sensual boudoir`;
-
-      const variantDotsHtml = (prod.variants && prod.variants.length > 0)
-        ? `<div class="color-row">
-            ${prod.variants.map((v, i) => `<span class="color-dot ${i === 0 ? 'active' : ''}" data-color="${v.name}" data-img="${v.img || prod.img}" title="${v.name}" style="background: ${v.color || (v.name.toLowerCase().includes('red') || v.name.toLowerCase().includes('ruby') ? '#e11d48' : '#111')};"></span>`).join('')}
-            <span class="color-name">${prod.variants[0]?.name || ''}</span>
-          </div>`
-        : '';
-
-      const sizePillsHtml = (prod.sizes && prod.sizes.length > 0)
-        ? `<div class="size-row" style="display: flex; gap: 6px; margin: 8px 0; flex-wrap: wrap;">
-            ${prod.sizes.map((s, i) => `<button type="button" class="size-pill ${i === 0 ? 'active' : ''}" data-size="${s}">${s}</button>`).join('')}
-          </div>`
-        : '';
-
-      card.innerHTML = `
-        <div class="product-img-wrap">
-          <span class="product-badge ruby-badge">${prod.badge || 'NEW ARRIVAL'}</span>
-          <img src="${prod.img}" alt="${prod.title}" class="product-img" loading="lazy" decoding="async" />
-          <div class="product-overlay">
-            <button class="btn-quick-view" data-product="${prod.id}">Quick Look</button>
-          </div>
-        </div>
-        <div class="product-body">
-          <div class="product-top">
-            <span class="product-sku">${prod.sku || (prod.category.toUpperCase() + ' · ' + String(idx + 1).padStart(2, '0'))}</span>
-            <span class="product-price">${prod.priceStr || ('₦' + Number(prod.price).toLocaleString())}</span>
-          </div>
-          <h3 class="product-name">${prod.title}</h3>
-          <p class="product-line">${prod.tagline || prod.desc || ''}</p>
-          ${variantDotsHtml}
-          ${sizePillsHtml}
-          <div class="product-card-bottom">
-            <button class="btn btn-black btn-add-cart"
-              data-id="${prod.id}"
-              data-title="${prod.title}"
-              data-price="${prod.price}"
-              data-img="${prod.img}">
-              Add to Bag
-            </button>
-          </div>
-        </div>
-      `;
-
-      // Prepend so new products appear at the beginning of the grid
-      grid.prepend(card);
-
-      // Wire quickview button
-      const qvBtn = card.querySelector('.btn-quick-view');
-      if (qvBtn) {
-        qvBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          openQuickviewForProduct(prod.id, card);
-        });
-      }
-
-      // Wire add to bag button
-      const addBtn = card.querySelector('.btn-add-cart');
-      if (addBtn) {
-        addBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const itemData = getCardVariantInfo(card, addBtn);
-          addToCart(itemData);
-        });
-      }
-
-      // Wire variant dots
-      card.querySelectorAll('.color-dot').forEach(dot => {
-        dot.addEventListener('click', (e) => {
-          e.stopPropagation();
-          card.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
-          dot.classList.add('active');
-          const colorName = card.querySelector('.color-name');
-          if (colorName) colorName.textContent = dot.dataset.color;
-          if (dot.dataset.img) {
-            const cImg = card.querySelector('.product-img');
-            if (cImg) cImg.src = dot.dataset.img;
-            if (addBtn) addBtn.dataset.img = dot.dataset.img;
-          }
-          if (addBtn) {
-            addBtn.dataset.title = `${prod.title} (${dot.dataset.color})`;
-          }
-        });
-      });
-
-      // Wire size pills
-      card.querySelectorAll('.size-pill').forEach(pill => {
-        pill.addEventListener('click', (e) => {
-          e.stopPropagation();
-          card.querySelectorAll('.size-pill').forEach(p => p.classList.remove('active'));
-          pill.classList.add('active');
-        });
-      });
-    }
   });
 
-  // Re-run filterProducts to reflect any active filters or update count
-  filterProducts();
+  // Inject cards into main products grid on products.html
+  if (grid) {
+    customProds.forEach((prod, idx) => {
+      if (!grid.querySelector(`.product-card[data-id="${prod.id}"]`)) {
+        const card = createStoreProductCard(prod, idx);
+        grid.prepend(card);
+      }
+    });
+
+    if (typeof filterProducts === 'function') {
+      filterProducts();
+    }
+  }
+
+  // Inject cards into New Arrivals grid on index.html
+  if (arrivalsGrid) {
+    arrivalsGrid.innerHTML = '';
+    const itemsToShow = customProds.slice(0, 8);
+    itemsToShow.forEach((prod, idx) => {
+      const card = createStoreProductCard(prod, idx);
+      arrivalsGrid.appendChild(card);
+    });
+    const arrivalsSection = document.getElementById('new-arrivals-section');
+    if (arrivalsSection) {
+      arrivalsSection.style.display = itemsToShow.length > 0 ? 'block' : 'none';
+    }
+  }
 }
 
 // Expose refresh helper to window

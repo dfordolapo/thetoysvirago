@@ -92,7 +92,17 @@ function saveCustomProducts(products) {
   try {
     localStorage.setItem(CUSTOM_STORAGE_KEY, JSON.stringify(products));
   } catch (e) {
-    console.error('Error saving custom products:', e);
+    console.warn('LocalStorage quota notice, trimming extra media:', e);
+    try {
+      // Store compact fallback without heavy media arrays to prevent QuotaExceededError
+      const compact = products.map(p => ({
+        ...p,
+        media: (p.media && p.media.length > 0) ? [p.media[0]] : []
+      }));
+      localStorage.setItem(CUSTOM_STORAGE_KEY, JSON.stringify(compact));
+    } catch (e2) {
+      console.error('LocalStorage completely full:', e2);
+    }
   }
 }
 
@@ -262,6 +272,13 @@ function handleMultipleFiles(files) {
     return;
   }
 
+  // Warn if any video file is over 2.5MB
+  validFiles.forEach(f => {
+    if (f.type.startsWith('video/') && f.size > 2.5 * 1024 * 1024) {
+      showToast(`Notice: Video "${f.name}" is over 2.5MB. For optimal speed, use a compressed video.`);
+    }
+  });
+
   showToast(`Processing ${validFiles.length} media file(s)...`);
 
   // Auto-recognize product details from first file if title not manually set
@@ -420,7 +437,7 @@ function compressImageFile(dataUrl, callback) {
     const canvas = document.createElement('canvas');
     let width = img.width;
     let height = img.height;
-    const maxDim = 1200;
+    const maxDim = 800; // Optimized from 1200 to keep base64 payloads under 50KB
 
     if (width > maxDim || height > maxDim) {
       if (width > height) {
@@ -437,7 +454,7 @@ function compressImageFile(dataUrl, callback) {
     const ctx = canvas.getContext('2d');
     ctx.drawImage(img, 0, 0, width, height);
 
-    const compressed = canvas.toDataURL('image/webp', 0.88);
+    const compressed = canvas.toDataURL('image/webp', 0.80);
     if (callback) callback(compressed, ctx, width, height);
   };
   img.src = dataUrl;
@@ -987,92 +1004,102 @@ async function handleSaveProduct(shouldRedirectToShop = false) {
     return;
   }
 
-  // Generate unique slug id if new
-  let id = editingIdInput ? editingIdInput.value.trim() : '';
-  if (!id) {
-    const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-    id = `${slug}-${Date.now().toString().slice(-4)}`;
-  }
+  const submitBtn = document.getElementById('btn-save-product');
+  const viewBtn = document.getElementById('btn-save-and-view');
+  if (submitBtn) submitBtn.disabled = true;
+  if (viewBtn) viewBtn.disabled = true;
 
-  const sku = `${category.toUpperCase()} · ${String(currentCustomProducts.length + 1).padStart(2, '0')}`;
-
-  const productData = {
-    id,
-    title,
-    category,
-    sku,
-    badge,
-    tagline,
-    price,
-    priceStr: `₦${price.toLocaleString()}`,
-    originalPrice,
-    img: imgSrc,
-    desc,
-    specs: [
-      { label: 'Material', value: material },
-      { label: 'Sensation', value: acoustics },
-      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
-    ],
-    variants: currentVariants.length > 0 ? currentVariants.map(v => ({
-      name: v.name,
-      price: price,
-      priceStr: `₦${price.toLocaleString()}`,
-      img: imgSrc,
-      color: v.color
-    })) : [],
-    sizes: [...currentSizes],
-    media: finalMedia,
-    material,
-    acoustics,
-    inStock
-  };
-
-  // Upsert into local storage list
-  const existingIdx = currentCustomProducts.findIndex(p => p.id === id);
-  if (existingIdx >= 0) {
-    currentCustomProducts[existingIdx] = productData;
-    showToast(`Updated "${title}" in Catalog.`);
-  } else {
-    currentCustomProducts.unshift(productData);
-    showToast(`Saved "${title}" to Catalog.`);
-  }
-
-  saveCustomProducts(currentCustomProducts);
-
-  // Immediate live Supabase upload
-  if (isSupabaseConfigured) {
-    showToast('Uploading directly to Supabase cloud...');
-    try {
-      const res = await upsertSupabaseProduct(productData);
-      if (res.success) {
-        showToast(`✓ "${title}" uploaded to Supabase immediately!`);
-      } else {
-        console.warn('[Supabase] Sync notice:', res.error);
-        if (res.isRlsError || (res.error && (res.error.includes('row-level security') || res.error.includes('42501')))) {
-          openSupabaseFixModal(res.error);
-        } else {
-          showToast(`Saved locally. Supabase note: ${res.error || 'Check connection'}`);
-        }
-      }
-    } catch (err) {
-      console.error('[Supabase] Unexpected upload error:', err);
-      showToast(`Saved locally. Supabase upload error.`);
+  try {
+    // Generate unique slug id if new
+    let id = editingIdInput ? editingIdInput.value.trim() : '';
+    if (!id) {
+      const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      id = `${slug}-${Date.now().toString().slice(-4)}`;
     }
-  } else {
-    showToast(`Saved "${title}" to Catalog.`);
-  }
 
-  // Refresh UI tables and stats
-  refreshCatalogData();
+    const sku = `${category.toUpperCase()} · ${String(currentCustomProducts.length + 1).padStart(2, '0')}`;
 
-  if (shouldRedirectToShop) {
-    showToast('Redirecting to live shop...');
-    setTimeout(() => {
-      window.location.href = `/products.html?filter=${category}`;
-    }, 600);
-  } else {
-    resetForm();
-    switchTab('inventory-panel');
+    const productData = {
+      id,
+      title,
+      category,
+      sku,
+      badge,
+      tagline,
+      price,
+      priceStr: `₦${price.toLocaleString()}`,
+      originalPrice,
+      img: imgSrc,
+      desc,
+      specs: [
+        { label: 'Material', value: material },
+        { label: 'Sensation', value: acoustics },
+        { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+      ],
+      variants: currentVariants.length > 0 ? currentVariants.map(v => ({
+        name: v.name,
+        price: price,
+        priceStr: `₦${price.toLocaleString()}`,
+        img: imgSrc,
+        color: v.color
+      })) : [],
+      sizes: [...currentSizes],
+      media: finalMedia,
+      material,
+      acoustics,
+      inStock
+    };
+
+    // Upsert into local storage list
+    const existingIdx = currentCustomProducts.findIndex(p => p.id === id);
+    if (existingIdx >= 0) {
+      currentCustomProducts[existingIdx] = productData;
+    } else {
+      currentCustomProducts.unshift(productData);
+    }
+
+    saveCustomProducts(currentCustomProducts);
+
+    // Immediate live Supabase upload
+    let liveUploaded = false;
+    if (isSupabaseConfigured) {
+      showToast('Uploading directly to Supabase cloud...');
+      try {
+        const res = await upsertSupabaseProduct(productData);
+        if (res.success) {
+          liveUploaded = true;
+          showToast(`✓ "${title}" is now LIVE on store!`);
+        } else {
+          console.warn('[Supabase] Sync notice:', res.error);
+          if (res.isRlsError || (res.error && (res.error.includes('row-level security') || res.error.includes('42501')))) {
+            openSupabaseFixModal(res.error);
+          } else {
+            showToast(`Saved locally. Supabase: ${res.error || 'Check connection'}`);
+          }
+        }
+      } catch (err) {
+        console.error('[Supabase] Unexpected upload error:', err);
+        showToast(`Saved locally. Supabase upload error.`);
+      }
+    } else {
+      showToast(`Saved "${title}" to Catalog.`);
+    }
+
+    // Refresh UI tables and stats with live cloud products
+    await refreshCatalogData();
+
+    if (shouldRedirectToShop) {
+      showToast('Opening live shop...');
+      setTimeout(() => {
+        window.location.href = `/products.html?filter=${category}`;
+      }, 900);
+    } else {
+      resetForm();
+      switchTab('inventory-panel');
+    }
+  } finally {
+    if (submitBtn) submitBtn.disabled = false;
+    if (viewBtn) viewBtn.disabled = false;
   }
 }
 
@@ -1256,17 +1283,21 @@ function loadProductIntoForm(prod) {
   showToast(`Editing "${prod.title}". Make changes and click Update.`);
 }
 
-function deleteCustomProductItem(id) {
+async function deleteCustomProductItem(id) {
   if (!confirm(`Are you sure you want to remove this product from your store?`)) return;
 
   currentCustomProducts = currentCustomProducts.filter(p => p.id !== id);
   saveCustomProducts(currentCustomProducts);
 
   if (isSupabaseConfigured) {
-    deleteSupabaseProduct(id);
+    try {
+      await deleteSupabaseProduct(id);
+    } catch (e) {
+      console.warn('[Admin] Delete remote error:', e);
+    }
   }
 
-  refreshCatalogData();
+  await refreshCatalogData();
   showToast('Product removed from catalog.');
 }
 
@@ -1301,19 +1332,53 @@ inventoryCategoryPills.forEach(pill => {
 });
 
 // ================= 8. CATALOG AGGREGATION & METRICS =================
-function refreshCatalogData() {
+async function refreshCatalogData() {
   currentCustomProducts = getCustomProducts();
 
-  // Combine custom products + base products
-  allInventoryProducts = [...currentCustomProducts];
+  const mergedMap = new Map();
+  // Add local custom products first
+  currentCustomProducts.forEach(p => mergedMap.set(p.id, p));
+
+  // Sync with Supabase cloud if connected
+  if (isSupabaseConfigured) {
+    try {
+      const remote = await getSupabaseProducts();
+      if (remote && Array.isArray(remote)) {
+        remote.forEach(rp => {
+          if (!mergedMap.has(rp.id)) {
+            const mapped = {
+              id: rp.id,
+              title: rp.title,
+              category: rp.category || 'toys',
+              sku: rp.category ? `${rp.category.toUpperCase()} · ${rp.id.slice(0, 4)}` : 'VAULT · 01',
+              badge: rp.badge || '',
+              tagline: rp.tagline || '',
+              price: Number(rp.price) || 0,
+              priceStr: `₦${Number(rp.price).toLocaleString()}`,
+              img: rp.image || '/assets/category-lingerie.webp',
+              desc: rp.description || '',
+              inStock: rp.in_stock !== false,
+              variants: Array.isArray(rp.variants) ? rp.variants : [],
+              sizes: Array.isArray(rp.sizes) ? rp.sizes : [],
+              media: Array.isArray(rp.media) ? rp.media : []
+            };
+            mergedMap.set(rp.id, mapped);
+          }
+        });
+      }
+    } catch (e) {
+      console.warn('[Admin] Cloud sync check:', e);
+    }
+  }
 
   // Load from static products list if present
-  fetch('/new-products-data.json')
-    .then(r => r.json())
-    .then(baseProds => {
+  try {
+    const res = await fetch('/new-products-data.json');
+    if (res.ok) {
+      const baseProds = await res.json();
       baseProds.forEach(bp => {
-        if (!allInventoryProducts.some(p => p.id === bp.id)) {
-          allInventoryProducts.push({
+        if (!mergedMap.has(bp.id)) {
+          mergedMap.set(bp.id, {
             id: bp.id,
             title: bp.title,
             category: bp.category || 'toys',
@@ -1328,15 +1393,15 @@ function refreshCatalogData() {
           });
         }
       });
-      updateStats();
-      renderInventoryTable();
-      renderExportCode();
-    })
-    .catch(() => {
-      updateStats();
-      renderInventoryTable();
-      renderExportCode();
-    });
+    }
+  } catch (err) {
+    console.warn('[Admin] Could not load base catalog JSON:', err);
+  }
+
+  allInventoryProducts = Array.from(mergedMap.values());
+  updateStats();
+  renderInventoryTable();
+  renderExportCode();
 }
 
 function updateStats() {
@@ -1544,8 +1609,7 @@ function showToast(message) {
   }, 3400);
 }
 
-// ================= 13. INITIALIZATION =================
-document.addEventListener('DOMContentLoaded', () => {
+function initAdmin() {
   checkAdminAuth();
   refreshCatalogData();
 
@@ -1557,7 +1621,13 @@ document.addEventListener('DOMContentLoaded', () => {
       syncStatusText.textContent = 'Local Browser Vault Mode';
     }
   }
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAdmin);
+} else {
+  initAdmin();
+}
 
 
 // ================= BULLETPROOF BACKGROUND SCROLL LOCK (PRESERVES SCROLL POSITION) =================
