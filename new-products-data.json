@@ -478,30 +478,30 @@
     "acoustics": "Interactive Couple Game"
   },
   {
-    "id": "couples-card-vault",
-    "title": "The Boudoir Card Vault: Talk, Flirt, Dare",
-    "category": "games",
-    "badge": "BESTSELLER • 3 DECKS IN ONE",
-    "price": 20000,
-    "priceStr": "₦20,000",
-    "img": "/assets/IMG_8097.webp",
-    "desc": "The ultimate intimacy icebreaker and foreplay catalyst. Features 3 distinct progressive decks: Talk (deep sensual questions), Flirt (teasing micro-touches & flirtations), and Dare (spicy bedroom commands and explicit physical challenges).",
+    "id": "crystal-glass-bubble-plugs",
+    "title": "Artisan Crystal Glass Bubble Plugs",
+    "category": "toys",
+    "badge": "TEMPERATURE PLAY • DUAL PACK",
+    "price": 25000,
+    "priceStr": "₦25,000",
+    "img": "/assets/IMG_6314.webp",
+    "desc": "Exquisitely hand-blown from ultra-dense medical-grade borosilicate crystal. Safe for warm water warming or ice chilling for exquisite temperature contrast sensations.",
     "specs": [
       {
-        "label": "Levels",
-        "value": "Level 1: Talk • Level 2: Flirt • Level 3: Dare"
+        "label": "Material",
+        "value": "100% Medical Borosilicate Glass"
       },
       {
-        "label": "Cards",
-        "value": "150 Premium Linen Finish Playing Cards"
+        "label": "Sensory",
+        "value": "Hot & Cold Temperature Play Compatible"
       },
       {
-        "label": "Ideal For",
-        "value": "Date Nights, Anniversaries & Passion Restarts"
+        "label": "Design",
+        "value": "Triple Bubble Contour with Flared Base"
       }
     ],
-    "material": "Linen-Finish 350gsm Coated Playing Cards",
-    "acoustics": "Intimate Conversation & Foreplay"
+    "material": "100% Medical-Grade Borosilicate Glass",
+    "acoustics": "Silent & Body-Neutral"
   },
   {
     "id": "sexual-position-cards",

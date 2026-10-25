@@ -335,183 +335,21 @@ document.addEventListener('click', (e) => {
 
 
 
-// ================= COLLECTION SHOWCASE SLIDER =================
-const showcaseTrack = document.getElementById('showcase-slides-track');
-const showcaseSlides = document.querySelectorAll('.showcase-slide');
-const showcaseTabs = document.querySelectorAll('.showcase-tab');
-const showcaseSegments = document.querySelectorAll('.showcase-segment');
-const showcasePrev = document.getElementById('btn-showcase-prev');
-const showcaseNext = document.getElementById('btn-showcase-next');
-const showcaseCurrentIdx = document.getElementById('showcase-current-idx');
-const showcaseWrap = document.getElementById('showcase-slider-wrap');
-
-if (showcaseTrack && showcaseSlides.length > 0) {
-  let currentSlide = 0;
-  const totalSlides = showcaseSlides.length;
-  let autoplayTimer = null;
-  const slideDuration = 1600; // 1.6 seconds per slide (fast, vibrant rhythm)
-  let isPaused = false;
-
-  function updateSlide(index) {
-    if (index < 0) index = totalSlides - 1;
-    if (index >= totalSlides) index = 0;
-    currentSlide = index;
-
-    // Shift track
-    showcaseTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
-
-    // Active slide class
-    showcaseSlides.forEach((s, i) => {
-      s.classList.toggle('active', i === currentSlide);
-    });
-
-    // Update Tabs
-    showcaseTabs.forEach((tab, i) => {
-      const isActive = i === currentSlide;
-      tab.classList.toggle('active', isActive);
-      tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
-    });
-
-    // Update Counter
-    if (showcaseCurrentIdx) {
-      showcaseCurrentIdx.textContent = String(currentSlide + 1).padStart(2, '0');
-    }
-
-    resetProgressBar();
+// ================= THREE-REEL VISUAL EXPERIENCE =================
+const reelsStage = document.querySelector('.collection-reels-stage');
+if (reelsStage) {
+  const reelTracks = reelsStage.querySelectorAll('.reel-track');
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (!prefersReduced.matches && 'IntersectionObserver' in window) {
+    const reelsObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        reelTracks.forEach((track) => {
+          track.style.animationPlayState = entry.isIntersecting ? 'running' : 'paused';
+        });
+      });
+    }, { threshold: 0.05 });
+    reelsObserver.observe(reelsStage);
   }
-
-  function resetProgressBar() {
-    showcaseSegments.forEach((seg, i) => {
-      const fill = seg.querySelector('.segment-fill');
-      if (!fill) return;
-
-      if (i < currentSlide) {
-        seg.classList.add('past');
-        seg.classList.remove('active');
-        fill.style.transition = 'none';
-        fill.style.width = '100%';
-      } else if (i === currentSlide) {
-        seg.classList.remove('past');
-        seg.classList.add('active');
-        fill.style.transition = 'none';
-        fill.style.width = '0%';
-        void fill.offsetWidth; // Force reflow
-        if (!isPaused) {
-          fill.style.transition = `width ${slideDuration}ms linear`;
-          fill.style.width = '100%';
-        }
-      } else {
-        seg.classList.remove('past', 'active');
-        fill.style.transition = 'none';
-        fill.style.width = '0%';
-      }
-    });
-  }
-
-  function startAutoplay() {
-    stopAutoplay();
-    isPaused = false;
-    resetProgressBar();
-    autoplayTimer = setTimeout(() => {
-      updateSlide(currentSlide + 1);
-      startAutoplay();
-    }, slideDuration);
-  }
-
-  function stopAutoplay() {
-    if (autoplayTimer) clearTimeout(autoplayTimer);
-    const activeSeg = showcaseSegments[currentSlide];
-    if (activeSeg) {
-      const fill = activeSeg.querySelector('.segment-fill');
-      if (fill) {
-        const computedWidth = window.getComputedStyle(fill).width;
-        fill.style.transition = 'none';
-        fill.style.width = computedWidth;
-      }
-    }
-    isPaused = true;
-  }
-
-  // Next / Prev clicks
-  if (showcaseNext) {
-    showcaseNext.addEventListener('click', () => {
-      updateSlide(currentSlide + 1);
-      startAutoplay();
-    });
-  }
-
-  if (showcasePrev) {
-    showcasePrev.addEventListener('click', () => {
-      updateSlide(currentSlide - 1);
-      startAutoplay();
-    });
-  }
-
-  // Tab clicks
-  showcaseTabs.forEach((tab) => {
-    tab.addEventListener('click', () => {
-      const slideIdx = parseInt(tab.dataset.slide, 10);
-      updateSlide(slideIdx);
-      startAutoplay();
-    });
-  });
-
-  // Segment clicks
-  showcaseSegments.forEach((seg) => {
-    seg.addEventListener('click', () => {
-      const slideIdx = parseInt(seg.dataset.slide, 10);
-      updateSlide(slideIdx);
-      startAutoplay();
-    });
-  });
-
-  // Pause on hover
-  if (showcaseWrap) {
-    showcaseWrap.addEventListener('mouseenter', stopAutoplay);
-    showcaseWrap.addEventListener('mouseleave', () => {
-      startAutoplay();
-    });
-
-    // Touch swipe gestures
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    showcaseWrap.addEventListener('touchstart', (e) => {
-      touchStartX = e.changedTouches[0].screenX;
-      stopAutoplay();
-    }, { passive: true });
-
-    showcaseWrap.addEventListener('touchend', (e) => {
-      touchEndX = e.changedTouches[0].screenX;
-      const diff = touchStartX - touchEndX;
-      if (Math.abs(diff) > 40) {
-        if (diff > 0) {
-          updateSlide(currentSlide + 1); // Swipe left -> next
-        } else {
-          updateSlide(currentSlide - 1); // Swipe right -> prev
-        }
-      }
-      startAutoplay();
-    }, { passive: true });
-  }
-
-  // Keyboard navigation when section is in viewport
-  window.addEventListener('keydown', (e) => {
-    const rect = showcaseWrap ? showcaseWrap.getBoundingClientRect() : null;
-    if (rect && rect.top < window.innerHeight && rect.bottom > 0) {
-      if (e.key === 'ArrowRight') {
-        updateSlide(currentSlide + 1);
-        startAutoplay();
-      } else if (e.key === 'ArrowLeft') {
-        updateSlide(currentSlide - 1);
-        startAutoplay();
-      }
-    }
-  });
-
-  // Initialize Showcase Slider
-  updateSlide(0);
-  startAutoplay();
 }
 
 // ================= 5. PRODUCT CATALOGUE & FILTERING =================
@@ -7672,7 +7510,7 @@ export async function initCustomCatalogProducts() {
   const arrivalsGrid = document.getElementById('new-arrivals-grid');
 
   // Purge any obsolete placeholder cards from the DOM
-  document.querySelectorAll('.product-card[data-id="noir-chantilly-teddy"], .product-card[data-id="scarlet-silk-chemise"]').forEach(el => el.remove());
+  document.querySelectorAll('.product-card[data-id="noir-chantilly-teddy"], .product-card[data-id="scarlet-silk-chemise"], .product-card[data-id="couples-card-vault"]').forEach(el => el.remove());
 
   let customProds = [];
   try {
@@ -7680,7 +7518,7 @@ export async function initCustomCatalogProducts() {
     if (stored) {
       const parsed = JSON.parse(stored);
       if (Array.isArray(parsed)) {
-        customProds = parsed.filter(p => p && p.id !== 'noir-chantilly-teddy' && p.id !== 'scarlet-silk-chemise');
+        customProds = parsed.filter(p => p && p.id !== 'noir-chantilly-teddy' && p.id !== 'scarlet-silk-chemise' && p.id !== 'couples-card-vault');
         if (customProds.length !== parsed.length) {
           localStorage.setItem('thetoysvirago_custom_products', JSON.stringify(customProds));
         }
@@ -7774,7 +7612,8 @@ export async function initCustomCatalogProducts() {
   // Inject cards into New Arrivals grid on index.html
   if (arrivalsGrid) {
     arrivalsGrid.innerHTML = '';
-    const itemsToShow = customProds.slice(0, 8);
+    const freshFiltered = customProds.filter(p => p && p.id !== 'couples-card-vault' && !/boudoir card vault|talk, flirt/i.test(p.title || ''));
+    const itemsToShow = freshFiltered.slice(0, 8);
     itemsToShow.forEach((prod, idx) => {
       const card = createStoreProductCard(prod, idx);
       arrivalsGrid.appendChild(card);
@@ -7873,4 +7712,46 @@ if (document.readyState === 'loading') {
   window.addEventListener('DOMContentLoaded', initScrollLockObservers);
 } else {
   initScrollLockObservers();
+}
+
+// ================= THREE-REEL VISUAL EXPERIENCE CONTROLLER =================
+function initThreeReels() {
+  const container = document.getElementById('three-reels');
+  if (!container) return;
+
+  const eagerImages = Array.from(container.querySelectorAll('img[loading="eager"]'));
+  if (eagerImages.length === 0) {
+    container.classList.add('reels-active');
+    return;
+  }
+
+  let loadedCount = 0;
+  const targetCount = eagerImages.length;
+
+  const onImageReady = () => {
+    loadedCount++;
+    if (loadedCount >= targetCount) {
+      container.classList.add('reels-active');
+    }
+  };
+
+  eagerImages.forEach((img) => {
+    if (img.complete && img.naturalHeight !== 0) {
+      onImageReady();
+    } else {
+      img.addEventListener('load', onImageReady, { once: true });
+      img.addEventListener('error', onImageReady, { once: true });
+    }
+  });
+
+  // Smooth safety fallback after 1200ms
+  setTimeout(() => {
+    container.classList.add('reels-active');
+  }, 1200);
+}
+
+if (document.readyState === 'loading') {
+  window.addEventListener('DOMContentLoaded', initThreeReels);
+} else {
+  initThreeReels();
 }
