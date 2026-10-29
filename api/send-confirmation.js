@@ -226,7 +226,7 @@ export default async function handler(req, res) {
     };
 
     // Priority 1: From configured environment email
-    const preferredFrom = process.env.VITE_RESEND_FROM_EMAIL || process.env.RESEND_FROM_EMAIL || 'TheToysVirago Concierge <onboarding@resend.dev>';
+    const preferredFrom = process.env.VITE_RESEND_FROM_EMAIL || process.env.RESEND_FROM_EMAIL || 'TheToysVirago <admin@thetoysvirago.shop>';
     let result = await sendWithSender(preferredFrom);
 
     // Priority 2: Fallback to verified onboarding@resend.dev if custom domain failed

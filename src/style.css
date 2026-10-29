@@ -348,13 +348,19 @@ body.cart-open .main-header,
 }
 .dropdown-link.active {
   color: var(--ruby) !important;
-  background: rgba(159, 18, 57, 0.05) !important;
+  background: rgba(159, 18, 57, 0.06) !important;
+  border: none !important;
   border-left: none !important;
-  border-bottom: 2px solid var(--ruby) !important;
+  border-right: none !important;
+  border-top: none !important;
+  border-bottom: 1px solid #f0f0f4 !important;
   padding-left: 24px !important;
   font-weight: 700 !important;
   outline: none !important;
   box-shadow: none !important;
+}
+.dropdown-link.active:last-child {
+  border-bottom: none !important;
 }
 .btn-cart-dropdown {
   background: transparent;
