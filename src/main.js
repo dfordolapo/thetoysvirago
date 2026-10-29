@@ -1,4 +1,4 @@
-import { getSupabaseProducts, recordSupabaseConfession, getSupabaseConfessions } from './supabase.js';
+import { getSupabaseProducts, recordSupabaseConfession, getSupabaseConfessions, recordSupabaseOrder } from './supabase.js';
 
 /**
  * ROUGE NOIR - Haute Intimité & Sensual Wellness
@@ -6923,9 +6923,17 @@ if (btnApplyPromo && promoInput) {
 }
 
 
-// ================= 8. SIMULATED CHECKOUT MODAL =================
+// ================= 8. GUEST CHECKOUT & PAYMENT INTEGRATION (HOUSE OF NINA ARCHITECTURE) =================
+// Online gateway credentials saved for future activation (e.g. Paystack / Gateway toggle)
+const BUDPAY_PUBLIC_KEY = import.meta.env.VITE_BUDPAY_PUBLIC_KEY || '';
+const STORE_BANK_NAME = import.meta.env.VITE_BANK_NAME || 'Moniepoint MFB';
+const STORE_BANK_ACC = import.meta.env.VITE_BANK_ACCOUNT_NUMBER || '4585343326';
+const STORE_BANK_OWNER = import.meta.env.VITE_BANK_ACCOUNT_NAME || 'Thetoysvirago';
+const STORE_WHATSAPP = import.meta.env.VITE_STORE_WHATSAPP || '2348036514814';
+
 const checkoutModal = document.getElementById('checkout-modal');
 if (checkoutModal) checkoutModal.style.display = 'none';
+
 const btnCheckout = document.getElementById('btn-checkout');
 const btnCloseCheckout = document.getElementById('btn-close-checkout');
 const checkoutForm = document.getElementById('checkout-form');
@@ -6933,7 +6941,271 @@ const checkoutSuccess = document.getElementById('checkout-success');
 const coSubtotal = document.getElementById('co-subtotal');
 const coTotal = document.getElementById('co-total');
 const btnDoneOrder = document.getElementById('btn-done-order');
+const btnSubmitOrder = document.getElementById('btn-submit-order');
 
+const btnCopyBankAcc = document.getElementById('btn-copy-bank-acc');
+const coActiveOrderRef = document.getElementById('co-active-order-ref');
+const coNarrationHint = document.getElementById('co-narration-hint');
+const btnCopyActiveRef = document.getElementById('btn-copy-active-ref');
+const btnCopySuccessRef = document.getElementById('btn-copy-success-ref');
+
+// House of Nina Saved Address Elements
+const addressChipsRow = document.getElementById('address-chips-row');
+const selectedAddressCard = document.getElementById('selected-address-card');
+const addressInputSection = document.getElementById('address-input-section');
+const btnEditActiveAddress = document.getElementById('btn-edit-active-address');
+const cardAddrName = document.getElementById('card-addr-name');
+const cardAddrLabel = document.getElementById('card-addr-label');
+const cardAddrText = document.getElementById('card-addr-text');
+const cardAddrContact = document.getElementById('card-addr-contact');
+const chkSaveAddress = document.getElementById('co-save-address-chk');
+
+// Form inputs
+const inputFirstName = document.getElementById('co-firstname');
+const inputLastName = document.getElementById('co-lastname');
+const inputEmail = document.getElementById('co-email');
+const inputPhone = document.getElementById('co-phone');
+const inputAddress = document.getElementById('co-address');
+const inputCity = document.getElementById('co-city');
+const inputNotes = document.getElementById('co-notes');
+
+// Generate unique order reference for every single checkout session & order
+function generateUniqueOrderRef() {
+  const timeSlice = Date.now().toString().slice(-5);
+  const rand = Math.floor(100 + Math.random() * 900);
+  return `TTV-${timeSlice}${rand}`;
+}
+
+let currentCheckoutRef = generateUniqueOrderRef();
+
+// Default initial saved address
+const DEFAULT_SAVED_ADDRESSES = [
+  {
+    id: 'home',
+    label: 'Home',
+    firstName: 'Valued',
+    lastName: 'Customer',
+    email: 'client@thetoysvirago.shop',
+    phone: '+234 803 651 4814',
+    address: '42 Bourdillon Road',
+    city: 'Ikoyi, Lagos',
+    notes: '',
+    isDefault: true
+  }
+];
+
+function getSavedAddresses() {
+  try {
+    const raw = localStorage.getItem('ttv_saved_addresses');
+    if (!raw) return DEFAULT_SAVED_ADDRESSES;
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) && parsed.length > 0 ? parsed : DEFAULT_SAVED_ADDRESSES;
+  } catch (e) {
+    return DEFAULT_SAVED_ADDRESSES;
+  }
+}
+
+let savedAddresses = getSavedAddresses();
+let selectedAddressId = savedAddresses[0]?.id || 'home';
+let isEditingAddress = false;
+let activeSaveLabel = 'Home';
+
+// Helper to calculate current cart totals
+function getCheckoutCartTotals() {
+  const rawSubtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+  const discountAmount = rawSubtotal * (discountPercent / 100);
+  const finalTotal = Math.max(0, rawSubtotal - discountAmount);
+  return { rawSubtotal, discountAmount, finalTotal };
+}
+
+// Update Submit Button CTA text cleanly
+function updateCheckoutSubmitButton() {
+  if (!btnSubmitOrder) return;
+  const { finalTotal } = getCheckoutCartTotals();
+  const formatted = `₦${finalTotal.toLocaleString()}`;
+  btnSubmitOrder.innerHTML = `<span>Place Order (${formatted})</span>`;
+}
+
+// Update the visible Order Reference in the bank box
+function refreshActiveOrderRef() {
+  currentCheckoutRef = generateUniqueOrderRef();
+  if (coActiveOrderRef) coActiveOrderRef.textContent = currentCheckoutRef;
+  if (coNarrationHint) coNarrationHint.textContent = currentCheckoutRef;
+}
+
+// Render House of Nina Address Chips & Selected Card
+function renderAddressBook() {
+  if (!addressChipsRow) return;
+  addressChipsRow.innerHTML = '';
+
+  savedAddresses.forEach((addr) => {
+    const isSelected = selectedAddressId === addr.id && !isEditingAddress;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = `addr-chip ${isSelected ? 'active' : ''}`;
+    btn.innerHTML = `
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+      <span>${addr.label}</span>
+      ${isSelected ? '<span class="chip-check">✓</span>' : ''}
+    `;
+    btn.addEventListener('click', () => {
+      selectedAddressId = addr.id;
+      isEditingAddress = false;
+      syncFormWithAddress(addr);
+      renderAddressBook();
+    });
+    addressChipsRow.appendChild(btn);
+  });
+
+  // "+ Add Address" Chip
+  const isAddingNew = selectedAddressId === 'new';
+  const addBtn = document.createElement('button');
+  addBtn.type = 'button';
+  addBtn.className = `addr-chip chip-add ${isAddingNew ? 'active' : ''}`;
+  addBtn.innerHTML = '<span>+ Add Address</span>';
+  addBtn.addEventListener('click', () => {
+    selectedAddressId = 'new';
+    isEditingAddress = true;
+    clearAddressInputs();
+    renderAddressBook();
+  });
+  addressChipsRow.appendChild(addBtn);
+
+  // Update card or inputs visibility
+  const currentAddr = savedAddresses.find(a => a.id === selectedAddressId);
+  if (currentAddr && !isEditingAddress) {
+    if (selectedAddressCard) selectedAddressCard.style.display = 'flex';
+    if (addressInputSection) addressInputSection.style.display = 'none';
+
+    if (cardAddrName) cardAddrName.textContent = `${currentAddr.firstName} ${currentAddr.lastName}`;
+    if (cardAddrLabel) cardAddrLabel.textContent = currentAddr.label;
+    if (cardAddrText) cardAddrText.textContent = `${currentAddr.address}, ${currentAddr.city}${currentAddr.notes ? ' (' + currentAddr.notes + ')' : ''}`;
+    if (cardAddrContact) cardAddrContact.textContent = `Tel: ${currentAddr.phone}${currentAddr.email ? ' · ' + currentAddr.email : ''}`;
+  } else {
+    if (selectedAddressCard) selectedAddressCard.style.display = 'none';
+    if (addressInputSection) addressInputSection.style.display = 'flex';
+  }
+}
+
+function syncFormWithAddress(addr) {
+  if (inputFirstName) inputFirstName.value = addr.firstName || '';
+  if (inputLastName) inputLastName.value = addr.lastName || '';
+  if (inputEmail) inputEmail.value = addr.email || '';
+  if (inputPhone) inputPhone.value = addr.phone || '';
+  if (inputAddress) inputAddress.value = addr.address || '';
+  if (inputCity) inputCity.value = addr.city || '';
+  if (inputNotes) inputNotes.value = addr.notes || '';
+  activeSaveLabel = addr.label || 'Home';
+  updateLabelPills(activeSaveLabel);
+}
+
+function clearAddressInputs() {
+  if (inputFirstName) inputFirstName.value = '';
+  if (inputLastName) inputLastName.value = '';
+  if (inputAddress) inputAddress.value = '';
+  if (inputCity) inputCity.value = '';
+  if (inputNotes) inputNotes.value = '';
+  activeSaveLabel = 'Home';
+  updateLabelPills('Home');
+}
+
+function updateLabelPills(label) {
+  document.querySelectorAll('.label-pill-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.label === label);
+  });
+}
+
+// Edit active address button listener
+if (btnEditActiveAddress) {
+  btnEditActiveAddress.addEventListener('click', () => {
+    isEditingAddress = true;
+    const currentAddr = savedAddresses.find(a => a.id === selectedAddressId);
+    if (currentAddr) syncFormWithAddress(currentAddr);
+    renderAddressBook();
+    if (inputAddress) inputAddress.focus();
+  });
+}
+
+// Save as label chips listeners (Home, Work, Gift)
+document.addEventListener('click', (e) => {
+  const pill = e.target.closest('.label-pill-btn');
+  if (pill) {
+    activeSaveLabel = pill.dataset.label;
+    updateLabelPills(activeSaveLabel);
+  }
+});
+
+// Copy Bank Account Number listener
+if (btnCopyBankAcc) {
+  btnCopyBankAcc.addEventListener('click', async () => {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(STORE_BANK_ACC);
+      } else {
+        const temp = document.createElement('input');
+        temp.value = STORE_BANK_ACC;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand('copy');
+        document.body.removeChild(temp);
+      }
+      btnCopyBankAcc.textContent = 'Copied!';
+      showToast(`Account number copied: ${STORE_BANK_ACC} (Moniepoint MFB)`);
+      setTimeout(() => { btnCopyBankAcc.textContent = 'Copy'; }, 2500);
+    } catch (err) {
+      window.prompt('Account Number:', STORE_BANK_ACC);
+    }
+  });
+}
+
+// Copy Active Order Reference listener (before payment)
+if (btnCopyActiveRef) {
+  btnCopyActiveRef.addEventListener('click', async () => {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(currentCheckoutRef);
+      } else {
+        const temp = document.createElement('input');
+        temp.value = currentCheckoutRef;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand('copy');
+        document.body.removeChild(temp);
+      }
+      btnCopyActiveRef.textContent = 'Copied!';
+      showToast(`Order Reference copied: ${currentCheckoutRef}`);
+      setTimeout(() => { btnCopyActiveRef.textContent = 'Copy Ref'; }, 2500);
+    } catch (err) {
+      window.prompt('Order Reference:', currentCheckoutRef);
+    }
+  });
+}
+
+// Copy Order Reference listener on Success screen
+if (btnCopySuccessRef) {
+  btnCopySuccessRef.addEventListener('click', async () => {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(currentCheckoutRef);
+      }
+      btnCopySuccessRef.textContent = 'Copied!';
+      showToast(`Order Reference copied: ${currentCheckoutRef}`);
+      setTimeout(() => { btnCopySuccessRef.textContent = 'Copy Order Reference'; }, 2500);
+    } catch (err) {
+      window.prompt('Order Reference:', currentCheckoutRef);
+    }
+  });
+}
+
+// Populate Bank UI elements
+const storeBankNameEl = document.getElementById('store-bank-name');
+const storeBankAccEl = document.getElementById('store-bank-acc');
+const storeBankOwnerEl = document.getElementById('store-bank-owner');
+if (storeBankNameEl) storeBankNameEl.textContent = STORE_BANK_NAME;
+if (storeBankAccEl) storeBankAccEl.textContent = STORE_BANK_ACC;
+if (storeBankOwnerEl) storeBankOwnerEl.textContent = STORE_BANK_OWNER;
+
+// Open Checkout Modal
 if (btnCheckout) {
   btnCheckout.addEventListener('click', () => {
     if (cart.length === 0) {
@@ -6941,12 +7213,23 @@ if (btnCheckout) {
       return;
     }
     closeCartDrawer();
-    const rawSubtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-    const discountAmount = rawSubtotal * (discountPercent / 100);
-    const finalTotal = Math.max(0, rawSubtotal - discountAmount);
+    const { rawSubtotal, finalTotal } = getCheckoutCartTotals();
 
     if (coSubtotal) coSubtotal.textContent = `₦${rawSubtotal.toLocaleString()}`;
     if (coTotal) coTotal.textContent = `₦${finalTotal.toLocaleString()}`;
+
+    // Refresh active Order Reference so EVERY checkout session gets a unique reference
+    refreshActiveOrderRef();
+
+    savedAddresses = getSavedAddresses();
+    if (!savedAddresses.find(a => a.id === selectedAddressId)) {
+      selectedAddressId = savedAddresses[0]?.id || 'home';
+    }
+    const current = savedAddresses.find(a => a.id === selectedAddressId);
+    if (current) syncFormWithAddress(current);
+
+    renderAddressBook();
+    updateCheckoutSubmitButton();
 
     if (checkoutModal) {
       checkoutModal.removeAttribute('hidden');
@@ -6957,6 +7240,7 @@ if (btnCheckout) {
   });
 }
 
+// Close Checkout Modal
 if (btnCloseCheckout && checkoutModal) {
   btnCloseCheckout.addEventListener('click', () => {
     checkoutModal.setAttribute('hidden', '');
@@ -6970,38 +7254,133 @@ if (btnCloseCheckout && checkoutModal) {
   });
 }
 
+// Render Order Success UI
+function displayOrderSuccess(orderPayload, waUrl) {
+  if (checkoutForm) checkoutForm.hidden = true;
+  if (checkoutSuccess) {
+    checkoutSuccess.hidden = false;
+    checkoutSuccess.removeAttribute('hidden');
+
+    const refEl = document.getElementById('order-ref');
+    const recipientEl = document.getElementById('co-success-recipient');
+    const destEl = document.getElementById('co-success-destination');
+    const amountEl = document.getElementById('co-success-amount');
+    const statusEl = document.getElementById('co-success-status');
+    const msgEl = document.getElementById('co-success-msg');
+    const waBtn = document.getElementById('btn-wa-confirm-order');
+
+    if (refEl) refEl.textContent = orderPayload.reference;
+    if (recipientEl) recipientEl.innerHTML = `<strong>Recipient:</strong> ${orderPayload.customer_name}`;
+    if (destEl) destEl.innerHTML = `<strong>Delivery:</strong> ${orderPayload.address}`;
+    if (amountEl) amountEl.innerHTML = `<strong>Total Due:</strong> ₦${Number(orderPayload.total_amount).toLocaleString()}`;
+    if (statusEl) statusEl.innerHTML = `<strong>Status:</strong> <span style="color:#d97706;font-weight:700;">AWAITING TRANSFER (Narration: ${orderPayload.reference})</span>`;
+    if (msgEl) msgEl.textContent = `Please transfer ₦${Number(orderPayload.total_amount).toLocaleString()} to ${STORE_BANK_NAME} (${STORE_BANK_ACC} · ${STORE_BANK_OWNER}) with narration ${orderPayload.reference}.`;
+
+    if (waBtn) waBtn.href = waUrl;
+  }
+}
+
+// Form Submission Handler
 if (checkoutForm) {
-  checkoutForm.addEventListener('submit', (e) => {
+  checkoutForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const btnSubmit = document.getElementById('btn-submit-order');
-    if (btnSubmit) {
-      btnSubmit.innerHTML = '<span>Encrypting &amp; Confirming...</span>';
-      btnSubmit.disabled = true;
+
+    const firstName = (inputFirstName?.value || '').trim();
+    const lastName = (inputLastName?.value || '').trim();
+    const email = (inputEmail?.value || '').trim();
+    const phone = (inputPhone?.value || '').trim();
+    const address = (inputAddress?.value || '').trim();
+    const city = (inputCity?.value || '').trim();
+    const notes = (inputNotes?.value || '').trim();
+
+    if (!firstName || !lastName || !email || !phone || !address || !city) {
+      showToast('Please fill in all required delivery details.');
+      return;
     }
 
+    // Save or update address in saved addresses book (House of Nina style)
+    if (chkSaveAddress && chkSaveAddress.checked) {
+      try {
+        const newAddr = {
+          id: selectedAddressId === 'new' ? `addr_${Date.now()}` : selectedAddressId,
+          label: activeSaveLabel || 'Home',
+          firstName, lastName, email, phone, address, city, notes
+        };
+        const existingIdx = savedAddresses.findIndex(a => a.id === newAddr.id);
+        if (existingIdx >= 0) {
+          savedAddresses[existingIdx] = newAddr;
+        } else {
+          savedAddresses.push(newAddr);
+        }
+        localStorage.setItem('ttv_saved_addresses', JSON.stringify(savedAddresses));
+        selectedAddressId = newAddr.id;
+        isEditingAddress = false;
+      } catch (err) {}
+    }
+
+    const { finalTotal } = getCheckoutCartTotals();
+    const orderRef = currentCheckoutRef || generateUniqueOrderRef();
+
+    const orderPayload = {
+      reference: orderRef,
+      customer_name: `${firstName} ${lastName}`,
+      phone: phone,
+      address: `${address}, ${city} (Email: ${email})${notes ? ' · Note: ' + notes : ''}`,
+      city: city,
+      items: cart.map(item => ({
+        id: item.id,
+        title: item.title,
+        price: item.price,
+        qty: item.qty,
+        finish: item.finish || ''
+      })),
+      total_amount: finalTotal,
+      status: 'pending_transfer'
+    };
+
+    if (btnSubmitOrder) {
+      btnSubmitOrder.innerHTML = '<span>Redirecting to WhatsApp...</span>';
+      btnSubmitOrder.disabled = true;
+    }
+
+    // Save order in Supabase
+    try {
+      await recordSupabaseOrder(orderPayload);
+    } catch (err) {
+      console.warn('Supabase order logging fallback:', err);
+    }
+
+    // Backup in LocalStorage
+    localStorage.setItem('ttv_last_order', JSON.stringify(orderPayload));
+
+    // Construct WhatsApp Redirect URL
+    const itemsList = orderPayload.items.map(i => `${i.qty}x ${i.title}`).join(', ');
+    const waText = encodeURIComponent(
+      `Hello TheToysVirago Concierge,\n\nI just placed an order!\n• Order Ref: ${orderPayload.reference}\n• Items: ${itemsList}\n• Total Amount: ₦${Number(orderPayload.total_amount).toLocaleString()}\n• Name: ${orderPayload.customer_name}\n• Phone: ${orderPayload.phone}\n• Delivery Address: ${orderPayload.address}\n• Bank: ${STORE_BANK_NAME} (${STORE_BANK_ACC} · ${STORE_BANK_OWNER})\n\nI have made the transfer. Here is my receipt:`
+    );
+    const waUrl = `https://wa.me/${STORE_WHATSAPP}?text=${waText}`;
+
+    displayOrderSuccess(orderPayload, waUrl);
+
+    // Reset cart
+    cart = [];
+    discountPercent = 0;
+    saveCart();
+    if (btnSubmitOrder) btnSubmitOrder.disabled = false;
+
+    // DIRECT REDIRECT to WhatsApp
     setTimeout(() => {
-      if (checkoutForm) checkoutForm.hidden = true;
-      if (checkoutSuccess) {
-        checkoutSuccess.hidden = false;
-        const refId = `RN-${Math.floor(10000 + Math.random() * 90000)}-${Math.random().toString(36).substring(2, 5).toUpperCase()}`;
-        const refEl = document.getElementById('order-ref');
-        if (refEl) refEl.textContent = refId;
-      }
-      // Reset cart
-      cart = [];
-      discountPercent = 0;
-      saveCart();
-    }, 1200);
+      window.location.href = waUrl;
+    }, 450);
   });
 }
 
 if (btnDoneOrder && checkoutModal) {
   btnDoneOrder.addEventListener('click', () => {
-    checkoutModal.hidden = true;
+    checkoutModal.setAttribute('hidden', '');
+    checkoutModal.style.display = 'none';
   });
 }
-
-
 // ================= 9. TOAST NOTIFICATION UTILITY =================
 let toastTimeout = null;
 const toast = document.getElementById('toast');
