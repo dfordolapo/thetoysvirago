@@ -7391,6 +7391,19 @@ if (checkoutForm) {
       console.warn('Supabase order logging fallback:', err);
     }
 
+    // Immediately dispatch Order Alert email to Store Owner (dfordolapo@gmail.com & admin@thetoysvirago.shop)
+    // and send initial order acknowledgment to customer via Resend
+    try {
+      fetch('/api/send-confirmation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          order: orderPayload,
+          action: 'order_placed'
+        })
+      }).catch(e => console.warn('Order alert dispatch error:', e));
+    } catch (e) {}
+
     // Backup in LocalStorage and append to local orders cache
     localStorage.setItem('ttv_last_order', JSON.stringify(orderPayload));
     try {

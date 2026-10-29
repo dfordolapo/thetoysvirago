@@ -170,6 +170,7 @@ export async function sendCustomerOrderConfirmationEmail(order) {
       },
       body: JSON.stringify({
         order,
+        action: 'order_confirmed',
         apiKey: resendApiKey
       })
     });
