@@ -6681,7 +6681,7 @@ function addToCart(product) {
     });
   }
   saveCart();
-  showToast(`Added ${product.title} to discreet bag.`);
+  showToast('Added to bag');
   openCartDrawer();
 }
 
@@ -6699,7 +6699,7 @@ function updateItemQty(id, delta) {
 function removeItem(id) {
   cart = cart.filter((i) => (i.cartId || i.id) !== id);
   saveCart();
-  showToast('Item removed from discreet bag.');
+  showToast('Item removed from bag');
 }
 
 function openCartDrawer() {
