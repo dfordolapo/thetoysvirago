@@ -156,10 +156,10 @@
       box-shadow: 0 0 8px #22c55e;
     }
 
-    /* Stats Banner: Single Total Products Card */
+    /* Stats Banner: Side-by-Side Cards (Total Products & Pending Orders) */
     .admin-stats-grid {
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, 1fr);
       gap: 16px;
       margin-bottom: 24px;
     }
@@ -1348,15 +1348,7 @@
         white-space: nowrap !important;
       }
     }
-  </style>
-<style>
-    /* Order Management Styles */
-    .order-filter-pill {
-      background: transparent;
-      border: none;
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-size: 12px;
+
     /* ================= LIVE ORDERS & AWAITING CONFIRMATION (HOUSE OF NINA ALIGNMENT) ================= */
     .orders-toolbar-row {
       display: flex;
@@ -1556,7 +1548,7 @@
       flex-shrink: 0;
     }
 
-    /* Button System compliance (8px border radius) */
+    /* Universal Button Rule (8px border radius) */
     .btn-tick-confirmed {
       background: #e11d48;
       color: #ffffff;
@@ -1627,78 +1619,279 @@
       flex-shrink: 0;
     }
 
-    /* Mobile Responsive Rules Matching House of Nina and NailExpress */
-    @media (max-width: 640px) {
+    /* ================= RESPONSIVE MOBILE OVERHAUL: SCALED DOWN INPUTS & HOUSE OF NINA COMPACT SIZING ================= */
+    @media (max-width: 768px) {
       .admin-wrapper {
-        padding: 14px 12px 60px;
+        padding: 10px 8px 60px !important;
       }
       .admin-nav {
-        padding: 12px 14px;
-        margin-bottom: 16px;
+        padding: 10px 12px !important;
+        margin-bottom: 12px !important;
+        border-radius: 12px !important;
+      }
+      .admin-logo-img {
+        width: 32px !important;
+        height: 32px !important;
       }
       .admin-brand-title {
-        font-size: 20px;
+        font-size: 16px !important;
       }
-      .admin-order-card {
-        padding: 12px 14px;
-        border-radius: 10px;
-        gap: 10px;
+      .admin-brand-subtitle {
+        display: none !important;
       }
-      .admin-order-card-header {
-        gap: 8px;
-        padding-bottom: 10px;
+      .admin-nav-right {
+        gap: 6px !important;
       }
-      .admin-order-ref-title {
-        font-size: 14px;
+      .admin-nav-right .admin-btn {
+        padding: 5px 8px !important;
+        font-size: 11px !important;
+        min-height: 28px !important;
       }
-      .admin-order-cust-title {
-        font-size: 13px;
+      .admin-status-pill {
+        padding: 4px 8px !important;
+        font-size: 10px !important;
       }
-      .admin-order-info-grid {
-        grid-template-columns: 1fr;
-        gap: 6px;
+
+      /* Side-by-Side Stat Cards on Mobile */
+      .admin-stats-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px !important;
+        margin-bottom: 12px !important;
       }
+      .admin-stat-card {
+        padding: 10px 10px !important;
+        border-radius: 10px !important;
+        min-height: auto !important;
+      }
+      .admin-stat-title {
+        font-size: 10px !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.2px !important;
+        margin-bottom: 2px !important;
+        color: #64748b !important;
+      }
+      .admin-stat-val {
+        font-size: 20px !important;
+        line-height: 1.1 !important;
+      }
+      .admin-stat-icon-wrap {
+        width: 30px !important;
+        height: 30px !important;
+        border-radius: 8px !important;
+      }
+      .admin-stat-icon-wrap svg {
+        width: 16px !important;
+        height: 16px !important;
+      }
+
+      /* Scrollable Tabs Bar */
+      .admin-tabs-bar {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        gap: 6px !important;
+        padding-bottom: 8px !important;
+        margin-bottom: 14px !important;
+        scrollbar-width: none !important;
+      }
+      .admin-tabs-bar::-webkit-scrollbar {
+        display: none !important;
+      }
+      .admin-tab-btn {
+        padding: 7px 12px !important;
+        font-size: 11.5px !important;
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+        border-radius: 8px !important;
+      }
+      .admin-tab-btn svg {
+        width: 13px !important;
+        height: 13px !important;
+      }
+      .admin-tab-chevron {
+        display: none !important;
+      }
+
+      /* Cards & Headers */
+      .admin-card {
+        padding: 12px 10px !important;
+        border-radius: 12px !important;
+      }
+      .admin-card-head {
+        margin-bottom: 12px !important;
+        padding-bottom: 10px !important;
+        gap: 8px !important;
+      }
+      .admin-card-title {
+        font-size: 16px !important;
+      }
+      .admin-card-subtitle {
+        font-size: 11px !important;
+      }
+
+      /* ALL INPUT FIELDS MUCH MUCH SMALLER ON MOBILE */
+      .form-group {
+        margin-bottom: 10px !important;
+      }
+      .form-label {
+        font-size: 11px !important;
+        font-weight: 600 !important;
+        margin-bottom: 3px !important;
+        color: #475569 !important;
+      }
+      .form-input,
+      .form-textarea,
+      .form-select,
+      input.form-input,
+      select.form-select,
+      textarea.form-textarea,
+      input[type="text"],
+      input[type="number"],
+      input[type="password"],
+      input[type="email"],
+      select,
+      textarea {
+        font-size: 12px !important;
+        padding: 7px 10px !important;
+        min-height: 34px !important;
+        border-radius: 8px !important;
+      }
+      .form-textarea, textarea {
+        min-height: 60px !important;
+        font-size: 12px !important;
+      }
+      .form-row-2, .form-row-3 {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+      }
+
+      /* Buttons on mobile */
+      .admin-btn {
+        padding: 6px 10px !important;
+        font-size: 11.5px !important;
+        min-height: 32px !important;
+        border-radius: 8px !important;
+      }
+
+      /* Orders Toolbar */
       .orders-toolbar-row {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-        margin: 12px 0 16px;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 8px !important;
+        margin: 10px 0 12px !important;
       }
       .orders-search-wrapper {
-        width: 100%;
-        min-width: 0;
+        width: 100% !important;
+        min-width: 0 !important;
       }
       .orders-filter-scroll-wrapper {
-        width: 100%;
-        box-sizing: border-box;
+        width: 100% !important;
+        box-sizing: border-box !important;
       }
-    }
+      .order-filter-pill {
+        font-size: 11px !important;
+        padding: 5px 10px !important;
+      }
 
-    @media (max-width: 520px) {
+      /* Order Cards on Mobile (House of Nina Alignment) */
+      .admin-order-card {
+        padding: 11px 12px !important;
+        border-radius: 10px !important;
+        gap: 8px !important;
+        margin-bottom: 8px !important;
+      }
+      .admin-order-card-header {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: flex-start !important;
+        gap: 6px !important;
+        padding-bottom: 8px !important;
+        border-bottom: 1px solid #f1f5f9 !important;
+      }
+      .admin-order-ref-title {
+        font-size: 13px !important;
+        font-weight: 700 !important;
+      }
+      .admin-order-cust-title {
+        font-size: 12.5px !important;
+        font-weight: 700 !important;
+        margin-top: 1px !important;
+      }
+      .admin-order-meta {
+        font-size: 10.5px !important;
+        color: #64748b !important;
+      }
+      .confirmed-badge-pill,
+      .awaiting-badge-pill {
+        font-size: 10px !important;
+        padding: 3px 8px !important;
+        border-radius: 999px !important;
+        white-space: nowrap !important;
+      }
+
+      .admin-order-card-body {
+        gap: 6px !important;
+      }
+      .admin-order-info-grid {
+        grid-template-columns: 1fr !important;
+        gap: 4px !important;
+        font-size: 11px !important;
+      }
+      .admin-order-info-item {
+        font-size: 11px !important;
+        line-height: 1.35 !important;
+      }
+
+      .admin-order-items-box {
+        padding: 7px 9px !important;
+        border-radius: 7px !important;
+        font-size: 11px !important;
+      }
+      .admin-order-items-head {
+        font-size: 9.5px !important;
+        margin-bottom: 4px !important;
+      }
+      .admin-order-item-row {
+        font-size: 11px !important;
+        padding: 2px 0 !important;
+      }
+
       .admin-order-card-footer {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-        padding-top: 8px;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 8px !important;
+        padding-top: 8px !important;
+        border-top: 1px solid #f1f5f9 !important;
       }
       .admin-order-total-block {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: baseline;
-        width: 100%;
-        padding-bottom: 2px;
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: baseline !important;
+        width: 100% !important;
+      }
+      .admin-order-total-label {
+        font-size: 9.5px !important;
+        color: #64748b !important;
+      }
+      .admin-order-amount {
+        font-size: 16px !important;
+        font-weight: 800 !important;
       }
       .admin-order-actions-group {
-        width: 100%;
+        width: 100% !important;
       }
       .admin-order-actions-group .btn-tick-confirmed,
       .admin-order-actions-group .btn-resend-email {
-        width: 100%;
-        justify-content: center;
-        min-height: 42px;
-        font-size: 13px;
-        padding: 10px 14px;
+        width: 100% !important;
+        justify-content: center !important;
+        min-height: 36px !important;
+        font-size: 12px !important;
+        padding: 8px 12px !important;
+        border-radius: 8px !important;
       }
     }
 </style>
@@ -1749,21 +1942,19 @@
         <div class="admin-stat-left">
           <div class="admin-stat-title">Total Products</div>
           <div class="admin-stat-val" id="stat-total-products">80</div>
-          <div class="admin-stat-sub">Products in boutique catalog</div>
         </div>
-        <div style="width: 52px; height: 52px; border-radius: 12px; background: #fff1f2; display: flex; align-items: center; justify-content: center; color: #e11d48;">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        <div class="admin-stat-icon-wrap" style="width: 40px; height: 40px; border-radius: 10px; background: #fff1f2; display: flex; align-items: center; justify-content: center; color: #e11d48; flex-shrink: 0;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
         </div>
       </div>
 
       <div class="admin-stat-card" style="cursor: pointer;" id="stat-card-awaiting">
         <div class="admin-stat-left">
-          <div class="admin-stat-title">Awaiting Confirmation</div>
+          <div class="admin-stat-title">Pending Orders</div>
           <div class="admin-stat-val" id="stat-orders-awaiting" style="color: #d97706;">0</div>
-          <div class="admin-stat-sub">Pending transfer verification</div>
         </div>
-        <div style="width: 52px; height: 52px; border-radius: 12px; background: #fef3c7; display: flex; align-items: center; justify-content: center; color: #d97706;">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <div class="admin-stat-icon-wrap" style="width: 40px; height: 40px; border-radius: 10px; background: #fef3c7; display: flex; align-items: center; justify-content: center; color: #d97706; flex-shrink: 0;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         </div>
       </div>
     </div>
