@@ -1785,6 +1785,24 @@
       .orders-search-wrapper {
         width: 100% !important;
         min-width: 0 !important;
+        position: relative !important;
+      }
+      .orders-search-wrapper .orders-search-icon {
+        position: absolute !important;
+        left: 12px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        z-index: 5 !important;
+        pointer-events: none !important;
+        color: #94a3b8 !important;
+        display: block !important;
+      }
+      .orders-search-wrapper input {
+        padding-left: 38px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        font-size: 12.5px !important;
+        height: 38px !important;
       }
       .orders-filter-scroll-wrapper {
         width: 100% !important;
@@ -2250,33 +2268,7 @@
         </div>
       </div>
     </div>
-          <p style="font-size: 13px; color: #475569; line-height: 1.6;">
-            Your uploaded products go directly to Supabase. You can also trigger a full re-sync of all <strong id="export-custom-count">2</strong> custom items below.
-          </p>
-          <button id="btn-sync-supabase-now" class="admin-btn admin-btn-ruby" style="width: 100%; justify-content: center; margin-top: 12px; padding: 12px;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>
-            Sync All Custom Products to Supabase Cloud
-          </button>
-          <div id="supabase-sync-log" style="margin-top: 14px; font-size: 13px; color: #475569;"></div>
-        </div>
-
-        <div class="admin-card">
-          <div class="admin-card-head">
-            <div>
-              <h3 class="admin-card-title">Catalog Export (JSON &amp; SQL)</h3>
-              <div class="admin-card-subtitle">Download or copy data for repository or database</div>
-            </div>
-          </div>
-          <div style="display: flex; gap: 10px; margin-bottom: 14px;">
-            <button id="btn-copy-sql" class="admin-btn admin-btn-outline" style="flex: 1; justify-content: center;">Copy SQL INSERT</button>
-            <button id="btn-download-json" class="admin-btn admin-btn-outline" style="flex: 1; justify-content: center;">Download JSON</button>
-          </div>
-          <textarea id="export-code-box" class="form-textarea" style="font-family: monospace; font-size: 11px; height: 180px; background: #f8fafc;" readonly></textarea>
-        </div>
-      </div>
-    </div>
-
-    <!-- ================= PANEL 4: ORDERS MANAGEMENT ================= -->
+          <!-- ================= PANEL 4: ORDERS MANAGEMENT ================= -->
     <div id="orders-panel" class="admin-panel">
       <div class="admin-card">
         <div class="admin-card-head" style="flex-wrap: wrap; gap: 14px;">
@@ -2285,7 +2277,7 @@
             <div class="admin-card-subtitle">Tick orders as confirmed to trigger customer confirmation emails</div>
           </div>
           <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-            <button type="button" id="btn-toggle-push" class="admin-btn admin-btn-outline" style="padding: 7px 12px; font-size: 12px; border-radius: 8px !important;" title="Get real-time push notification & sound alert when orders arrive">
+            <button type="button" id="btn-toggle-push" class="admin-btn admin-btn-outline" style="padding: 7px 12px; font-size: 12px; border-radius: 8px !important;" title="Receive instant push notifications on your device whenever a customer places an order">
               <span id="push-status-dot" style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #94a3b8; transition: background 0.2s ease;"></span>
               <span id="push-btn-label">🔔 Enable Push Alerts</span>
             </button>
@@ -2303,16 +2295,16 @@
         <div id="push-info-banner" style="display: none; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 10px 14px; margin-top: 14px; font-size: 12.5px; color: #166534; justify-content: space-between; align-items: center; gap: 10px;">
           <div style="display: flex; align-items: center; gap: 8px;">
             <span style="font-size: 16px;">🔔</span>
-            <span><strong>Live Order Alerts Active:</strong> You will receive instant system notifications and a sound chime when customer orders arrive.</span>
+            <span><strong>Store Owner Alerts Active:</strong> You will receive instant push notifications and an audio chime whenever a customer places an order.</span>
           </div>
           <button type="button" id="btn-dismiss-push-banner" style="background: none; border: none; font-size: 16px; color: #166534; cursor: pointer; padding: 0 4px;">&times;</button>
         </div>
 
         <!-- Orders Search & Filters -->
         <div class="orders-toolbar-row">
-          <div class="orders-search-wrapper">
-            <input type="text" id="orders-search-input" class="form-input" placeholder="Search by reference (e.g. TTV-...), customer name, or phone..." style="padding-left: 36px; border-radius: 8px !important;" />
-            <svg style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <div class="orders-search-wrapper" style="position: relative; width: 100%;">
+            <svg class="orders-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; pointer-events: none; z-index: 5;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="orders-search-input" class="form-input" placeholder="Search by reference, customer or phone..." style="padding-left: 38px !important; width: 100% !important; box-sizing: border-box !important; border-radius: 8px !important; font-size: 12.5px !important; height: 38px !important;" />
           </div>
           <div class="orders-filter-scroll-wrapper">
             <button type="button" class="order-filter-pill active" data-filter="all">All Orders</button>
