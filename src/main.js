@@ -6704,6 +6704,7 @@ function removeItem(id) {
 
 function openCartDrawer() {
   document.body.classList.add('cart-open');
+  document.documentElement.classList.add('cart-open');
   const mainHeader = document.getElementById('main-header');
   if (mainHeader) mainHeader.classList.add('nav-collapsed');
   collapseNavDropdown();
@@ -6713,10 +6714,12 @@ function openCartDrawer() {
   }
   const bagPill = document.getElementById('btn-header-bag');
   if (bagPill) bagPill.classList.add('active');
+  updateBodyScrollLock();
 }
 
 function closeCartDrawer() {
   document.body.classList.remove('cart-open');
+  document.documentElement.classList.remove('cart-open');
   const mainHeader = document.getElementById('main-header');
   if (mainHeader) mainHeader.classList.remove('nav-collapsed');
   if (cartDrawerOverlay) {
@@ -6725,6 +6728,7 @@ function closeCartDrawer() {
   }
   const bagPill = document.getElementById('btn-header-bag');
   if (bagPill) bagPill.classList.remove('active');
+  updateBodyScrollLock();
 }
 
 window.closeCartDrawer = closeCartDrawer;
@@ -7292,15 +7296,13 @@ function displayOrderSuccess(orderPayload, waUrl) {
     const destEl = document.getElementById('co-success-destination');
     const amountEl = document.getElementById('co-success-amount');
     const statusEl = document.getElementById('co-success-status');
-    const msgEl = document.getElementById('co-success-msg');
     const waBtn = document.getElementById('btn-wa-confirm-order');
 
     if (refEl) refEl.textContent = orderPayload.reference;
-    if (recipientEl) recipientEl.innerHTML = `<strong>Recipient:</strong> ${orderPayload.customer_name}`;
-    if (destEl) destEl.innerHTML = `<strong>Delivery:</strong> ${orderPayload.address}`;
-    if (amountEl) amountEl.innerHTML = `<strong>Total Due:</strong> ₦${Number(orderPayload.total_amount).toLocaleString()}`;
-    if (statusEl) statusEl.innerHTML = `<strong>Status:</strong> <span style="color:#d97706;font-weight:700;">AWAITING TRANSFER (Narration: ${orderPayload.reference})</span>`;
-    if (msgEl) msgEl.textContent = `Please transfer ₦${Number(orderPayload.total_amount).toLocaleString()} to ${STORE_BANK_NAME} (${STORE_BANK_ACC} · ${STORE_BANK_OWNER}) with narration ${orderPayload.reference}.`;
+    if (recipientEl) recipientEl.innerHTML = `<strong>Recipient:</strong> <span>${orderPayload.customer_name}</span>`;
+    if (destEl) destEl.innerHTML = `<strong>Delivery Address:</strong> <span>${orderPayload.address}</span>`;
+    if (amountEl) amountEl.innerHTML = `<strong>Total:</strong> <span>₦${Number(orderPayload.total_amount).toLocaleString()}</span>`;
+    if (statusEl) statusEl.innerHTML = `<strong>Status:</strong> <span class="status-badge-awaiting">Awaiting Confirmation</span>`;
 
     if (waBtn) waBtn.href = waUrl;
   }
@@ -7350,6 +7352,7 @@ if (checkoutForm) {
     const orderPayload = {
       reference: orderRef,
       customer_name: `${firstName} ${lastName}`,
+      customer_email: email,
       phone: phone,
       address: `${address}, ${city} (Email: ${email})${notes ? ' · Note: ' + notes : ''}`,
       city: city,
@@ -7361,7 +7364,7 @@ if (checkoutForm) {
         finish: item.finish || ''
       })),
       total_amount: finalTotal,
-      status: 'pending_transfer'
+      status: 'awaiting_confirmation'
     };
 
     if (btnSubmitOrder) {
@@ -8049,15 +8052,15 @@ if (typeof window !== 'undefined') {
 }
 
 
-// ================= BULLETPROOF BACKGROUND SCROLL LOCK (PRESERVES SCROLL POSITION) =================
+// ================= BULLETPROOF BACKGROUND SCROLL LOCK (PRESERVES SCROLL POSITION & LOCKS HTML/BODY) =================
 let savedScrollY = 0;
 let isScrollLocked = false;
 
 function updateBodyScrollLock() {
   const modalOverlays = document.querySelectorAll(
-    '.modal-overlay, .drawer-overlay, .admin-gate-overlay, .supabase-modal-overlay'
+    '.modal-overlay, .drawer-overlay, .admin-gate-overlay, .supabase-modal-overlay, #checkout-modal, #quick-view-modal, #confession-modal'
   );
-  let isAnyModalOpen = false;
+  let isAnyModalOpen = document.body.classList.contains('cart-open') || document.documentElement.classList.contains('cart-open');
   modalOverlays.forEach((el) => {
     if (
       !el.hasAttribute('hidden') &&
@@ -8072,11 +8075,13 @@ function updateBodyScrollLock() {
     if (!isScrollLocked) {
       savedScrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
       isScrollLocked = true;
+      document.documentElement.classList.add('modal-open');
       document.body.classList.add('modal-open');
     }
   } else {
     if (isScrollLocked) {
       isScrollLocked = false;
+      document.documentElement.classList.remove('modal-open');
       document.body.classList.remove('modal-open');
       window.scrollTo(0, savedScrollY);
     }
@@ -8088,6 +8093,7 @@ window.lockBodyScroll = function() {
   if (!isScrollLocked) {
     savedScrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
     isScrollLocked = true;
+    document.documentElement.classList.add('modal-open');
     document.body.classList.add('modal-open');
   }
 };

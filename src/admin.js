@@ -8,7 +8,10 @@ import {
   isSupabaseConfigured,
   getSupabaseProducts,
   upsertSupabaseProduct,
-  deleteSupabaseProduct
+  deleteSupabaseProduct,
+  getSupabaseOrders,
+  updateSupabaseOrderStatus,
+  sendCustomerOrderConfirmationEmail
 } from './supabase.js';
 
 // ================= 1. AUTHENTICATION & SECURITY GATE =================
@@ -1513,6 +1516,8 @@ function openSettings() {
   if (geminiKeyInput) geminiKeyInput.value = localStorage.getItem('thetoysvirago_gemini_key') || '';
   if (supabaseServiceKeyInput) supabaseServiceKeyInput.value = localStorage.getItem('thetoysvirago_supabase_service_key') || '';
   if (customPinInput) customPinInput.value = getStoredPin();
+  const resendKeyInput = document.getElementById('resend-api-key');
+  if (resendKeyInput) resendKeyInput.value = localStorage.getItem('ttv_resend_api_key') || '';
   if (settingsModal) settingsModal.style.display = 'flex';
 }
 
@@ -1544,6 +1549,13 @@ if (btnSaveSettings) {
 
     if (pin) {
       localStorage.setItem(ADMIN_PIN_KEY, pin);
+    }
+
+    const resendKeyInput = document.getElementById('resend-api-key');
+    if (resendKeyInput) {
+      const rKey = resendKeyInput.value.trim();
+      if (rKey) localStorage.setItem('ttv_resend_api_key', rKey);
+      else localStorage.removeItem('ttv_resend_api_key');
     }
 
     closeSettings();
@@ -1625,6 +1637,240 @@ if (document.readyState === 'loading') {
 } else {
   initAdmin();
 }
+
+
+// ================= 12. ORDERS MANAGEMENT CONTROLLER =================
+let allOrders = [];
+let currentOrderFilter = 'all';
+let currentOrderSearch = '';
+
+const ordersCardsContainer = document.getElementById('orders-cards-container');
+const ordersLoadingState = document.getElementById('orders-loading-state');
+const ordersEmptyState = document.getElementById('orders-empty-state');
+const ordersSearchInput = document.getElementById('orders-search-input');
+const btnRefreshOrders = document.getElementById('btn-refresh-orders');
+const tabOrdersBadge = document.getElementById('tab-orders-badge');
+const statOrdersAwaiting = document.getElementById('stat-orders-awaiting');
+const statCardAwaiting = document.getElementById('stat-card-awaiting');
+
+async function loadAndRenderOrders() {
+  if (ordersLoadingState) ordersLoadingState.style.display = 'block';
+  if (ordersEmptyState) ordersEmptyState.style.display = 'none';
+  if (ordersCardsContainer) ordersCardsContainer.innerHTML = '';
+
+  const res = await getSupabaseOrders();
+  allOrders = res.data || [];
+
+  updateOrdersStats();
+  renderOrdersList();
+}
+
+function updateOrdersStats() {
+  const awaitingCount = allOrders.filter(o => o.status === 'awaiting_confirmation' || o.status === 'pending_transfer').length;
+  if (tabOrdersBadge) tabOrdersBadge.textContent = awaitingCount > 0 ? awaitingCount : allOrders.length;
+  if (statOrdersAwaiting) statOrdersAwaiting.textContent = awaitingCount;
+}
+
+function renderOrdersList() {
+  if (ordersLoadingState) ordersLoadingState.style.display = 'none';
+  if (!ordersCardsContainer) return;
+
+  const query = (currentOrderSearch || '').toLowerCase().trim();
+  const filtered = allOrders.filter(o => {
+    // Filter by tab
+    if (currentOrderFilter === 'awaiting_confirmation') {
+      if (o.status !== 'awaiting_confirmation' && o.status !== 'pending_transfer') return false;
+    } else if (currentOrderFilter === 'confirmed') {
+      if (o.status !== 'confirmed') return false;
+    }
+
+    // Filter by query
+    if (query) {
+      const ref = (o.reference || '').toLowerCase();
+      const name = (o.customer_name || '').toLowerCase();
+      const phone = (o.phone || '').toLowerCase();
+      const addr = (o.address || '').toLowerCase();
+      if (!ref.includes(query) && !name.includes(query) && !phone.includes(query) && !addr.includes(query)) {
+        return false;
+      }
+    }
+    return true;
+  });
+
+  if (filtered.length === 0) {
+    if (ordersEmptyState) ordersEmptyState.style.display = 'block';
+    ordersCardsContainer.innerHTML = '';
+    return;
+  }
+
+  if (ordersEmptyState) ordersEmptyState.style.display = 'none';
+
+  ordersCardsContainer.innerHTML = filtered.map(order => {
+    const isConfirmed = order.status === 'confirmed';
+    const dateStr = order.created_at ? new Date(order.created_at).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' }) : 'Recent';
+    const items = Array.isArray(order.items) ? order.items : [];
+    const itemsListHtml = items.map(item => `
+      <div style="display: flex; justify-content: space-between; gap: 8px;">
+        <span><strong>${item.qty || 1}x</strong> ${item.title || 'Product'} ${item.finish ? '<span style="color:#64748b;">(' + item.finish + ')</span>' : ''}</span>
+        <span style="font-weight: 600;">₦${Number(item.price || 0).toLocaleString()}</span>
+      </div>
+    `).join('') || `<div>${order.items || 'Standard Order Items'}</div>`;
+
+    return `
+      <div class="admin-order-card" id="order-card-${order.reference}">
+        <div class="admin-order-top">
+          <div>
+            <div class="admin-order-ref-title">
+              <span>${order.reference}</span>
+              ${isConfirmed
+                ? `<span class="confirmed-badge-pill">✓ Confirmed</span>`
+                : `<span class="awaiting-badge-pill">⏳ Awaiting Confirmation</span>`}
+            </div>
+            <div class="admin-order-meta">
+              Placed on: <strong>${dateStr}</strong>
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <div class="admin-order-amount">₦${Number(order.total_amount || 0).toLocaleString()}</div>
+            <div style="font-size: 11px; color: #64748b; margin-top: 2px;">Total Order Value</div>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; font-size: 13px; color: #334155;">
+          <div>
+            <div style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Customer</div>
+            <div style="font-weight: 700; color: #0f172a;">${order.customer_name || 'Customer'}</div>
+            <div>📞 ${order.phone || 'No phone'}</div>
+            ${order.customer_email ? `<div>✉️ ${order.customer_email}</div>` : ''}
+          </div>
+          <div>
+            <div style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Delivery Destination</div>
+            <div>📍 ${order.address || 'Address provided at checkout'}</div>
+          </div>
+        </div>
+
+        <div class="admin-order-items">
+          <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 6px; letter-spacing: 0.04em;">Order Items:</div>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            ${itemsListHtml}
+          </div>
+        </div>
+
+        <div class="admin-order-bottom">
+          <div style="font-size: 12px; color: #64748b;">
+            ${isConfirmed && order.confirmed_at ? `Verified: ${new Date(order.confirmed_at).toLocaleDateString()}` : 'Awaiting payment verification'}
+          </div>
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            ${!isConfirmed ? `
+              <button type="button" class="btn-tick-confirmed" data-ref="${order.reference}">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Tick as Confirmed</span>
+              </button>
+            ` : `
+              <button type="button" class="admin-btn admin-btn-outline btn-resend-email" data-ref="${order.reference}" style="padding: 6px 12px; font-size: 12px;">
+                ✉️ Re-send Confirmation Email
+              </button>
+            `}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Wire tick as confirmed buttons
+  ordersCardsContainer.querySelectorAll('.btn-tick-confirmed').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const ref = btn.dataset.ref;
+      const order = allOrders.find(o => o.reference === ref);
+      if (!order) return;
+
+      btn.disabled = true;
+      btn.innerHTML = `<span>Updating &amp; Sending Email...</span>`;
+
+      // 1. Update in Supabase
+      await updateSupabaseOrderStatus(ref, 'confirmed');
+
+      // 2. Trigger Customer Confirmation Email
+      const emailRes = await sendCustomerOrderConfirmationEmail(order);
+
+      // 3. Update order in memory
+      order.status = 'confirmed';
+      order.confirmed_at = new Date().toISOString();
+
+      updateOrdersStats();
+      renderOrdersList();
+
+      if (emailRes && emailRes.method === 'resend_api') {
+        showToast(`Order ${ref} confirmed! Receipt emailed to customer.`);
+      } else if (emailRes && emailRes.mailtoUrl) {
+        showToast(`Order ${ref} confirmed! Opening email client...`);
+        window.open(emailRes.mailtoUrl, '_blank');
+      } else {
+        showToast(`Order ${ref} confirmed successfully.`);
+      }
+    });
+  });
+
+  // Wire re-send email buttons
+  ordersCardsContainer.querySelectorAll('.btn-resend-email').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const ref = btn.dataset.ref;
+      const order = allOrders.find(o => o.reference === ref);
+      if (!order) return;
+      const emailRes = await sendCustomerOrderConfirmationEmail(order);
+      if (emailRes && emailRes.mailtoUrl) {
+        window.open(emailRes.mailtoUrl, '_blank');
+      }
+      showToast(`Confirmation email prepared for order ${ref}.`);
+    });
+  });
+}
+
+// Search and filter listeners
+if (ordersSearchInput) {
+  ordersSearchInput.addEventListener('input', (e) => {
+    currentOrderSearch = e.target.value;
+    renderOrdersList();
+  });
+}
+
+document.querySelectorAll('.order-filter-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('.order-filter-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    currentOrderFilter = pill.dataset.filter;
+    renderOrdersList();
+  });
+});
+
+if (btnRefreshOrders) {
+  btnRefreshOrders.addEventListener('click', () => {
+    loadAndRenderOrders();
+    showToast('Orders refreshed from database.');
+  });
+}
+
+if (statCardAwaiting) {
+  statCardAwaiting.addEventListener('click', () => {
+    switchTab('orders-panel');
+    const awaitingPill = document.querySelector('.order-filter-pill[data-filter="awaiting_confirmation"]');
+    if (awaitingPill) awaitingPill.click();
+  });
+}
+
+// Hook into switchTab to load orders when clicking orders-panel
+const originalSwitchTab = switchTab;
+switchTab = function(tabId) {
+  originalSwitchTab(tabId);
+  if (tabId === 'orders-panel') {
+    loadAndRenderOrders();
+  }
+};
+
+// Initial background load of orders count
+setTimeout(() => {
+  loadAndRenderOrders();
+}, 600);
 
 
 // ================= BULLETPROOF BACKGROUND SCROLL LOCK (PRESERVES SCROLL POSITION) =================

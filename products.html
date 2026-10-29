@@ -3603,28 +3603,28 @@
         <div id="checkout-success" class="co-success" hidden>
           <div class="success-tick">✓</div>
           <h3 id="co-success-title">Order Confirmed.</h3>
-          <p>Order Reference:</p>
-          <div class="success-ref-pill" id="order-ref">TTV-00000</div>
-          <div><button type="button" id="btn-copy-success-ref" class="btn-copy-acc" style="padding: 4px 12px; margin-bottom: 8px;">Copy Order Reference</button></div>
+          
+          <div class="success-ref-inline">
+            <span class="success-ref-label">Order Reference:</span>
+            <span class="success-ref-pill" id="order-ref">TTV-00000</span>
+          </div>
+          <div>
+            <button type="button" id="btn-copy-success-ref" class="btn-copy-acc" style="padding: 5px 14px; margin-bottom: 8px;">Copy Order Reference</button>
+          </div>
           
           <div class="co-success-card">
-            <div><strong>Dispatch Mode:</strong> 100% Plain Opaque Courier Bag</div>
-            <div id="co-success-recipient"><strong>Recipient:</strong> Valued Customer</div>
-            <div id="co-success-destination"><strong>Delivery Address:</strong> Lagos</div>
-            <div id="co-success-amount"><strong>Total:</strong> ₦0</div>
-            <div id="co-success-status"><strong>Status:</strong> Order Logged</div>
+            <div id="co-success-recipient"><strong>Recipient:</strong> <span>Valued Customer</span></div>
+            <div id="co-success-destination"><strong>Delivery Address:</strong> <span>Lagos</span></div>
+            <div id="co-success-amount"><strong>Total:</strong> <span>₦0</span></div>
+            <div id="co-success-status"><strong>Status:</strong> <span class="status-badge-awaiting">Awaiting Confirmation</span></div>
           </div>
 
-          <p id="co-success-msg" style="font-size: 13px; color: var(--ink-2); margin-bottom: 12px;">
-            A discreet confirmation receipt has been generated. Tap below to connect directly with our dispatch concierge on WhatsApp.
-          </p>
-
           <div class="co-success-actions">
-            <a id="btn-wa-confirm-order" href="#" target="_blank" rel="noopener" class="btn-wa-confirm">
+            <a id="btn-wa-confirm-order" href="#" target="_blank" rel="noopener" class="co-success-btn btn-wa-equal">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.299.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.174.086.275.072.376-.043.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824z"/></svg>
-              <span>Confirm with Dispatch on WhatsApp</span>
+              <span>WhatsApp</span>
             </a>
-            <button id="btn-done-order" class="btn btn-outline btn-md">Back to Shop</button>
+            <button id="btn-done-order" class="co-success-btn btn-shop-equal">Back to Shop</button>
           </div>
         </div>
       </div>

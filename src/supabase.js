@@ -81,6 +81,179 @@ export async function recordSupabaseOrder(order) {
 }
 
 /**
+ * Fetch all customer orders from Supabase (for Admin vault).
+ */
+export async function getSupabaseOrders() {
+  const client = getSupabaseAdminClient() || supabase;
+  if (!client) {
+    // Fallback to local storage if supabase not yet initialized
+    try {
+      const local = JSON.parse(localStorage.getItem('ttv_local_orders') || '[]');
+      return { success: true, data: local };
+    } catch (e) {
+      return { success: false, data: [] };
+    }
+  }
+  try {
+    const { data, error } = await client
+      .from('orders')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.warn('[Supabase] Error fetching orders:', error.message);
+      const local = JSON.parse(localStorage.getItem('ttv_local_orders') || '[]');
+      return { success: false, error, data: local };
+    }
+    return { success: true, data: data || [] };
+  } catch (err) {
+    console.error('[Supabase] Unexpected error fetching orders:', err);
+    return { success: false, error: err, data: [] };
+  }
+}
+
+/**
+ * Update order status (e.g. from 'awaiting_confirmation' to 'confirmed').
+ */
+export async function updateSupabaseOrderStatus(orderRef, newStatus = 'confirmed') {
+  const client = getSupabaseAdminClient() || supabase;
+  const now = new Date().toISOString();
+
+  // Update in localStorage cache as well
+  try {
+    const local = JSON.parse(localStorage.getItem('ttv_local_orders') || '[]');
+    const idx = local.findIndex(o => o.reference === orderRef);
+    if (idx >= 0) {
+      local[idx].status = newStatus;
+      local[idx].confirmed_at = now;
+      localStorage.setItem('ttv_local_orders', JSON.stringify(local));
+    }
+  } catch (e) {}
+
+  if (!client) return { success: true, note: 'updated_locally' };
+
+  try {
+    const { data, error } = await client
+      .from('orders')
+      .update({
+        status: newStatus,
+        confirmed_at: now
+      })
+      .eq('reference', orderRef)
+      .select();
+
+    if (error) {
+      console.warn('[Supabase] Error updating order status:', error.message);
+      return { success: false, error };
+    }
+    return { success: true, data };
+  } catch (err) {
+    console.error('[Supabase] Unexpected order status update error:', err);
+    return { success: false, error: err };
+  }
+}
+
+/**
+ * Send customer order confirmation email.
+ * Uses Resend API if VITE_RESEND_API_KEY is configured in .env,
+ * or prepares mailto link fallback.
+ */
+export async function sendCustomerOrderConfirmationEmail(order) {
+  const resendApiKey = import.meta.env.VITE_RESEND_API_KEY || (typeof window !== 'undefined' ? localStorage.getItem('ttv_resend_api_key') : '');
+  const customerEmail = order.customer_email || (order.address && order.address.match(/Email:\s*([\w.-]+@[\w.-]+)/i) ? order.address.match(/Email:\s*([\w.-]+@[\w.-]+)/i)[1] : '');
+  
+  const customerName = order.customer_name || 'Valued Customer';
+  const orderRef = order.reference || 'TTV-Order';
+  const totalStr = `₦${Number(order.total_amount || 0).toLocaleString()}`;
+  
+  const itemsHtml = Array.isArray(order.items)
+    ? order.items.map(i => `<li><strong>${i.qty || 1}x</strong> ${i.title || 'Item'} ${i.finish ? '(' + i.finish + ')' : ''} &mdash; ₦${Number(i.price || 0).toLocaleString()}</li>`).join('')
+    : '<li>Intimate Wellness Items</li>';
+
+  if (resendApiKey && customerEmail) {
+    try {
+      const response = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${resendApiKey}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          from: 'TheToysVirago Concierge <orders@thetoysvirago.com>',
+          to: [customerEmail],
+          subject: `Order Confirmed & Payment Verified [${orderRef}]`,
+          html: `
+            <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; color: #111116; background: #ffffff; border: 1px solid #f0f0f4; border-radius: 12px;">
+              <div style="text-align: center; margin-bottom: 24px; border-bottom: 1px solid #f0f0f4; padding-bottom: 20px;">
+                <h1 style="margin: 0; font-size: 26px; color: #9f1239; font-weight: 800; letter-spacing: 0.05em;">THETOYSVIRAGO</h1>
+                <p style="margin: 6px 0 0; font-size: 13px; color: #64748b; letter-spacing: 0.08em; text-transform: uppercase;">Payment Verified &bull; Order Confirmed</p>
+              </div>
+              <p style="font-size: 15px; line-height: 1.6;">Hello <strong>${customerName}</strong>,</p>
+              <p style="font-size: 15px; line-height: 1.6;">We have verified your payment! Your order <strong>${orderRef}</strong> is now confirmed and our discreet logistics team is prepping it for priority dispatch.</p>
+              
+              <div style="background: #fdf2f4; border: 1px solid #fbcfe8; border-radius: 8px; padding: 16px; margin: 20px 0;">
+                <h3 style="margin: 0 0 10px; font-size: 14px; text-transform: uppercase; color: #9f1239; letter-spacing: 0.05em;">Order Summary</h3>
+                <ul style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.8; color: #334155;">
+                  ${itemsHtml}
+                </ul>
+                <div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid #fbcfe8; font-size: 15px; font-weight: 700; color: #0f172a; display: flex; justify-content: space-between;">
+                  <span>Total Amount Paid:</span>
+                  <span>${totalStr}</span>
+                </div>
+              </div>
+
+              <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; margin: 20px 0; font-size: 13px; color: #475569; line-height: 1.6;">
+                <strong style="color: #0f172a;">100% Discreet Packaging Guarantee:</strong><br/>
+                Your package will arrive in a plain, unbranded opaque courier bag with zero mention of intimate wellness, adult novelties, or brand names on the exterior.
+              </div>
+
+              <p style="font-size: 14px; color: #64748b; line-height: 1.6;">If you have any special delivery instructions, reach out directly to our concierge on WhatsApp.</p>
+              <div style="text-align: center; margin-top: 28px; padding-top: 20px; border-top: 1px solid #f0f0f4; font-size: 12px; color: #94a3b8;">
+                &copy; ${new Date().getFullYear()} TheToysVirago &bull; Discretion &amp; Pleasure Delivered.
+              </div>
+            </div>
+          `
+        })
+      });
+      if (response.ok) {
+        return { success: true, method: 'resend_api' };
+      } else {
+        const errorData = await response.json();
+        console.warn('Resend API response not ok:', errorData);
+      }
+    } catch (e) {
+      console.warn('Error sending email via Resend:', e);
+    }
+  }
+
+  // Fallback: Return mailto and notification details
+  const subject = encodeURIComponent(`Order Confirmed & Payment Verified [${orderRef}] - TheToysVirago`);
+  const body = encodeURIComponent(
+`Hello ${customerName},
+
+Great news! We have verified your payment for order ${orderRef} (Total: ${totalStr}).
+
+Your order is now confirmed and our discreet logistics team is preparing it for dispatch.
+
+Delivery Address:
+${order.address || 'As specified at checkout'}
+
+Discreet Packaging Guarantee:
+Your package is dispatched in a 100% plain, opaque courier bag with zero exterior clues or brand names.
+
+Thank you for choosing TheToysVirago!
+Dispatch Concierge`
+  );
+
+  return {
+    success: true,
+    method: 'client_fallback',
+    customerEmail,
+    mailtoUrl: customerEmail ? `mailto:${customerEmail}?subject=${subject}&body=${body}` : null
+  };
+}
+
+/**
  * Save newsletter / VIP club subscription.
  */
 export async function recordNewsletterSubscriber(email, source = 'website') {
