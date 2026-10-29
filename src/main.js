@@ -6681,7 +6681,7 @@ function addToCart(product) {
     });
   }
   saveCart();
-  showToast('Added to bag');
+  showToast('Added to cart');
   openCartDrawer();
 }
 
@@ -6699,7 +6699,7 @@ function updateItemQty(id, delta) {
 function removeItem(id) {
   cart = cart.filter((i) => (i.cartId || i.id) !== id);
   saveCart();
-  showToast('Item removed from bag');
+  showToast('Item removed from cart');
 }
 
 function openCartDrawer() {
@@ -6732,6 +6732,15 @@ function closeCartDrawer() {
 }
 
 window.closeCartDrawer = closeCartDrawer;
+
+const btnCartNav = document.getElementById('btn-cart-nav');
+if (btnCartNav) {
+  btnCartNav.addEventListener('click', (e) => {
+    e.stopPropagation();
+    collapseNavDropdown();
+    openCartDrawer();
+  });
+}
 
 if (btnCartDropdown) btnCartDropdown.addEventListener('click', (e) => {
   e.stopPropagation();
@@ -6830,8 +6839,11 @@ document.querySelectorAll('.btn-add-cart').forEach((btn) => {
 // Render Cart
 function renderCart() {
   const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
-  document.querySelectorAll('#cart-counter, #header-cart-counter, .cart-counter').forEach(el => {
+  document.querySelectorAll('#cart-counter, #header-cart-counter, .cart-counter, #mobile-cart-badge').forEach(el => {
     el.textContent = totalItems;
+  });
+  document.querySelectorAll('#mobile-cart-badge').forEach(el => {
+    el.style.display = totalItems > 0 ? 'inline-flex' : 'none';
   });
   if (drawerItemsCount) drawerItemsCount.textContent = `(${totalItems} item${totalItems === 1 ? '' : 's'})`;
 
@@ -6857,7 +6869,7 @@ function renderCart() {
         </div>
 
         <h3 class="empty-state-title">Nothing to buzz about.</h3>
-        <p class="empty-state-sub">Let's give your bag some good vibrations.</p>
+        <p class="empty-state-sub">Let's give your cart some good vibrations.</p>
 
         <a href="/products.html" class="btn btn-black btn-lg empty-shop-cta" onclick="window.closeCartDrawer();">
           <span>Find Your Buzz &rarr;</span>
@@ -7239,7 +7251,7 @@ if (storeBankOwnerEl) storeBankOwnerEl.textContent = STORE_BANK_OWNER;
 if (btnCheckout) {
   btnCheckout.addEventListener('click', () => {
     if (cart.length === 0) {
-      showToast('Your bag is currently empty.');
+      showToast('Your cart is currently empty.');
       return;
     }
     closeCartDrawer();
@@ -7868,7 +7880,7 @@ function createStoreProductCard(prod, idx) {
         data-pricestr="${prod.priceStr || ('₦' + Number(prod.price).toLocaleString())}"
         data-img="${prod.img}">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-        Add to Bag
+        Add to Cart
       </button>
     </div>
   `;

@@ -240,6 +240,51 @@ body.cart-open .main-header,
 .btn-mobile-toggle { display: flex; background: none; border: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 4px; margin-left: 4px; }
 .btn-mobile-toggle .bar { width: 22px; height: 2px; background: #fff; transition: var(--ease); }
 
+/* Mobile Top Nav Cart Button with Counter Badge */
+.mobile-nav-cart-btn {
+  display: none;
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #ffffff;
+  padding: 6px;
+  margin-right: 2px;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  line-height: 1;
+}
+.mobile-nav-cart-btn:hover {
+  opacity: 0.85;
+}
+.mobile-nav-cart-btn:active {
+  transform: scale(0.95);
+}
+.mobile-cart-badge {
+  position: absolute;
+  top: -2px;
+  right: -3px;
+  background: var(--ruby, #e11d48);
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 17px;
+  height: 17px;
+  line-height: 17px;
+  border-radius: 999px;
+  text-align: center;
+  padding: 0 4px;
+  box-sizing: border-box;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+}
+@media (max-width: 768px) {
+  .mobile-nav-cart-btn {
+    display: inline-flex;
+  }
+}
+
 /* Global Hidden Helper */
 [hidden] {
   display: none !important;

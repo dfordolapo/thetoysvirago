@@ -27,7 +27,7 @@
 
 ## Toast & Cart Feedback
 - Cart feedback toast **must strictly remain on ONE line** (`white-space: nowrap !important;`).
-- Standard text: **"Added to bag"** (never verbose strings).
+- Standard text: **"Added to cart"** (never verbose strings).
 
 ## Homepage Product Grid Layout
 - **Bestsellers Section**:

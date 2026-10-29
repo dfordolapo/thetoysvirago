@@ -154,6 +154,10 @@
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             <span class="desktop-only">Stealth <kbd>Esc</kbd></span>
           </button>
+                    <button id="btn-cart-nav" class="mobile-nav-cart-btn" aria-label="View Cart">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            <span class="mobile-cart-badge" id="mobile-cart-badge" style="display: none;">0</span>
+          </button>
           <button id="btn-mobile-menu" class="btn-mobile-toggle" aria-label="Menu">
             <span class="bar"></span><span class="bar"></span>
           </button>
@@ -166,9 +170,8 @@
         <a href="/products.html" class="dropdown-link nav-closer active">Shop</a>
         <a href="/#faq" class="dropdown-link nav-closer">FAQ</a>
         <a href="/products.html#abuja" class="dropdown-link nav-closer">📍 Abuja Exclusives</a>
-        <a href="/admin.html" class="dropdown-link nav-closer" style="color: #e11d48;">Admin Vault</a>
         <button id="btn-cart-dropdown" class="dropdown-link btn-cart-dropdown nav-closer">
-          <span>Bag</span>
+          <span>Cart</span>
           <span class="nav-bag-count" id="cart-counter">0</span>
         </button>
         <button id="btn-install-dropdown" class="dropdown-link btn-install-trigger nav-closer">
@@ -243,7 +246,7 @@
                 data-id="boudoir-pasties" data-title="Boudoir Pasties"
                 data-price="4500" data-pricestr="₦4,500" data-img="/assets/lingerie-catalog/boudoir-pasties-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -273,7 +276,7 @@
                 data-id="zebra-set" data-title="Zebra Set"
                 data-price="" data-pricestr="₦" data-img="/assets/lingerie-catalog/zebra-set-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -300,7 +303,7 @@
                 data-id="lilac-bodystocking" data-title="Lilac Bodystocking"
                 data-price="12000" data-pricestr="₦12,000" data-img="/assets/lingerie-catalog/lilac-bodystocking-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -327,7 +330,7 @@
                 data-id="cyan-coord" data-title="Cyan Co-ord"
                 data-price="12000" data-pricestr="₦12,000" data-img="/assets/lingerie-catalog/cyan-coord-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -356,7 +359,7 @@
                 data-id="heart-teddy" data-title="Heart Teddy"
                 data-price="21000" data-pricestr="₦21,000" data-img="/assets/lingerie-catalog/heart-teddy-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -385,7 +388,7 @@
                 data-id="noir-slip" data-title="Noir Slip"
                 data-price="23000" data-pricestr="₦23,000" data-img="/assets/lingerie-catalog/noir-slip-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -414,7 +417,7 @@
                 data-id="scarlet-corset" data-title="Scarlet Corset"
                 data-price="21000" data-pricestr="₦21,000" data-img="/assets/lingerie-catalog/scarlet-corset-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -467,7 +470,7 @@
                 data-id="royal-slip" data-title="Royal Slip"
                 data-price="23000" data-pricestr="₦23,000" data-img="/assets/lingerie-catalog/royal-slip-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -494,7 +497,7 @@
                 data-id="thigh-stockings" data-title="Thigh Stockings"
                 data-price="6500" data-pricestr="₦6,500" data-img="/assets/lingerie-catalog/thigh-stockings-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -524,7 +527,7 @@
                 data-id="ruby-corset" data-title="Ruby Corset"
                 data-price="22000" data-pricestr="₦22,000" data-img="/assets/lingerie-catalog/ruby-corset-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -551,7 +554,7 @@
                 data-id="white-bodystocking" data-title="White Bodystocking"
                 data-price="12000" data-pricestr="₦12,000" data-img="/assets/lingerie-catalog/white-bodystocking-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -610,7 +613,7 @@
                 data-id="floral-gown" data-title="Floral Gown"
                 data-price="" data-pricestr="₦" data-img="/assets/lingerie-catalog/floral-gown-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -640,7 +643,7 @@
                 data-id="scarlet-gown" data-title="Scarlet Gown"
                 data-price="23000" data-pricestr="₦23,000" data-img="/assets/lingerie-catalog/scarlet-gown-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -667,7 +670,7 @@
                 data-id="crochet-set" data-title="Crochet Set"
                 data-price="12000" data-pricestr="₦12,000" data-img="/assets/lingerie-catalog/crochet-set-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -696,7 +699,7 @@
                 data-id="feather-teddy" data-title="Feather Teddy"
                 data-price="22000" data-pricestr="₦22,000" data-img="/assets/lingerie-catalog/feather-teddy-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -748,7 +751,7 @@
                 data-id="ombre-mini" data-title="Ombre Mini"
                 data-price="11000" data-pricestr="₦11,000" data-img="/assets/lingerie-catalog/ombre-mini-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -775,7 +778,7 @@
                 data-id="pearl-mini" data-title="Pearl Mini"
                 data-price="11000" data-pricestr="₦11,000" data-img="/assets/lingerie-catalog/pearl-mini-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -802,7 +805,7 @@
                 data-id="ruby-net" data-title="Ruby Net"
                 data-price="11000" data-pricestr="₦11,000" data-img="/assets/lingerie-catalog/ruby-net-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -829,7 +832,7 @@
                 data-id="blush-halter" data-title="Blush Halter"
                 data-price="12000" data-pricestr="₦12,000" data-img="/assets/lingerie-catalog/blush-halter-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -856,7 +859,7 @@
                 data-id="ribbon-teddy" data-title="Ribbon Teddy"
                 data-price="15000" data-pricestr="₦15,000" data-img="/assets/lingerie-catalog/ribbon-teddy-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -883,7 +886,7 @@
                 data-id="heart-romper" data-title="Heart Romper"
                 data-price="15000" data-pricestr="₦15,000" data-img="/assets/lingerie-catalog/heart-romper-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -913,7 +916,7 @@
                 data-id="lattice-gown" data-title="Lattice Gown"
                 data-price="22000" data-pricestr="₦22,000" data-img="/assets/lingerie-catalog/lattice-gown-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -940,7 +943,7 @@
                 data-id="teal-mini" data-title="Teal Mini"
                 data-price="14000" data-pricestr="₦14,000" data-img="/assets/lingerie-catalog/teal-mini-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -970,7 +973,7 @@
                 data-id="maroon-babydoll" data-title="Maroon Babydoll"
                 data-price="21000" data-pricestr="₦21,000" data-img="/assets/lingerie-catalog/maroon-babydoll-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1000,7 +1003,7 @@
                 data-id="kiss-chemise" data-title="Kiss Chemise"
                 data-price="19000" data-pricestr="₦19,000" data-img="/assets/lingerie-catalog/kiss-chemise-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1030,7 +1033,7 @@
                 data-id="floral-slip" data-title="Floral Slip"
                 data-price="18000" data-pricestr="₦18,000" data-img="/assets/lingerie-catalog/floral-corset-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1060,7 +1063,7 @@
                 data-id="nurse-set" data-title="Nurse Set"
                 data-price="22000" data-pricestr="₦22,000" data-img="/assets/lingerie-catalog/nurse-set-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1087,7 +1090,7 @@
                 data-id="mermaid-set" data-title="Mermaid Set"
                 data-price="18000" data-pricestr="₦18,000" data-img="/assets/lingerie-catalog/mermaid-set-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1117,7 +1120,7 @@
                 data-id="noir-chemise" data-title="Noir Chemise"
                 data-price="17000" data-pricestr="₦17,000" data-img="/assets/lingerie-catalog/noir-chemise-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1146,7 +1149,7 @@
                 data-id="lace-romper" data-title="Lace Romper"
                 data-price="18000" data-pricestr="₦18,000" data-img="/assets/lingerie-catalog/lace-romper-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1225,7 +1228,7 @@
                 data-id="chain-teddy" data-title="Chain Teddy"
                 data-price="15000" data-pricestr="₦15,000" data-img="/assets/lingerie-catalog/chain-teddy-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1260,7 +1263,7 @@
                 data-id="rose-blossom" data-title="The Rose Sucker"
                 data-price="25000" data-img="/assets/product-rose.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1289,7 +1292,7 @@
                 data-id="pulsating-rose" data-title="Pulsating Rose (Sucker)"
                 data-price="35000" data-img="/assets/rose-sucker-variant.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1320,7 +1323,7 @@
                 data-id="sceptre-wand" data-title="The Mini Wand"
                 data-price="15000" data-img="/assets/product-wand.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1349,7 +1352,7 @@
                 data-id="siren-app" data-title="The Siren"
                 data-price="27000" data-img="/assets/siren-app-red.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1377,7 +1380,7 @@
                 data-id="lipstick-vibe" data-title="Lipstick Vibe"
                 data-price="22000" data-img="/assets/lipstick-hand.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1411,7 +1414,7 @@
                 data-id="sculpted-dildo" data-title="The Contour Shaft (6&quot; Tan)"
                 data-price="15000" data-img="/assets/dildo-trio.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1441,7 +1444,7 @@
                 data-id="thrusting-dildo" data-title="Kinetic Thrusting Shaft"
                 data-price="45000" data-img="/assets/thrusting-dildo-duo.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1469,7 +1472,7 @@
                 data-id="sucking-rabbit" data-title="The Sucking Rabbit"
                 data-price="35000" data-img="/assets/sucking-rabbit.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1498,7 +1501,7 @@
                 data-id="non-vibrating-plugs" data-title="Contour Crystal Plugs"
                 data-price="8000" data-img="/assets/plugs-vault-chest.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1526,7 +1529,7 @@
                 data-id="rabbit-cock-ring" data-title="Rabbit Cock Ring"
                 data-price="25000" data-img="/assets/rabbit-cock-ring.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1554,7 +1557,7 @@
                 data-id="creature-cock-ring" data-title="Creature Cock Ring"
                 data-price="15000" data-img="/assets/creature-cock-ring.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1586,7 +1589,7 @@
                 data-id="pocket-bullet" data-title="Velvet Pocket Bullet"
                 data-price="15000" data-img="/assets/bullet-vibe-all-colors.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1616,7 +1619,7 @@
                 data-id="contour-bullet-6inch" data-title="Heart Bullet 6&quot;"
                 data-price="18000" data-img="/assets/bullet-6inch-in-hand.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1644,7 +1647,7 @@
                 data-id="sleek-bullet-7inch" data-title="Sleek Bullet 7&quot;"
                 data-price="20000" data-img="/assets/bullet-7inch-metallic-pair.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1672,7 +1675,7 @@
                 data-id="rose-jump-egg" data-title="Rose Jump Egg"
                 data-price="28000" data-img="/assets/rose-jump-egg-kit.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1700,7 +1703,7 @@
                 data-id="african-brute" data-title="African Brute Tonic"
                 data-price="27000" data-img="/assets/african-brute.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1728,7 +1731,7 @@
                 data-id="emerald-snakeskin-bdsm-trunk" data-title="Emerald Bondage Trunk"
                 data-price="40000" data-img="/assets/IMG_8501.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1756,7 +1759,7 @@
                 data-id="leather-bondage-chest" data-title="Noir Boudoir Chest"
                 data-price="40000" data-img="/assets/IMG_8618.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1780,7 +1783,7 @@
                 data-id="love-is-a-gamble-kit" data-title="Gamble Intimacy Kit"
                 data-price="15000" data-img="/assets/IMG_1284.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1835,7 +1838,7 @@
                 data-id="shibari-bondage-rope" data-title="BDSM Rope"
                 data-price="8500" data-img="/assets/IMG_5209.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1859,7 +1862,7 @@
                 data-id="luxury-leather-cuffs" data-title="Sovereign Leather Cuffs"
                 data-price="12000" data-img="/assets/IMG_7072.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1886,7 +1889,7 @@
                 data-id="hogtie-set" data-title="Hogtie Set"
                 data-price="10000" data-img="/assets/category-bdsm.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1932,7 +1935,7 @@
                 data-id="strap-on-harness-briefs" data-title="Harness Briefs"
                 data-price="" data-img="/assets/IMG_3561.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1956,7 +1959,7 @@
                 data-id="strap-on-vegan-harness" data-title="Strap-On Harness"
                 data-price="" data-img="/assets/IMG_9851.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1985,7 +1988,7 @@
                 data-id="hemp-bondage-harness" data-title="Hemp Shibari Harness"
                 data-price="15000" data-img="/assets/IMG_6900.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -2017,7 +2020,7 @@
                 data-id="sexual-position-cards" data-title="A Year of Sex"
                 data-price="10000" data-img="/assets/IMG_5106.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -2062,7 +2065,7 @@
                 data-id="fragrant-massage-oil" data-title="Sensual Massage Oil"
                 data-price="" data-img="/assets/IMG_6120.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -2149,7 +2152,7 @@
                 data-id="stealth-brush-vibe" data-title="Velvet Brush Vibe"
                 data-price="25000" data-img="/assets/IMG_0360.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -2177,7 +2180,7 @@
                 data-id="satisfyer-pro-suction" data-title="Satisfyer Pro 2"
                 data-price="40000" data-img="/assets/IMG_4334.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -2208,7 +2211,7 @@
                 data-id="empress-magic-wand" data-title="Empress Magic Wand"
                 data-price="35000" data-img="/assets/IMG_6459.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -2232,7 +2235,7 @@
                 data-id="cherry-blossom-wand" data-title="Sakura Petal Wand"
                 data-price="30000" data-img="/assets/IMG_4705.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -2261,7 +2264,7 @@
                 data-id="chrome-pocket-wand" data-title="Luxe Pocket Wand"
                 data-price="18000" data-img="/assets/IMG_4697.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -2290,7 +2293,7 @@
                 data-id="tulip-dual-stem-vibe" data-title="Tulip Blossom Vibe"
                 data-price="35000" data-img="/assets/IMG_6732.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -2314,7 +2317,7 @@
                 data-id="foxshow-kegel-egg" data-title="Fox Smart Egg"
                 data-price="35000" data-img="/assets/IMG_8112.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -2338,7 +2341,7 @@
                 data-id="wearable-panty-vibe" data-title="Fly Panty Vibe"
                 data-price="25000" data-img="/assets/IMG_3791.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -2362,7 +2365,7 @@
                 data-id="c-shape-sucking-vibe" data-title="C-Shape Panty Vibe"
                 data-price="35000" data-img="/assets/IMG_7047.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -2386,7 +2389,7 @@
                 data-id="palm-sphere-sucker" data-title="Lemon Sucker"
                 data-price="30000" data-img="/assets/IMG_7509.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -2410,7 +2413,7 @@
                 data-id="winged-rabbit-sucker" data-title="Winged Empress Rabbit"
                 data-price="50000" data-img="/assets/IMG_0530.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -2457,7 +2460,7 @@
                 data-id="crystal-beaded-rabbit" data-title="Classy Rabbit"
                 data-price="18000" data-img="/assets/IMG_0474.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -2481,7 +2484,7 @@
                 data-id="dual-rabbit-tongue-vibe" data-title="Licking Rabbit Vibe"
                 data-price="50000" data-img="/assets/IMG_4494.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -2529,7 +2532,7 @@
                 data-id="curved-gspot-bullet" data-title="Finger Vibrator"
                 data-price="25000" data-img="/assets/IMG_5141.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -2596,7 +2599,7 @@
                 data-id="finger-vibe-ring" data-title="Finger Vibe"
                 data-price="20000" data-img="/assets/IMG_5568.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -2622,7 +2625,7 @@
                 data-id="strap-on-dildo-kit" data-title="Vibrating Harness Kit"
                 data-price="45000" data-img="/assets/IMG_0094.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -2665,7 +2668,7 @@
                 data-id="expansion-remote-dildo" data-title="Wireless Remote Shaft"
                 data-price="45000" data-img="/assets/IMG_3675.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -2694,7 +2697,7 @@
                 data-id="veined-suction-dildo" data-title="Veined Suction Shaft"
                 data-price="" data-img="/assets/IMG_1280.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -2724,7 +2727,7 @@
                 data-id="spiral-swirl-dildo" data-title="Spiral Swirl Shaft"
                 data-price="24000" data-img="/assets/IMG_3943.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -2748,7 +2751,7 @@
                 data-id="dual-prong-dildo" data-title="Double Trouble Shaft"
                 data-price="20000" data-img="/assets/IMG_2516.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -2796,7 +2799,7 @@
                 data-id="dual-rabbit-suction-dildo" data-title="Dual-Action Rabbit Shaft"
                 data-price="50000" data-img="/assets/IMG_8745.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -2820,7 +2823,7 @@
                 data-id="martha-pussy-pump" data-title="Automatic Vacuum Pump"
                 data-price="50000" data-img="/assets/IMG_1091.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -2863,7 +2866,7 @@
                 data-id="cyclone-stroker" data-title="Gawk Gawk 3000"
                 data-price="45000" data-img="/assets/IMG_2385.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -2891,7 +2894,7 @@
                 data-id="champion-suction-stroker" data-title="Champion Cup Stroker"
                 data-price="18000" data-img="/assets/IMG_5375.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -2915,7 +2918,7 @@
                 data-id="beer-cup-stroker" data-title="Beer Cup Stroker"
                 data-price="25000" data-img="/assets/IMG_0702.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -2958,7 +2961,7 @@
                 data-id="stamina-lip-stroker" data-title="Stamina Lips Stroker"
                 data-price="25000" data-img="/assets/IMG_4289.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -3457,7 +3460,7 @@
               </div>
             </div>
             <div class="qv-actions">
-              <button id="qv-btn-add" class="btn btn-black btn-lg">Add to Bag</button>
+              <button id="qv-btn-add" class="btn btn-black btn-lg">Add to Cart</button>
 
               <button type="button" id="qv-btn-share" class="btn btn-outline btn-lg btn-share-link" title="Copy Product Link">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
@@ -3633,7 +3636,7 @@
     <!-- Toast -->
     <div id="toast" class="toast" hidden>
       <span class="toast-icon">✓</span>
-      <span id="toast-message">Added to bag</span>
+      <span id="toast-message">Added to cart</span>
     </div>
 
     <!-- PWA Install Prompt Banner -->

@@ -155,6 +155,14 @@
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             <span class="desktop-only">Stealth <kbd>Esc</kbd></span>
           </button>
+                    <button id="btn-cart-nav" class="btn-icon-nav mobile-nav-cart-btn" aria-label="Cart" title="Cart">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 0 1-8 0"/>
+            </svg>
+            <span class="mobile-cart-badge" id="mobile-cart-badge" style="display: none;">0</span>
+          </button>
           <button id="btn-mobile-menu" class="btn-mobile-toggle" aria-label="Menu">
             <span class="bar"></span><span class="bar"></span>
           </button>
@@ -167,9 +175,8 @@
         <a href="/products.html" class="dropdown-link nav-closer">Shop</a>
         <a href="#faq" class="dropdown-link nav-closer">FAQ</a>
         <a href="/products.html#abuja" class="dropdown-link nav-closer">📍 Abuja Exclusives</a>
-        <a href="/admin.html" class="dropdown-link nav-closer" style="color: #e11d48;">Admin Vault</a>
         <button id="btn-cart-dropdown" class="dropdown-link btn-cart-dropdown nav-closer">
-          <span>Bag</span>
+          <span>Cart</span>
           <span class="nav-bag-count" id="cart-counter">0</span>
         </button>
         <button id="btn-install-dropdown" class="dropdown-link btn-install-trigger nav-closer">
@@ -470,7 +477,7 @@
                 data-id="rose-blossom" data-title="The Rose Sucker (Red)"
                 data-price="25000" data-img="/assets/product-rose.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -501,7 +508,7 @@
                 data-id="sceptre-wand" data-title="The Mini Wand (Black)"
                 data-price="15000" data-img="/assets/product-wand.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -530,7 +537,7 @@
                 data-id="pulsating-rose" data-title="Pulsating Rose (Sucker)"
                 data-price="35000" data-img="/assets/rose-sucker-variant.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -558,7 +565,7 @@
                 data-id="bdsm-kit-essentials" data-title="Bondage Essentials Kit"
                 data-price="22000" data-img="/assets/category-bdsm.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -586,7 +593,7 @@
                 data-id="kailin-water-lube" data-title="Pure Water-Based Lube (200ml)"
                 data-price="10000" data-img="/assets/category-lube.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -615,13 +622,21 @@
                 data-id="siren-app" data-title="The Siren (Red)"
                 data-price="27000" data-img="/assets/siren-app-red.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
         </div>
       </div>
     </section>
+    <!-- ===== SQUIGGLY DIVIDER ON DARK SURFACE ===== -->
+    <div class="luxe-divider-wrap" aria-hidden="true">
+      <svg class="squiggly-svg" viewBox="0 0 1440 72" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path class="squiggly-echo" d="M 0 36 C 26.7 48.8, 76.1 23.2, 102.9 36 C 129.6 50.4, 179.0 21.6, 205.7 36 C 232.5 51.8, 281.8 20.2, 308.6 36 C 335.3 53.1, 384.7 18.9, 411.4 36 C 438.2 54.1, 487.5 17.9, 514.3 36 C 541.0 54.8, 590.4 17.2, 617.1 36 C 643.9 55.2, 693.3 16.8, 720.0 36 C 746.7 55.2, 796.1 16.8, 822.9 36 C 849.6 54.8, 899.0 17.2, 925.7 36 C 952.5 54.1, 1001.8 17.9, 1028.6 36 C 1055.3 53.1, 1104.7 18.9, 1131.4 36 C 1158.2 51.8, 1207.5 20.2, 1234.3 36 C 1261.0 50.4, 1310.4 21.6, 1337.1 36 C 1363.9 48.8, 1413.3 23.2, 1440.0 36" />
+        <path class="squiggly-main" d="M 0 36 C 28.8 16.8, 74.1 55.2, 102.9 36 C 131.7 14.4, 176.9 57.6, 205.7 36 C 234.5 12.3, 279.8 59.7, 308.6 36 C 337.4 10.4, 382.6 61.6, 411.4 36 C 440.2 8.9, 485.5 63.1, 514.3 36 C 543.1 7.8, 588.3 64.2, 617.1 36 C 645.9 7.3, 691.2 64.7, 720.0 36 C 748.8 7.3, 794.1 64.7, 822.9 36 C 851.7 7.8, 896.9 64.2, 925.7 36 C 954.5 8.9, 999.8 63.1, 1028.6 36 C 1057.4 10.4, 1102.6 61.6, 1131.4 36 C 1160.2 12.3, 1205.5 59.7, 1234.3 36 C 1263.1 14.4, 1308.3 57.6, 1337.1 36 C 1365.9 16.8, 1411.2 55.2, 1440.0 36" />
+      </svg>
+    </div>
+
 
     <!-- ===== FRESH STORE DROPS (NEW ARRIVALS) ===== -->
     <section class="collection new-arrivals-section" id="new-arrivals-section" style="padding: 70px 0 60px;">
@@ -659,7 +674,7 @@
                 data-id="scarlet-corset" data-title="Scarlet Corset"
                 data-price="21000" data-pricestr="₦21,000" data-img="/assets/lingerie-catalog/scarlet-corset-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -683,7 +698,7 @@
                 data-id="sucking-rabbit" data-title="The Sucking Rabbit"
                 data-price="35000" data-pricestr="₦35,000" data-img="/assets/sucking-rabbit.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -707,7 +722,7 @@
                 data-id="chain-teddy" data-title="Chain Teddy"
                 data-price="15000" data-pricestr="₦15,000" data-img="/assets/lingerie-catalog/chain-teddy-hero.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -731,7 +746,7 @@
                 data-id="african-brute" data-title="African Brute Tonic"
                 data-price="27000" data-pricestr="₦27,000" data-img="/assets/african-brute.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Bag
+                Add to Cart
               </button>
             </div>
           </article>
@@ -1124,7 +1139,7 @@
               </div>
             </div>
             <div class="qv-actions">
-              <button id="qv-btn-add" class="btn btn-black btn-lg">Add to Bag</button>
+              <button id="qv-btn-add" class="btn btn-black btn-lg">Add to Cart</button>
 
               <button type="button" id="qv-btn-share" class="btn btn-outline btn-lg btn-share-link" title="Copy Product Link">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
@@ -1411,7 +1426,7 @@
     <!-- Toast -->
     <div id="toast" class="toast" hidden>
       <span class="toast-icon">✓</span>
-      <span id="toast-message">Added to bag</span>
+      <span id="toast-message">Added to cart</span>
     </div>
 
     <!-- PWA Install Prompt Banner -->
