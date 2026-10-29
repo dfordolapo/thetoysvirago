@@ -3812,6 +3812,32 @@ const PRODUCT_DATABASE = {
         }
     ]
 },
+  'bdsm-kit-essentials': {
+    id: 'bdsm-kit-essentials',
+    title: 'Bondage Essentials Kit',
+    badge: 'BESTSELLER',
+    price: 22000,
+    priceStr: '₦22,000',
+    img: '/assets/category-bdsm.webp',
+    desc: 'Curated luxury BDSM starter collection featuring plush padded restraints, sensory blindfold, soft feather tickler, and bondage essentials for thrilling bedroom submission.',
+    specs: [
+      { label: 'Includes', value: 'Plush Cuffs, Blindfold, Teaser & Restraints' },
+      { label: 'Comfort', value: 'Padded Body-Safe Vegan Leather' },
+      { label: 'Hardware', value: 'Quick-Release Alloy Clasps' },
+      { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
+    ],
+    material: 'Body-Safe Vegan Leather, Velvet Padding & Alloy Hardware',
+    acoustics: 'Sensual Bondage & Sensory Play',
+    freq: 70,
+    pattern: 'luxe',
+    media: [
+      { type: 'image', src: '/assets/category-bdsm.webp', label: 'Bondage Essentials Kit' }
+    ],
+    inStock: true,
+    variants: [
+      { name: 'Black', price: 22000, priceStr: '₦22,000', img: '/assets/category-bdsm.webp' }
+    ]
+  },
   'leather-bondage-chest': {
     "id": "leather-bondage-chest",
     "title": "Noir Boudoir Chest",
@@ -4489,11 +4515,11 @@ const PRODUCT_DATABASE = {
 },
   'kailin-water-lube': {
     "id": "kailin-water-lube",
-    "title": "Kailin Pure Lube",
-    "badge": "ABUJA EXCLUSIVE",
+    "title": "Pure Water-Based Lube",
+    "badge": "BESTSELLER",
     "price": 10000,
     "priceStr": "₦10,000",
-    "inStock": false,
+    "inStock": true,
     "img": "/assets/IMG_3632.webp",
     "desc": "Crystal-clear, non-sticky water-based personal lubricant formulated for long-lasting glide and effortless cleanup. 100% condom and silicone-toy compatible, pH-balanced, hypoallergenic, and never leaves a tacky residue.",
     "specs": [
@@ -7884,9 +7910,13 @@ function createStoreProductCard(prod, idx) {
   return card;
 }
 
-export async function initCustomCatalogProducts() {
+export function initCustomCatalogProducts() {
   const grid = document.getElementById('products-grid');
   const arrivalsGrid = document.getElementById('new-arrivals-grid');
+  const arrivalsSection = document.getElementById('new-arrivals-section');
+  if (arrivalsSection) {
+    arrivalsSection.style.display = 'block';
+  }
 
   // Purge any obsolete placeholder cards from the DOM
   document.querySelectorAll('.product-card[data-id="noir-chantilly-teddy"], .product-card[data-id="scarlet-silk-chemise"], .product-card[data-id="couples-card-vault"]').forEach(el => el.remove());
@@ -7909,9 +7939,66 @@ export async function initCustomCatalogProducts() {
 
   if (!customProds) { customProds = []; }
 
-  // Check Supabase for remote products
-  try {
-    const remoteProds = await getSupabaseProducts();
+  function applyProducts(prods) {
+    prods.forEach((prod) => {
+      PRODUCT_DATABASE[prod.id] = {
+        id: prod.id,
+        title: prod.title,
+        badge: prod.badge || 'LUXE BOUDOIR',
+        price: Number(prod.price) || 0,
+        priceStr: prod.priceStr || `₦${Number(prod.price).toLocaleString()}`,
+        img: prod.img || '/assets/category-lingerie.webp',
+        desc: prod.desc || prod.tagline || '',
+        specs: prod.specs || [],
+        variants: prod.variants || [],
+        sizes: prod.sizes || [],
+        material: prod.material || 'Luxe Body-Safe Materials',
+        acoustics: prod.acoustics || 'Sensual Touch',
+        freq: 0,
+        pattern: prod.category || 'lingerie',
+        media: (prod.media && Array.isArray(prod.media) && prod.media.length > 0)
+          ? prod.media
+          : [{ type: 'image', src: prod.img, label: prod.title }]
+      };
+
+      GENERAL_PRODUCT_TERMS[prod.id] = `${prod.title} ${prod.category} ${prod.tagline || ''} ${prod.desc || ''} lingerie underwear boudoir lace bra panties corset`;
+    });
+
+    if (grid) {
+      prods.forEach((prod, idx) => {
+        if (!grid.querySelector(`.product-card[data-id="${prod.id}"]`)) {
+          const card = createStoreProductCard(prod, idx);
+          grid.prepend(card);
+        }
+      });
+      if (typeof filterProducts === 'function') {
+        filterProducts();
+      }
+    }
+
+    if (arrivalsGrid) {
+      const freshFiltered = prods.filter(p => p && p.id !== 'couples-card-vault' && !/boudoir card vault|talk, flirt/i.test(p.title || ''));
+      if (freshFiltered.length > 0) {
+        arrivalsGrid.innerHTML = '';
+        const itemsToShow = freshFiltered.slice(0, 8);
+        itemsToShow.forEach((prod, idx) => {
+          const card = createStoreProductCard(prod, idx);
+          arrivalsGrid.appendChild(card);
+        });
+      }
+      if (arrivalsSection) {
+        arrivalsSection.style.display = 'block';
+      }
+    }
+  }
+
+  // 1. Immediate local render (0ms - zero delay)
+  if (customProds.length > 0) {
+    applyProducts(customProds);
+  }
+
+  // 2. Background sync with Supabase without blocking UI
+  getSupabaseProducts().then((remoteProds) => {
     if (remoteProds && Array.isArray(remoteProds) && remoteProds.length > 0) {
       remoteProds.forEach(rp => {
         const existingIdx = customProds.findIndex(p => p.id === rp.id);
@@ -7944,64 +8031,11 @@ export async function initCustomCatalogProducts() {
           customProds.push(mapped);
         }
       });
+      applyProducts(customProds);
     }
-  } catch(e) {
+  }).catch((e) => {
     console.info('[Supabase] Live sync notice:', e.message);
-  }
-
-  // Register all products in PRODUCT_DATABASE and GENERAL_PRODUCT_TERMS
-  customProds.forEach((prod) => {
-    PRODUCT_DATABASE[prod.id] = {
-      id: prod.id,
-      title: prod.title,
-      badge: prod.badge || 'LUXE BOUDOIR',
-      price: Number(prod.price) || 0,
-      priceStr: prod.priceStr || `₦${Number(prod.price).toLocaleString()}`,
-      img: prod.img || '/assets/category-lingerie.webp',
-      desc: prod.desc || prod.tagline || '',
-      specs: prod.specs || [],
-      variants: prod.variants || [],
-      sizes: prod.sizes || [],
-      material: prod.material || 'Luxe Body-Safe Materials',
-      acoustics: prod.acoustics || 'Sensual Touch',
-      freq: 0,
-      pattern: prod.category || 'lingerie',
-      media: (prod.media && Array.isArray(prod.media) && prod.media.length > 0)
-        ? prod.media
-        : [{ type: 'image', src: prod.img, label: prod.title }]
-    };
-
-    GENERAL_PRODUCT_TERMS[prod.id] = `${prod.title} ${prod.category} ${prod.tagline || ''} ${prod.desc || ''} lingerie underwear boudoir lace bra panties corset`;
   });
-
-  // Inject cards into main products grid on products.html
-  if (grid) {
-    customProds.forEach((prod, idx) => {
-      if (!grid.querySelector(`.product-card[data-id="${prod.id}"]`)) {
-        const card = createStoreProductCard(prod, idx);
-        grid.prepend(card);
-      }
-    });
-
-    if (typeof filterProducts === 'function') {
-      filterProducts();
-    }
-  }
-
-  // Inject cards into New Arrivals grid on index.html
-  if (arrivalsGrid) {
-    arrivalsGrid.innerHTML = '';
-    const freshFiltered = customProds.filter(p => p && p.id !== 'couples-card-vault' && !/boudoir card vault|talk, flirt/i.test(p.title || ''));
-    const itemsToShow = freshFiltered.slice(0, 8);
-    itemsToShow.forEach((prod, idx) => {
-      const card = createStoreProductCard(prod, idx);
-      arrivalsGrid.appendChild(card);
-    });
-    const arrivalsSection = document.getElementById('new-arrivals-section');
-    if (arrivalsSection) {
-      arrivalsSection.style.display = itemsToShow.length > 0 ? 'block' : 'none';
-    }
-  }
 }
 
 // Expose refresh helper to window
