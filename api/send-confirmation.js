@@ -21,7 +21,7 @@ export default async function handler(req, res) {
     }
 
     const resendApiKey = apiKey || process.env.VITE_RESEND_API_KEY || process.env.RESEND_API_KEY;
-    const storeOwnerEmails = ['dfordolapo@gmail.com', 'admin@thetoysvirago.shop'];
+    const storeOwnerEmails = ['thetoysvirago@gmail.com', 'admin@thetoysvirago.shop', 'dfordolapo@gmail.com'];
 
     let customerEmail = order.customer_email || order.email || '';
     if (!customerEmail && order.address) {
