@@ -415,4 +415,29 @@ export async function getSupabaseConfessions() {
   }
 }
 
-
+/**
+ * Subscribe to realtime orders from Supabase.
+ */
+export function subscribeToSupabaseOrders(onNewOrder) {
+  if (!supabase) return null;
+  try {
+    const channel = supabase
+      .channel('ttv_admin_live_orders_feed')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'orders' },
+        (payload) => {
+          if (payload && payload.new) {
+            onNewOrder(payload.new);
+          }
+        }
+      )
+      .subscribe((status) => {
+        console.log('[Supabase Realtime] Live orders feed status:', status);
+      });
+    return channel;
+  } catch (err) {
+    console.warn('[Supabase Realtime] Orders feed subscription error:', err);
+    return null;
+  }
+}

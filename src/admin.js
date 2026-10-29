@@ -11,7 +11,8 @@ import {
   deleteSupabaseProduct,
   getSupabaseOrders,
   updateSupabaseOrderStatus,
-  sendCustomerOrderConfirmationEmail
+  sendCustomerOrderConfirmationEmail,
+  subscribeToSupabaseOrders
 } from './supabase.js';
 
 // ================= 1. DIRECT ACCESS (PASSWORD REMOVED) =================
@@ -1651,65 +1652,75 @@ function renderOrdersList() {
     const dateStr = order.created_at ? new Date(order.created_at).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' }) : 'Recent';
     const items = Array.isArray(order.items) ? order.items : [];
     const itemsListHtml = items.map(item => `
-      <div style="display: flex; justify-content: space-between; gap: 8px;">
-        <span><strong>${item.qty || 1}x</strong> ${item.title || 'Product'} ${item.finish ? '<span style="color:#64748b;">(' + item.finish + ')</span>' : ''}</span>
-        <span style="font-weight: 600;">₦${Number(item.price || 0).toLocaleString()}</span>
+      <div class="admin-order-item-row">
+        <span><strong>${item.qty || 1}x</strong> ${item.title || 'Product'} ${item.finish ? '<span style="color:#64748b; font-size: 11px;">(' + item.finish + ')</span>' : ''}</span>
+        <span style="font-weight: 700; color: #0f172a;">₦${Number(item.price || 0).toLocaleString()}</span>
       </div>
     `).join('') || `<div>${order.items || 'Standard Order Items'}</div>`;
 
     return `
       <div class="admin-order-card" id="order-card-${order.reference}">
-        <div class="admin-order-top">
-          <div>
+        <!-- Card Header (Order # & Customer Name on left, Badge on right) -->
+        <div class="admin-order-card-header">
+          <div class="admin-order-ref-group">
             <div class="admin-order-ref-title">
-              <span>${order.reference}</span>
-              ${isConfirmed
-                ? `<span class="confirmed-badge-pill">✓ Confirmed</span>`
-                : `<span class="awaiting-badge-pill">⏳ Awaiting Confirmation</span>`}
+              <span>#${order.reference}</span>
             </div>
-            <div class="admin-order-meta">
-              Placed on: <strong>${dateStr}</strong>
-            </div>
-          </div>
-          <div style="text-align: right;">
-            <div class="admin-order-amount">₦${Number(order.total_amount || 0).toLocaleString()}</div>
-            <div style="font-size: 11px; color: #64748b; margin-top: 2px;">Total Order Value</div>
-          </div>
-        </div>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; font-size: 13px; color: #334155;">
-          <div>
-            <div style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Customer</div>
-            <div style="font-weight: 700; color: #0f172a;">${order.customer_name || 'Customer'}</div>
-            <div>📞 ${order.phone || 'No phone'}</div>
-            ${order.customer_email ? `<div>✉️ ${order.customer_email}</div>` : ''}
+            <div class="admin-order-cust-title">${order.customer_name || 'Customer'}</div>
+            <div class="admin-order-meta">Placed on: <strong>${dateStr}</strong></div>
           </div>
           <div>
-            <div style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Delivery Destination</div>
-            <div>📍 ${order.address || 'Address provided at checkout'}</div>
+            ${isConfirmed
+              ? `<span class="confirmed-badge-pill">✓ Confirmed</span>`
+              : `<span class="awaiting-badge-pill">⏳ Awaiting Confirmation</span>`}
           </div>
         </div>
 
-        <div class="admin-order-items">
-          <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 6px; letter-spacing: 0.04em;">Order Items:</div>
-          <div style="display: flex; flex-direction: column; gap: 4px;">
-            ${itemsListHtml}
+        <!-- Card Body (Contact info & Address) -->
+        <div class="admin-order-card-body">
+          <div class="admin-order-info-grid">
+            <div class="admin-order-info-item">
+              <span class="admin-order-info-icon">📞</span>
+              <span><strong>Phone:</strong> <a href="tel:${order.phone}" style="color: inherit; text-decoration: underline;">${order.phone || 'No phone'}</a></span>
+            </div>
+            ${order.customer_email ? `
+              <div class="admin-order-info-item">
+                <span class="admin-order-info-icon">✉️</span>
+                <span><strong>Email:</strong> ${order.customer_email}</span>
+              </div>
+            ` : ''}
+            <div class="admin-order-info-item" style="grid-column: 1 / -1;">
+              <span class="admin-order-info-icon">📍</span>
+              <span><strong>Delivery:</strong> ${order.address || 'Address provided at checkout'}</span>
+            </div>
+          </div>
+
+          <!-- Items Box -->
+          <div class="admin-order-items-box">
+            <div class="admin-order-items-head">
+              <span>Items in Order (${items.length || 1})</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 3px;">
+              ${itemsListHtml}
+            </div>
           </div>
         </div>
 
-        <div class="admin-order-bottom">
-          <div style="font-size: 12px; color: #64748b;">
-            ${isConfirmed && order.confirmed_at ? `Verified: ${new Date(order.confirmed_at).toLocaleDateString()}` : 'Awaiting payment verification'}
+        <!-- Card Footer (Total on left, Action Button on right) -->
+        <div class="admin-order-card-footer">
+          <div class="admin-order-total-block">
+            <span class="admin-order-total-label">Total Amount</span>
+            <span class="admin-order-amount">₦${Number(order.total_amount || 0).toLocaleString()}</span>
           </div>
-          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+          <div class="admin-order-actions-group">
             ${!isConfirmed ? `
               <button type="button" class="btn-tick-confirmed" data-ref="${order.reference}">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                 <span>Tick as Confirmed</span>
               </button>
             ` : `
-              <button type="button" class="admin-btn admin-btn-outline btn-resend-email" data-ref="${order.reference}" style="padding: 6px 12px; font-size: 12px;">
-                ✉️ Re-send Confirmation Email
+              <button type="button" class="admin-btn admin-btn-outline btn-resend-email" data-ref="${order.reference}">
+                ✉️ Re-send Receipt
               </button>
             `}
           </div>
@@ -1807,6 +1818,178 @@ switchTab = function(tabId) {
     loadAndRenderOrders();
   }
 };
+
+// ================= LIVE ORDER PUSH NOTIFICATIONS & SOUND CHIME =================
+const btnTogglePush = document.getElementById('btn-toggle-push');
+const pushStatusDot = document.getElementById('push-status-dot');
+const pushBtnLabel = document.getElementById('push-btn-label');
+const pushInfoBanner = document.getElementById('push-info-banner');
+const btnDismissPushBanner = document.getElementById('btn-dismiss-push-banner');
+const btnTestAlert = document.getElementById('btn-test-alert');
+
+function playOrderChime() {
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+    const ctx = new AudioCtx();
+    const now = ctx.currentTime;
+
+    // Two-tone pleasant notification chime (659.25Hz E5 -> 880Hz A5)
+    const osc1 = ctx.createOscillator();
+    const gain1 = ctx.createGain();
+    osc1.type = 'sine';
+    osc1.frequency.setValueAtTime(659.25, now);
+    gain1.gain.setValueAtTime(0.3, now);
+    gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+    osc1.connect(gain1);
+    gain1.connect(ctx.destination);
+    osc1.start(now);
+    osc1.stop(now + 0.35);
+
+    const osc2 = ctx.createOscillator();
+    const gain2 = ctx.createGain();
+    osc2.type = 'sine';
+    osc2.frequency.setValueAtTime(880, now + 0.12);
+    gain2.gain.setValueAtTime(0.35, now + 0.12);
+    gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
+    osc2.connect(gain2);
+    gain2.connect(ctx.destination);
+    osc2.start(now + 0.12);
+    osc2.stop(now + 0.55);
+  } catch (e) {
+    console.warn('Audio chime notice:', e);
+  }
+}
+
+function triggerOrderNotification(order) {
+  playOrderChime();
+  const ref = order.reference || 'TTV-Order';
+  const name = order.customer_name || 'Customer';
+  const amountStr = `₦${Number(order.total_amount || 0).toLocaleString()}`;
+  const title = `🛍️ New Order: ${ref}`;
+  const body = `${name} placed an order for ${amountStr}. Tap to review and confirm.`;
+
+  if ('Notification' in window && Notification.permission === 'granted') {
+    if (navigator.serviceWorker && navigator.serviceWorker.ready) {
+      navigator.serviceWorker.ready.then(reg => {
+        reg.showNotification(title, {
+          body,
+          icon: '/assets/logo.jpg',
+          badge: '/assets/logo.jpg',
+          vibrate: [200, 100, 200],
+          data: '/admin.html'
+        });
+      }).catch(() => {
+        try { new Notification(title, { body, icon: '/assets/logo.jpg' }); } catch (e) {}
+      });
+    } else {
+      try { new Notification(title, { body, icon: '/assets/logo.jpg' }); } catch (e) {}
+    }
+  }
+
+  showToast(`🔔 New Order Received: ${ref} (${amountStr})`);
+}
+
+function updatePushUI() {
+  if (!('Notification' in window)) {
+    if (pushBtnLabel) pushBtnLabel.textContent = 'Alerts Unavailable';
+    return;
+  }
+  if (Notification.permission === 'granted') {
+    if (pushStatusDot) pushStatusDot.style.background = '#22c55e';
+    if (pushBtnLabel) pushBtnLabel.textContent = '🔔 Push Alerts Active';
+    if (pushInfoBanner && !localStorage.getItem('ttv_dismiss_push_banner')) {
+      pushInfoBanner.style.display = 'flex';
+    }
+  } else if (Notification.permission === 'denied') {
+    if (pushStatusDot) pushStatusDot.style.background = '#ef4444';
+    if (pushBtnLabel) pushBtnLabel.textContent = '🔕 Alerts Blocked in Browser';
+    if (pushInfoBanner) pushInfoBanner.style.display = 'none';
+  } else {
+    if (pushStatusDot) pushStatusDot.style.background = '#94a3b8';
+    if (pushBtnLabel) pushBtnLabel.textContent = '🔔 Enable Push Alerts';
+    if (pushInfoBanner) pushInfoBanner.style.display = 'none';
+  }
+}
+
+if (btnTogglePush) {
+  btnTogglePush.addEventListener('click', async () => {
+    if (!('Notification' in window)) {
+      alert('This browser does not support Web Push notifications.');
+      return;
+    }
+    if (Notification.permission === 'granted') {
+      playOrderChime();
+      showToast('Push notifications are already active!');
+      return;
+    }
+    const permission = await Notification.requestPermission();
+    updatePushUI();
+    if (permission === 'granted') {
+      playOrderChime();
+      showToast('Push notifications enabled successfully!');
+      triggerOrderNotification({
+        reference: 'TTV-ALERT',
+        customer_name: 'Store Manager',
+        total_amount: 25000
+      });
+    }
+  });
+}
+
+if (btnTestAlert) {
+  btnTestAlert.addEventListener('click', () => {
+    triggerOrderNotification({
+      reference: 'TTV-TEST',
+      customer_name: 'Store Manager (Test)',
+      total_amount: 35000
+    });
+  });
+}
+
+if (btnDismissPushBanner) {
+  btnDismissPushBanner.addEventListener('click', () => {
+    if (pushInfoBanner) pushInfoBanner.style.display = 'none';
+    localStorage.setItem('ttv_dismiss_push_banner', 'true');
+  });
+}
+
+updatePushUI();
+
+// Function to handle new incoming order (from realtime or broadcast)
+function handleIncomingNewOrder(order) {
+  if (!order || !order.reference) return;
+  const existingIdx = allOrders.findIndex(o => o.reference === order.reference);
+  if (existingIdx >= 0) return; // Already loaded
+
+  // Prepend to orders list
+  allOrders.unshift(order);
+  updateOrdersStats();
+  renderOrdersList();
+  triggerOrderNotification(order);
+}
+
+// 1. Subscribe to Supabase Realtime Orders
+try {
+  subscribeToSupabaseOrders((newOrder) => {
+    console.log('[Realtime] Incoming order from Supabase:', newOrder);
+    handleIncomingNewOrder(newOrder);
+  });
+} catch (e) {
+  console.warn('Realtime subscription init:', e);
+}
+
+// 2. Cross-tab local broadcast listener (instant alert when checkout occurs on same browser/device)
+window.addEventListener('storage', (event) => {
+  if (event.key === 'ttv_last_order_broadcast' && event.newValue) {
+    try {
+      const data = JSON.parse(event.newValue);
+      if (data && data.order) {
+        handleIncomingNewOrder(data.order);
+      }
+    } catch (e) {}
+  }
+});
 
 // Initial background load of orders count
 setTimeout(() => {

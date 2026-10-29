@@ -66,3 +66,40 @@ self.addEventListener('fetch', (event) => {
       })
   );
 });
+
+// Push notification listener
+self.addEventListener('push', (event) => {
+  let data = {};
+  try {
+    data = event.data ? event.data.json() : {};
+  } catch (e) {
+    data = { title: 'TheToysVirago', body: event.data ? event.data.text() : 'New order received!' };
+  }
+  const title = data.title || '🛍️ New Order Placed!';
+  const options = {
+    body: data.body || 'A customer has placed an order. Tap to review in Admin.',
+    icon: '/assets/logo.jpg',
+    badge: '/assets/logo.jpg',
+    vibrate: [200, 100, 200],
+    data: data.url || '/admin.html'
+  };
+  event.waitUntil(self.registration.showNotification(title, options));
+});
+
+// Click notification listener
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  const urlToOpen = event.notification.data || '/admin.html';
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
+      for (const client of clientList) {
+        if (client.url.includes('/admin') && 'focus' in client) {
+          return client.focus();
+        }
+      }
+      if (clients.openWindow) {
+        return clients.openWindow(urlToOpen);
+      }
+    })
+  );
+});

@@ -7379,8 +7379,18 @@ if (checkoutForm) {
       console.warn('Supabase order logging fallback:', err);
     }
 
-    // Backup in LocalStorage
+    // Backup in LocalStorage and append to local orders cache
     localStorage.setItem('ttv_last_order', JSON.stringify(orderPayload));
+    try {
+      const existingLocal = JSON.parse(localStorage.getItem('ttv_local_orders') || '[]');
+      existingLocal.unshift(orderPayload);
+      localStorage.setItem('ttv_local_orders', JSON.stringify(existingLocal));
+      // Cross-tab broadcast for instant Admin alert & push notification
+      localStorage.setItem('ttv_last_order_broadcast', JSON.stringify({
+        order: orderPayload,
+        timestamp: Date.now()
+      }));
+    } catch (e) {}
 
     // Construct WhatsApp Redirect URL
     const itemsList = orderPayload.items.map(i => `${i.qty}x ${i.title}`).join(', ');

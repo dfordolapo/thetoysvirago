@@ -1357,10 +1357,46 @@
       padding: 6px 14px;
       border-radius: 8px;
       font-size: 12px;
+    /* ================= LIVE ORDERS & AWAITING CONFIRMATION (HOUSE OF NINA ALIGNMENT) ================= */
+    .orders-toolbar-row {
+      display: flex;
+      gap: 12px;
+      margin: 16px 0 20px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .orders-search-wrapper {
+      position: relative;
+      flex: 1;
+      min-width: 240px;
+    }
+    .orders-filter-scroll-wrapper {
+      display: flex;
+      gap: 6px;
+      background: #f1f5f9;
+      padding: 4px;
+      border-radius: 10px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      white-space: nowrap;
+      flex-wrap: nowrap;
+    }
+    .orders-filter-scroll-wrapper::-webkit-scrollbar {
+      display: none;
+    }
+    .order-filter-pill {
+      background: transparent;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 8px !important;
+      font-size: 13px;
       font-weight: 600;
       color: #64748b;
       cursor: pointer;
       transition: all 0.2s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .order-filter-pill:hover {
       color: #0f172a;
@@ -1370,88 +1406,196 @@
       color: #0f172a;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
+
+    /* Structured Order Card Matching House of Nina Mobile Standards */
     .admin-order-card {
       background: #ffffff;
       border: 1px solid #e2e8f0;
       border-radius: 12px;
-      padding: 18px 20px;
+      padding: 16px 18px;
       transition: all 0.2s ease;
       display: flex;
       flex-direction: column;
       gap: 12px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
     }
     .admin-order-card:hover {
       border-color: #cbd5e1;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
     }
-    .admin-order-top {
+
+    /* Card Header: Ref, Name, Date on left; Status badge on right */
+    .admin-order-card-header {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      flex-wrap: wrap;
       gap: 12px;
       border-bottom: 1px solid #f1f5f9;
       padding-bottom: 12px;
     }
+    .admin-order-ref-group {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
     .admin-order-ref-title {
-      font-family: 'Consolas', monospace;
+      font-family: 'Consolas', 'Courier New', monospace;
       font-size: 15px;
       font-weight: 700;
-      color: #0f172a;
-      display: flex;
+      color: #e11d48;
+      letter-spacing: 0.5px;
+      display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
+    }
+    .admin-order-cust-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1.3;
     }
     .admin-order-meta {
-      font-size: 12px;
+      font-size: 11.5px;
       color: #64748b;
-      margin-top: 3px;
     }
-    .admin-order-items {
-      background: #f8fafc;
-      border-radius: 8px;
-      padding: 10px 14px;
+
+    /* Card Body: Contact info & destination */
+    .admin-order-card-body {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .admin-order-info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 8px 16px;
       font-size: 12.5px;
       color: #334155;
-      line-height: 1.6;
     }
-    .admin-order-bottom {
+    .admin-order-info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+    .admin-order-info-icon {
+      flex-shrink: 0;
+      font-size: 13px;
+      opacity: 0.85;
+      margin-top: 1px;
+    }
+
+    /* Order Items Summary Box */
+    .admin-order-items-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 12px;
+      color: #334155;
+      line-height: 1.5;
+    }
+    .admin-order-items-head {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
+    }
+    .admin-order-item-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+      padding: 3px 0;
+      border-bottom: 1px dashed rgba(226, 232, 240, 0.7);
+    }
+    .admin-order-item-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    /* Card Footer: Total Amount and Action Buttons */
+    .admin-order-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       gap: 12px;
-      padding-top: 4px;
+      padding-top: 10px;
+      border-top: 1px solid #f1f5f9;
+    }
+    .admin-order-total-block {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .admin-order-total-label {
+      font-size: 10.5px;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: #64748b;
     }
     .admin-order-amount {
-      font-size: 17px;
+      font-size: 18px;
       font-weight: 800;
       color: #0f172a;
+      line-height: 1.2;
+      font-feature-settings: 'tnum';
     }
+    .admin-order-actions-group {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    /* Button System compliance (8px border radius) */
     .btn-tick-confirmed {
       background: #e11d48;
       color: #ffffff;
       border: none;
-      padding: 9px 18px;
-      border-radius: 8px;
-      font-size: 13px;
+      padding: 9px 16px;
+      border-radius: 8px !important;
+      font-size: 12.5px;
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 6px;
       transition: all 0.2s ease;
-      box-shadow: 0 2px 8px rgba(225, 29, 72, 0.25);
+      box-shadow: 0 2px 8px rgba(225, 29, 72, 0.22);
+      min-height: 38px;
+      white-space: nowrap;
     }
     .btn-tick-confirmed:hover {
       background: #be123c;
       transform: translateY(-1px);
     }
     .btn-tick-confirmed:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      transform: none;
+      opacity: 0.6 !important;
+      cursor: not-allowed !important;
+      transform: none !important;
     }
+    .btn-resend-email {
+      border-radius: 8px !important;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 8px 14px;
+      min-height: 36px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
     .confirmed-badge-pill {
       display: inline-flex;
       align-items: center;
@@ -1459,11 +1603,13 @@
       background: #dcfce7;
       color: #15803d;
       border: 1px solid #bbf7d0;
-      padding: 4px 12px;
+      padding: 4px 10px;
       border-radius: 999px;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .awaiting-badge-pill {
       display: inline-flex;
@@ -1472,11 +1618,88 @@
       background: #fef3c7;
       color: #b45309;
       border: 1px solid #fde68a;
-      padding: 4px 12px;
+      padding: 4px 10px;
       border-radius: 999px;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* Mobile Responsive Rules Matching House of Nina and NailExpress */
+    @media (max-width: 640px) {
+      .admin-wrapper {
+        padding: 14px 12px 60px;
+      }
+      .admin-nav {
+        padding: 12px 14px;
+        margin-bottom: 16px;
+      }
+      .admin-brand-title {
+        font-size: 20px;
+      }
+      .admin-order-card {
+        padding: 12px 14px;
+        border-radius: 10px;
+        gap: 10px;
+      }
+      .admin-order-card-header {
+        gap: 8px;
+        padding-bottom: 10px;
+      }
+      .admin-order-ref-title {
+        font-size: 14px;
+      }
+      .admin-order-cust-title {
+        font-size: 13px;
+      }
+      .admin-order-info-grid {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+      .orders-toolbar-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        margin: 12px 0 16px;
+      }
+      .orders-search-wrapper {
+        width: 100%;
+        min-width: 0;
+      }
+      .orders-filter-scroll-wrapper {
+        width: 100%;
+        box-sizing: border-box;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .admin-order-card-footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        padding-top: 8px;
+      }
+      .admin-order-total-block {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: baseline;
+        width: 100%;
+        padding-bottom: 2px;
+      }
+      .admin-order-actions-group {
+        width: 100%;
+      }
+      .admin-order-actions-group .btn-tick-confirmed,
+      .admin-order-actions-group .btn-resend-email {
+        width: 100%;
+        justify-content: center;
+        min-height: 42px;
+        font-size: 13px;
+        padding: 10px 14px;
+      }
     }
 </style>
 </head>
@@ -1886,24 +2109,40 @@
             <h3 class="admin-card-title">Live Orders &amp; Transfer Verification</h3>
             <div class="admin-card-subtitle">Tick orders as confirmed to trigger customer confirmation emails</div>
           </div>
-          <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-            <button type="button" id="btn-refresh-orders" class="admin-btn admin-btn-outline" style="padding: 7px 14px; font-size: 12px;">
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <button type="button" id="btn-toggle-push" class="admin-btn admin-btn-outline" style="padding: 7px 12px; font-size: 12px; border-radius: 8px !important;" title="Get real-time push notification & sound alert when orders arrive">
+              <span id="push-status-dot" style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #94a3b8; transition: background 0.2s ease;"></span>
+              <span id="push-btn-label">🔔 Enable Push Alerts</span>
+            </button>
+            <button type="button" id="btn-test-alert" class="admin-btn admin-btn-outline" style="padding: 7px 12px; font-size: 12px; border-radius: 8px !important;" title="Test sound chime and notification">
+              🔊 Test Chime
+            </button>
+            <button type="button" id="btn-refresh-orders" class="admin-btn admin-btn-outline" style="padding: 7px 14px; font-size: 12px; border-radius: 8px !important;">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
-              Refresh Orders
+              Refresh
             </button>
           </div>
         </div>
 
+        <!-- Push Alert Active Banner -->
+        <div id="push-info-banner" style="display: none; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 10px 14px; margin-top: 14px; font-size: 12.5px; color: #166534; justify-content: space-between; align-items: center; gap: 10px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 16px;">🔔</span>
+            <span><strong>Live Order Alerts Active:</strong> You will receive instant system notifications and a sound chime when customer orders arrive.</span>
+          </div>
+          <button type="button" id="btn-dismiss-push-banner" style="background: none; border: none; font-size: 16px; color: #166534; cursor: pointer; padding: 0 4px;">&times;</button>
+        </div>
+
         <!-- Orders Search & Filters -->
-        <div style="display: flex; gap: 12px; margin: 16px 0 20px; flex-wrap: wrap; align-items: center;">
-          <div style="position: relative; flex: 1; min-width: 240px;">
-            <input type="text" id="orders-search-input" class="form-input" placeholder="Search by reference (e.g. TTV-...), customer name, or phone..." style="padding-left: 36px;" />
+        <div class="orders-toolbar-row">
+          <div class="orders-search-wrapper">
+            <input type="text" id="orders-search-input" class="form-input" placeholder="Search by reference (e.g. TTV-...), customer name, or phone..." style="padding-left: 36px; border-radius: 8px !important;" />
             <svg style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           </div>
-          <div style="display: flex; gap: 6px; background: #f1f5f9; padding: 4px; border-radius: 10px;">
-            <button type="button" class="order-filter-pill active" data-filter="all">All</button>
-            <button type="button" class="order-filter-pill" data-filter="awaiting_confirmation">Awaiting Confirmation</button>
-            <button type="button" class="order-filter-pill" data-filter="confirmed">Confirmed</button>
+          <div class="orders-filter-scroll-wrapper">
+            <button type="button" class="order-filter-pill active" data-filter="all">All Orders</button>
+            <button type="button" class="order-filter-pill" data-filter="awaiting_confirmation">⏳ Awaiting Confirmation</button>
+            <button type="button" class="order-filter-pill" data-filter="confirmed">✓ Confirmed</button>
           </div>
         </div>
 
