@@ -172,7 +172,19 @@ ul { list-style: none; }
   flex-shrink: 0;
 }
 .stealth-pill:hover { background: var(--ruby); border-color: var(--ruby); }
-.stealth-pill kbd { background: rgba(0,0,0,.4); padding: 1px 5px; border-radius: 3px; font-family: monospace; font-size: 10px; }
+.stealth-pill kbd, .stealth-esc-hint {
+  background: rgba(0,0,0,.4);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-family: monospace;
+  font-size: 10px;
+  display: inline-block;
+}
+@media (max-width: 768px) {
+  .stealth-esc-hint {
+    display: none !important;
+  }
+}
 
 /* ── HEADER ─────────────────────────────── */
 .main-header {
@@ -242,7 +254,7 @@ body.cart-open .main-header,
 
 /* Mobile Top Nav Cart Button with Counter Badge */
 .mobile-nav-cart-btn {
-  display: none;
+  display: inline-flex !important;
   position: relative;
   background: none;
   border: none;
@@ -279,11 +291,7 @@ body.cart-open .main-header,
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
   pointer-events: none;
 }
-@media (max-width: 768px) {
-  .mobile-nav-cart-btn {
-    display: inline-flex;
-  }
-}
+/* .mobile-nav-cart-btn is active on all screen sizes */
 
 /* Global Hidden Helper */
 [hidden] {
@@ -340,10 +348,13 @@ body.cart-open .main-header,
 }
 .dropdown-link.active {
   color: var(--ruby) !important;
-  background: rgba(159, 18, 57, 0.06) !important;
-  border-left: 4px solid var(--ruby) !important;
+  background: rgba(159, 18, 57, 0.05) !important;
+  border-left: none !important;
+  border-bottom: 2px solid var(--ruby) !important;
   padding-left: 24px !important;
   font-weight: 700 !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 .btn-cart-dropdown {
   background: transparent;
@@ -3999,7 +4010,7 @@ body.cart-open {
   max-width: 90vw !important;
   border-radius: 46px !important;
   border: 7px solid #201e1c !important;
-  outline: 2.5px solid rgba(226, 203, 152, 0.45) !important;
+  outline: none !important;
   overflow: hidden !important;
   position: relative !important;
   z-index: 2 !important;
@@ -4615,4 +4626,25 @@ button.btn-unavailable[disabled],
     min-height: 34px !important;
     border-radius: 8px !important;
   }
+}
+
+
+/* ── UNIVERSAL REMOVAL OF OUTER FOCUS / ACTIVE STROKES ── */
+button, a, input, select, textarea {
+  -webkit-tap-highlight-color: transparent !important;
+}
+button:focus,
+button:active,
+button:focus-visible,
+a:focus,
+a:active,
+a:focus-visible,
+.btn:focus,
+.btn:active,
+.btn:focus-visible,
+.btn-mobile-toggle:focus,
+.btn-mobile-toggle:active,
+.btn-mobile-toggle:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
 }
