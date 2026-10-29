@@ -160,108 +160,32 @@ export async function updateSupabaseOrderStatus(orderRef, newStatus = 'confirmed
  */
 export async function sendCustomerOrderConfirmationEmail(order) {
   const resendApiKey = import.meta.env.VITE_RESEND_API_KEY || (typeof window !== 'undefined' ? localStorage.getItem('ttv_resend_api_key') : '');
-  const customerEmail = order.customer_email || (order.address && order.address.match(/Email:\s*([\w.-]+@[\w.-]+)/i) ? order.address.match(/Email:\s*([\w.-]+@[\w.-]+)/i)[1] : '');
-  
-  const customerName = order.customer_name || 'Valued Customer';
-  const orderRef = order.reference || 'TTV-Order';
-  const totalStr = `₦${Number(order.total_amount || 0).toLocaleString()}`;
-  
-  const itemsHtml = Array.isArray(order.items)
-    ? order.items.map(i => `<li><strong>${i.qty || 1}x</strong> ${i.title || 'Item'} ${i.finish ? '(' + i.finish + ')' : ''} &mdash; ₦${Number(i.price || 0).toLocaleString()}</li>`).join('')
-    : '<li>Intimate Wellness Items</li>';
 
-  if (resendApiKey && customerEmail) {
-    const defaultSender = import.meta.env.VITE_RESEND_FROM_EMAIL || 'TheToysVirago Concierge <onboarding@resend.dev>';
-    const emailHtml = `
-            <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; color: #111116; background: #ffffff; border: 1px solid #f0f0f4; border-radius: 12px;">
-              <div style="text-align: center; margin-bottom: 24px; border-bottom: 1px solid #f0f0f4; padding-bottom: 20px;">
-                <h1 style="margin: 0; font-size: 26px; color: #9f1239; font-weight: 800; letter-spacing: 0.05em;">THETOYSVIRAGO</h1>
-                <p style="margin: 6px 0 0; font-size: 13px; color: #64748b; letter-spacing: 0.08em; text-transform: uppercase;">Payment Verified &bull; Order Confirmed</p>
-              </div>
-              <p style="font-size: 15px; line-height: 1.6;">Hello <strong>${customerName}</strong>,</p>
-              <p style="font-size: 15px; line-height: 1.6;">We have verified your payment! Your order <strong>${orderRef}</strong> is now confirmed and our discreet logistics team is prepping it for priority dispatch.</p>
-              
-              <div style="background: #fdf2f4; border: 1px solid #fbcfe8; border-radius: 8px; padding: 16px; margin: 20px 0;">
-                <h3 style="margin: 0 0 10px; font-size: 14px; text-transform: uppercase; color: #9f1239; letter-spacing: 0.05em;">Order Summary</h3>
-                <ul style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.8; color: #334155;">
-                  ${itemsHtml}
-                </ul>
-                <div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid #fbcfe8; font-size: 15px; font-weight: 700; color: #0f172a; display: flex; justify-content: space-between;">
-                  <span>Total Amount Paid:</span>
-                  <span>${totalStr}</span>
-                </div>
-              </div>
+  // 1. Primary: Dispatch automatically via Serverless Function (Zero CORS issues, runs Node-to-Resend)
+  try {
+    const apiRes = await fetch('/api/send-confirmation', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        order,
+        apiKey: resendApiKey
+      })
+    });
 
-              <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; margin: 20px 0; font-size: 13px; color: #475569; line-height: 1.6;">
-                <strong style="color: #0f172a;">100% Discreet Packaging Guarantee:</strong><br/>
-                Your package will arrive in a plain, unbranded opaque courier bag with zero mention of intimate wellness, adult novelties, or brand names on the exterior.
-              </div>
-
-              <p style="font-size: 14px; color: #64748b; line-height: 1.6;">If you have any special delivery instructions, reach out directly to our concierge on WhatsApp.</p>
-              <div style="text-align: center; margin-top: 28px; padding-top: 20px; border-top: 1px solid #f0f0f4; font-size: 12px; color: #94a3b8;">
-                &copy; ${new Date().getFullYear()} TheToysVirago &bull; Discretion &amp; Pleasure Delivered.
-              </div>
-            </div>
-          `;
-
-    const trySend = async (fromSender) => {
-      return await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${resendApiKey}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          from: fromSender,
-          to: [customerEmail],
-          subject: `Order Confirmed & Payment Verified [${orderRef}]`,
-          html: emailHtml
-        })
-      });
-    };
-
-    try {
-      let response = await trySend(defaultSender);
-      if (!response.ok && defaultSender !== 'TheToysVirago Concierge <onboarding@resend.dev>') {
-        response = await trySend('TheToysVirago Concierge <onboarding@resend.dev>');
-      }
-
-      if (response.ok) {
-        return { success: true, method: 'resend_api' };
-      } else {
-        const errorData = await response.json();
-        console.warn('Resend API response not ok:', errorData);
-      }
-    } catch (e) {
-      console.warn('Error sending email via Resend:', e);
+    const resData = await apiRes.json();
+    if (apiRes.ok && resData.success) {
+      console.log('[Email Dispatch] Automated Resend confirmation sent successfully:', resData);
+      return { success: true, method: 'resend_api', data: resData };
+    } else {
+      console.warn('[Email Dispatch] Serverless route returned:', resData);
+      return { success: false, method: 'resend_failed', error: resData?.error };
     }
+  } catch (err) {
+    console.warn('[Email Dispatch] Network error connecting to /api/send-confirmation:', err);
+    return { success: false, method: 'connection_error', error: err.message };
   }
-
-  // Fallback: Return mailto and notification details
-  const subject = encodeURIComponent(`Order Confirmed & Payment Verified [${orderRef}] - TheToysVirago`);
-  const body = encodeURIComponent(
-`Hello ${customerName},
-
-Great news! We have verified your payment for order ${orderRef} (Total: ${totalStr}).
-
-Your order is now confirmed and our discreet logistics team is preparing it for dispatch.
-
-Delivery Address:
-${order.address || 'As specified at checkout'}
-
-Discreet Packaging Guarantee:
-Your package is dispatched in a 100% plain, opaque courier bag with zero exterior clues or brand names.
-
-Thank you for choosing TheToysVirago!
-Dispatch Concierge`
-  );
-
-  return {
-    success: true,
-    method: 'client_fallback',
-    customerEmail,
-    mailtoUrl: customerEmail ? `mailto:${customerEmail}?subject=${subject}&body=${body}` : null
-  };
 }
 
 /**

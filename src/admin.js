@@ -1752,13 +1752,12 @@ function renderOrdersList() {
       updateOrdersStats();
       renderOrdersList();
 
-      if (emailRes && emailRes.method === 'resend_api') {
-        showToast(`Order ${ref} confirmed! Receipt emailed to customer.`);
-      } else if (emailRes && emailRes.mailtoUrl) {
-        showToast(`Order ${ref} confirmed! Opening email client...`);
-        window.open(emailRes.mailtoUrl, '_blank');
+      if (emailRes && emailRes.success) {
+        showToast(`Order ${ref} confirmed! Receipt sent to ${order.customer_email || 'customer'} via Resend.`);
+      } else if (emailRes && emailRes.error) {
+        showToast(`Order ${ref} confirmed in database (Resend note: ${typeof emailRes.error === 'string' ? emailRes.error : 'check API key'})`);
       } else {
-        showToast(`Order ${ref} confirmed successfully.`);
+        showToast(`Order ${ref} marked as confirmed!`);
       }
     });
   });
@@ -1874,16 +1873,16 @@ function triggerOrderNotification(order) {
       navigator.serviceWorker.ready.then(reg => {
         reg.showNotification(title, {
           body,
-          icon: '/assets/logo.jpg',
-          badge: '/assets/logo.jpg',
+          icon: '/assets/logo.webp',
+          badge: '/assets/logo.webp',
           vibrate: [200, 100, 200],
           data: '/admin.html'
         });
       }).catch(() => {
-        try { new Notification(title, { body, icon: '/assets/logo.jpg' }); } catch (e) {}
+        try { new Notification(title, { body, icon: '/assets/logo.webp' }); } catch (e) {}
       });
     } else {
-      try { new Notification(title, { body, icon: '/assets/logo.jpg' }); } catch (e) {}
+      try { new Notification(title, { body, icon: '/assets/logo.webp' }); } catch (e) {}
     }
   }
 
@@ -1956,20 +1955,37 @@ if (btnDismissPushBanner) {
 
 updatePushUI();
 
-// Function to handle new incoming order (from realtime or broadcast)
+// ================= STORE OWNER ORDER ALERTS: REALTIME + ACTIVE BACKGROUND POLLING =================
+let globalAudioCtx = null;
+function getAudioContext() {
+  if (!globalAudioCtx) {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (AudioCtx) globalAudioCtx = new AudioCtx();
+  }
+  if (globalAudioCtx && globalAudioCtx.state === 'suspended') {
+    globalAudioCtx.resume();
+  }
+  return globalAudioCtx;
+}
+
+// Unlock audio on any first interaction (touch or click)
+document.addEventListener('click', () => { getAudioContext(); }, { once: true });
+document.addEventListener('touchstart', () => { getAudioContext(); }, { once: true });
+
+// Function to handle new incoming order
 function handleIncomingNewOrder(order) {
   if (!order || !order.reference) return;
   const existingIdx = allOrders.findIndex(o => o.reference === order.reference);
-  if (existingIdx >= 0) return; // Already loaded
+  if (existingIdx >= 0) return; // Already in store list
 
-  // Prepend to orders list
+  // Prepend new order to list
   allOrders.unshift(order);
   updateOrdersStats();
   renderOrdersList();
   triggerOrderNotification(order);
 }
 
-// 1. Subscribe to Supabase Realtime Orders
+// 1. Subscribe to Supabase Realtime Orders (instant websocket when available)
 try {
   subscribeToSupabaseOrders((newOrder) => {
     console.log('[Realtime] Incoming order from Supabase:', newOrder);
@@ -1978,6 +1994,28 @@ try {
 } catch (e) {
   console.warn('Realtime subscription init:', e);
 }
+
+// 2. Active Background Polling (Checks every 8 seconds)
+// Guarantees immediate notification even if Supabase Realtime publication is pending
+async function pollForNewOrders() {
+  try {
+    const res = await getSupabaseOrders();
+    if (res && res.success && Array.isArray(res.data)) {
+      res.data.forEach(fetched => {
+        const exists = allOrders.some(o => o.reference === fetched.reference);
+        if (!exists) {
+          console.log('[Poll] Discovered newly placed order:', fetched.reference);
+          handleIncomingNewOrder(fetched);
+        }
+      });
+    }
+  } catch (err) {
+    console.warn('[Poll] Orders poll check:', err);
+  }
+}
+
+// Start polling
+setInterval(pollForNewOrders, 8000);
 
 // 2. Cross-tab local broadcast listener (instant alert when checkout occurs on same browser/device)
 window.addEventListener('storage', (event) => {
