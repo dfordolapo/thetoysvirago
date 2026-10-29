@@ -14,59 +14,8 @@ import {
   sendCustomerOrderConfirmationEmail
 } from './supabase.js';
 
-// ================= 1. AUTHENTICATION & SECURITY GATE =================
-const ADMIN_PIN_KEY = 'thetoysvirago_admin_pin';
-const ADMIN_AUTH_KEY = 'thetoysvirago_admin_unlocked';
-const DEFAULT_PIN = 'virago2026';
-
-function getStoredPin() {
-  return localStorage.getItem(ADMIN_PIN_KEY) || DEFAULT_PIN;
-}
-
-function checkAdminAuth() {
-  const isUnlocked = sessionStorage.getItem(ADMIN_AUTH_KEY) === 'true';
-  const gateModal = document.getElementById('admin-gate-modal');
-  const mainContent = document.getElementById('admin-main-content');
-
-  if (!isUnlocked) {
-    if (gateModal) gateModal.style.display = 'flex';
-    if (mainContent) mainContent.style.filter = 'blur(10px)';
-  } else {
-    if (gateModal) gateModal.style.display = 'none';
-    if (mainContent) mainContent.style.filter = 'none';
-  }
-}
-
-const gateForm = document.getElementById('admin-gate-form');
-if (gateForm) {
-  gateForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const pinInput = document.getElementById('admin-passcode-input');
-    const enteredPin = (pinInput ? pinInput.value : '').trim();
-    const actualPin = getStoredPin();
-
-    if (enteredPin === actualPin) {
-      sessionStorage.setItem(ADMIN_AUTH_KEY, 'true');
-      checkAdminAuth();
-      showToast('Vault unlocked. Welcome to Admin.');
-    } else {
-      showToast('Invalid passcode. Access denied.');
-      if (pinInput) {
-        pinInput.value = '';
-        pinInput.focus();
-      }
-    }
-  });
-}
-
-const btnLockAdmin = document.getElementById('btn-lock-admin');
-if (btnLockAdmin) {
-  btnLockAdmin.addEventListener('click', () => {
-    sessionStorage.removeItem(ADMIN_AUTH_KEY);
-    checkAdminAuth();
-    showToast('Admin session locked.');
-  });
-}
+// ================= 1. DIRECT ACCESS (PASSWORD REMOVED) =================
+// Admin session is directly unlocked for store management.
 
 // ================= 2. DATA STORAGE & INITIAL SEEDING =================
 const CUSTOM_STORAGE_KEY = 'thetoysvirago_custom_products';
@@ -1510,12 +1459,10 @@ const btnSaveSettings = document.getElementById('btn-save-settings');
 const settingsModal = document.getElementById('settings-modal');
 const geminiKeyInput = document.getElementById('gemini-api-key');
 const supabaseServiceKeyInput = document.getElementById('supabase-service-key');
-const customPinInput = document.getElementById('admin-custom-pin');
 
 function openSettings() {
   if (geminiKeyInput) geminiKeyInput.value = localStorage.getItem('thetoysvirago_gemini_key') || '';
   if (supabaseServiceKeyInput) supabaseServiceKeyInput.value = localStorage.getItem('thetoysvirago_supabase_service_key') || '';
-  if (customPinInput) customPinInput.value = getStoredPin();
   const resendKeyInput = document.getElementById('resend-api-key');
   if (resendKeyInput) resendKeyInput.value = localStorage.getItem('ttv_resend_api_key') || '';
   if (settingsModal) settingsModal.style.display = 'flex';
@@ -1533,7 +1480,6 @@ if (btnSaveSettings) {
   btnSaveSettings.addEventListener('click', () => {
     const key = geminiKeyInput ? geminiKeyInput.value.trim() : '';
     const serviceKey = supabaseServiceKeyInput ? supabaseServiceKeyInput.value.trim() : '';
-    const pin = customPinInput ? customPinInput.value.trim() : '';
 
     if (key) {
       localStorage.setItem('thetoysvirago_gemini_key', key);
@@ -1547,11 +1493,7 @@ if (btnSaveSettings) {
       localStorage.removeItem('thetoysvirago_supabase_service_key');
     }
 
-    if (pin) {
-      localStorage.setItem(ADMIN_PIN_KEY, pin);
-    }
-
-    const resendKeyInput = document.getElementById('resend-api-key');
+const resendKeyInput = document.getElementById('resend-api-key');
     if (resendKeyInput) {
       const rKey = resendKeyInput.value.trim();
       if (rKey) localStorage.setItem('ttv_resend_api_key', rKey);
@@ -1619,7 +1561,6 @@ function showToast(message, isHtml = false) {
 }
 
 function initAdmin() {
-  checkAdminAuth();
   refreshCatalogData();
 
   const syncStatusText = document.getElementById('sync-status-text');
