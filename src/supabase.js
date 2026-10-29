@@ -171,18 +171,8 @@ export async function sendCustomerOrderConfirmationEmail(order) {
     : '<li>Intimate Wellness Items</li>';
 
   if (resendApiKey && customerEmail) {
-    try {
-      const response = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${resendApiKey}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          from: 'TheToysVirago Concierge <orders@thetoysvirago.com>',
-          to: [customerEmail],
-          subject: `Order Confirmed & Payment Verified [${orderRef}]`,
-          html: `
+    const defaultSender = import.meta.env.VITE_RESEND_FROM_EMAIL || 'TheToysVirago Concierge <onboarding@resend.dev>';
+    const emailHtml = `
             <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; color: #111116; background: #ffffff; border: 1px solid #f0f0f4; border-radius: 12px;">
               <div style="text-align: center; margin-bottom: 24px; border-bottom: 1px solid #f0f0f4; padding-bottom: 20px;">
                 <h1 style="margin: 0; font-size: 26px; color: #9f1239; font-weight: 800; letter-spacing: 0.05em;">THETOYSVIRAGO</h1>
@@ -212,9 +202,30 @@ export async function sendCustomerOrderConfirmationEmail(order) {
                 &copy; ${new Date().getFullYear()} TheToysVirago &bull; Discretion &amp; Pleasure Delivered.
               </div>
             </div>
-          `
+          `;
+
+    const trySend = async (fromSender) => {
+      return await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${resendApiKey}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          from: fromSender,
+          to: [customerEmail],
+          subject: `Order Confirmed & Payment Verified [${orderRef}]`,
+          html: emailHtml
         })
       });
+    };
+
+    try {
+      let response = await trySend(defaultSender);
+      if (!response.ok && defaultSender !== 'TheToysVirago Concierge <onboarding@resend.dev>') {
+        response = await trySend('TheToysVirago Concierge <onboarding@resend.dev>');
+      }
+
       if (response.ok) {
         return { success: true, method: 'resend_api' };
       } else {
