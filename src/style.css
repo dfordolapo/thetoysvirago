@@ -4338,12 +4338,6 @@ body.cart-open {
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   gap: 20px;
 }
-@media (max-width: 900px) {
-  .bestsellers-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 16px;
-  }
-}
 
 .bestsellers-section .product-card {
   background: #faf8f6;
@@ -4415,12 +4409,13 @@ body.cart-open {
   color: #ffffff;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .bestsellers-section {
     padding: 50px 0 45px;
   }
   .bestsellers-grid {
-    gap: 12px;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
   }
   .bestsellers-section .product-card .product-body {
     padding: 12px 10px;
