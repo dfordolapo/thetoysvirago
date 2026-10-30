@@ -858,14 +858,72 @@ body.cart-open .main-header,
   border-top: none; overflow: hidden;
 }
 .footer-top {
-  display: flex; justify-content: space-between; align-items: flex-start;
-  margin-bottom: 64px; flex-wrap: wrap; gap: 48px;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  align-items: flex-start;
+  margin-bottom: 56px;
+  gap: 40px;
 }
-.footer-left { max-width: 360px; width: 100%; }
-.footer-right h5 { font-family: var(--serif); font-size: 18px; margin-bottom: 16px; color: var(--ink); }
-.footer-right ul { display: flex; flex-direction: column; gap: 10px; }
-.footer-right ul a { font-size: 14px; color: var(--ink-3); font-weight: 600; }
-.footer-right ul a:hover { color: var(--ruby); }
+@media (max-width: 820px) {
+  .footer-top {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+}
+@media (max-width: 540px) {
+  .footer-top {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+.footer-left { width: 100%; }
+.footer-col h5, .footer-right h5, .footer-left h5 {
+  font-family: var(--serif);
+  font-size: 18px;
+  margin-bottom: 14px;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.footer-bio {
+  font-size: 13.5px;
+  color: var(--ink-3);
+  line-height: 1.6;
+  margin-bottom: 14px;
+  max-width: 320px;
+}
+.footer-col ul, .footer-right ul {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.footer-col ul a, .footer-right ul a {
+  font-size: 13.5px;
+  color: var(--ink-3);
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+.footer-col ul a:hover, .footer-right ul a:hover {
+  color: var(--ruby);
+}
+.policy-trigger-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: 13.5px;
+  color: var(--ink-3);
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.policy-trigger-btn:hover {
+  color: var(--ruby);
+}
 .footer-massive-logo {
   font-family: var(--serif); font-size: 10.5vw; font-weight: 700;
   line-height: 1; letter-spacing: -0.04em; color: var(--ink);
@@ -886,12 +944,183 @@ body.cart-open .main-header,
   border-top: 1px solid var(--border); padding-top: 24px;
   font-size: 13px; color: var(--ink-3); flex-wrap: wrap; gap: 14px;
 }
-.footer-legal { display: flex; align-items: center; gap: 16px; }
-.footer-legal a:hover { color: var(--ruby); }
+.footer-legal {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.policy-legal-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--ink-3);
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.policy-legal-link:hover {
+  color: var(--ruby);
+}
+.legal-dot {
+  color: #cbd5e1;
+  font-size: 11px;
+  user-select: none;
+}
 .age-pill {
   display: inline-block; background: var(--ruby-l); border: 1px solid var(--ruby-b);
   color: var(--ruby); font-size: 10px; font-weight: 700; letter-spacing: .12em;
   padding: 4px 10px; border-radius: var(--r-pill);
+}
+
+/* ── STORE POLICIES MODAL ────────────────── */
+.policy-modal-card {
+  background: #ffffff;
+  border-radius: 8px !important;
+  max-width: 660px;
+  width: 100%;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.22);
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  animation: modalScaleUp 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes modalScaleUp {
+  from { opacity: 0; transform: scale(0.97) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.policy-modal-header {
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background: #ffffff;
+}
+.policy-modal-eyebrow {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #9f1239;
+  margin-bottom: 4px;
+}
+.policy-modal-title {
+  margin: 0;
+  font-size: 20px;
+  font-family: var(--serif);
+  color: #0f172a;
+}
+.btn-close-policy {
+  background: #f1f5f9;
+  border: none;
+  color: #475569;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px !important;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+.btn-close-policy:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+.policy-tabs {
+  display: flex;
+  background: #f8fafc;
+  padding: 8px 16px;
+  gap: 6px;
+  border-bottom: 1px solid #f1f5f9;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.policy-tabs::-webkit-scrollbar {
+  display: none;
+}
+.policy-tab {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px !important;
+  padding: 7px 13px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+.policy-tab:hover {
+  color: #0f172a;
+  background: #ffffff;
+}
+.policy-tab.active {
+  background: #0c0c0e;
+  color: #ffffff;
+  border-color: #0c0c0e;
+}
+.policy-content-body {
+  padding: 22px 24px;
+  overflow-y: auto;
+  flex: 1;
+  overscroll-behavior: contain;
+}
+.policy-panel {
+  display: none;
+}
+.policy-panel.active {
+  display: block;
+}
+.policy-panel h4 {
+  font-family: var(--serif);
+  font-size: 19px;
+  margin: 0 0 8px;
+  color: #0f172a;
+}
+.policy-intro {
+  font-size: 13.5px;
+  color: #475569;
+  line-height: 1.55;
+  margin: 0 0 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px dashed #e2e8f0;
+}
+.policy-item {
+  margin-bottom: 18px;
+}
+.policy-item h5 {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 5px;
+}
+.policy-item p {
+  font-size: 13px;
+  color: #334155;
+  line-height: 1.6;
+  margin: 0 0 8px;
+}
+.policy-modal-footer {
+  padding: 14px 24px;
+  border-top: 1px solid #f1f5f9;
+  background: #fafafa;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 13px;
+  color: #64748b;
 }
 
 /* ── FORM INPUT ─────────────────────────── */

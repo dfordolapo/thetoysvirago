@@ -6982,26 +6982,12 @@ function renderCart() {
 window.cartUpdateQty = updateItemQty;
 window.cartRemove = removeItem;
 
-// Promo Code
+// Promo Code (Disabled until active codes are created)
 if (btnApplyPromo && promoInput) {
-  btnApplyPromo.addEventListener('click', () => {
-    const code = promoInput.value.trim().toUpperCase();
-    if (code === 'VIRAGO15') {
-      discountPercent = 15;
-      if (promoFeedback) {
-        promoFeedback.hidden = false;
-        promoFeedback.textContent = '✓ 15% VIP discount applied.';
-        promoFeedback.style.color = '#4ade80';
-      }
-      renderCart();
-      showToast('15% VIP discount applied.');
-    } else {
-      if (promoFeedback) {
-        promoFeedback.hidden = false;
-        promoFeedback.textContent = 'Invalid promo code. Try VIRAGO15.';
-        promoFeedback.style.color = '#c0112f';
-      }
-    }
+  promoInput.disabled = true;
+  btnApplyPromo.disabled = true;
+  btnApplyPromo.addEventListener('click', (e) => {
+    e.preventDefault();
   });
 }
 
@@ -8640,13 +8626,86 @@ function initThreeReels() {
   }, 1200);
 }
 
+// ================= STORE POLICIES MODAL CONTROLLER =================
+function initPolicyModal() {
+  const modal = document.getElementById('policy-modal');
+  const btnClose = document.getElementById('btn-close-policy');
+  const tabs = document.querySelectorAll('.policy-tab');
+  const panels = document.querySelectorAll('.policy-panel');
+
+  function openPolicy(tabKey = 'terms') {
+    if (!modal) return;
+    tabs.forEach(t => {
+      const isActive = t.dataset.tab === tabKey;
+      t.classList.toggle('active', isActive);
+      t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+    panels.forEach(p => {
+      p.classList.toggle('active', p.id === `policy-panel-${tabKey}`);
+    });
+    modal.removeAttribute('hidden');
+    modal.style.display = 'flex';
+  }
+
+  function closePolicy() {
+    if (!modal) return;
+    modal.setAttribute('hidden', '');
+    modal.style.display = 'none';
+  }
+
+  // Bind footer buttons & legal links
+  document.querySelectorAll('.policy-trigger-btn, .policy-legal-link').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const tab = btn.dataset.policy || 'terms';
+      openPolicy(tab);
+    });
+  });
+
+  if (btnClose) {
+    btnClose.addEventListener('click', closePolicy);
+  }
+
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closePolicy();
+    });
+  }
+
+  // Tab click listeners
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      openPolicy(tab.dataset.tab);
+    });
+  });
+
+  // ESC key listener to close policy modal
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal && !modal.hasAttribute('hidden') && modal.style.display !== 'none') {
+      closePolicy();
+    }
+  });
+
+  // Check URL hash for direct links (e.g., #policy-shipping)
+  const hash = (window.location.hash || '').toLowerCase();
+  if (hash.includes('policy') || hash.includes('terms') || hash.includes('shipping') || hash.includes('return') || hash.includes('refund')) {
+    let target = 'terms';
+    if (hash.includes('shipping')) target = 'shipping';
+    else if (hash.includes('return')) target = 'returns';
+    else if (hash.includes('refund')) target = 'refunds';
+    openPolicy(target);
+  }
+}
+
 if (document.readyState === 'loading') {
   window.addEventListener('DOMContentLoaded', () => {
     initThreeReels();
     setupDeliveryZoneListeners();
+    initPolicyModal();
   });
 } else {
   initThreeReels();
   setupDeliveryZoneListeners();
+  initPolicyModal();
 }
 
