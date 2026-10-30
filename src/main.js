@@ -7068,7 +7068,12 @@ function getSavedAddresses() {
     const raw = localStorage.getItem('ttv_saved_addresses');
     if (!raw) return DEFAULT_SAVED_ADDRESSES;
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) && parsed.length > 0 ? parsed : DEFAULT_SAVED_ADDRESSES;
+    if (!Array.isArray(parsed) || parsed.length === 0) return DEFAULT_SAVED_ADDRESSES;
+    parsed.forEach(addr => {
+      if (addr.phone && addr.phone.includes('800 000')) addr.phone = '+234 803 651 4814';
+      if (!addr.email) addr.email = 'client@thetoysvirago.shop';
+    });
+    return parsed;
   } catch (e) {
     return DEFAULT_SAVED_ADDRESSES;
   }
@@ -7510,6 +7515,8 @@ function syncFormWithAddress(addr) {
 function clearAddressInputs() {
   if (inputFirstName) inputFirstName.value = '';
   if (inputLastName) inputLastName.value = '';
+  if (inputEmail) inputEmail.value = '';
+  if (inputPhone) inputPhone.value = '';
   if (inputAddress) inputAddress.value = '';
   if (inputCity) inputCity.value = '';
   if (inputNotes) inputNotes.value = '';

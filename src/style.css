@@ -1039,11 +1039,13 @@ body.cart-open .main-header,
 .policy-tabs {
   display: flex;
   background: #f8fafc;
-  padding: 8px 16px;
-  gap: 6px;
+  padding: 10px 18px;
+  gap: 8px;
   border-bottom: 1px solid #f1f5f9;
   overflow-x: auto;
   scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  align-items: center;
 }
 .policy-tabs::-webkit-scrollbar {
   display: none;
@@ -1052,12 +1054,19 @@ body.cart-open .main-header,
   background: transparent;
   border: 1px solid transparent;
   border-radius: 8px !important;
-  padding: 7px 13px;
+  padding: 9px 15px;
   font-size: 12.5px;
   font-weight: 600;
+  line-height: 1.4;
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   color: #64748b;
   cursor: pointer;
   white-space: nowrap;
+  flex-shrink: 0;
+  box-sizing: border-box;
   transition: all 0.15s ease;
 }
 .policy-tab:hover {
@@ -1068,6 +1077,47 @@ body.cart-open .main-header,
   background: #0c0c0e;
   color: #ffffff;
   border-color: #0c0c0e;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+@media (max-width: 640px) {
+  .policy-modal-card {
+    max-height: 90vh !important;
+    width: 95% !important;
+    margin: auto !important;
+  }
+  .policy-tabs {
+    padding: 10px 12px !important;
+    gap: 8px !important;
+  }
+  .policy-tab {
+    padding: 9px 13px !important;
+    font-size: 12px !important;
+    min-height: 38px !important;
+    line-height: 1.4 !important;
+  }
+  .policy-content-body {
+    padding: 18px 18px 30px !important;
+  }
+  .policy-panel h4 {
+    font-size: 17px !important;
+    margin-bottom: 6px !important;
+  }
+  .policy-intro {
+    font-size: 12.5px !important;
+    margin-bottom: 16px !important;
+    padding-bottom: 12px !important;
+  }
+  .policy-item h5 {
+    font-size: 13px !important;
+  }
+  .policy-item p {
+    font-size: 12.5px !important;
+    line-height: 1.6 !important;
+  }
+  .policy-modal-footer {
+    padding: 12px 18px !important;
+    font-size: 12px !important;
+  }
 }
 .policy-content-body {
   padding: 22px 24px;
@@ -4317,26 +4367,50 @@ body.cart-open {
   -webkit-overflow-scrolling: touch !important;
 }
 
-/* Universal Anti-Auto-Zoom on Mobile Devices (min 16px font-size prevents iOS/Android auto-zoom site-wide) */
+/* Universal Mobile Input Sizing & Anti-Zoom Defaults */
 @media (max-width: 800px) {
-  input,
-  textarea,
-  select,
-  input[type="text"],
-  input[type="email"],
-  input[type="tel"],
-  input[type="password"],
-  input[type="search"],
-  input[type="number"],
-  .confession-textarea,
-  .confession-input-field,
-  .co-field input,
-  .co-field select,
-  .modal-overlay input,
-  .modal-overlay textarea,
   .search-input,
-  .form-input {
+  .form-input,
+  .confession-textarea,
+  .confession-input-field {
     font-size: 16px !important;
+  }
+
+  /* Compact & Refined Checkout Modal Form on Mobile */
+  #checkout-modal .input-field,
+  #checkout-modal input[type="text"],
+  #checkout-modal input[type="email"],
+  #checkout-modal input[type="tel"],
+  #checkout-modal .zone-select,
+  .co-form .input-field,
+  .zone-select {
+    font-size: 12px !important;
+    padding: 7px 10px !important;
+    min-height: 35px !important;
+    line-height: 1.3 !important;
+    border-radius: 6px !important;
+  }
+
+  #checkout-modal .input-field::placeholder,
+  .co-form .input-field::placeholder,
+  #checkout-modal input::placeholder {
+    font-size: 11px !important;
+    color: #94a3b8 !important;
+    opacity: 0.85 !important;
+    font-weight: 400 !important;
+    letter-spacing: normal !important;
+  }
+
+  #checkout-modal .zone-select,
+  .zone-select {
+    font-size: 11.5px !important;
+    padding: 7px 8px !important;
+    min-height: 35px !important;
+  }
+
+  #checkout-modal .zone-select option,
+  .zone-select option {
+    font-size: 11.5px !important;
   }
 }
 
