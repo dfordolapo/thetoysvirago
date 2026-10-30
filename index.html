@@ -1218,6 +1218,64 @@
             </div>
           </div>
 
+          <!-- Delivery Zone & Method Selector -->
+          <div class="delivery-zone-section" id="co-delivery-zone-box">
+            <div class="co-zone-header">
+              <label class="co-label" style="margin-bottom: 0;">Delivery Zone &amp; Method</label>
+              <span id="co-zone-auto-badge" class="zone-detected-badge">📍 Auto-detected</span>
+            </div>
+
+            <!-- Free launch delivery perk banner (discreet, no order numbers) -->
+            <div id="co-free-delivery-banner" class="co-free-delivery-banner" style="display: none;">
+              🎉 <strong>Launch Special:</strong> FREE Delivery Applied!
+            </div>
+
+            <!-- Zone Selector Dropdown -->
+            <select id="co-delivery-zone-select" class="zone-select" title="Delivery Location / Zone">
+              <optgroup label="Lagos State (Doorstep Dispatch Courier)">
+                <option value="lagos_island_core" data-type="lagos" data-fee="4500" selected>Lagos Island Core (Lekki 1, Ikoyi, VI, Oniru, Banana Island) — ₦4,500</option>
+                <option value="lagos_island_ext" data-type="lagos" data-fee="5500">Lagos Island Extended (Chevron, Ikate, Agungi, VGC, Ajah, Sangotedo) — ₦5,500</option>
+                <option value="lagos_island_far" data-type="lagos" data-fee="6500">Lagos Island Far Axis (Awoyaya, Lakowe, Bogije, Epe) — ₦6,500</option>
+                <option value="lagos_mainland_central" data-type="lagos" data-fee="4000">Lagos Mainland Central / Ikeja (Ikeja GRA, Maryland, Magodo, Gbagada) — ₦4,000</option>
+                <option value="lagos_mainland_near" data-type="lagos" data-fee="3500">Lagos Mainland Near (Yaba, Surulere, Shomolu, Ebute Metta) — ₦3,500</option>
+                <option value="lagos_mainland_west" data-type="lagos" data-fee="4500">Lagos Mainland West (Festac, Okota, Isolo, Agege, Alimosho, Berger) — ₦4,500</option>
+                <option value="lagos_mainland_far" data-type="lagos" data-fee="5000">Lagos Mainland Outskirts (Ikorodu, Ojo, LASU, Badagry) — ₦5,000</option>
+              </optgroup>
+              <optgroup label="Interstate (Outside Lagos)">
+                <option value="abuja_central" data-type="interstate" data-park="4500" data-door="6000">Abuja Central (Maitama, Wuse, Garki, Asokoro, Guzape, Jabi) — ₦4,500</option>
+                <option value="abuja_outer" data-type="interstate" data-park="4500" data-door="6000">Abuja Outer / Satellite (Gwarinpa, Apo, Lokogoma, Kubwa, Lugbe) — ₦4,500</option>
+                <option value="ibadan" data-type="interstate" data-park="4000" data-door="6000">Oyo / Ibadan (Bodija, Oluyole, Jericho, Ring Road, Akobo) — ₦4,000</option>
+                <option value="ogun" data-type="interstate" data-park="4500" data-door="6000">Ogun State (Magboro, Arepo, Ibafo, Mowe, Ota, Abeokuta) — ₦4,500</option>
+                <option value="ph" data-type="interstate" data-park="4500" data-door="6000">Rivers / Port Harcourt (Old/New GRA, Peter Odili, Woji, D/Line) — ₦4,500</option>
+                <option value="edo_delta" data-type="interstate" data-park="4500" data-door="6000">Edo &amp; Delta (Benin City, Asaba, Warri) — ₦4,500</option>
+                <option value="southeast" data-type="interstate" data-park="4500" data-door="6000">South-East Hubs (Enugu, Owerri, Awka, Onitsha, Aba) — ₦4,500</option>
+                <option value="northern_hubs" data-type="interstate" data-park="5500" data-door="7000">Northern Hubs (Kano, Kaduna, Jos, Ilorin) — ₦5,500</option>
+                <option value="nationwide_other" data-type="interstate" data-park="4500" data-door="6000">Other States Nationwide (Uyo, Calabar, Bayelsa, etc.) — ₦4,500</option>
+              </optgroup>
+            </select>
+
+            <!-- Interstate Delivery Method Cards (Shown only when outside Lagos) -->
+            <div id="co-interstate-options" class="interstate-options-wrap" style="display: none;">
+              <div class="delivery-option-card active" data-method="park" id="opt-park-delivery">
+                <div class="deliv-opt-radio"></div>
+                <div class="deliv-opt-info">
+                  <div class="deliv-opt-title">🏢 Park / Terminal Pickup</div>
+                  <div class="deliv-opt-desc">Collect at central transport station</div>
+                </div>
+                <div class="deliv-opt-price" id="park-fee-label">₦4,500</div>
+              </div>
+
+              <div class="delivery-option-card" data-method="doorstep" id="opt-doorstep-delivery">
+                <div class="deliv-opt-radio"></div>
+                <div class="deliv-opt-info">
+                  <div class="deliv-opt-title">🚪 Doorstep Courier</div>
+                  <div class="deliv-opt-desc">Direct to your door (balance verified on WA)</div>
+                </div>
+                <div class="deliv-opt-price" id="doorstep-fee-label">from ₦6,000</div>
+              </div>
+            </div>
+          </div>
+
           <!-- Delivery Timeline Card -->
           <div class="delivery-timeline-card in-checkout">
             <div class="deliv-line">
@@ -1270,7 +1328,7 @@
           <div class="co-sticky-footer">
             <div class="co-summary">
               <div class="cart-line"><span>Subtotal</span><span id="co-subtotal">₦0</span></div>
-              <div class="cart-line"><span>Discreet Packaging &amp; Delivery</span><span class="green-txt">Free</span></div>
+              <div class="cart-line"><span>Discreet Packaging &amp; Delivery</span><span id="co-delivery-fee" class="ruby-txt">₦4,500</span></div>
               <div class="cart-line total-line"><span>Total Due</span><span id="co-total" class="ruby-txt">₦0</span></div>
             </div>
 
