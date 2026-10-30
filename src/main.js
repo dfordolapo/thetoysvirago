@@ -1,4 +1,4 @@
-import { getSupabaseProducts, recordSupabaseConfession, getSupabaseConfessions, recordSupabaseOrder } from './supabase.js';
+import { getSupabaseProducts, recordSupabaseConfession, getSupabaseConfessions, recordSupabaseOrder, getSupabaseOrders } from './supabase.js';
 
 /**
  * ROUGE NOIR - Haute Intimité & Sensual Wellness
@@ -3818,10 +3818,10 @@ const PRODUCT_DATABASE = {
     badge: 'BESTSELLER',
     price: 22000,
     priceStr: '₦22,000',
-    img: '/assets/category-bdsm.webp',
-    desc: 'Curated luxury BDSM starter collection featuring plush padded restraints, sensory blindfold, soft feather tickler, and bondage essentials for thrilling bedroom submission.',
+    img: '/assets/10pc-bdsm-1.jpg',
+    desc: 'Curated 10-piece luxury BDSM starter collection featuring plush padded restraints, sensory blindfold, soft feather tickler, and bondage essentials for thrilling bedroom submission.',
     specs: [
-      { label: 'Includes', value: 'Plush Cuffs, Blindfold, Teaser & Restraints' },
+      { label: 'Includes', value: '10-Piece Kit: Restraints, Blindfold, Whip, Gag, Collar & More' },
       { label: 'Comfort', value: 'Padded Body-Safe Vegan Leather' },
       { label: 'Hardware', value: 'Quick-Release Alloy Clasps' },
       { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
@@ -3831,11 +3831,14 @@ const PRODUCT_DATABASE = {
     freq: 70,
     pattern: 'luxe',
     media: [
-      { type: 'image', src: '/assets/category-bdsm.webp', label: 'Bondage Essentials Kit' }
+      { type: 'image', src: '/assets/10pc-bdsm-1.jpg', label: '10-Piece Bondage Kit Overview' },
+      { type: 'image', src: '/assets/10pc-bdsm-2.jpg', label: 'Restraints & Cuffs Detail' },
+      { type: 'image', src: '/assets/10pc-bdsm-3.jpg', label: 'Accessories & Finishes' },
+      { type: 'image', src: '/assets/10pc-bdsm-4.jpg', label: 'Complete 10-Piece Collection' }
     ],
     inStock: true,
     variants: [
-      { name: 'Black', price: 22000, priceStr: '₦22,000', img: '/assets/category-bdsm.webp' }
+      { name: 'Noir Black', price: 22000, priceStr: '₦22,000', img: '/assets/10pc-bdsm-1.jpg' }
     ]
   },
   'leather-bondage-chest': {
@@ -6579,6 +6582,44 @@ if (typeof window !== 'undefined') {
         openQuickviewForProduct(deepProduct, card);
       }, 350);
     }
+
+    const deepOrder = urlParams.get('order');
+    if (deepOrder) {
+      setTimeout(() => {
+        let matchedOrder = null;
+        try {
+          const localOrders = JSON.parse(localStorage.getItem('ttv_local_orders') || '[]');
+          matchedOrder = localOrders.find(o => o.reference === deepOrder);
+          if (!matchedOrder) {
+            const last = JSON.parse(localStorage.getItem('ttv_last_order') || 'null');
+            if (last && last.reference === deepOrder) matchedOrder = last;
+          }
+        } catch (e) {}
+
+        const showOrderReceipt = (ord) => {
+          if (!ord) return;
+          const itemsList = (ord.items || []).map(i => `${i.qty || 1}x ${i.title}`).join(', ');
+          const waText = encodeURIComponent(
+            `Hello TheToysVirago Concierge,\n\nInquiring on my confirmed order ${ord.reference}.\n• Items: ${itemsList}\n• Total Amount: ₦${Number(ord.total_amount || 0).toLocaleString()}\n• Delivery: ${ord.address || ''}`
+          );
+          const waUrl = `https://wa.me/${STORE_WHATSAPP}?text=${waText}`;
+          displayOrderSuccess(ord, waUrl);
+          if (checkoutModal) {
+            checkoutModal.removeAttribute('hidden');
+            checkoutModal.style.display = 'flex';
+          }
+        };
+
+        if (matchedOrder) {
+          showOrderReceipt(matchedOrder);
+        } else {
+          getSupabaseOrders().then(orders => {
+            const remoteFound = (orders || []).find(o => o.reference === deepOrder);
+            if (remoteFound) showOrderReceipt(remoteFound);
+          }).catch(() => {});
+        }
+      }, 400);
+    }
   };
 
   if (document.readyState === 'loading') {
@@ -7358,7 +7399,7 @@ if (checkoutForm) {
       } catch (err) {}
     }
 
-    const { finalTotal } = getCheckoutCartTotals();
+    const { rawSubtotal, finalTotal } = getCheckoutCartTotals();
     const orderRef = currentCheckoutRef || generateUniqueOrderRef();
 
     const orderPayload = {
@@ -7368,12 +7409,15 @@ if (checkoutForm) {
       phone: phone,
       address: `${address}, ${city} (Email: ${email})${notes ? ' · Note: ' + notes : ''}`,
       city: city,
+      subtotal: rawSubtotal,
+      delivery_fee: finalTotal > rawSubtotal ? (finalTotal - rawSubtotal) : 0,
       items: cart.map(item => ({
         id: item.id,
         title: item.title,
         price: item.price,
         qty: item.qty,
-        finish: item.finish || ''
+        finish: item.finish || '',
+        img: item.img || item.image || ''
       })),
       total_amount: finalTotal,
       status: 'awaiting_confirmation'
@@ -7391,8 +7435,8 @@ if (checkoutForm) {
       console.warn('Supabase order logging fallback:', err);
     }
 
-    // Immediately dispatch Order Alert email to Store Owner (dfordolapo@gmail.com & admin@thetoysvirago.shop)
-    // and send initial order acknowledgment to customer via Resend
+    // Immediately dispatch Order Alert email to Store Owner (thetoysvirago@gmail.com) via Resend.
+    // (Customer receives their first email only when payment is verified and confirmed in Admin)
     try {
       fetch('/api/send-confirmation', {
         method: 'POST',
@@ -7805,6 +7849,19 @@ function initConfessionsSlideshow() {
     });
   }
 
+  // Auto-scroll and open modal if navigated directly to #confessions or with review/confess query
+  const checkDirectConfess = () => {
+    if (window.location.hash === '#confessions' || window.location.search.includes('confess=') || window.location.search.includes('review=')) {
+      setTimeout(() => {
+        const confSec = document.getElementById('confessions') || document.getElementById('whispers');
+        if (confSec) confSec.scrollIntoView({ behavior: 'smooth' });
+        openConfessionModal();
+      }, 500);
+    }
+  };
+  checkDirectConfess();
+  window.addEventListener('hashchange', checkDirectConfess);
+
   // Handle confession submission: Saves, prepends to Slide 0 & displays on phone + pills
   if (form) {
     const textInput = document.getElementById('conf-text');
@@ -7838,6 +7895,19 @@ function initConfessionsSlideshow() {
         showToast('Confession pinned! It is now live in the community whispers.');
       }
     });
+  }
+
+  // Smooth scroll and review prompt handler for email links (#confessions, #review)
+  if (window.location.hash === '#confessions' || window.location.hash === '#review' || window.location.hash === '#whispers') {
+    setTimeout(() => {
+      const targetSec = document.getElementById('confessions') || document.getElementById('whispers');
+      if (targetSec) {
+        targetSec.scrollIntoView({ behavior: 'smooth' });
+      }
+      if (window.location.hash === '#review') {
+        openConfessionModal();
+      }
+    }, 450);
   }
 }
 

@@ -1,5 +1,5 @@
 import { resolve } from 'path';
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 
 // Dev middleware to route /api/send-confirmation through Node.js during local Vite development
 function resendDevApiPlugin() {
@@ -49,15 +49,21 @@ function resendDevApiPlugin() {
   };
 }
 
-export default defineConfig({
-  plugins: [resendDevApiPlugin()],
-  build: {
-    rollupOptions: {
-      input: {
-        main: resolve(__dirname, 'index.html'),
-        products: resolve(__dirname, 'products.html'),
-        admin: resolve(__dirname, 'admin.html'),
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '');
+  Object.assign(process.env, env);
+
+  return {
+    plugins: [resendDevApiPlugin()],
+    build: {
+      rollupOptions: {
+        input: {
+          main: resolve(__dirname, 'index.html'),
+          products: resolve(__dirname, 'products.html'),
+          admin: resolve(__dirname, 'admin.html'),
+          emails: resolve(__dirname, 'emails.html'),
+        },
       },
     },
-  },
+  };
 });

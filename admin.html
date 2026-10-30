@@ -1618,6 +1618,36 @@
       white-space: nowrap;
       flex-shrink: 0;
     }
+    .dispatched-badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #e0f2fe;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .delivered-badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #fdf2f8;
+      color: #9f1239;
+      border: 1px solid #fbcfe8;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
 
     /* ================= RESPONSIVE MOBILE OVERHAUL: SCALED DOWN INPUTS & HOUSE OF NINA COMPACT SIZING ================= */
     @media (max-width: 768px) {
@@ -2310,6 +2340,8 @@
             <button type="button" class="order-filter-pill active" data-filter="all">All Orders</button>
             <button type="button" class="order-filter-pill" data-filter="awaiting_confirmation">⏳ Awaiting Confirmation</button>
             <button type="button" class="order-filter-pill" data-filter="confirmed">✓ Confirmed</button>
+            <button type="button" class="order-filter-pill" data-filter="dispatched">🚚 Dispatched</button>
+            <button type="button" class="order-filter-pill" data-filter="delivered">🎁 Delivered</button>
           </div>
         </div>
 

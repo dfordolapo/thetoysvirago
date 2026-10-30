@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Email Studio &amp; Preview &bull; TheToysVirago</title>
+  <link rel="icon" type="image/webp" href="/assets/logo.webp" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090a0f;
+      --card-bg: #12131a;
+      --ruby: #9f1239;
+      --ruby-bright: #e11d48;
+      --gold: #e2cb98;
+      --border: rgba(255, 255, 255, 0.1);
+      --text: #f8fafc;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header.studio-header {
+      background: #0c0c0e;
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-title {
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      color: #fff;
+    }
+    .brand-tag {
+      font-size: 10.5px;
+      background: rgba(159, 18, 57, 0.25);
+      border: 1px solid var(--ruby);
+      color: #fecdd3;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 7px 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+    .nav-btn.primary {
+      background: var(--ruby);
+      border-color: var(--ruby-bright);
+    }
+    .nav-btn.primary:hover {
+      background: var(--ruby-bright);
+    }
+    .studio-layout {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - 64px);
+    }
+    /* Sidebar */
+    .studio-sidebar {
+      width: 320px;
+      background: var(--card-bg);
+      border-right: 1px solid var(--border);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      overflow-y: auto;
+    }
+    .sidebar-section-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .email-selector-btn {
+      width: 100%;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      padding: 12px 14px;
+      border-radius: 8px;
+      color: #fff;
+      cursor: pointer;
+      margin-bottom: 8px;
+      transition: all 0.2s ease;
+    }
+    .email-selector-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .email-selector-btn.active {
+      background: rgba(159, 18, 57, 0.15);
+      border-color: var(--ruby-bright);
+      box-shadow: 0 0 15px rgba(225, 29, 72, 0.2);
+    }
+    .selector-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+    .selector-desc {
+      font-size: 11.5px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    .send-box {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+    }
+    .send-box input {
+      width: 100%;
+      background: #090a0f;
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 9px 12px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      margin-top: 6px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+    .send-box input:focus {
+      outline: none;
+      border-color: var(--ruby);
+    }
+    /* Preview Stage */
+    .studio-stage {
+      flex: 1;
+      background: #090a0f;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px;
+      overflow-y: auto;
+    }
+    .stage-toolbar {
+      width: 100%;
+      max-width: 700px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .viewport-toggle {
+      display: flex;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      padding: 3px;
+      gap: 4px;
+    }
+    .vp-btn {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s ease;
+    }
+    .vp-btn.active {
+      background: #fff;
+      color: #0c0c0e;
+    }
+    .preview-frame-wrap {
+      width: 100%;
+      max-width: 660px;
+      transition: max-width 0.3s ease;
+      background: #f1ede8;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+    }
+    .preview-frame-wrap.mobile-view {
+      max-width: 380px;
+      border: 8px solid #201e1c;
+      border-radius: 36px;
+    }
+    iframe#email-iframe {
+      width: 100%;
+      min-height: 420px;
+      height: 480px;
+      border: none;
+      background: transparent;
+      display: block;
+      transition: height 0.2s ease;
+    }
+    /* Toast feedback */
+    .toast-box {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #111116;
+      border: 1px solid var(--ruby);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 860px) {
+      .studio-layout { flex-direction: column; height: auto; }
+      .studio-sidebar { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="studio-header">
+    <div class="brand-wrap">
+      <img src="/assets/logo.webp" alt="The Toys Virago" width="30" height="30" style="border-radius: 6px;" />
+      <span class="brand-title">TheToysVirago</span>
+      <span class="brand-tag">Email Design Studio (Local)</span>
+    </div>
+    <div class="header-controls">
+      <a href="/" class="nav-btn">&larr; Home</a>
+      <a href="/products.html" class="nav-btn">Shop</a>
+      <a href="/admin.html" class="nav-btn">Admin Vault</a>
+    </div>
+  </header>
+
+  <div class="studio-layout">
+    <!-- Sidebar Controls -->
+    <aside class="studio-sidebar">
+      <div>
+        <div class="sidebar-section-title">Select Email Template to View</div>
+
+        <!-- Option 1: Store Owner Alert -->
+        <button type="button" class="email-selector-btn" data-template="owner_alert">
+          <div class="selector-title">
+            <span>🚨 Store Owner Alert</span>
+          </div>
+          <div class="selector-desc">Instant phone alert sent to you (thetoysvirago@gmail.com) the moment a customer completes checkout.</div>
+        </button>
+
+        <!-- Option 2: Customer Order Confirmed -->
+        <button type="button" class="email-selector-btn active" data-template="customer_confirmed">
+          <div class="selector-title">
+            <span>✓ Customer Order Confirmed</span>
+          </div>
+          <div class="selector-desc">Sent when you verify payment and click "Confirm Order" in Admin.</div>
+        </button>
+
+        <!-- Option 3: Customer Order Dispatched -->
+        <button type="button" class="email-selector-btn" data-template="customer_dispatched">
+          <div class="selector-title">
+            <span>🚚 Customer Order Dispatched</span>
+          </div>
+          <div class="selector-desc">Sent when courier picks up parcel; includes 100% discreet packaging assurance.</div>
+        </button>
+
+        <!-- Option 4: Customer Order Delivered & Reviews -->
+        <button type="button" class="email-selector-btn" data-template="customer_delivered">
+          <div class="selector-title">
+            <span>🎁 Customer Order Delivered &amp; Reviews</span>
+          </div>
+          <div class="selector-desc">Sent when parcel is delivered; prompts customer to leave a review and whisper a confession!</div>
+        </button>
+      </div>
+
+      <!-- Live Dispatch Test Box -->
+      <div class="send-box">
+        <div class="sidebar-section-title" style="margin-bottom: 4px;">🚀 Test Live Send to Your Inbox</div>
+        <div style="font-size: 11.5px; color: var(--muted); margin-bottom: 8px;">
+          Send the currently viewed template directly via Resend to verify delivery &amp; formatting in your real email app:
+        </div>
+        <label for="test-email-input" style="font-size: 11px; font-weight: 600; color: #cbd5e1;">Recipient Email:</label>
+        <input type="email" id="test-email-input" value="thetoysvirago@gmail.com" placeholder="e.g. thetoysvirago@gmail.com" />
+        <button type="button" id="btn-send-test" class="nav-btn primary" style="width: 100%; justify-content: center; padding: 10px;">
+          Send Test to Inbox Now &rarr;
+        </button>
+      </div>
+
+      <div style="font-size: 11px; color: #64748b; line-height: 1.5; padding: 8px; border-left: 2px solid var(--ruby);">
+        <strong>Sender Address:</strong><br/>
+        All templates send from <code>TheToysVirago &lt;admin@thetoysvirago.shop&gt;</code> using your verified domain.
+      </div>
+    </aside>
+
+    <!-- Preview Stage -->
+    <main class="studio-stage">
+      <div class="stage-toolbar">
+        <div>
+          <strong id="active-template-name" style="font-size: 15px; color: #fff;">🚨 Store Owner Order Alert</strong>
+          <div id="active-template-subject" style="font-size: 12px; color: var(--gold); margin-top: 2px;">Subject: 🚨 New Order Placed: [TTV-88219] ₦47,000 from Amara Kalu</div>
+        </div>
+
+        <div class="viewport-toggle">
+          <button type="button" class="vp-btn active" id="btn-vp-desktop">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            Desktop (600px)
+          </button>
+          <button type="button" class="vp-btn" id="btn-vp-mobile">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            Mobile (375px)
+          </button>
+        </div>
+      </div>
+
+      <div class="preview-frame-wrap" id="preview-wrapper">
+        <iframe id="email-iframe" title="Email Preview"></iframe>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast" class="toast-box"></div>
+
+  <script>
+    // Sample Order Mock
+    const mockOrder = {
+      reference: 'TTV-88219',
+      customer_name: 'Amara Kalu',
+      customer_email: 'amara.kalu@gmail.com',
+      phone: '08031234567',
+      address: '14 Admiralty Way, Lekki Phase 1, Lagos',
+      subtotal: 50000,
+      delivery_fee: 2500,
+      total_amount: 52500,
+      items: [
+        { title: 'Maeve Set', variant: 'Red · M', finish: 'Red · M', qty: 1, price: 22000, img: '/assets/product-serum.webp' },
+        { title: 'Pulse Mini', variant: 'Cherry Red', finish: 'Cherry Red', qty: 1, price: 28000, img: '/assets/product-rose.webp' }
+      ]
+    };
+
+    // Templates generator
+    function getTemplateHtml(type) {
+      const itemsListHtml = mockOrder.items.map(item => `
+        <tr style="border-bottom: 1px solid #f1f5f9;">
+          <td style="padding: 12px 10px; font-size: 14px; color: #0f172a;">
+            <strong>${item.title}</strong>
+            <br/><span style="font-size: 11.5px; color: #64748b; background: #f8fafc; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 3px;">Option: ${item.finish}</span>
+          </td>
+          <td style="padding: 12px 10px; font-size: 14px; text-align: center; color: #475569; font-weight: 600;">
+            ${item.qty}
+          </td>
+          <td style="padding: 12px 10px; font-size: 14px; text-align: right; color: #9f1239; font-weight: 700;">
+            ₦${item.price.toLocaleString()}
+          </td>
+        </tr>
+      `).join('');
+
+      // 1. Owner Alert
+      if (type === 'owner_alert') {
+        return `
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body style="margin: 0; padding: 12px 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f1f5f9; color: #0f172a; -webkit-font-smoothing: antialiased;">
+  <div style="max-width: 440px; margin: 0 auto; background: #ffffff; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+    <div style="background: #9f1239; padding: 16px 18px; text-align: center; color: #ffffff;">
+      <h2 style="margin: 0; font-size: 16px; letter-spacing: 0.05em; text-transform: uppercase;">🚨 New Order Received!</h2>
+      <p style="margin: 4px 0 0; font-size: 12px; opacity: 0.95;">Total Value: <strong>₦47,000</strong> &bull; Ref: <strong>TTV-88219</strong></p>
+    </div>
+    <div style="padding: 16px 18px 20px;">
+      <div style="background: #f8fafc; border-left: 3px solid #9f1239; padding: 10px 14px; margin-bottom: 16px; border-radius: 6px;">
+        <p style="margin: 0 0 4px; font-size: 12px;"><strong>Customer:</strong> Amara Kalu</p>
+        <p style="margin: 0 0 4px; font-size: 12px;"><strong>Phone:</strong> <a href="tel:08031234567" style="color: #9f1239; font-weight: 600;">08031234567</a></p>
+        <p style="margin: 0 0 4px; font-size: 12px;"><strong>Email:</strong> amara.kalu@gmail.com</p>
+        <p style="margin: 0; font-size: 12px;"><strong>Delivery Address:</strong> 14 Admiralty Way, Lekki Phase 1, Lagos</p>
+      </div>
+
+      <h3 style="margin: 0 0 8px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: #475569;">Items Ordered</h3>
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 18px;">
+        <thead>
+          <tr style="border-bottom: 1px solid #e2e8f0; text-align: left; font-size: 10.5px; color: #64748b;">
+            <th style="padding: 6px;">Product</th>
+            <th style="padding: 6px; text-align: center;">Qty</th>
+            <th style="padding: 6px; text-align: right;">Price</th>
+          </tr>
+        </thead>
+        <tbody>${itemsListHtml}</tbody>
+      </table>
+
+      <div style="text-align: center; margin-top: 10px;">
+        <a href="https://thetoysvirago.shop/admin" target="_blank" rel="noopener" style="display: inline-block; background: #0c0c0e; color: #ffffff; padding: 10px 20px; border-radius: 8px !important; font-weight: 700; text-decoration: none; font-size: 11.5px;">
+          Open Admin to Confirm Order &rarr;
+        </a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>`;
+      }
+
+      // 2. Customer Order Received
+      if (type === 'customer_received') {
+        return `
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body style="margin: 0; padding: 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f8fafc; color: #0f172a;">
+  <div style="max-width: 580px; margin: 0 auto; background: #ffffff; border-radius: 14px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 10px 30px rgba(0,0,0,0.06);">
+    <div style="background: #0c0c0e; padding: 32px 20px; text-align: center; color: #ffffff;">
+      <h1 style="margin: 0; font-size: 22px; letter-spacing: 0.08em; text-transform: uppercase; color: #e2cb98;">The Toys Virago</h1>
+      <p style="margin: 8px 0 0; font-size: 13px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em;">Order Received &bull; Transfer Verification Underway</p>
+    </div>
+    <div style="padding: 30px 24px;">
+      <p style="margin: 0 0 14px; font-size: 15px;">Hello <strong>Amara Kalu</strong>,</p>
+      <p style="margin: 0 0 20px; font-size: 14.5px; color: #334155; line-height: 1.6;">
+        Thank you for choosing TheToysVirago! We have received your order details for reference <strong>TTV-88219</strong> (Total: <strong>₦47,000</strong>). Our concierge team is verifying your payment and preparing your discreet courier package.
+      </p>
+
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px 18px; margin-bottom: 22px; font-size: 13px; color: #475569; line-height: 1.6;">
+        <strong>🔒 100% Discreet Packaging Guarantee:</strong> Your parcel will arrive in a plain, unbranded opaque courier flyer with zero mention of adult novelties, intimate wellness, or brand names on the exterior.
+      </div>
+
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+        <thead>
+          <tr style="border-bottom: 2px solid #e2e8f0; text-align: left; font-size: 12px; color: #64748b;">
+            <th style="padding: 8px;">Product</th>
+            <th style="padding: 8px; text-align: center;">Qty</th>
+            <th style="padding: 8px; text-align: right;">Price</th>
+          </tr>
+        </thead>
+        <tbody>${itemsListHtml}</tbody>
+      </table>
+
+      <div style="text-align: center;">
+        <a href="https://wa.me/2348036514814?text=Hello%20TheToysVirago%2C%20following%20up%20on%20my%20order%20TTV-88219" target="_blank" rel="noopener" style="display: inline-block; background: #0c0c0e; color: #ffffff; padding: 12px 24px; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: 13px;">
+          Chat with Concierge on WhatsApp &rarr;
+        </a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>`;
+      }
+
+      // 3. Customer Order Confirmed (Luxury Torn Receipt matching reference)
+      if (type === 'customer_confirmed') {
+        const receiptItemsHtml = mockOrder.items.map(item => `
+          <tr>
+            <td style="padding: 7px 0; border-bottom: 1px solid #dfd8cd; vertical-align: middle;">
+              <table role="presentation" cellspacing="0" cellpadding="0" width="100%">
+                <tr>
+                  <td width="48" valign="middle" style="width: 48px; padding-right: 8px;">
+                    <img src="${item.img}" width="42" height="42" alt="${item.title}" style="display: block; width: 42px; height: 42px; border-radius: 6px; object-fit: cover; background-color: #232228;" />
+                  </td>
+                  <td valign="middle" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+                    <div style="font-size: 11.5px; font-weight: 700; color: #1a1819; line-height: 1.25;">
+                      ${item.title}
+                    </div>
+                    <div style="font-size: 9.5px; color: #6b635b; margin-top: 1px;">
+                      ${item.variant}
+                    </div>
+                  </td>
+                  <td width="34" valign="middle" align="center" style="width: 34px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 10.5px; color: #4a453e; font-weight: 500; white-space: nowrap;">
+                    &times; ${item.qty}
+                  </td>
+                  <td width="76" valign="middle" align="right" style="width: 76px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 11.5px; font-weight: 700; color: #1a1819; white-space: nowrap;">
+                    ₦${(item.price * item.qty).toLocaleString()}
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        `).join('');
+
+        return `<!DOCTYPE html>
+<html lang="en" style="background-color: #f1ede8;">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your TheToysVirago order is confirmed</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: #f1ede8 !important;
+      min-height: 100%;
+      -webkit-font-smoothing: antialiased;
+    }
+  </style>
+</head>
+<body style="margin: 0; padding: 12px 0; background-color: #f1ede8; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1a1819; -webkit-font-smoothing: antialiased; min-height: 100%;">
+  <!-- Preview Text Spacers -->
+  <div style="display: none; max-height: 0px; overflow: hidden; font-size: 1px; line-height: 1px; color: #f1ede8; opacity: 0; mso-hide: all;">
+    We've got your order. Here's everything you need to know.&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;
+  </div>
+
+  <table role="presentation" width="100%" height="100%" cellspacing="0" cellpadding="0" style="background-color: #f1ede8; padding: 10px 8px; min-height: 100%;">
+    <tr>
+      <td align="center">
+        <!-- Main Email Container: Exact Width of Receipt Alone, Zero Dark Envelope Background -->
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width: 420px; margin: 0 auto; box-shadow: 0 8px 25px rgba(0,0,0,0.08); border-radius: 8px; overflow: hidden;">
+          
+          <!-- Realistic Torn Top Edge -->
+          <tr>
+            <td style="line-height: 0; padding: 0;">
+              <img src="https://iili.io/nSGQw79.png" width="420" alt="" style="display: block; width: 100%; max-width: 420px; height: auto; border: 0;" />
+            </td>
+          </tr>
+
+          <!-- Ivory Paper Receipt Body -->
+          <tr>
+            <td style="background-color: #ede6dc; padding: 12px 18px 14px; color: #1a1819;">
+              
+              <!-- Receipt Header: Editorial Title + Prominent Wax Seal -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td valign="top" style="padding-right: 6px;">
+                    <h1 style="margin: 0 0 5px; font-family: 'Playfair Display', Georgia, 'Times New Roman', serif; font-size: 21px; line-height: 1.15; font-weight: 600; color: #1a1819; letter-spacing: -0.01em; white-space: nowrap;">
+                      Consider it <span style="font-style: italic; color: #8b1e2f; font-weight: 500;">handled.</span>
+                    </h1>
+                    <p style="margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 10.5px; line-height: 1.4; color: #4a453e; max-width: 230px;">
+                      Your order is confirmed.<br/>We've got the details, and we'll take it from here.
+                    </p>
+                  </td>
+                  <td width="96" valign="top" align="right" style="width: 96px; padding-top: 0;">
+                    <img src="https://iili.io/nSGL2at.png" width="96" height="94" alt="TheToysVirago Seal" style="display: block; width: 96px; height: 94px; max-width: 96px;" />
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Divider -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top: 12px; margin-bottom: 10px;">
+                <tr>
+                  <td style="border-bottom: 1px solid #d5cbbf; line-height: 1px; font-size: 1px;">&nbsp;</td>
+                </tr>
+              </table>
+
+              <!-- Order Section Heading -->
+              <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #231f20; margin-bottom: 6px;">
+                YOUR ORDER
+              </div>
+
+              <!-- Product Item Rows -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
+                ${receiptItemsHtml}
+              </table>
+
+              <!-- Order Totals -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top: 10px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+                <tr>
+                  <td style="padding: 2.5px 0; font-size: 11px; color: #5a544c;">Subtotal</td>
+                  <td align="right" style="padding: 2.5px 0; font-size: 11px; color: #1a1819; font-weight: 500;">₦${mockOrder.subtotal.toLocaleString()}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 2.5px 0; font-size: 11px; color: #5a544c;">Delivery</td>
+                  <td align="right" style="padding: 2.5px 0; font-size: 11px; color: #1a1819; font-weight: 500;">₦${mockOrder.delivery_fee.toLocaleString()}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 0 2px; font-size: 13.5px; font-weight: 800; color: #1a1819;">Total</td>
+                  <td align="right" style="padding: 8px 0 2px; font-size: 13.5px; font-weight: 800; color: #1a1819;">₦${mockOrder.total_amount.toLocaleString()}</td>
+                </tr>
+              </table>
+
+              <!-- Primary CTA Button (Strict 8px radius) -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top: 12px; margin-bottom: 0;">
+                <tr>
+                  <td align="center">
+                    <a href="/?order=${mockOrder.reference}" target="_blank" rel="noopener" style="display: block; width: 100%; box-sizing: border-box; background-color: #8b1e2f; color: #ffffff; text-decoration: none; padding: 10px 18px; border-radius: 8px !important; font-size: 11.5px; font-weight: 600; text-align: center; letter-spacing: 0.01em; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+                      View order details &rarr;
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+      }
+      // 3. Customer Order Dispatched
+      if (type === 'customer_dispatched') {
+        return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your order is on the way</title>
+</head>
+<body style="margin: 0; padding: 12px 0; background-color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #0f172a; -webkit-font-smoothing: antialiased;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f8fafc; padding: 10px 8px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width: 440px; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;">
+          
+          <!-- Content (Starts directly as requested) -->
+          <tr>
+            <td style="padding: 22px 18px 22px;">
+              <p style="margin: 0 0 10px; font-size: 13px; line-height: 1.5; color: #0f172a;">
+                Hello <strong>Amara Kalu</strong>,
+              </p>
+              <p style="margin: 0 0 18px; font-size: 12px; line-height: 1.55; color: #334155;">
+                Exciting news! Your order <strong>TTV-88219</strong> has been handed over to our discreet dispatch courier. It is currently in transit to you.
+              </p>
+
+              <!-- Reference Card -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f0f9ff; border: 1px solid #bae6fd; border-radius: 10px; margin-bottom: 16px;">
+                <tr>
+                  <td style="padding: 12px 14px;">
+                    <div style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: #0369a1; font-weight: 700; margin-bottom: 2px;">
+                      Order Reference
+                    </div>
+                    <div style="font-size: 15px; font-weight: 800; color: #0c4a6e; letter-spacing: 0.03em;">
+                      TTV-88219
+                    </div>
+                  </td>
+                  <td align="right" style="padding: 12px 14px;">
+                    <div style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: #0369a1; font-weight: 700; margin-bottom: 2px;">
+                      Total Paid
+                    </div>
+                    <div style="font-size: 15px; font-weight: 800; color: #0f172a;">
+                      ₦47,000
+                    </div>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Discreet Packaging Guarantee -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 10px; margin-bottom: 16px;">
+                <tr>
+                  <td style="padding: 12px 14px;">
+                    <strong style="color: #0f172a; font-size: 11.5px;">🔒 100% Discreet Packaging Guarantee</strong>
+                    <p style="margin: 4px 0 0; font-size: 10.5px; color: #475569; line-height: 1.45;">
+                      Your package is inside a completely plain, unbranded opaque courier flyer with zero mention of adult novelties, intimate wellness, or brand names on the exterior.
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 14px; margin-bottom: 16px;">
+                <div style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: #64748b; font-weight: 700; margin-bottom: 3px;">Delivery Destination</div>
+                <div style="font-size: 11.5px; color: #1e293b; line-height: 1.45;">14 Admiralty Way, Lekki Phase 1, Lagos</div>
+                <div style="font-size: 11px; color: #64748b; margin-top: 3px;">Contact Phone: <strong>08031234567</strong></div>
+              </div>
+
+              <!-- Items Table -->
+              <h3 style="margin: 0 0 8px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #475569; font-weight: 700;">
+                Items in This Shipment
+              </h3>
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse; margin-bottom: 18px;">
+                <thead>
+                  <tr style="border-bottom: 1px solid #e2e8f0; text-align: left;">
+                    <th style="padding: 6px 8px; font-size: 10.5px; text-transform: uppercase; color: #64748b; font-weight: 700;">Product</th>
+                    <th style="padding: 6px 8px; font-size: 10.5px; text-transform: uppercase; color: #64748b; font-weight: 700; text-align: center;">Qty</th>
+                    <th style="padding: 6px 8px; font-size: 10.5px; text-transform: uppercase; color: #64748b; font-weight: 700; text-align: right;">Total</th>
+                  </tr>
+                </thead>
+                <tbody>${itemsListHtml}</tbody>
+              </table>
+
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td align="center" style="padding: 6px 0 10px;">
+                    <a href="https://wa.me/2348036514814?text=Hello%20TheToysVirago%2C%20following%20up%20on%20my%20dispatched%20order%20TTV-88219" target="_blank" rel="noopener" style="display: inline-block; background-color: #0c0c0e; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 8px !important; font-weight: 700; font-size: 11.5px;">
+                      Track / Inquire via WhatsApp &rarr;
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background-color: #0c0c0e; padding: 16px 20px; text-align: center;">
+              <p style="margin: 0; font-size: 10.5px; color: #94a3b8;">&copy; 2026 TheToysVirago &bull; Discretion &amp; Pleasure Delivered.</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+      }
+
+      // 4. Customer Order Delivered & Reviews Prompt
+      if (type === 'customer_delivered') {
+        return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your order has been delivered</title>
+</head>
+<body style="margin: 0; padding: 12px 0; background-color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #0f172a; -webkit-font-smoothing: antialiased;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f8fafc; padding: 10px 8px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width: 440px; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;">
+          
+          <!-- Content (Starts directly as requested) -->
+          <tr>
+            <td style="padding: 22px 18px 22px;">
+              <p style="margin: 0 0 10px; font-size: 13px; line-height: 1.5; color: #0f172a;">
+                Hello <strong>Amara Kalu</strong>,
+              </p>
+              <p style="margin: 0 0 16px; font-size: 12px; line-height: 1.55; color: #334155;">
+                Courier reports indicate that your parcel for order <strong>TTV-88219</strong> has been safely delivered! We hope your new intimate pieces bring you unbounded curiosity, sensual pleasure, and pure joy.
+              </p>
+
+              <!-- HERO PROMPT CARD: REVIEW & ANONYMOUS CONFESSIONS (Compact & Mobile-Optimized) -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%); border: 1px solid #f43f5e; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 14px rgba(244, 63, 94, 0.08);">
+                <tr>
+                  <td style="padding: 16px 14px; text-align: center;">
+                    <div style="font-size: 18px; margin-bottom: 4px;">🤫 ✨ 💌</div>
+                    <h2 style="margin: 0 0 6px; font-size: 13.5px; color: #881337; font-weight: 800; letter-spacing: 0.01em;">
+                      Whisper a Confession
+                    </h2>
+                    <p style="margin: 0 0 14px; font-size: 11px; color: #4c0519; line-height: 1.5; max-width: 360px; margin-left: auto; margin-right: auto;">
+                      How was your unboxing? Did your new piece ignite the spark you were seeking? Your experience is sacred to us. Visit our interactive Confessions Wall to leave an anonymous story, review your items, or share your thoughts with our private community.
+                    </p>
+                    <a href="https://thetoysvirago.shop/#confessions" target="_blank" rel="noopener" style="display: inline-block; background-color: #9f1239; color: #ffffff; text-decoration: none; padding: 9px 20px; border-radius: 8px !important; font-weight: 700; font-size: 11px; box-shadow: 0 3px 10px rgba(159, 18, 57, 0.25); text-transform: uppercase; letter-spacing: 0.04em;">
+                      Leave a Review &rarr;
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Delivered Items Recap -->
+              <h3 style="margin: 0 0 8px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #475569; font-weight: 700;">
+                Delivered Items Recap
+              </h3>
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse; margin-bottom: 18px;">
+                <thead>
+                  <tr style="border-bottom: 1px solid #e2e8f0; text-align: left;">
+                    <th style="padding: 6px 8px; font-size: 10.5px; text-transform: uppercase; color: #64748b; font-weight: 700;">Product</th>
+                    <th style="padding: 6px 8px; font-size: 10.5px; text-transform: uppercase; color: #64748b; font-weight: 700; text-align: center;">Qty</th>
+                    <th style="padding: 6px 8px; font-size: 10.5px; text-transform: uppercase; color: #64748b; font-weight: 700; text-align: right;">Total</th>
+                  </tr>
+                </thead>
+                <tbody>${itemsListHtml}</tbody>
+              </table>
+
+              <!-- Intimate Care & Concierge Reassurance -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; margin-bottom: 16px;">
+                <tr>
+                  <td style="padding: 12px 14px;">
+                    <strong style="color: #0f172a; font-size: 11.5px;">🧴 Device Care &amp; Private Inquiries</strong>
+                    <p style="margin: 4px 0 10px; font-size: 10.5px; color: #475569; line-height: 1.45;">
+                      Have questions about initial USB charging, water resistance, gentle cleansing, or safe storage? Our discreet concierge is available anytime for private guidance.
+                    </p>
+                    <a href="https://wa.me/2348036514814?text=Hello%20TheToysVirago%2C%20I%20received%20my%20order%20TTV-88219%20and%20have%20a%20question" target="_blank" rel="noopener" style="display: inline-block; background-color: #0c0c0e; color: #ffffff; text-decoration: none; padding: 8px 16px; border-radius: 8px !important; font-weight: 600; font-size: 11px;">
+                      Chat with Concierge &rarr;
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background-color: #0c0c0e; padding: 16px 20px; text-align: center;">
+              <p style="margin: 0; font-size: 10.5px; color: #94a3b8;">&copy; 2026 TheToysVirago &bull; Discretion &amp; Pleasure Delivered.</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+      }
+
+      // Default (Customer Confirmed)
+      return ``;
+    }
+
+    const titles = {
+      owner_alert: '🚨 Store Owner Order Alert',
+      customer_confirmed: '✓ Customer Order Confirmed & Priority Dispatch',
+      customer_dispatched: '🚚 Customer Order Dispatched & In Transit',
+      customer_delivered: '🎁 Customer Order Delivered & Review / Confessions Prompt'
+    };
+    const subjects = {
+      owner_alert: 'Subject: 🚨 New Order Placed: [TTV-88219] ₦47,000 from Amara Kalu',
+      customer_confirmed: 'Subject: Your TheToysVirago order is confirmed',
+      customer_dispatched: 'Subject: 🚚 Discreet Parcel Dispatched [TTV-88219] — TheToysVirago',
+      customer_delivered: 'Subject: 🎁 Your Order Has Arrived [TTV-88219] — Share Your Experience'
+    };
+
+    let currentTemplate = 'customer_confirmed';
+    const iframe = document.getElementById('email-iframe');
+    const titleEl = document.getElementById('active-template-name');
+    const subjectEl = document.getElementById('active-template-subject');
+    const previewWrap = document.getElementById('preview-wrapper');
+
+    function autoResizeIframe() {
+      try {
+        const doc = iframe.contentWindow?.document || iframe.contentDocument;
+        if (!doc) return;
+        const b = doc.body;
+        const de = doc.documentElement;
+        const h = Math.max(
+          b ? b.scrollHeight : 0,
+          b ? b.offsetHeight : 0,
+          de ? de.scrollHeight : 0,
+          de ? de.offsetHeight : 0
+        );
+        if (h > 120) {
+          iframe.style.height = `${h + 12}px`;
+        }
+      } catch (e) {}
+    }
+
+    iframe.addEventListener('load', () => {
+      setTimeout(autoResizeIframe, 60);
+      setTimeout(autoResizeIframe, 300);
+    });
+
+    function renderTemplate(name) {
+      currentTemplate = name;
+      titleEl.textContent = titles[name];
+      subjectEl.textContent = subjects[name];
+      const html = getTemplateHtml(name);
+      iframe.srcdoc = html;
+      setTimeout(autoResizeIframe, 80);
+      setTimeout(autoResizeIframe, 350);
+    }
+
+    // Switch templates
+    document.querySelectorAll('.email-selector-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.email-selector-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderTemplate(btn.dataset.template);
+      });
+    });
+
+    // Viewport switcher
+    document.getElementById('btn-vp-desktop').addEventListener('click', function() {
+      this.classList.add('active');
+      document.getElementById('btn-vp-mobile').classList.remove('active');
+      previewWrap.classList.remove('mobile-view');
+      setTimeout(autoResizeIframe, 220);
+    });
+
+    document.getElementById('btn-vp-mobile').addEventListener('click', function() {
+      this.classList.add('active');
+      document.getElementById('btn-vp-desktop').classList.remove('active');
+      previewWrap.classList.add('mobile-view');
+      setTimeout(autoResizeIframe, 220);
+    });
+
+    // Toast helper
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 4000);
+    }
+
+    // Test send button
+    document.getElementById('btn-send-test').addEventListener('click', async () => {
+      const emailInput = document.getElementById('test-email-input').value.trim();
+      if (!emailInput) {
+        showToast('Please enter an email address');
+        return;
+      }
+      const btn = document.getElementById('btn-send-test');
+      btn.disabled = true;
+      btn.textContent = 'Sending to ' + emailInput + '...';
+
+      try {
+        let actionType = 'order_placed';
+        if (currentTemplate === 'customer_confirmed') actionType = 'order_confirmed';
+        else if (currentTemplate === 'customer_dispatched') actionType = 'order_dispatched';
+        else if (currentTemplate === 'customer_delivered') actionType = 'order_delivered';
+
+        const res = await fetch('/api/send-confirmation', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            order: {
+              ...mockOrder,
+              customer_email: emailInput
+            },
+            action: actionType
+          })
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          showToast('✓ Successfully sent ' + titles[currentTemplate] + ' to ' + emailInput);
+        } else {
+          showToast('Note: ' + (data.error?.message || 'Check terminal / local dev'));
+        }
+      } catch (e) {
+        showToast('Local request sent. Check inbox!');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Send Test to Inbox Now →';
+      }
+    });
+
+    // Initial render
+    renderTemplate('customer_confirmed');
+  </script>
+</body>
+</html>

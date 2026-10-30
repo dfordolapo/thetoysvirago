@@ -12,6 +12,8 @@ import {
   getSupabaseOrders,
   updateSupabaseOrderStatus,
   sendCustomerOrderConfirmationEmail,
+  sendCustomerOrderDispatchedEmail,
+  sendCustomerOrderDeliveredEmail,
   subscribeToSupabaseOrders
 } from './supabase.js';
 
@@ -1608,7 +1610,7 @@ async function loadAndRenderOrders() {
 }
 
 function updateOrdersStats() {
-  const awaitingCount = allOrders.filter(o => o.status === 'awaiting_confirmation' || o.status === 'pending_transfer').length;
+  const awaitingCount = allOrders.filter(o => o.status === 'awaiting_confirmation' || o.status === 'pending_transfer' || o.status === 'pending' || !o.status).length;
   if (tabOrdersBadge) tabOrdersBadge.textContent = awaitingCount > 0 ? awaitingCount : allOrders.length;
   if (statOrdersAwaiting) statOrdersAwaiting.textContent = awaitingCount;
 }
@@ -1621,9 +1623,13 @@ function renderOrdersList() {
   const filtered = allOrders.filter(o => {
     // Filter by tab
     if (currentOrderFilter === 'awaiting_confirmation') {
-      if (o.status !== 'awaiting_confirmation' && o.status !== 'pending_transfer') return false;
+      if (o.status !== 'awaiting_confirmation' && o.status !== 'pending_transfer' && o.status !== 'pending' && o.status) return false;
     } else if (currentOrderFilter === 'confirmed') {
       if (o.status !== 'confirmed') return false;
+    } else if (currentOrderFilter === 'dispatched') {
+      if (o.status !== 'dispatched') return false;
+    } else if (currentOrderFilter === 'delivered') {
+      if (o.status !== 'delivered') return false;
     }
 
     // Filter by query
@@ -1648,7 +1654,23 @@ function renderOrdersList() {
   if (ordersEmptyState) ordersEmptyState.style.display = 'none';
 
   ordersCardsContainer.innerHTML = filtered.map(order => {
-    const isConfirmed = order.status === 'confirmed';
+    const status = order.status || 'awaiting_confirmation';
+    const isAwaiting = status === 'awaiting_confirmation' || status === 'pending_transfer' || status === 'pending';
+    const isConfirmed = status === 'confirmed';
+    const isDispatched = status === 'dispatched';
+    const isDelivered = status === 'delivered';
+
+    let badgeHtml = '';
+    if (isDelivered) {
+      badgeHtml = `<span class="delivered-badge-pill">🎁 Delivered &bull; Confession Prompt Sent</span>`;
+    } else if (isDispatched) {
+      badgeHtml = `<span class="dispatched-badge-pill">🚚 Dispatched &bull; In Transit</span>`;
+    } else if (isConfirmed) {
+      badgeHtml = `<span class="confirmed-badge-pill">✓ Payment Confirmed</span>`;
+    } else {
+      badgeHtml = `<span class="awaiting-badge-pill">⏳ Awaiting Confirmation</span>`;
+    }
+
     const dateStr = order.created_at ? new Date(order.created_at).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' }) : 'Recent';
     const items = Array.isArray(order.items) ? order.items : [];
     const itemsListHtml = items.map(item => `
@@ -1657,6 +1679,41 @@ function renderOrdersList() {
         <span style="font-weight: 700; color: #0f172a;">₦${Number(item.price || 0).toLocaleString()}</span>
       </div>
     `).join('') || `<div>${order.items || 'Standard Order Items'}</div>`;
+
+    // Action buttons based on order status lifecycle
+    let actionsHtml = '';
+    if (isAwaiting) {
+      actionsHtml = `
+        <button type="button" class="btn-tick-confirmed" data-ref="${order.reference}" style="border-radius: 8px !important;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Confirm &amp; Send Receipt</span>
+        </button>
+      `;
+    } else if (isConfirmed) {
+      actionsHtml = `
+        <button type="button" class="admin-btn btn-tick-dispatched" data-ref="${order.reference}" style="background: #0284c7; color: #ffffff; border: 1px solid #0284c7; padding: 8px 14px; border-radius: 8px !important; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
+          <span>🚚 Mark Dispatched</span>
+        </button>
+        <button type="button" class="admin-btn admin-btn-outline btn-resend-confirmed" data-ref="${order.reference}" style="padding: 7px 10px; font-size: 11px; border-radius: 8px !important;">
+          ✉️ Resend Receipt
+        </button>
+      `;
+    } else if (isDispatched) {
+      actionsHtml = `
+        <button type="button" class="admin-btn btn-tick-delivered" data-ref="${order.reference}" style="background: #9f1239; color: #ffffff; border: 1px solid #9f1239; padding: 8px 14px; border-radius: 8px !important; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
+          <span>🎁 Mark Delivered</span>
+        </button>
+        <button type="button" class="admin-btn admin-btn-outline btn-resend-dispatched" data-ref="${order.reference}" style="padding: 7px 10px; font-size: 11px; border-radius: 8px !important;">
+          ✉️ Resend Dispatch
+        </button>
+      `;
+    } else if (isDelivered) {
+      actionsHtml = `
+        <button type="button" class="admin-btn admin-btn-outline btn-resend-delivered" data-ref="${order.reference}" style="padding: 7px 12px; font-size: 11.5px; border-radius: 8px !important;">
+          ✉️ Resend Review Prompt
+        </button>
+      `;
+    }
 
     return `
       <div class="admin-order-card" id="order-card-${order.reference}">
@@ -1670,9 +1727,7 @@ function renderOrdersList() {
             <div class="admin-order-meta">Placed on: <strong>${dateStr}</strong></div>
           </div>
           <div>
-            ${isConfirmed
-              ? `<span class="confirmed-badge-pill">✓ Confirmed</span>`
-              : `<span class="awaiting-badge-pill">⏳ Awaiting Confirmation</span>`}
+            ${badgeHtml}
           </div>
         </div>
 
@@ -1713,23 +1768,14 @@ function renderOrdersList() {
             <span class="admin-order-amount">₦${Number(order.total_amount || 0).toLocaleString()}</span>
           </div>
           <div class="admin-order-actions-group">
-            ${!isConfirmed ? `
-              <button type="button" class="btn-tick-confirmed" data-ref="${order.reference}">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                <span>Tick as Confirmed</span>
-              </button>
-            ` : `
-              <button type="button" class="admin-btn admin-btn-outline btn-resend-email" data-ref="${order.reference}">
-                ✉️ Re-send Receipt
-              </button>
-            `}
+            ${actionsHtml}
           </div>
         </div>
       </div>
     `;
   }).join('');
 
-  // Wire tick as confirmed buttons
+  // 1. Wire tick as confirmed buttons (Stage 1 -> Stage 2)
   ordersCardsContainer.querySelectorAll('.btn-tick-confirmed').forEach(btn => {
     btn.addEventListener('click', async () => {
       const ref = btn.dataset.ref;
@@ -1737,15 +1783,11 @@ function renderOrdersList() {
       if (!order) return;
 
       btn.disabled = true;
-      btn.innerHTML = `<span>Updating &amp; Sending Email...</span>`;
+      btn.innerHTML = `<span>Updating &amp; Sending Receipt...</span>`;
 
-      // 1. Update in Supabase
       await updateSupabaseOrderStatus(ref, 'confirmed');
-
-      // 2. Trigger Customer Confirmation Email
       const emailRes = await sendCustomerOrderConfirmationEmail(order);
 
-      // 3. Update order in memory
       order.status = 'confirmed';
       order.confirmed_at = new Date().toISOString();
 
@@ -1753,26 +1795,105 @@ function renderOrdersList() {
       renderOrdersList();
 
       if (emailRes && emailRes.success) {
-        showToast(`Order ${ref} confirmed! Receipt sent to ${order.customer_email || 'customer'} via Resend.`);
-      } else if (emailRes && emailRes.error) {
-        showToast(`Order ${ref} confirmed in database (Resend note: ${typeof emailRes.error === 'string' ? emailRes.error : 'check API key'})`);
+        showToast(`Order ${ref} confirmed! Official receipt sent to ${order.customer_email || 'customer'}.`);
       } else {
-        showToast(`Order ${ref} marked as confirmed!`);
+        const errMsg = emailRes?.error?.message || emailRes?.error || 'Email dispatch failed';
+        showToast(`Order ${ref} confirmed, but email notice: ${errMsg}`);
       }
     });
   });
 
-  // Wire re-send email buttons
-  ordersCardsContainer.querySelectorAll('.btn-resend-email').forEach(btn => {
+  // 2. Wire mark as dispatched buttons (Stage 2 -> Stage 3)
+  ordersCardsContainer.querySelectorAll('.btn-tick-dispatched').forEach(btn => {
     btn.addEventListener('click', async () => {
       const ref = btn.dataset.ref;
       const order = allOrders.find(o => o.reference === ref);
       if (!order) return;
-      const emailRes = await sendCustomerOrderConfirmationEmail(order);
-      if (emailRes && emailRes.mailtoUrl) {
-        window.open(emailRes.mailtoUrl, '_blank');
+
+      btn.disabled = true;
+      btn.innerHTML = `<span>Dispatching &amp; Notifying...</span>`;
+
+      await updateSupabaseOrderStatus(ref, 'dispatched');
+      const emailRes = await sendCustomerOrderDispatchedEmail(order);
+
+      order.status = 'dispatched';
+      order.dispatched_at = new Date().toISOString();
+
+      renderOrdersList();
+
+      if (emailRes && emailRes.success) {
+        showToast(`Order ${ref} dispatched! Tracking notification sent to ${order.customer_email || 'customer'}.`);
+      } else {
+        showToast(`Order ${ref} marked as dispatched!`);
       }
-      showToast(`Confirmation email prepared for order ${ref}.`);
+    });
+  });
+
+  // 3. Wire mark as delivered buttons (Stage 3 -> Stage 4 with Review & Confessions prompt)
+  ordersCardsContainer.querySelectorAll('.btn-tick-delivered').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const ref = btn.dataset.ref;
+      const order = allOrders.find(o => o.reference === ref);
+      if (!order) return;
+
+      btn.disabled = true;
+      btn.innerHTML = `<span>Marking Delivered &amp; Sending Review Prompt...</span>`;
+
+      await updateSupabaseOrderStatus(ref, 'delivered');
+      const emailRes = await sendCustomerOrderDeliveredEmail(order);
+
+      order.status = 'delivered';
+      order.delivered_at = new Date().toISOString();
+
+      renderOrdersList();
+
+      if (emailRes && emailRes.success) {
+        showToast(`Order ${ref} delivered! Review & Confessions prompt sent to ${order.customer_email || 'customer'}.`);
+      } else {
+        showToast(`Order ${ref} marked as delivered!`);
+      }
+    });
+  });
+
+  // 4. Wire re-send confirmation receipt buttons
+  ordersCardsContainer.querySelectorAll('.btn-resend-confirmed').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const ref = btn.dataset.ref;
+      const order = allOrders.find(o => o.reference === ref);
+      if (!order) return;
+      btn.disabled = true;
+      showToast(`Resending confirmation receipt for order ${ref}...`);
+      await sendCustomerOrderConfirmationEmail(order);
+      btn.disabled = false;
+      showToast(`Receipt resent to ${order.customer_email || 'customer'}.`);
+    });
+  });
+
+  // 5. Wire re-send dispatched notification buttons
+  ordersCardsContainer.querySelectorAll('.btn-resend-dispatched').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const ref = btn.dataset.ref;
+      const order = allOrders.find(o => o.reference === ref);
+      if (!order) return;
+      btn.disabled = true;
+      showToast(`Resending dispatch email for order ${ref}...`);
+      await sendCustomerOrderDispatchedEmail(order);
+      btn.disabled = false;
+      showToast(`Dispatch email resent to ${order.customer_email || 'customer'}.`);
+    });
+  });
+
+  // 6. Wire re-send delivered review prompt buttons
+  ordersCardsContainer.querySelectorAll('.btn-resend-delivered').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const ref = btn.dataset.ref;
+      const order = allOrders.find(o => o.reference === ref);
+      if (!order) return;
+      btn.disabled = true;
+      showToast(`Resending review prompt for order ${ref}...`);
+      await sendCustomerOrderDeliveredEmail(order);
+      btn.disabled = false;
+      showToast(`Review & Confessions prompt resent to ${order.customer_email || 'customer'}.`);
     });
   });
 }

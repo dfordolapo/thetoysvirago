@@ -154,14 +154,12 @@ export async function updateSupabaseOrderStatus(orderRef, newStatus = 'confirmed
 }
 
 /**
- * Send customer order confirmation email.
- * Uses Resend API if VITE_RESEND_API_KEY is configured in .env,
- * or prepares mailto link fallback.
+ * Send customer order emails: confirmed, dispatched, or delivered (with reviews prompt).
+ * Dispatches automatically via Vercel Serverless /api/send-confirmation.
  */
-export async function sendCustomerOrderConfirmationEmail(order) {
+export async function sendCustomerOrderStatusEmail(order, action = 'order_confirmed') {
   const resendApiKey = import.meta.env.VITE_RESEND_API_KEY || (typeof window !== 'undefined' ? localStorage.getItem('ttv_resend_api_key') : '');
 
-  // 1. Primary: Dispatch automatically via Serverless Function (Zero CORS issues, runs Node-to-Resend)
   try {
     const apiRes = await fetch('/api/send-confirmation', {
       method: 'POST',
@@ -170,23 +168,35 @@ export async function sendCustomerOrderConfirmationEmail(order) {
       },
       body: JSON.stringify({
         order,
-        action: 'order_confirmed',
+        action,
         apiKey: resendApiKey
       })
     });
 
     const resData = await apiRes.json();
     if (apiRes.ok && resData.success) {
-      console.log('[Email Dispatch] Automated Resend confirmation sent successfully:', resData);
+      console.log(`[Email Dispatch] ${action} sent successfully:`, resData);
       return { success: true, method: 'resend_api', data: resData };
     } else {
-      console.warn('[Email Dispatch] Serverless route returned:', resData);
+      console.warn(`[Email Dispatch] ${action} route error:`, resData);
       return { success: false, method: 'resend_failed', error: resData?.error };
     }
   } catch (err) {
-    console.warn('[Email Dispatch] Network error connecting to /api/send-confirmation:', err);
+    console.warn(`[Email Dispatch] Network error connecting to /api/send-confirmation for ${action}:`, err);
     return { success: false, method: 'connection_error', error: err.message };
   }
+}
+
+export async function sendCustomerOrderConfirmationEmail(order) {
+  return sendCustomerOrderStatusEmail(order, 'order_confirmed');
+}
+
+export async function sendCustomerOrderDispatchedEmail(order) {
+  return sendCustomerOrderStatusEmail(order, 'order_dispatched');
+}
+
+export async function sendCustomerOrderDeliveredEmail(order) {
+  return sendCustomerOrderStatusEmail(order, 'order_delivered');
 }
 
 /**
