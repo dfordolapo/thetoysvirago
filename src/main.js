@@ -7444,7 +7444,8 @@ if (checkoutForm) {
         body: JSON.stringify({
           order: orderPayload,
           action: 'order_placed'
-        })
+        }),
+        keepalive: true
       }).catch(e => console.warn('Order alert dispatch error:', e));
     } catch (e) {}
 

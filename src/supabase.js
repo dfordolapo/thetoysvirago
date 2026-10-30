@@ -64,9 +64,22 @@ export async function getSupabaseProducts() {
 export async function recordSupabaseOrder(order) {
   if (!supabase) return { success: false, reason: 'unconfigured' };
   try {
+    // Only include columns that exist in the Supabase 'orders' table
+    const safePayload = {
+      reference: order.reference,
+      customer_name: order.customer_name || 'Customer',
+      customer_email: order.customer_email || order.email || '',
+      phone: order.phone || '',
+      address: order.address || '',
+      city: order.city || '',
+      items: Array.isArray(order.items) ? order.items : [],
+      total_amount: Number(order.total_amount || 0),
+      status: order.status || 'awaiting_confirmation'
+    };
+
     const { data, error } = await supabase
       .from('orders')
-      .insert([order])
+      .insert([safePayload])
       .select();
 
     if (error) {
