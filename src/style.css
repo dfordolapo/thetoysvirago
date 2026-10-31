@@ -858,57 +858,18 @@ body.cart-open .main-header,
   border-top: none; overflow: hidden;
 }
 .footer-top {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr;
+  display: flex;
+  justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 56px;
-  gap: 40px;
+  flex-wrap: wrap;
+  gap: 36px;
 }
-@media (max-width: 820px) {
-  .footer-top {
-    grid-template-columns: 1fr 1fr;
-    gap: 32px 24px;
-  }
-  .footer-left {
-    grid-column: 1 / -1;
-    max-width: 100%;
-  }
-  .footer-col {
-    grid-column: 1;
-  }
-  .footer-right {
-    grid-column: 2;
-  }
+.footer-left {
+  max-width: 360px;
+  width: 100%;
 }
-@media (max-width: 540px) {
-  .footer-top {
-    grid-template-columns: 1fr 1fr;
-    gap: 24px 16px;
-  }
-  .footer-left {
-    grid-column: 1 / -1;
-    margin-bottom: 2px;
-  }
-  .footer-col {
-    grid-column: 1;
-  }
-  .footer-right {
-    grid-column: 2;
-  }
-  .footer-col h5, .footer-right h5 {
-    font-size: 16px;
-    margin-bottom: 12px;
-  }
-  .footer-col ul, .footer-right ul {
-    gap: 9px;
-  }
-  .footer-col ul a, .footer-right ul a, .policy-trigger-btn {
-    font-size: 13px;
-    line-height: 1.35;
-  }
-}
-.footer-left { width: 100%; }
-.footer-col h5, .footer-right h5, .footer-left h5 {
+.footer-right h5, .footer-left h5 {
   font-family: var(--serif);
   font-size: 18px;
   margin-bottom: 14px;
@@ -922,7 +883,7 @@ body.cart-open .main-header,
   margin-bottom: 14px;
   max-width: 320px;
 }
-.footer-col ul, .footer-right ul {
+.footer-right ul {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -930,31 +891,34 @@ body.cart-open .main-header,
   padding: 0;
   margin: 0;
 }
-.footer-col ul a, .footer-right ul a {
+.footer-right ul a {
   font-size: 13.5px;
   color: var(--ink-3);
   font-weight: 500;
   text-decoration: none;
   transition: color 0.15s ease;
 }
-.footer-col ul a:hover, .footer-right ul a:hover {
+.footer-right ul a:hover {
   color: var(--ruby);
 }
-.policy-trigger-btn {
-  background: none;
-  border: none;
-  padding: 0;
-  font-family: inherit;
-  font-size: 13.5px;
-  color: var(--ink-3);
-  font-weight: 500;
-  text-align: left;
-  cursor: pointer;
-  transition: color 0.15s ease;
+@media (max-width: 540px) {
+  .footer-top {
+    flex-direction: column;
+    gap: 28px;
+    margin-bottom: 40px;
+  }
+  .footer-right h5 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  .footer-right ul {
+    gap: 9px;
+  }
+  .footer-right ul a {
+    font-size: 13px;
+  }
 }
-.policy-trigger-btn:hover {
-  color: var(--ruby);
-}
+
 .footer-massive-logo {
   font-family: var(--serif); font-size: 10.5vw; font-weight: 700;
   line-height: 1; letter-spacing: -0.04em; color: var(--ink);
