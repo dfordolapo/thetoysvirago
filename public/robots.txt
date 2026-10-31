@@ -24,4 +24,4 @@ Disallow: /admin.html
 Disallow: /emails.html
 
 # Sitemap index
-Sitemap: https://thetoysvirago.shop/sitemap.xml
+Sitemap: https://www.thetoysvirago.shop/sitemap.xml
