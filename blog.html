@@ -415,15 +415,17 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-bottom: 18px;
+      margin-bottom: 24px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       width: 100%;
       min-width: 0;
     }
     .btn-top-back {
       flex-shrink: 0;
-      background: #20202e !important;
-      color: #ffffff !important;
-      border: 1px solid rgba(255, 255, 255, 0.28) !important;
+      background: #181824 !important;
+      color: #f1f5f9 !important;
+      border: 1px solid rgba(255, 255, 255, 0.22) !important;
       border-radius: 8px !important;
       padding: 6px 12px !important;
       font-size: 11px !important;
@@ -434,11 +436,13 @@
       cursor: pointer !important;
       transition: all 0.2s ease !important;
       white-space: nowrap !important;
+      min-height: 32px !important;
     }
     .btn-top-back:hover {
-      background: #2c2c3d !important;
+      background: #252538 !important;
       color: #fda4af !important;
       border-color: #fda4af !important;
+      transform: translateX(-2px);
     }
     .article-reader-wrap {
       max-width: 720px;
@@ -450,17 +454,18 @@
       position: relative;
       overflow: hidden;
       padding: 95px 0 40px;
-      margin-bottom: 32px;
-      min-height: 420px;
+      margin-bottom: 28px;
+      min-height: 380px;
       display: flex;
       align-items: center;
       background: #09090e;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
     @media (max-width: 640px) {
       .article-hero {
         padding: 85px 0 30px;
-        min-height: 350px;
-        margin-bottom: 24px;
+        min-height: 320px;
+        margin-bottom: 20px;
       }
     }
     .article-hero-bg {
@@ -956,20 +961,6 @@
           <div class="article-hero-bg" id="article-hero-bg" aria-hidden="true"></div>
           <div class="article-hero-scrim" aria-hidden="true"></div>
           <div class="section-inner article-hero-content">
-            <div class="article-hero-top-nav">
-              <button type="button" class="btn-top-back" id="btn-top-back">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-                <span>All Stories</span>
-              </button>
-              <nav class="article-breadcrumbs" aria-label="Breadcrumbs">
-                <a href="/">Home</a>
-                <span class="crumb-sep">/</span>
-                <a href="/blog.html" id="btn-crumb-journal">The Pleasure Journal</a>
-                <span class="crumb-sep">/</span>
-                <span id="reader-crumb-title">Article</span>
-              </nav>
-            </div>
-
             <div class="article-header">
               <span class="blog-card-badge article-badge-hero" id="reader-category">Category</span>
               <h1 class="article-headline" id="reader-title">Article Headline Goes Here</h1>
@@ -1003,6 +994,20 @@
         <!-- Direct into Article Content (No image at start of article) -->
         <div class="section-inner">
           <div class="article-reader-wrap">
+            <div class="article-reader-top-bar">
+              <button type="button" class="btn-top-back" id="btn-top-back">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                <span>All Stories</span>
+              </button>
+              <nav class="article-breadcrumbs" aria-label="Breadcrumbs">
+                <a href="/">Home</a>
+                <span class="crumb-sep">/</span>
+                <a href="/blog.html" id="btn-crumb-journal">The Pleasure Journal</a>
+                <span class="crumb-sep">/</span>
+                <span id="reader-crumb-title">Article</span>
+              </nav>
+            </div>
+
             <article class="article-body" id="reader-content">
               <!-- Dynamically populated -->
             </article>
