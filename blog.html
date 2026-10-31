@@ -171,17 +171,17 @@
     }
     .blog-hero-tag {
       display: inline-block;
-      font-size: 10.5px;
+      font-size: 11px;
       font-weight: 800;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: #fda4af !important;
-      background: rgba(159, 18, 57, 0.6) !important;
-      padding: 5px 15px;
+      color: #9f1239 !important;
+      background: #ffffff !important;
+      padding: 6px 16px;
       border-radius: 20px;
       border: none !important;
       margin-bottom: 14px;
-      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
     }
     .blog-hero-title {
       font-family: var(--serif, 'Cormorant Garamond', Georgia, serif);
@@ -301,16 +301,16 @@
       position: absolute;
       top: 12px;
       left: 12px;
-      background: rgba(12, 12, 16, 0.9) !important;
-      backdrop-filter: blur(8px);
-      color: #fda4af !important;
+      background: #ffffff !important;
+      color: #9f1239 !important;
       font-size: 10px;
-      font-weight: 700;
+      font-weight: 800;
       padding: 4px 10px;
-      border-radius: 5px;
-      border: 1px solid rgba(244, 63, 94, 0.35);
+      border-radius: 6px;
+      border: none !important;
       text-transform: uppercase;
       letter-spacing: 0.05em;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
     }
     .blog-card-body {
       padding: 20px;
@@ -514,28 +514,37 @@
 
     /* STRICT NO OUTSIDE STROKES: Callouts, quotes, and spotlights rely solely on soft background fills */
     .article-callout {
-      background: #171015 !important;
+      background: #ffffff !important;
       border: none !important;
       border-left: none !important;
-      box-shadow: none !important;
-      padding: 16px 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35) !important;
+      padding: 18px 22px;
       border-radius: 8px !important;
-      margin: 22px 0;
+      margin: 24px 0;
+      color: #0c0c0e !important;
     }
     .article-callout .callout-badge {
-      display: block;
-      font-size: 9.5px;
+      display: inline-block;
+      font-size: 10px;
       font-weight: 800;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: #fda4af !important;
-      margin-bottom: 6px;
+      color: #9f1239 !important;
+      background: rgba(159, 18, 57, 0.09) !important;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
     }
     .article-callout p {
       margin: 0;
-      color: #ffffff !important;
-      font-size: 0.86rem;
+      color: #18181b !important;
+      font-size: 0.88rem;
+      font-weight: 500;
       line-height: 1.6;
+    }
+    .article-callout p strong {
+      color: #000000 !important;
+      font-weight: 700;
     }
     .article-product-spotlight {
       background: #13131c !important;
@@ -682,14 +691,20 @@
         line-height: 1.55;
       }
       .article-callout {
-        padding: 10px 12px;
-        margin: 14px 0;
+        padding: 14px 16px;
+        margin: 16px 0;
         border: none !important;
         border-left: none !important;
+        background: #ffffff !important;
       }
       .article-callout p {
-        font-size: 0.76rem;
-        line-height: 1.5;
+        font-size: 0.81rem;
+        line-height: 1.55;
+        color: #18181b !important;
+      }
+      .article-callout .callout-badge {
+        font-size: 9.5px;
+        color: #9f1239 !important;
       }
       .article-product-spotlight {
         padding: 14px 12px;
@@ -734,7 +749,7 @@
         <div class="blog-hero-bg" aria-hidden="true"></div>
         <div class="blog-hero-scrim" aria-hidden="true"></div>
         <div class="section-inner blog-hero-content">
-          <span class="blog-hero-tag">The Pleasure Journal · Editorial Guides</span>
+          <span class="blog-hero-tag">The Pleasure Journal</span>
           <h1 class="blog-hero-title">
             Intimacy, Pleasure &amp; <span class="title-thick">Unfiltered Truth.</span>
           </h1>
