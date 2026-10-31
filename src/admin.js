@@ -1,5 +1,5 @@
 /**
- * TheToysVirago — Admin & Product Vault Controller
+ * TheToysVirago - Admin & Product Vault Controller
  * Manages manual product uploading, AI copywriting, image analysis, and Supabase sync.
  */
 
