@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Pleasure Edit — Intimacy &amp; Wellness Guides | TheToysVirago Nigeria</title>
+  <title>The Pleasure Journal · Intimacy &amp; Wellness Guides | TheToysVirago Nigeria</title>
   <meta name="description" content="Unfiltered guides on discreet delivery in Nigeria, first-time vibrator buying, safe lubricants, and couples intimacy. Honest advice from TheToysVirago." />
   <meta name="keywords" content="intimate wellness blog Nigeria, sex toys guide Lagos, discreet delivery sex toys Nigeria, best vibrators beginner Nigeria, water based lube guide Lagos" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
@@ -19,18 +19,18 @@
   <meta property="og:type" content="blog" />
   <meta property="og:site_name" content="TheToysVirago" />
   <meta property="og:url" content="https://www.thetoysvirago.shop/blog" />
-  <meta property="og:title" content="The Pleasure Edit — Intimacy &amp; Wellness Guides | TheToysVirago Nigeria" />
+  <meta property="og:title" content="The Pleasure Journal · Intimacy &amp; Wellness Guides | TheToysVirago Nigeria" />
   <meta property="og:description" content="Unfiltered guides on discreet delivery in Nigeria, first-time vibrator buying, safe lubricants, and couples intimacy." />
-  <meta property="og:image" content="https://www.thetoysvirago.shop/assets/hero-collection.webp" />
-  <meta property="og:image:alt" content="TheToysVirago Pleasure Edit" />
+  <meta property="og:image" content="https://www.thetoysvirago.shop/assets/blog/hero-journal-bg.jpg" />
+  <meta property="og:image:alt" content="TheToysVirago Pleasure Journal" />
   <meta property="og:locale" content="en_NG" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:site" content="@thetoysvirago" />
-  <meta name="twitter:title" content="The Pleasure Edit — Intimacy &amp; Wellness Guides | TheToysVirago Nigeria" />
+  <meta name="twitter:title" content="The Pleasure Journal · Intimacy &amp; Wellness Guides | TheToysVirago Nigeria" />
   <meta name="twitter:description" content="Unfiltered guides on discreet delivery in Nigeria, first-time vibrator buying, safe lubricants, and couples intimacy." />
-  <meta name="twitter:image" content="https://www.thetoysvirago.shop/assets/hero-collection.webp" />
+  <meta name="twitter:image" content="https://www.thetoysvirago.shop/assets/blog/hero-journal-bg.jpg" />
 
   <!-- Schema.org Blog & Breadcrumb Structured Data -->
   <script type="application/ld+json">
@@ -41,7 +41,7 @@
         "@type": "Blog",
         "@id": "https://www.thetoysvirago.shop/blog#blog",
         "url": "https://www.thetoysvirago.shop/blog",
-        "name": "The Pleasure Edit | TheToysVirago",
+        "name": "The Pleasure Journal | TheToysVirago",
         "description": "Unfiltered guides on intimacy, toy care, and discreet living in Nigeria.",
         "publisher": {
           "@type": "Organization",
@@ -63,7 +63,7 @@
           {
             "@type": "ListItem",
             "position": 2,
-            "name": "The Pleasure Edit",
+            "name": "The Pleasure Journal",
             "item": "https://www.thetoysvirago.shop/blog"
           }
         ]
@@ -121,180 +121,103 @@
     }
     #main-content {
       background-color: #09090e !important;
-      padding-top: 15px;
+      padding-top: 0;
     }
 
-    /* Creative Editorial Blog Hero with Imagery */
+    /* Cinematic Editorial Blog Hero with Full-Bleed Blurred Background (NO Black Box) */
     .blog-hero {
-      padding: 50px 0 30px;
-      background: radial-gradient(circle at 65% 30%, rgba(159, 18, 57, 0.22), transparent 70%), #09090e;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    .blog-hero-layout {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 40px;
+      position: relative;
+      overflow: hidden;
+      min-height: 480px;
+      padding: 110px 0 50px;
+      display: flex;
       align-items: center;
-      margin-bottom: 24px;
+      justify-content: center;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background-color: #09090e;
     }
-    @media (max-width: 900px) {
-      .blog-hero-layout {
-        grid-template-columns: 1fr;
-        gap: 28px;
-        text-align: center;
+    @media (max-width: 640px) {
+      .blog-hero {
+        padding: 95px 0 35px;
+        min-height: 400px;
       }
+    }
+    .blog-hero-bg {
+      position: absolute;
+      inset: -16px;
+      background: url('/assets/blog/hero-journal-bg.jpg') center center / cover no-repeat;
+      filter: blur(2.5px) brightness(0.7) saturate(1.1);
+      transform: scale(1.04);
+      z-index: 0;
+    }
+    .blog-hero-scrim {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(9, 9, 14, 0.15) 0%, rgba(9, 9, 14, 0.6) 100%),
+                  linear-gradient(180deg, rgba(9, 9, 14, 0.6) 0%, transparent 40%, rgba(9, 9, 14, 0.88) 100%);
+      z-index: 1;
+    }
+    .blog-hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 760px;
+      margin: 0 auto;
+      text-align: center;
+      background: transparent !important;
+      box-shadow: none !important;
+      border: none !important;
+      padding: 0 16px;
     }
     .blog-hero-tag {
       display: inline-block;
       font-size: 10.5px;
-      font-weight: 700;
-      letter-spacing: 0.14em;
+      font-weight: 800;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
       color: #fda4af !important;
-      background: rgba(159, 18, 57, 0.35) !important;
-      padding: 4px 12px;
+      background: rgba(159, 18, 57, 0.6) !important;
+      padding: 5px 15px;
       border-radius: 20px;
-      border: 1px solid rgba(244, 63, 94, 0.45);
+      border: none !important;
       margin-bottom: 14px;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
     }
     .blog-hero-title {
       font-family: var(--serif, 'Cormorant Garamond', Georgia, serif);
-      font-size: clamp(1.6rem, 3.2vw, 2.3rem);
-      font-weight: 700;
+      font-size: clamp(2rem, 4.4vw, 3.1rem);
+      font-weight: 800;
       color: #ffffff !important;
-      line-height: 1.2;
-      margin: 0 0 10px;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      line-height: 1.15;
+      margin: 0 0 12px;
+      text-shadow: 0 3px 18px rgba(0, 0, 0, 0.95), 0 1px 6px rgba(0, 0, 0, 0.9);
+      letter-spacing: -0.01em;
     }
-    .blog-hero-title em {
+    .blog-hero-title .title-thick {
       font-style: italic;
       color: #fda4af !important;
+      font-weight: 900;
+      text-shadow: 0 3px 18px rgba(0, 0, 0, 0.95);
     }
     .blog-hero-sub {
-      font-size: 0.88rem;
-      color: #cbd5e1 !important;
-      line-height: 1.58;
-      margin: 0 0 12px;
-      max-width: 500px;
-    }
-    @media (max-width: 900px) {
-      .blog-hero-sub {
-        margin: 0 auto 12px;
-      }
-    }
-
-    /* Hero Visual Montage */
-    .hero-editorial-stage {
-      position: relative;
-      max-width: 420px;
-      margin: 0 auto;
-    }
-    .editorial-card-main {
-      position: relative;
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      box-shadow: 0 16px 45px rgba(0, 0, 0, 0.65);
-      aspect-ratio: 4/3;
-      background: #111118;
-    }
-    .editorial-img-main {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .editorial-overlay-gradient {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(9, 9, 14, 0.82) 0%, transparent 60%);
-    }
-    .editorial-main-badge {
-      position: absolute;
-      bottom: 14px;
-      left: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(12, 12, 18, 0.88);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      padding: 5px 12px;
-      border-radius: 20px;
-      font-size: 10.5px;
-      font-weight: 700;
-      color: #ffffff;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-    .badge-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #f43f5e;
-      box-shadow: 0 0 8px #f43f5e;
-    }
-    .editorial-card-float {
-      position: absolute;
-      bottom: -18px;
-      right: -14px;
-      width: 260px;
-      background: #14141e;
-      border: 1px solid rgba(244, 63, 94, 0.45);
-      border-radius: 10px;
-      padding: 10px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.7);
-      text-decoration: none;
-      transition: transform 0.25s ease, border-color 0.25s ease;
-      cursor: pointer;
-    }
-    .editorial-card-float:hover {
-      transform: translateY(-3px);
-      border-color: #f43f5e;
-    }
-    .editorial-float-img {
-      width: 52px;
-      height: 52px;
-      border-radius: 7px;
-      object-fit: cover;
-      background: #08080c;
-      flex-shrink: 0;
-    }
-    .editorial-float-info {
-      flex-grow: 1;
-      overflow: hidden;
-    }
-    .editorial-float-tag {
-      display: block;
-      font-size: 8.5px;
-      font-weight: 800;
-      color: #fda4af;
-      letter-spacing: 0.08em;
-    }
-    .editorial-float-title {
-      font-family: var(--serif, 'Cormorant Garamond', Georgia, serif);
-      font-size: 13px;
-      color: #ffffff;
-      margin: 2px 0;
-      line-height: 1.25;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      font-size: 0.94rem;
+      color: #f8fafc !important;
+      line-height: 1.62;
+      margin: 0 auto 22px;
+      max-width: 600px;
       font-weight: 600;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95);
     }
-    .editorial-float-cta {
-      font-size: 10px;
-      color: #f43f5e;
-      font-weight: 700;
-    }
-    @media (max-width: 600px) {
-      .editorial-card-float {
-        position: static;
-        margin: 14px auto 0;
-        width: 100%;
-        max-width: 300px;
+    @media (max-width: 640px) {
+      .blog-hero-title {
+        font-size: 1.48rem;
+        line-height: 1.2;
+        margin-bottom: 8px;
+      }
+      .blog-hero-sub {
+        font-size: 0.82rem;
+        line-height: 1.5;
+        margin-bottom: 16px;
       }
     }
 
@@ -735,45 +658,51 @@
         border-radius: 8px;
       }
       .article-body {
-        font-size: 0.85rem;
-        line-height: 1.68;
+        font-size: 0.81rem;
+        line-height: 1.65;
       }
       .article-body .article-lead {
-        font-size: 0.9rem;
-        line-height: 1.62;
-        margin-bottom: 14px;
-      }
-      .article-body h3 {
-        font-size: 1.15rem;
-        margin: 20px 0 6px;
-      }
-      .article-body p {
-        font-size: 0.85rem;
+        font-size: 0.86rem;
+        line-height: 1.58;
         margin-bottom: 12px;
       }
+      .article-body h3 {
+        font-size: 1.08rem;
+        margin: 16px 0 6px;
+      }
+      .article-body p {
+        font-size: 0.81rem;
+        margin-bottom: 10px;
+        line-height: 1.65;
+      }
       .article-body li {
-        font-size: 0.85rem;
-        margin-bottom: 6px;
+        font-size: 0.81rem;
+        margin-bottom: 5px;
+        line-height: 1.55;
       }
       .article-callout {
-        padding: 12px 14px;
-        margin: 16px 0;
+        padding: 10px 12px;
+        margin: 14px 0;
+        border: none !important;
+        border-left: none !important;
       }
       .article-callout p {
-        font-size: 0.81rem;
+        font-size: 0.76rem;
+        line-height: 1.5;
       }
       .article-product-spotlight {
-        padding: 16px 14px;
-        margin: 20px 0;
+        padding: 14px 12px;
+        margin: 16px 0;
+        border: none !important;
       }
       .article-product-spotlight h4 {
-        font-size: 1.12rem;
+        font-size: 1.05rem;
       }
       .article-product-spotlight p {
-        font-size: 0.78rem;
+        font-size: 0.75rem;
       }
       .article-breadcrumbs {
-        font-size: 10.5px;
+        font-size: 10px;
       }
     }
   </style>
@@ -799,49 +728,18 @@
     <!-- @include partials/header.html -->
 
     <main id="main-content">
-      <!-- ===== CREATIVE EDITORIAL BLOG HERO ===== -->
+      <!-- ===== THE PLEASURE JOURNAL HERO (FULL-BLEED BLURRED IMAGE, NO BLACK BOX) ===== -->
       <section class="blog-hero">
-        <div class="section-inner">
-          <div class="blog-hero-layout">
-            
-            <!-- Left Copy Column -->
-            <div class="blog-hero-copy">
-              <span class="blog-hero-tag">The Pleasure Edit · Editorial Guides</span>
-              <h1 class="blog-hero-title">
-                Intimacy, Pleasure &amp; <em>Unfiltered Truth.</em>
-              </h1>
-              <p class="blog-hero-sub">
-                Honest guides on discreet delivery across Nigeria, acoustics and silence, body-safe silicone, and zero-bullshit bedroom talk.
-              </p>
-              
-            </div>
-
-            <!-- Right Visual Montage Column -->
-            <div class="blog-hero-visual" aria-hidden="true">
-              <div class="hero-editorial-stage">
-                <!-- Main Editorial Image Card -->
-                <div class="editorial-card-main">
-                  <img src="/assets/hero-collection.webp" alt="The Pleasure Edit Collection" class="editorial-img-main" />
-                  <div class="editorial-overlay-gradient"></div>
-                  <div class="editorial-main-badge">
-                    <span class="badge-dot"></span>
-                    <span>Curated Pleasure Journal</span>
-                  </div>
-                </div>
-
-                <!-- Floating Trending Article Teaser Card -->
-                <a href="/blog.html?post=first-vibrator-buyers-guide-nigeria" class="editorial-card-float">
-                  <img src="/assets/rose-pair-duo.webp" alt="First Vibrator Guide" class="editorial-float-img" />
-                  <div class="editorial-float-info">
-                    <span class="editorial-float-tag">MOST READ GUIDE</span>
-                    <h4 class="editorial-float-title">The Real Truth About Toy Noise &amp; Acoustics</h4>
-                    <span class="editorial-float-cta">Read Guide &rarr;</span>
-                  </div>
-                </a>
-              </div>
-            </div>
-
-          </div>
+        <div class="blog-hero-bg" aria-hidden="true"></div>
+        <div class="blog-hero-scrim" aria-hidden="true"></div>
+        <div class="section-inner blog-hero-content">
+          <span class="blog-hero-tag">The Pleasure Journal · Editorial Guides</span>
+          <h1 class="blog-hero-title">
+            Intimacy, Pleasure &amp; <span class="title-thick">Unfiltered Truth.</span>
+          </h1>
+          <p class="blog-hero-sub">
+            Honest guides on discreet delivery across Nigeria, acoustics and silence, body-safe silicone, and zero-bullshit bedroom talk.
+          </p>
 
           <!-- Category Filter Pills -->
           <div class="blog-filter-bar" id="blog-filter-bar">
@@ -874,7 +772,7 @@
               <nav class="article-breadcrumbs" aria-label="Breadcrumbs">
                 <a href="/">Home</a>
                 <span class="crumb-sep">/</span>
-                <a href="/blog.html" id="btn-crumb-journal">The Pleasure Edit</a>
+                <a href="/blog.html" id="btn-crumb-journal">The Pleasure Journal</a>
                 <span class="crumb-sep">/</span>
                 <span id="reader-crumb-title">Article</span>
               </nav>
@@ -912,6 +810,14 @@
         </div>
       </section>
     </main>
+
+    <!-- ===== SQUIGGLY DIVIDER ON DARK SURFACE BEFORE FOOTER ===== -->
+    <div class="luxe-divider-wrap" aria-hidden="true" style="margin-top: 30px; margin-bottom: -1px;">
+      <svg class="squiggly-svg" viewBox="0 0 1440 72" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path class="squiggly-echo" d="M 0 36 C 26.7 48.8, 76.1 23.2, 102.9 36 C 129.6 50.4, 179.0 21.6, 205.7 36 C 232.5 51.8, 281.8 20.2, 308.6 36 C 335.3 53.1, 384.7 18.9, 411.4 36 C 438.2 54.1, 487.5 17.9, 514.3 36 C 541.0 54.8, 590.4 17.2, 617.1 36 C 643.9 55.2, 693.3 16.8, 720.0 36 C 746.7 55.2, 796.1 16.8, 822.9 36 C 849.6 54.8, 899.0 17.2, 925.7 36 C 952.5 54.1, 1001.8 17.9, 1028.6 36 C 1055.3 53.1, 1104.7 18.9, 1131.4 36 C 1158.2 51.8, 1207.5 20.2, 1234.3 36 C 1261.0 50.4, 1310.4 21.6, 1337.1 36 C 1363.9 48.8, 1413.3 23.2, 1440.0 36" />
+        <path class="squiggly-main" d="M 0 36 C 28.8 16.8, 74.1 55.2, 102.9 36 C 131.7 14.4, 176.9 57.6, 205.7 36 C 234.5 12.3, 279.8 59.7, 308.6 36 C 337.4 10.4, 382.6 61.6, 411.4 36 C 440.2 8.9, 485.5 63.1, 514.3 36 C 543.1 7.8, 588.3 64.2, 617.1 36 C 645.9 7.3, 691.2 64.7, 720.0 36 C 748.8 7.3, 794.1 64.7, 822.9 36 C 851.7 7.8, 896.9 64.2, 925.7 36 C 954.5 8.9, 999.8 63.1, 1028.6 36 C 1057.4 10.4, 1102.6 61.6, 1131.4 36 C 1160.2 12.3, 1205.5 59.7, 1234.3 36 C 1263.1 14.4, 1308.3 57.6, 1337.1 36 C 1365.9 16.8, 1411.2 55.2, 1440.0 36" />
+      </svg>
+    </div>
 
     <!-- @include partials/footer.html -->
     <!-- @include partials/cart-drawer.html -->

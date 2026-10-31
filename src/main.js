@@ -4335,7 +4335,7 @@ const PRODUCT_DATABASE = {
     "price": 0,
     "priceStr": "",
     "img": "/assets/IMG_6238.webp",
-    "desc": "Handcrafted from pure medical borosilicate glass, suspended with ethereal internal champagne micro-bubbles. Non-porous, perfectly smooth, and ideal for sensory temperature play—soak in warm water for radiant heat or chill in ice.",
+    "desc": "Handcrafted from pure medical borosilicate glass, suspended with ethereal internal champagne micro-bubbles. Non-porous, perfectly smooth, and ideal for sensory temperature play: soak in warm water for radiant heat or chill in ice.",
     "specs": [
         {
             "label": "Material",
@@ -4423,7 +4423,7 @@ const PRODUCT_DATABASE = {
     "price": 0,
     "priceStr": "",
     "img": "/assets/IMG_8178.webp",
-    "desc": "A steamy twist on classic block stacking. Each natural pine wood block is laser-engraved with seductive foreplay commands, dares, and sensual challenges. Pull a block without toppling the tower—or perform whatever sweet punishment is revealed.",
+    "desc": "A steamy twist on classic block stacking. Each natural pine wood block is laser-engraved with seductive foreplay commands, dares, and sensual challenges. Pull a block without toppling the tower - or perform whatever sweet punishment is revealed.",
     "specs": [
         {
             "label": "Blocks",

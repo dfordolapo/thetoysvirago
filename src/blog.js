@@ -22,9 +22,28 @@ document.addEventListener('DOMContentLoaded', () => {
   // Render cards
   function renderArticles(filter = 'all') {
     if (!cardsGrid) return;
-    const filtered = filter === 'all'
+    const cleanFilter = (filter || 'all').toLowerCase().trim();
+    const filtered = cleanFilter === 'all'
       ? BLOG_ARTICLES
-      : BLOG_ARTICLES.filter(a => a.category.toLowerCase() === filter.toLowerCase());
+      : BLOG_ARTICLES.filter(a => a.category.toLowerCase().trim() === cleanFilter);
+
+    if (filtered.length === 0) {
+      cardsGrid.innerHTML = `
+        <div style="grid-column: 1 / -1; text-align: center; padding: 48px 20px; color: #94a3b8;">
+          <p style="font-size: 14px; margin-bottom: 14px;">No articles found in this category.</p>
+          <button type="button" class="btn btn-ruby btn-sm" id="btn-reset-filter" style="border-radius: 8px !important;">View All Stories</button>
+        </div>
+      `;
+      const btnReset = document.getElementById('btn-reset-filter');
+      if (btnReset) {
+        btnReset.addEventListener('click', () => {
+          const allPill = document.querySelector('.blog-filter-pill[data-category="all"]');
+          if (allPill) allPill.click();
+          else renderArticles('all');
+        });
+      }
+      return;
+    }
 
     cardsGrid.innerHTML = filtered.map(article => `
       <article class="blog-card" data-slug="${article.slug}">
@@ -82,8 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Update document title
-    document.title = `${article.title} — The Pleasure Edit | TheToysVirago`;
+    // Update document title (strictly no em dashes)
+    document.title = `${article.title} · The Pleasure Journal | TheToysVirago`;
 
     if (pushState) {
       const newUrl = `${window.location.pathname}?post=${encodeURIComponent(slug)}`;
@@ -95,7 +114,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function closeArticle(pushState = true) {
     if (readerView) readerView.style.display = 'none';
     if (indexView) indexView.style.display = 'block';
-    document.title = 'The Pleasure Edit — Intimacy & Wellness Guides | TheToysVirago Nigeria';
+    // Strictly no em dashes
+    document.title = 'The Pleasure Journal · Intimacy & Wellness Guides | TheToysVirago Nigeria';
 
     if (pushState) {
       window.history.pushState({}, '', window.location.pathname);
@@ -107,8 +127,20 @@ document.addEventListener('DOMContentLoaded', () => {
     pill.addEventListener('click', () => {
       filterPills.forEach(p => p.classList.remove('active'));
       pill.classList.add('active');
-      const cat = pill.getAttribute('data-category');
+      const cat = pill.getAttribute('data-category') || 'all';
+
+      // If user was reading an article, close reader and return to list
+      if (readerView && readerView.style.display !== 'none') {
+        closeArticle(true);
+      }
+
       renderArticles(cat);
+
+      // Scroll smoothly to grid
+      if (cardsGrid) {
+        const gridTop = cardsGrid.getBoundingClientRect().top + window.pageYOffset - 80;
+        window.scrollTo({ top: gridTop, behavior: 'smooth' });
+      }
     });
   });
 

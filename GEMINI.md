@@ -41,3 +41,8 @@
 - **NO OUTSIDE STROKES OR BORDERS**:
   - NEVER use outside strokes, borders, border-left bars, or outlines on quotes, callouts, product spotlights, or highlighted text blocks.
   - Rely exclusively on soft background fills/tints (e.g. `background: #161217; border: none !important;`).
+
+## Typography: No Em Dashes
+- **STRICTLY NO EM DASHES**:
+  - NEVER use em dashes (`—` or `&mdash;` or `&#8212;`) anywhere across site copy, headings, product descriptions, checkout options, metadata, or blog articles.
+  - Always use clean hyphens with spaces (` - `) or dots (` · `) instead.

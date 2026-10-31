@@ -35,7 +35,7 @@ xml += '    <changefreq>daily</changefreq>\n';
 xml += '    <priority>0.95</priority>\n';
 xml += '  </url>\n\n';
 
-// 3. The Pleasure Edit (Blog)
+// 3. The Pleasure Journal (Blog)
 xml += '  <url>\n';
 xml += `    <loc>${BASE_URL}/blog</loc>\n`;
 xml += `    <lastmod>${today}</lastmod>\n`;

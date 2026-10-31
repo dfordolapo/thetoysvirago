@@ -6,7 +6,7 @@ export const BLOG_ARTICLES = [
     readTime: '4 min read',
     date: 'October 30, 2026',
     author: 'TheToysVirago Team',
-    heroImg: '/assets/courier-bag.webp',
+    heroImg: '/assets/blog/article-discreet-delivery.jpg',
     excerpt: 'Plain unbranded courier packaging, riders who have zero clue what is inside, and anonymous bank transfers. Here is how your privacy stays bulletproof from dispatch to doorstep.',
     content: `
       <p class="article-lead">We know the anxiety. You want something luxurious for your private moments, but you share an apartment, live in a gated estate with nosey security, or don't want a dispatch rider side-eyeing your delivery. Let's pull back the curtain on how discreet delivery actually operates at TheToysVirago.</p>
@@ -47,7 +47,7 @@ export const BLOG_ARTICLES = [
     readTime: '5 min read',
     date: 'October 28, 2026',
     author: 'TheToysVirago Team',
-    heroImg: '/assets/rose-pair-duo.webp',
+    heroImg: '/assets/blog/article-first-timer.jpg',
     excerpt: 'Suction vs. vibration? Medical silicone vs. cheap plastics? Here is how to pick your first piece without wasting money on something that stays forgotten in a drawer.',
     content: `
       <p class="article-lead">Stepping into intimate wellness should feel empowering, not confusing. With hundreds of shapes, vibrating speeds, and air-pulse technology, choosing your first toy can feel like taking an exam you didn't study for. Here is the straightforward breakdown.</p>
@@ -68,7 +68,7 @@ export const BLOG_ARTICLES = [
       </div>
 
       <h3>Acoustics &amp; Silence: The Honest Truth About Toy Noise</h3>
-      <p>Let's address the elephant in the room: <strong>not every popular toy is quiet.</strong> One of the most frequent complaints on forums and feedback threads is that viral devices like the Pulsating Rose can buzz loudly—especially when switched to high vibration modes or placed against a wooden bedside table.</p>
+      <p>Let's address the elephant in the room: <strong>not every popular toy is quiet.</strong> One of the most frequent complaints on forums and feedback threads is that viral devices like the Pulsating Rose can buzz loudly - especially when switched to high vibration modes or placed against a wooden bedside table.</p>
       <p>If you live with family, share an apartment with roommates, or have thin bedroom doors, a sharp mechanical buzz is an instant mood killer. Here is what actually works for discreet, whisper-level sessions:</p>
 
       <div class="article-callout">
@@ -99,10 +99,10 @@ export const BLOG_ARTICLES = [
     readTime: '3 min read',
     date: 'October 25, 2026',
     author: 'TheToysVirago Team',
-    heroImg: '/assets/category-lube.webp',
+    heroImg: '/assets/blog/article-wellness-lube.jpg',
     excerpt: 'Why kitchen oils destroy medical silicone, throw off natural pH balance, and why a quality water-based glide transforms both solo and partner intimacy.',
     content: `
-      <p class="article-lead">Let's talk about lubrication without the awkward euphemisms. Natural arousal changes with hydration, cycle phases, and stress levels. Having a high-grade lubricant isn't a sign that something is lacking—it's the cheat code to zero friction, zero soreness, and 10x more sensation.</p>
+      <p class="article-lead">Let's talk about lubrication without the awkward euphemisms. Natural arousal changes with hydration, cycle phases, and stress levels. Having a high-grade lubricant isn't a sign that something is lacking - it is the secret key to zero friction, zero soreness, and 10x more sensation.</p>
 
       <h3>1. Why Oil Destroys Silicone Toys</h3>
       <p>If you own silicone devices, oil-based substances (coconut oil, baby oil, body lotions, Vaseline) will chemically bond with the silicone. Over time, your toy becomes sticky, pitted, and ruined. Once silicone melts or pits, bacteria can colonize the microscopic crevices.</p>
@@ -116,7 +116,7 @@ export const BLOG_ARTICLES = [
       </div>
 
       <h3>How to Apply for Maximum Sensation</h3>
-      <p>Apply a coin-sized amount directly to the contact point of your piece and a few drops to your intimate area before switching on the power. Reapply as desired—glide eliminates drag and elevates pleasure tenfold.</p>
+      <p>Apply a coin-sized amount directly to the contact point of your piece and a few drops to your intimate area before switching on the power. Reapply as desired: glide eliminates drag and elevates pleasure tenfold.</p>
     `,
     relatedProducts: ['kailin-water-lube']
   },
@@ -127,7 +127,7 @@ export const BLOG_ARTICLES = [
     readTime: '5 min read',
     date: 'October 22, 2026',
     author: 'TheToysVirago Team',
-    heroImg: '/assets/siren-app-red.webp',
+    heroImg: '/assets/blog/article-couples-guide.jpg',
     excerpt: 'How to bring up toys with your partner as an addition to your bond rather than a comparison or competition.',
     content: `
       <p class="article-lead">Introducing a toy into partner play can feel delicate. Cultural conditioning often makes men wonder: <em>"Am I not enough?"</em> or makes women worry they will be judged for speaking up about what they want. Here is how to navigate the conversation smoothly.</p>

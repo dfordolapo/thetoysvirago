@@ -627,7 +627,7 @@ Finished in velvety liquid silicone with satin rose-gold accents, this device de
     descriptions: {
       seductive: `Melt away everyday tension and spark unforgettable intimacy. Featuring provocative questions, tantalizing foreplay challenges, and uninhibited physical dares designed to bring couples closer than ever.`,
       luxe: `Printed on weighted linen-finish cardstock with gold foil edges and packaged in an obsidian magnetic keepsake box. Perfect for romantic getaways and private anniversaries.`,
-      playful: `Take turns drawing cards and watching inhibitions dissolve. No rules you can't bend, no awkwardness—just pure erotic connection.`,
+      playful: `Take turns drawing cards and watching inhibitions dissolve. No rules you can't bend, no awkwardness - just pure erotic connection.`,
       sensory: `Designed with progressive psychological and tactile milestones that gradually heighten anticipation from casual banter to full surrender.`
     }
   }
