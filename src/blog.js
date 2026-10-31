@@ -171,13 +171,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (readerDate) readerDate.textContent = article.date;
     if (readerTime) readerTime.textContent = article.readTime;
     if (readerCrumbTitle) readerCrumbTitle.textContent = article.title;
-    if (readerHeroImg) {
-      readerHeroImg.src = article.heroImg;
-      readerHeroImg.alt = article.title;
-      readerHeroImg.onerror = function() {
-        this.onerror = null;
-        this.src = '/assets/hero-collection.webp';
-      };
+    const heroBg = document.getElementById('article-hero-bg');
+    if (heroBg && article.heroImg) {
+      heroBg.style.backgroundImage = `url('${article.heroImg}')`;
     }
     if (readerContent) {
       readerContent.innerHTML = article.content;

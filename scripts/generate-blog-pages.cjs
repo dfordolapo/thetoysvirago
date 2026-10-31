@@ -92,8 +92,8 @@ async function generateBlogPages() {
 
     // Prepopulate article elements
     html = html.replace(
-      '<span class="blog-card-badge" id="reader-category">Category</span>',
-      `<span class="blog-card-badge" id="reader-category">${article.category}</span>`
+      '<span class="blog-card-badge article-badge-hero" id="reader-category">Category</span>',
+      `<span class="blog-card-badge article-badge-hero" id="reader-category">${article.category}</span>`
     );
     html = html.replace(
       '<h1 class="article-headline" id="reader-title">Article Headline Goes Here</h1>',
@@ -116,8 +116,8 @@ async function generateBlogPages() {
       `<span id="reader-crumb-title">${article.title}</span>`
     );
     html = html.replace(
-      /<img id="reader-hero-img"[^>]*\/>/,
-      `<img id="reader-hero-img" src="${article.heroImg}" alt="${cleanTitle}" fetchpriority="high" loading="eager" onerror="this.onerror=null; this.src='/assets/hero-collection.webp';" />`
+      'id="article-hero-bg"',
+      `id="article-hero-bg" style="background-image: url('${article.heroImg}');"`
     );
     html = html.replace(
       /<article class="article-body" id="reader-content">[\s\S]*?<\/article>/,
