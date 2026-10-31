@@ -1,0 +1,136 @@
+    <!-- ===== STORE POLICIES MODAL ===== -->
+    <div id="policy-modal" class="modal-overlay" hidden style="display: none;">
+      <div class="policy-modal-card" role="dialog" aria-modal="true" aria-labelledby="policy-modal-title">
+        <div class="policy-modal-header">
+          <div>
+            <span class="policy-modal-eyebrow">Customer Care</span>
+            <h3 id="policy-modal-title" class="policy-modal-title">Store Policies</h3>
+          </div>
+          <button type="button" id="btn-close-policy" class="btn-close-policy" aria-label="Close policies modal">✕</button>
+        </div>
+
+        <!-- Policy Navigation Tabs -->
+        <div class="policy-tabs" role="tablist">
+          <button type="button" class="policy-tab active" data-tab="terms" role="tab" aria-selected="true">Terms &amp; Conditions</button>
+          <button type="button" class="policy-tab" data-tab="shipping" role="tab" aria-selected="false">Shipping Policy</button>
+          <button type="button" class="policy-tab" data-tab="returns" role="tab" aria-selected="false">Returns Policy</button>
+          <button type="button" class="policy-tab" data-tab="refunds" role="tab" aria-selected="false">Refund Policy</button>
+        </div>
+
+        <!-- Policy Content Panels -->
+        <div class="policy-content-body">
+          <!-- Panel 1: Terms & Conditions -->
+          <div id="policy-panel-terms" class="policy-panel active">
+            <h4>Terms &amp; Conditions</h4>
+            <p class="policy-intro">By browsing or placing an order on TheToysVirago, you agree to the following straightforward guidelines.</p>
+            
+            <div class="policy-item">
+              <h5>1. Strict 18+ Age Requirement</h5>
+              <p>You must be at least 18 years of age to purchase from TheToysVirago or access our collection. By placing an order, you verify under Nigerian law that you are of legal adult age.</p>
+            </div>
+
+            <div class="policy-item">
+              <h5>2. Discretion &amp; Customer Privacy</h5>
+              <p>We treat every client with utmost confidentiality. Your name, delivery address, phone number, and order records are used solely to fulfill your order and confirm payment. We do not sell, rent, or broadcast customer details under any circumstances.</p>
+            </div>
+
+            <div class="policy-item">
+              <h5>3. Payment &amp; Order Reservation</h5>
+              <p>Orders are placed via direct transfer to our verified Moniepoint account or instant online payment. Placed items are temporarily reserved for you for up to 24 hours. If transfer confirmation is not received within this window, the reservation is released so other customers can shop the vault.</p>
+            </div>
+
+            <div class="policy-item">
+              <h5>4. Product Specifications &amp; Images</h5>
+              <p>All items are photographed with care to depict colors and textures accurately. Minor shade variations can happen due to screen calibrations and manufacturing batches, but functional specifications and materials remain strictly as described.</p>
+            </div>
+          </div>
+
+          <!-- Panel 2: Shipping Policy -->
+          <div id="policy-panel-shipping" class="policy-panel">
+            <h4>Shipping &amp; Delivery Policy</h4>
+            <p class="policy-intro">We take the stress out of adult shopping with rapid dispatch and guaranteed discreet packaging.</p>
+
+            <div class="policy-item">
+              <h5>1. 100% Plain, Unmarked Packaging</h5>
+              <p>Your package arrives in a thick, completely opaque, tamper-evident courier bag. There are no sex toy mentions, product names, or virago logos visible on the exterior. The courier only sees standard delivery contact details needed to hand you your parcel.</p>
+            </div>
+
+            <div class="policy-item">
+              <h5>2. Delivery Timeframes</h5>
+              <p><strong>Lagos State:</strong> Doorstep delivery on the same day or next business day following payment verification.</p>
+              <p><strong>Interstate (Outside Lagos):</strong> 1 to 5 business days depending on transit distance and regional transport schedules.</p>
+            </div>
+
+            <div class="policy-item">
+              <h5>3. Interstate Delivery Methods</h5>
+              <p><strong>Park / Terminal Pickup:</strong> Fixed fee (₦4,000 for Ibadan, ₦5,500 for Northern hubs, ₦4,500 for all other states). You pick up directly from a major transport park or terminal in your city.</p>
+              <p><strong>Doorstep Courier:</strong> Direct dispatch to your home or office address through regional express couriers (deposit collected at checkout; balance confirmed via WhatsApp).</p>
+            </div>
+
+            <div class="policy-item">
+              <h5>4. Color Substitutions</h5>
+              <p>If the specific shade you chose is temporarily out of stock when our team packs your order, we may send an alternative shade of the exact same toy so your order is not delayed. If your order requires one specific color only, please let our concierge know on WhatsApp right after placing your order.</p>
+            </div>
+          </div>
+
+          <!-- Panel 3: Returns Policy -->
+          <div id="policy-panel-returns" class="policy-panel">
+            <h4>Returns Policy</h4>
+            <p class="policy-intro">We want you to be confident in what you receive, while maintaining non-negotiable hygiene standards for intimate products.</p>
+
+            <div class="policy-item">
+              <h5>1. 24-Hour Reporting Window</h5>
+              <p>If your package arrives damaged in transit or you received an incorrect item, you must lodge a complaint with us within <strong>24 hours of delivery receipt</strong>.</p>
+            </div>
+
+            <div class="policy-item">
+              <h5>2. Unused &amp; Factory-Sealed Condition</h5>
+              <p>Because these are intimate wellness products used on sensitive areas of the body, we can only accept returns for items that are completely unused, unopened, and with all factory seals and hygiene wrapping 100% intact.</p>
+            </div>
+
+            <div class="policy-item">
+              <h5>3. How to Submit a Return Request</h5>
+              <p>Send a direct message to our WhatsApp concierge at <strong>08036514814</strong> with your Order Reference, a short explanation of what went wrong, and clear photos or a short video showing the unopened package and shipping label.</p>
+            </div>
+
+            <div class="policy-item">
+              <h5>4. Return Inspection</h5>
+              <p>Returned parcels are inspected at our hub upon arrival. Items that show signs of opening, broken seals, or missing accessories will not qualify for return or exchange.</p>
+            </div>
+          </div>
+
+          <!-- Panel 4: Refund Policy -->
+          <div id="policy-panel-refunds" class="policy-panel">
+            <h4>Refund Policy</h4>
+            <p class="policy-intro">Our refund terms are designed to be fair, direct, and protective of personal hygiene.</p>
+
+            <div class="policy-item">
+              <h5>1. No Refunds on Used Items</h5>
+              <p>Due to intimate hygiene standards and health safety, <strong>any item that has been unsealed, opened, or used cannot be refunded under any circumstances</strong>. Once the protective seal has been broken, the sale is final.</p>
+            </div>
+
+            <div class="policy-item">
+              <h5>2. When Refunds Are Issued</h5>
+              <p>A full refund for the item amount will be issued if:</p>
+              <p>&bull; An item you paid for is out of stock before dispatch and you choose not to wait for restock or switch to an alternative.</p>
+              <p>&bull; An unused item with intact factory seal is returned within the 24-hour window and approved following inspection.</p>
+            </div>
+
+            <div class="policy-item">
+              <h5>3. Refund Payout Speed</h5>
+              <p>Approved refunds are credited directly to your designated Nigerian bank account within <strong>24 to 48 business hours</strong> after approval.</p>
+            </div>
+
+            <div class="policy-item">
+              <h5>4. Delivery Fees</h5>
+              <p>Delivery charges are paid directly to third-party couriers and transport stations, and are non-refundable once an order has been dispatched from our vault.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="policy-modal-footer">
+          <span>Need help with an order?</span>
+          <a href="https://wa.me/2348036514814" target="_blank" rel="noopener" class="btn btn-black btn-sm">Chat on WhatsApp</a>
+        </div>
+      </div>
+    </div>

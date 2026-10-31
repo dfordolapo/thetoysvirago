@@ -1,4 +1,6 @@
 import { getSupabaseProducts, recordSupabaseConfession, getSupabaseConfessions, recordSupabaseOrder, getSupabaseOrders } from './supabase.js';
+import { DELIVERY_ZONES, autoDetectDeliveryZoneFromAddress } from './modules/zones.js';
+import { openPaystackInline, isPaystackConfigured, PAYSTACK_PUBLIC_KEY } from './modules/paystack.js';
 
 /**
  * ROUGE NOIR - Haute Intimité & Sensual Wellness
@@ -7084,169 +7086,13 @@ let selectedAddressId = savedAddresses[0]?.id || 'home';
 let isEditingAddress = false;
 let activeSaveLabel = 'Home';
 
-// ================= DELIVERY ZONES & METHOD CONFIGURATION =================
-const DELIVERY_ZONES = {
-  // Lagos Island Core
-  lagos_island_core: {
-    id: 'lagos_island_core',
-    name: 'Lagos Island Core (Lekki 1, Ikoyi, VI, Oniru, Banana Island)',
-    shortName: 'Lagos Island Core',
-    type: 'lagos',
-    fee: 4500,
-    keywords: ['lekki 1', 'lekki phase 1', 'ikoyi', 'victoria island', ' vi ', 'oniru', 'banana island', 'bourdillon', 'admiralty', 'maroko']
-  },
-  // Lagos Island Extended
-  lagos_island_ext: {
-    id: 'lagos_island_ext',
-    name: 'Lagos Island Extended (Chevron, Ikate, Agungi, VGC, Ajah, Sangotedo)',
-    shortName: 'Lagos Island Extended',
-    type: 'lagos',
-    fee: 5500,
-    keywords: ['chevron', 'ikate', 'osapa', 'agungi', 'vgc', 'victoria garden', 'ajah', 'sangotedo', 'lekki phase 2', 'jakande', 'ilasan', 'badore', 'abraham adesanya']
-  },
-  // Lagos Island Far Axis
-  lagos_island_far: {
-    id: 'lagos_island_far',
-    name: 'Lagos Island Far Axis (Awoyaya, Lakowe, Bogije, Epe)',
-    shortName: 'Lagos Island Far Axis',
-    type: 'lagos',
-    fee: 6500,
-    keywords: ['awoyaya', 'lakowe', 'bogije', 'eleko', 'epe', 'ibeju lekki', 'ibeju-lekki']
-  },
-  // Lagos Mainland Central / Ikeja Axis
-  lagos_mainland_central: {
-    id: 'lagos_mainland_central',
-    name: 'Lagos Mainland Central / Ikeja (Ikeja GRA, Maryland, Magodo, Gbagada)',
-    shortName: 'Lagos Mainland Central / Ikeja',
-    type: 'lagos',
-    fee: 4000,
-    keywords: ['ikeja', 'maryland', 'opebi', 'allen', 'ilupeju', 'anthony', 'ogudu', 'magodo', 'omole', 'gbagada', 'shonibare', 'alausa']
-  },
-  // Lagos Mainland Near
-  lagos_mainland_near: {
-    id: 'lagos_mainland_near',
-    name: 'Lagos Mainland Near (Yaba, Surulere, Shomolu, Ebute Metta)',
-    shortName: 'Lagos Mainland Near',
-    type: 'lagos',
-    fee: 3500,
-    keywords: ['yaba', 'surulere', 'shomolu', 'somolu', 'ebute metta', 'ebute-metta', 'bariga', 'akoka', 'onike', 'fadeyi', 'tejuosho', 'bode thomas', 'adeniran ogunsanya']
-  },
-  // Lagos Mainland West / Suburbs
-  lagos_mainland_west: {
-    id: 'lagos_mainland_west',
-    name: 'Lagos Mainland West (Festac, Okota, Isolo, Agege, Alimosho, Berger)',
-    shortName: 'Lagos Mainland West',
-    type: 'lagos',
-    fee: 4500,
-    keywords: ['festac', 'amuwo', 'amuwo odofin', 'okota', 'isolo', 'oshodi', 'agege', 'alimosho', 'egbeda', 'ipaja', 'idimu', 'ojodu', 'berger', 'ijaiye', 'meiran', 'abule egba', 'ejigbo', 'ikotun']
-  },
-  // Lagos Mainland Far Outskirts
-  lagos_mainland_far: {
-    id: 'lagos_mainland_far',
-    name: 'Lagos Mainland Outskirts (Ikorodu, Ojo, LASU, Badagry)',
-    shortName: 'Lagos Mainland Outskirts',
-    type: 'lagos',
-    fee: 5000,
-    keywords: ['ikorodu', 'ojo', 'satellite town', 'lasu', 'trade fair', 'badagry', 'agbara', 'alaba']
-  },
-
-  // Interstate: Abuja Central
-  abuja_central: {
-    id: 'abuja_central',
-    name: 'Abuja Central (Maitama, Wuse, Garki, Asokoro, Guzape, Jabi)',
-    shortName: 'Abuja Central',
-    type: 'interstate',
-    parkFee: 4500,
-    doorstepFee: 6000,
-    keywords: ['maitama', 'wuse', 'wuse 2', 'wuse ii', 'garki', 'asokoro', 'guzape', 'jabi', 'utako', 'mabushi', 'central area', 'cbd abuja']
-  },
-  // Interstate: Abuja Outer / Satellite
-  abuja_outer: {
-    id: 'abuja_outer',
-    name: 'Abuja Outer / Satellite (Gwarinpa, Apo, Lokogoma, Kubwa, Lugbe)',
-    shortName: 'Abuja Outer / Satellite',
-    type: 'interstate',
-    parkFee: 4500,
-    doorstepFee: 6000,
-    keywords: ['abuja', 'fct', 'gwarinpa', 'life camp', 'apo', 'lokogoma', 'dawaki', 'kubwa', 'lugbe', 'airport road', 'karu', 'nyanya', 'bwari', 'mararaba', 'mpape', 'katampe']
-  },
-  // Interstate: Oyo / Ibadan
-  ibadan: {
-    id: 'ibadan',
-    name: 'Oyo / Ibadan (Bodija, Oluyole, Jericho, Ring Road, Akobo)',
-    shortName: 'Oyo / Ibadan',
-    type: 'interstate',
-    parkFee: 4000,
-    doorstepFee: 6000,
-    keywords: ['ibadan', 'oyo', 'bodija', 'oluyole', 'jericho', 'ring road', 'akobo', 'samonda', 'university of ibadan', 'dugbe', 'iyaganku', 'agodi', 'ogbomoso']
-  },
-  // Interstate: Ogun State
-  ogun: {
-    id: 'ogun',
-    name: 'Ogun (Magboro, Arepo, Ibafo, Mowe, Ota, Abeokuta)',
-    shortName: 'Ogun State',
-    type: 'interstate',
-    parkFee: 4500,
-    doorstepFee: 6000,
-    keywords: ['ogun', 'magboro', 'arepo', 'ibafo', 'mowe', 'ota', 'sagamu', 'shagamu', 'abeokuta', 'ijebu', 'ijebu ode']
-  },
-  // Interstate: Rivers / Port Harcourt
-  ph: {
-    id: 'ph',
-    name: 'Rivers / Port Harcourt (Old/New GRA, Peter Odili, Woji, D/Line)',
-    shortName: 'Rivers / Port Harcourt',
-    type: 'interstate',
-    parkFee: 4500,
-    doorstepFee: 6000,
-    keywords: ['port harcourt', 'portharcourt', 'rivers', 'peter odili', 'woji', 'd/line', 'trans-amadi', 'ada george', 'rumuokoro', 'rumuola', 'diobu', 'choba']
-  },
-  // Interstate: Edo & Delta
-  edo_delta: {
-    id: 'edo_delta',
-    name: 'Edo & Delta (Benin City, Asaba, Warri)',
-    shortName: 'Edo & Delta',
-    type: 'interstate',
-    parkFee: 4500,
-    doorstepFee: 6000,
-    keywords: ['benin', 'benin city', 'edo', 'asaba', 'warri', 'delta', 'effurun', 'ughelli', 'sapele']
-  },
-  // Interstate: South-East Hubs
-  southeast: {
-    id: 'southeast',
-    name: 'South-East Hubs (Enugu, Owerri, Awka, Onitsha, Aba)',
-    shortName: 'South-East Hubs',
-    type: 'interstate',
-    parkFee: 4500,
-    doorstepFee: 6000,
-    keywords: ['enugu', 'owerri', 'imo', 'awka', 'onitsha', 'anambra', 'aba', 'umuahia', 'abia', 'abakaliki', 'ebonyi', 'nnewi']
-  },
-  // Interstate: Northern Hubs
-  northern_hubs: {
-    id: 'northern_hubs',
-    name: 'Northern Hubs (Kano, Kaduna, Jos, Ilorin)',
-    shortName: 'Northern Hubs',
-    type: 'interstate',
-    parkFee: 5500,
-    doorstepFee: 7000,
-    keywords: ['kano', 'kaduna', 'jos', 'plateau', 'ilorin', 'kwara', 'zaria', 'katsina', 'sokoto']
-  },
-  // Interstate: All Other States Nationwide
-  nationwide_other: {
-    id: 'nationwide_other',
-    name: 'Other States Nationwide (Uyo, Calabar, Bayelsa, etc.)',
-    shortName: 'Other States Nationwide',
-    type: 'interstate',
-    parkFee: 4500,
-    doorstepFee: 6000,
-    keywords: ['uyo', 'akwa ibom', 'calabar', 'cross river', 'yenagoa', 'bayelsa', 'osogbo', 'osun', 'akure', 'ondo', 'ado-ekiti', 'ekiti', 'makurdi', 'benue', 'lokoja', 'kogi', 'minna', 'niger', 'lafia', 'nasarawa', 'bauchi', 'gombe', 'taraba', 'yobe', 'adamawa']
-  }
-};
-
+// DELIVERY_ZONES and autoDetectDeliveryZoneFromAddress are imported from ./modules/zones.js
 let currentDeliveryZoneId = 'lagos_island_core';
 let currentDeliveryMethod = 'park'; // 'park' (fixed fee) or 'doorstep'
 let isFreeDeliveryPromoActive = false; // Evaluated dynamically for first 5 launch orders
 let hasCheckedFreeDelivery = false;
 let userManuallySelectedZone = false;
+let selectedPaymentMethod = 'bank'; // 'bank' or 'online'
 
 // Check first 5 orders launch perk (discreetly without exposing order count to customer)
 async function refreshLaunchFreeDeliveryEligibility() {
@@ -7274,25 +7120,6 @@ function getCalculatedDeliveryFee() {
   } else {
     return currentDeliveryMethod === 'park' ? zone.parkFee : zone.doorstepFee;
   }
-}
-
-function autoDetectDeliveryZoneFromAddress(addressStr, cityStr) {
-  const fullText = ` ${addressStr || ''} ${cityStr || ''} `.toLowerCase();
-  for (const key of Object.keys(DELIVERY_ZONES)) {
-    const zone = DELIVERY_ZONES[key];
-    for (const kw of zone.keywords) {
-      if (fullText.includes(kw)) {
-        return zone.id;
-      }
-    }
-  }
-  if (fullText.includes('lagos') || fullText.includes('mainland')) {
-    return 'lagos_mainland_central';
-  }
-  if (cityStr && !cityStr.toLowerCase().includes('lagos') && cityStr.trim().length > 2) {
-    return 'nationwide_other';
-  }
-  return null;
 }
 
 // Helper to calculate current cart totals (including dynamic delivery fee)
@@ -7711,6 +7538,66 @@ function displayOrderSuccess(orderPayload, waUrl) {
   }
 }
 
+// Payment Method Tab Switching (Bank Transfer vs Paystack Online)
+const tabPayBank = document.getElementById('tab-pay-bank');
+const tabPayOnline = document.getElementById('tab-pay-online');
+const payBoxBank = document.getElementById('pay-box-bank');
+const payBoxOnline = document.getElementById('pay-box-online');
+
+function updatePaymentMethodTabs() {
+  if (tabPayBank && tabPayOnline) {
+    if (selectedPaymentMethod === 'bank') {
+      tabPayBank.classList.add('active');
+      tabPayBank.style.borderColor = 'var(--ink)';
+      tabPayBank.style.background = 'var(--surface)';
+      tabPayBank.style.color = 'var(--ink)';
+
+      tabPayOnline.classList.remove('active');
+      tabPayOnline.style.borderColor = 'rgba(0,0,0,0.1)';
+      tabPayOnline.style.background = '#ffffff';
+      tabPayOnline.style.color = 'var(--ink-2)';
+
+      if (payBoxBank) payBoxBank.style.display = 'block';
+      if (payBoxOnline) payBoxOnline.style.display = 'none';
+
+      if (btnSubmitOrder) {
+        btnSubmitOrder.textContent = 'Place Order';
+      }
+    } else {
+      tabPayOnline.classList.add('active');
+      tabPayOnline.style.borderColor = 'var(--ink)';
+      tabPayOnline.style.background = 'var(--surface)';
+      tabPayOnline.style.color = 'var(--ink)';
+
+      tabPayBank.classList.remove('active');
+      tabPayBank.style.borderColor = 'rgba(0,0,0,0.1)';
+      tabPayBank.style.background = '#ffffff';
+      tabPayBank.style.color = 'var(--ink-2)';
+
+      if (payBoxBank) payBoxBank.style.display = 'none';
+      if (payBoxOnline) payBoxOnline.style.display = 'block';
+
+      if (btnSubmitOrder) {
+        const { finalTotal } = getCheckoutCartTotals();
+        btnSubmitOrder.textContent = `Pay ₦${Number(finalTotal).toLocaleString()} with Paystack`;
+      }
+    }
+  }
+}
+
+if (tabPayBank) {
+  tabPayBank.addEventListener('click', () => {
+    selectedPaymentMethod = 'bank';
+    updatePaymentMethodTabs();
+  });
+}
+if (tabPayOnline) {
+  tabPayOnline.addEventListener('click', () => {
+    selectedPaymentMethod = 'online';
+    updatePaymentMethodTabs();
+  });
+}
+
 // Form Submission Handler
 if (checkoutForm) {
   checkoutForm.addEventListener('submit', async (e) => {
@@ -7777,9 +7664,100 @@ if (checkoutForm) {
         img: item.img || item.image || ''
       })),
       total_amount: finalTotal,
-      status: 'awaiting_confirmation'
+      status: selectedPaymentMethod === 'online' ? 'pending_payment' : 'awaiting_confirmation',
+      payment_method: selectedPaymentMethod === 'online' ? 'paystack' : 'bank_transfer'
     };
 
+    // Construct WhatsApp Redirect URL
+    const itemsList = orderPayload.items.map(i => `${i.qty}x ${i.title}`).join(', ');
+    const feeStr = isFreeDeliveryPromoActive ? 'FREE (Launch Special Applied)' : `₦${effectiveDeliveryFee.toLocaleString()}`;
+    const waText = encodeURIComponent(
+      `Hello TheToysVirago Concierge,\n\nI just placed an order!\n• Order Ref: ${orderPayload.reference}\n• Items: ${itemsList}\n• Subtotal: ₦${rawSubtotal.toLocaleString()}\n• Delivery: ${feeStr} (${activeZone.shortName} · ${deliveryMethodStr})\n• Total Due: ₦${Number(orderPayload.total_amount).toLocaleString()}\n• Name: ${orderPayload.customer_name}\n• Phone: ${orderPayload.phone}\n• Delivery Address: ${orderPayload.address}\n• Payment: ${selectedPaymentMethod === 'online' ? 'Paid via Paystack' : `${STORE_BANK_NAME} (${STORE_BANK_ACC})`}\n\nHere are my order details:`
+    );
+    const waUrl = `https://wa.me/${STORE_WHATSAPP}?text=${waText}`;
+
+    // PAYSTACK ONLINE FLOW
+    if (selectedPaymentMethod === 'online') {
+      if (!isPaystackConfigured()) {
+        showToast('Paystack live gateway is currently pending activation. Defaulting to direct bank transfer.');
+        selectedPaymentMethod = 'bank';
+        updatePaymentMethodTabs();
+        return;
+      }
+
+      if (btnSubmitOrder) {
+        btnSubmitOrder.innerHTML = '<span>Launching Paystack...</span>';
+        btnSubmitOrder.disabled = true;
+      }
+
+      const opened = openPaystackInline({
+        email: email,
+        amountInNaira: finalTotal,
+        reference: orderRef,
+        customerName: `${firstName} ${lastName}`,
+        phone: phone,
+        address: address,
+        onSuccess: async (payResponse) => {
+          orderPayload.status = 'paid';
+          orderPayload.paystack_reference = payResponse.reference || payResponse.trxref || '';
+          
+          try {
+            await recordSupabaseOrder(orderPayload);
+          } catch (err) {
+            console.warn('Supabase order logging fallback:', err);
+          }
+
+          try {
+            fetch('/api/send-confirmation', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                order: orderPayload,
+                action: 'order_paid'
+              }),
+              keepalive: true
+            }).catch(e => console.warn('Order email dispatch error:', e));
+          } catch (e) {}
+
+          localStorage.setItem('ttv_last_order', JSON.stringify(orderPayload));
+          try {
+            const existingLocal = JSON.parse(localStorage.getItem('ttv_local_orders') || '[]');
+            existingLocal.unshift(orderPayload);
+            localStorage.setItem('ttv_local_orders', JSON.stringify(existingLocal));
+            localStorage.setItem('ttv_last_order_broadcast', JSON.stringify({
+              order: orderPayload,
+              timestamp: Date.now()
+            }));
+          } catch (e) {}
+
+          displayOrderSuccess(orderPayload, waUrl);
+          cart = [];
+          discountPercent = 0;
+          saveCart();
+          showToast('Payment successful! Your order has been placed.');
+        },
+        onCancel: () => {
+          if (btnSubmitOrder) {
+            btnSubmitOrder.disabled = false;
+            btnSubmitOrder.textContent = `Pay ₦${Number(finalTotal).toLocaleString()} with Paystack`;
+          }
+          showToast('Payment window cancelled.');
+        }
+      });
+
+      if (!opened) {
+        showToast('Could not launch Paystack popup. Please use direct bank transfer.');
+        selectedPaymentMethod = 'bank';
+        updatePaymentMethodTabs();
+        if (btnSubmitOrder) {
+          btnSubmitOrder.disabled = false;
+          btnSubmitOrder.textContent = 'Place Order';
+        }
+      }
+      return;
+    }
+
+    // DIRECT BANK TRANSFER FLOW
     if (btnSubmitOrder) {
       btnSubmitOrder.innerHTML = '<span>Redirecting to WhatsApp...</span>';
       btnSubmitOrder.disabled = true;
@@ -7792,8 +7770,7 @@ if (checkoutForm) {
       console.warn('Supabase order logging fallback:', err);
     }
 
-    // Immediately dispatch Order Alert email to Store Owner (thetoysvirago@gmail.com) via Resend.
-    // (Customer receives their first email only when payment is verified and confirmed in Admin)
+    // Immediately dispatch Order Alert email to Store Owner via Resend
     try {
       fetch('/api/send-confirmation', {
         method: 'POST',
@@ -7812,20 +7789,11 @@ if (checkoutForm) {
       const existingLocal = JSON.parse(localStorage.getItem('ttv_local_orders') || '[]');
       existingLocal.unshift(orderPayload);
       localStorage.setItem('ttv_local_orders', JSON.stringify(existingLocal));
-      // Cross-tab broadcast for instant Admin alert & push notification
       localStorage.setItem('ttv_last_order_broadcast', JSON.stringify({
         order: orderPayload,
         timestamp: Date.now()
       }));
     } catch (e) {}
-
-    // Construct WhatsApp Redirect URL
-    const itemsList = orderPayload.items.map(i => `${i.qty}x ${i.title}`).join(', ');
-    const feeStr = isFreeDeliveryPromoActive ? 'FREE (Launch Special Applied)' : `₦${effectiveDeliveryFee.toLocaleString()}`;
-    const waText = encodeURIComponent(
-      `Hello TheToysVirago Concierge,\n\nI just placed an order!\n• Order Ref: ${orderPayload.reference}\n• Items: ${itemsList}\n• Subtotal: ₦${rawSubtotal.toLocaleString()}\n• Delivery: ${feeStr} (${activeZone.shortName} · ${deliveryMethodStr})\n• Total Due: ₦${Number(orderPayload.total_amount).toLocaleString()}\n• Name: ${orderPayload.customer_name}\n• Phone: ${orderPayload.phone}\n• Delivery Address: ${orderPayload.address}\n• Bank: ${STORE_BANK_NAME} (${STORE_BANK_ACC} · ${STORE_BANK_OWNER})\n\nI have made the transfer. Here is my receipt:`
-    );
-    const waUrl = `https://wa.me/${STORE_WHATSAPP}?text=${waText}`;
 
     displayOrderSuccess(orderPayload, waUrl);
 

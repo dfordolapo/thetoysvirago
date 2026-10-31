@@ -1,0 +1,89 @@
+    <!-- Cart Drawer -->
+    <div id="cart-drawer-overlay" class="drawer-overlay" hidden>
+      <aside class="cart-drawer" id="cart-drawer" role="dialog" aria-modal="true" aria-label="Cart">
+        <div class="drawer-header">
+          <div>
+            <h3 class="drawer-title">Your Bag</h3>
+            <span class="drawer-count" id="drawer-items-count">(0 items)</span>
+          </div>
+          <button id="btn-close-cart" class="btn-close-drawer">✕</button>
+        </div>
+        <div class="drawer-items" id="drawer-items">
+          <div class="empty-cart-state">
+            <div class="empty-glow-orbit">
+              <div class="empty-icon-halo">
+                <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7 12C5.2 15 5.2 21 7 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.4" />
+                  <path d="M10 9C7.8 13 7.8 23 10 27" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.85" />
+                  <path d="M26 9C28.2 13 28.2 23 26 27" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.85" />
+                  <path d="M29 12C30.8 15 30.8 21 29 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.4" />
+                  <path d="M18 4.5C15.5 4.5 13.5 6.8 13.5 10V23C13.5 26.5 15.5 29.5 18 29.5C20.5 29.5 22.5 26.5 22.5 23V10C22.5 6.8 20.5 4.5 18 4.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+                  <path d="M14.5 11C16.5 9.5 19.5 9.5 21.5 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity="0.6" />
+                  <circle cx="18" cy="19.5" r="1.8" fill="currentColor" />
+                  <line x1="15.5" y1="25.5" x2="20.5" y2="25.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity="0.6" />
+                </svg>
+              </div>
+            </div>
+
+            <h3 class="empty-state-title">Nothing to buzz about.</h3>
+            <p class="empty-state-sub">Let's give your bag some good vibrations.</p>
+
+            <a href="/products.html" class="btn btn-black btn-lg empty-shop-cta" onclick="window.closeCartDrawer();">
+              <span>Find Your Buzz &rarr;</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="drawer-foot" id="drawer-footer" style="display: none;">
+          <div class="promo-row">
+            <input type="text" id="promo-input" placeholder="Promo code (inactive)" class="input-field" disabled style="opacity: 0.55; cursor: not-allowed; background: #f8fafc;" />
+            <button id="btn-apply-promo" class="btn-promo" disabled style="opacity: 0.55; cursor: not-allowed; pointer-events: none;">Apply</button>
+          </div>
+          <div id="promo-feedback" class="promo-msg" hidden></div>
+
+          <!-- Collapsible Subtotal & Delivery Details -->
+          <button type="button" id="btn-toggle-cart-details" class="cart-collapse-toggle" aria-expanded="false" aria-controls="cart-collapsible-details">
+            <div class="collapse-toggle-left">
+              <span class="collapse-toggle-title">Subtotal &amp; Delivery Details</span>
+              <span class="collapse-toggle-hint">Tap to view</span>
+            </div>
+            <div class="collapse-toggle-right">
+              <span class="collapse-total-peek" id="cart-total-peek">₦0</span>
+              <svg class="collapse-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </button>
+
+          <div id="cart-collapsible-details" class="cart-collapsible-details">
+            <div class="cart-lines">
+              <div class="cart-line"><span>Subtotal</span><span id="cart-subtotal">₦0</span></div>
+              <div class="cart-line" id="cart-discount-row" hidden><span>Discount (15%)</span><span id="cart-discount" class="green-txt">-₦0</span></div>
+              <div class="cart-line"><span>Delivery</span><span id="cart-shipping" class="green-txt">Free</span></div>
+              <div class="cart-line total-line"><span>Total</span><span id="cart-total" class="ruby-txt">₦0</span></div>
+            </div>
+
+            <div class="delivery-timeline-card in-drawer">
+              <div class="deliv-line">
+                <span class="deliv-line-left"><span class="deliv-dot"></span>Within Lagos</span>
+                <span class="deliv-line-val">Same or next business day</span>
+              </div>
+              <div class="deliv-line">
+                <span class="deliv-line-left"><span class="deliv-dot deliv-dot-amber"></span>Outside Lagos</span>
+                <span class="deliv-line-val">1 – 5 business days</span>
+              </div>
+              <div class="deliv-discreet-footer">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <span>Ships discreetly in a plain courier bag</span>
+              </div>
+              <div class="deliv-color-note">
+                *Items may be sent in an alternate color if selected shade is unavailable.
+              </div>
+            </div>
+          </div>
+
+          <button id="btn-checkout" class="btn btn-black btn-block btn-lg">
+            Checkout
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </aside>
+    </div>

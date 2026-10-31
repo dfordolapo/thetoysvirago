@@ -1,0 +1,54 @@
+  <!-- ===== STEALTH SHIELD ===== -->
+  <div id="stealth-shield" class="stealth-screen" hidden>
+    <div class="stealth-app-bar">
+      <div class="stealth-brand">
+        <div class="excel-icon">X</div>
+        <div class="stealth-file-info">
+          <span class="file-name">Q4_Enterprise_Logistics_Inventory_Audit_Consolidated.xlsx</span>
+          <div class="stealth-menu-row">
+            <span>File</span><span>Edit</span><span>View</span><span>Insert</span>
+            <span>Format</span><span>Data</span><span>Tools</span><span>Help</span>
+          </div>
+        </div>
+      </div>
+      <div class="stealth-right-actions">
+        <span class="stealth-user">Last edit was 2 mins ago</span>
+        <button id="btn-exit-stealth" class="btn-stealth-exit">
+          <span class="exit-dot"></span>
+          Resume Session (Esc)
+        </button>
+      </div>
+    </div>
+    <div class="stealth-formula-bar">
+      <div class="cell-address">E14</div>
+      <div class="fx-label">fx</div>
+      <input type="text" readonly value="=SUMIFS(Logistics_Ledger!$E$2:$E$480,Logistics_Ledger!$B$2:$B$480,&quot;EMEA-Central&quot;,Logistics_Ledger!$G$2:$G$480,&quot;>95000&quot;)" class="formula-input" />
+    </div>
+    <div class="stealth-grid-wrap">
+      <table class="stealth-table">
+        <thead>
+          <tr>
+            <th class="row-num-th"></th>
+            <th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="row-index">1</td><td class="col-header-cell" colspan="8"><strong>GLOBAL DISTRIBUTION &amp; RECONCILIATION SUMMARY (FY2026 Q4)</strong></td></tr>
+          <tr><td class="row-index">2</td><td><strong>SKU Code</strong></td><td><strong>Category</strong></td><td><strong>Warehouse</strong></td><td><strong>Units On Hand</strong></td><td><strong>Q4 Forecast</strong></td><td><strong>Variance</strong></td><td><strong>Margin</strong></td><td><strong>Status</strong></td></tr>
+          <tr><td class="row-index">3</td><td>RN-LOG-9021</td><td>Silicone Components</td><td>Lagos Hub 02</td><td>18,450</td><td>17,200</td><td class="positive">+7.2%</td><td>78.4%</td><td><span class="tag-status green">VERIFIED</span></td></tr>
+          <tr><td class="row-index">4</td><td>RN-LOG-9022</td><td>Acoustic Motors 30dB</td><td>Abuja Precision</td><td>9,120</td><td>8,950</td><td class="positive">+1.9%</td><td>82.1%</td><td><span class="tag-status green">VERIFIED</span></td></tr>
+          <tr><td class="row-index">5</td><td>RN-LOG-9023</td><td>Waterproof Enclosures</td><td>PH Engineering</td><td>14,300</td><td>15,000</td><td class="negative">-4.6%</td><td>74.9%</td><td><span class="tag-status amber">IN REVIEW</span></td></tr>
+          <tr><td class="row-index">6</td><td>RN-LOG-9024</td><td>Discreet Outer Cartons</td><td>Kano Packaging</td><td>45,000</td><td>40,000</td><td class="positive">+12.5%</td><td>91.0%</td><td><span class="tag-status green">VERIFIED</span></td></tr>
+          <tr><td class="row-index">7</td><td>RN-LOG-9025</td><td>Resonance Coils</td><td>Enugu Lab 4</td><td>6,800</td><td>6,500</td><td class="positive">+4.6%</td><td>86.5%</td><td><span class="tag-status green">VERIFIED</span></td></tr>
+          <tr><td class="row-index">8</td><td>RN-LOG-9026</td><td>Magnetic Charging Pins</td><td>Ibadan Micro</td><td>22,100</td><td>21,800</td><td class="positive">+1.3%</td><td>80.2%</td><td><span class="tag-status green">VERIFIED</span></td></tr>
+          <tr><td class="row-index">9</td><td><strong>TOTALS</strong></td><td>--</td><td>National</td><td><strong>115,770</strong></td><td><strong>109,450</strong></td><td class="positive"><strong>+5.8%</strong></td><td><strong>82.2%</strong></td><td><span class="tag-status green">BALANCED</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="stealth-sheet-tabs">
+      <span class="sheet-tab active">Overview_Summary</span>
+      <span class="sheet-tab">Q4_Inventory_Audit</span>
+      <span class="sheet-tab">Vendor_Reconciliation</span>
+      <span class="sheet-tab">+</span>
+    </div>
+  </div>

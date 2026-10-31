@@ -1,0 +1,40 @@
+    <!-- Header -->
+    <header class="main-header" id="main-header">
+      <div class="header-inner">
+        <a href="/" class="logo" aria-label="The Toys Virago - Home">
+          <img src="/assets/logo.webp" alt="The Toys Virago" class="brand-logo-img" />
+        </a>
+
+        <div class="header-actions">
+          <button id="btn-stealth-nav" class="stealth-pill" title="Stealth mode (Esc)">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>Stealth</span>
+            <kbd class="stealth-esc-hint">Esc</kbd>
+          </button>
+          <button id="btn-cart-nav" class="btn-icon-nav mobile-nav-cart-btn" aria-label="Cart" title="Cart">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 0 1-8 0"/>
+            </svg>
+            <span class="mobile-cart-badge" id="mobile-cart-badge" style="display: none;">0</span>
+          </button>
+          <button id="btn-mobile-menu" class="btn-mobile-toggle" aria-label="Menu">
+            <span class="bar"></span><span class="bar"></span>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Dropdown Menu -->
+      <div id="nav-dropdown" class="nav-dropdown" hidden style="display: none;">
+        <a href="/" class="dropdown-link nav-closer">Home</a>
+        <a href="/products.html" class="dropdown-link nav-closer">Shop</a>
+        <a href="/index.html#faq" class="dropdown-link nav-closer">FAQ</a>
+        <a href="/products.html#abuja" class="dropdown-link nav-closer">📍 Abuja Exclusives</a>
+        <a href="/emails.html" class="dropdown-link nav-closer" style="color: #e11d48;">✉️ Email Studio</a>
+        <button id="btn-install-dropdown" class="dropdown-link btn-install-trigger nav-closer">
+          <span>Install App</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </button>
+      </div>
+    </header>

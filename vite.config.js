@@ -1,5 +1,40 @@
-import { resolve } from 'path';
+import fs from 'fs';
+import path, { resolve } from 'path';
 import { defineConfig, loadEnv } from 'vite';
+
+// HTML Partials Templating Plugin
+function htmlPartialsPlugin() {
+  return {
+    name: 'html-partials',
+    transformIndexHtml: {
+      order: 'pre',
+      handler(html) {
+        let maxPasses = 5;
+        let modified = true;
+        let result = html;
+        while (modified && maxPasses > 0) {
+          modified = false;
+          maxPasses--;
+          result = result.replace(/<!--\s*@include\s+["']?([^"'\s>]+)["']?\s*-->/g, (match, relPath) => {
+            modified = true;
+            const target = path.resolve(process.cwd(), 'src', relPath);
+            if (fs.existsSync(target)) {
+              return fs.readFileSync(target, 'utf-8');
+            }
+            console.warn(`[html-partials] Warning: Partial not found: ${target}`);
+            return match;
+          });
+        }
+        return result;
+      }
+    },
+    handleHotUpdate({ file, server }) {
+      if (file.includes('partials') && file.endsWith('.html')) {
+        server.ws.send({ type: 'full-reload' });
+      }
+    }
+  };
+}
 
 // Dev middleware to route /api/send-confirmation through Node.js during local Vite development
 function resendDevApiPlugin() {
@@ -54,7 +89,7 @@ export default defineConfig(({ mode }) => {
   Object.assign(process.env, env);
 
   return {
-    plugins: [resendDevApiPlugin()],
+    plugins: [htmlPartialsPlugin(), resendDevApiPlugin()],
     build: {
       rollupOptions: {
         input: {

@@ -3,22 +3,75 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TheToysVirago - Dildon't Leave You Hanging</title>
-  <meta name="description" content="Nigeria's most discreet pleasure boutique. Premium toys, plain packaging, zero drama. Shop luxury adult toys, sensual lingerie, premium vibrators, intimate essentials, and couples games with fast, confidential delivery across Nigeria." />
+  <title>All Products &amp; Collections | TheToysVirago Nigeria — Discreet Intimate Boutique</title>
+  <meta name="description" content="Shop Nigeria's premier collection of body-safe adult toys, luxury vibrators, sensual lingerie, couples games, and wellness essentials. Discreet, 100% plain packaging nationwide." />
+  <meta name="keywords" content="adult toys Nigeria, vibrators Lagos, buy sex toys Lagos, sensual lingerie Nigeria, couples toys Nigeria, water based lube Lagos, discreet delivery Nigeria" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <link rel="canonical" href="https://thetoysvirago.shop/products" />
 
-  <!-- Open Graph / Social Sharing (WhatsApp, iMessage, Instagram, Facebook) -->
+  <!-- Geo & Regional Targeting for Nigerian Search Ranking -->
+  <meta name="geo.region" content="NG-LA" />
+  <meta name="geo.placename" content="Lagos, Nigeria" />
+  <meta name="geo.position" content="6.465422;3.406448" />
+  <meta name="ICBM" content="6.465422, 3.406448" />
+
+  <!-- Open Graph / Social Sharing (WhatsApp, iMessage, Instagram, Facebook, X) -->
   <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="TheToysVirago" />
   <meta property="og:url" content="https://thetoysvirago.shop/products" />
-  <meta property="og:title" content="TheToysVirago - Dildon't Leave You Hanging" />
-  <meta property="og:description" content="Nigeria's most discreet pleasure boutique. Premium toys, plain packaging, zero drama. Shop luxury adult toys, sensual lingerie, premium vibrators, intimate essentials, and couples games with fast, confidential delivery across Nigeria." />
+  <meta property="og:title" content="All Products &amp; Collections | TheToysVirago Nigeria" />
+  <meta property="og:description" content="Shop Nigeria's premier collection of body-safe adult toys, luxury vibrators, sensual lingerie, couples games, and wellness essentials in plain packaging." />
   <meta property="og:image" content="https://thetoysvirago.shop/assets/hero-collection.webp" />
+  <meta property="og:image:alt" content="TheToysVirago Products and Collections" />
+  <meta property="og:locale" content="en_NG" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="TheToysVirago - Dildon't Leave You Hanging" />
-  <meta name="twitter:description" content="Nigeria's most discreet pleasure boutique. Premium toys, plain packaging, zero drama. Shop luxury adult toys, sensual lingerie, premium vibrators, intimate essentials, and couples games with fast, confidential delivery across Nigeria." />
+  <meta name="twitter:site" content="@thetoysvirago" />
+  <meta name="twitter:creator" content="@thetoysvirago" />
+  <meta name="twitter:title" content="All Products &amp; Collections | TheToysVirago Nigeria" />
+  <meta name="twitter:description" content="Shop Nigeria's premier collection of body-safe adult toys, luxury vibrators, sensual lingerie, couples games, and wellness essentials in plain packaging." />
   <meta name="twitter:image" content="https://thetoysvirago.shop/assets/hero-collection.webp" />
+
+  <!-- Schema.org JSON-LD Collection & Breadcrumb Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": "https://thetoysvirago.shop/products#webpage",
+        "url": "https://thetoysvirago.shop/products",
+        "name": "All Products & Collections | TheToysVirago",
+        "description": "Shop Nigeria's premier collection of body-safe adult toys, luxury vibrators, sensual lingerie, couples games, and wellness essentials.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "@id": "https://thetoysvirago.shop/#website",
+          "name": "TheToysVirago",
+          "url": "https://thetoysvirago.shop/"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://thetoysvirago.shop/products#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://thetoysvirago.shop/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Products",
+            "item": "https://thetoysvirago.shop/products"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 
   <meta name="theme-color" content="#ffffff" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,6 +86,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/src/style.css" />
+  <!-- Paystack Inline SDK (Cards, Bank Transfer, Apple Pay, USSD) -->
+  <script src="https://js.paystack.co/v1/inline.js"></script>
   <!-- BudPay Inline SDK (Cards, Dynamic Bank Transfer, Apple Pay) -->
   <script src="https://inline.budpay.com/budpay-inline.js"></script>
   <style>
@@ -67,117 +122,13 @@
 </head>
 <body>
 
-  <!-- ===== AGE GATE ===== -->
-  <div id="age-gate" class="age-gate-overlay">
-    <div class="age-gate-card">
-      <h1 class="age-gate-title">
-        Wanna come inside?
-      </h1>
-      <p class="age-gate-desc">The website, we mean.<br/>You must be 18+ to enter.</p>
-      <div class="age-gate-actions">
-        <button id="btn-enter-gate" class="btn btn-ruby btn-lg" style="width: 100%;">
-          I'm 18+, Open the door
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </button>
-        <button id="btn-exit-gate" class="btn btn-ghost btn-lg" style="width: 100%; color: rgba(255,255,255,.4);">Too young for this</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== STEALTH SHIELD ===== -->
-  <div id="stealth-shield" class="stealth-screen" hidden>
-    <div class="stealth-app-bar">
-      <div class="stealth-brand">
-        <div class="excel-icon">X</div>
-        <div class="stealth-file-info">
-          <span class="file-name">Q4_Enterprise_Logistics_Inventory_Audit_Consolidated.xlsx</span>
-          <div class="stealth-menu-row">
-            <span>File</span><span>Edit</span><span>View</span><span>Insert</span>
-            <span>Format</span><span>Data</span><span>Tools</span><span>Help</span>
-          </div>
-        </div>
-      </div>
-      <div class="stealth-right-actions">
-        <span class="stealth-user">Last edit was 2 mins ago</span>
-        <button id="btn-exit-stealth" class="btn-stealth-exit">
-          <span class="exit-dot"></span>
-          Resume Session (Esc)
-        </button>
-      </div>
-    </div>
-    <div class="stealth-formula-bar">
-      <div class="cell-address">E14</div>
-      <div class="fx-label">fx</div>
-      <input type="text" readonly value="=SUMIFS(Logistics_Ledger!$E$2:$E$480,Logistics_Ledger!$B$2:$B$480,&quot;EMEA-Central&quot;,Logistics_Ledger!$G$2:$G$480,&quot;>95000&quot;)" class="formula-input" />
-    </div>
-    <div class="stealth-grid-wrap">
-      <table class="stealth-table">
-        <thead>
-          <tr>
-            <th class="row-num-th"></th>
-            <th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td class="row-index">1</td><td class="col-header-cell" colspan="8"><strong>GLOBAL DISTRIBUTION &amp; RECONCILIATION SUMMARY (FY2026 Q4)</strong></td></tr>
-          <tr><td class="row-index">2</td><td><strong>SKU Code</strong></td><td><strong>Category</strong></td><td><strong>Warehouse</strong></td><td><strong>Units On Hand</strong></td><td><strong>Q4 Forecast</strong></td><td><strong>Variance</strong></td><td><strong>Margin</strong></td><td><strong>Status</strong></td></tr>
-          <tr><td class="row-index">3</td><td>RN-LOG-9021</td><td>Silicone Components</td><td>Lagos Hub 02</td><td>18,450</td><td>17,200</td><td class="positive">+7.2%</td><td>78.4%</td><td><span class="tag-status green">VERIFIED</span></td></tr>
-          <tr><td class="row-index">4</td><td>RN-LOG-9022</td><td>Acoustic Motors 30dB</td><td>Abuja Precision</td><td>9,120</td><td>8,950</td><td class="positive">+1.9%</td><td>82.1%</td><td><span class="tag-status green">VERIFIED</span></td></tr>
-          <tr><td class="row-index">5</td><td>RN-LOG-9023</td><td>Waterproof Enclosures</td><td>PH Engineering</td><td>14,300</td><td>15,000</td><td class="negative">-4.6%</td><td>74.9%</td><td><span class="tag-status amber">IN REVIEW</span></td></tr>
-          <tr><td class="row-index">6</td><td>RN-LOG-9024</td><td>Discreet Outer Cartons</td><td>Kano Packaging</td><td>45,000</td><td>40,000</td><td class="positive">+12.5%</td><td>91.0%</td><td><span class="tag-status green">VERIFIED</span></td></tr>
-          <tr><td class="row-index">7</td><td>RN-LOG-9025</td><td>Resonance Coils</td><td>Enugu Lab 4</td><td>6,800</td><td>6,500</td><td class="positive">+4.6%</td><td>86.5%</td><td><span class="tag-status green">VERIFIED</span></td></tr>
-          <tr><td class="row-index">8</td><td>RN-LOG-9026</td><td>Magnetic Charging Pins</td><td>Ibadan Micro</td><td>22,100</td><td>21,800</td><td class="positive">+1.3%</td><td>80.2%</td><td><span class="tag-status green">VERIFIED</span></td></tr>
-          <tr><td class="row-index">9</td><td><strong>TOTALS</strong></td><td>--</td><td>National</td><td><strong>115,770</strong></td><td><strong>109,450</strong></td><td class="positive"><strong>+5.8%</strong></td><td><strong>82.2%</strong></td><td><span class="tag-status green">BALANCED</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="stealth-sheet-tabs">
-      <span class="sheet-tab active">Overview_Summary</span>
-      <span class="sheet-tab">Q4_Inventory_Audit</span>
-      <span class="sheet-tab">Vendor_Reconciliation</span>
-      <span class="sheet-tab">+</span>
-    </div>
-  </div>
+  <!-- @include partials/age-gate.html -->
+  <!-- @include partials/stealth-shield.html -->
 
   <!-- ===== APP ===== -->
   <div id="app-wrapper">
 
-    <!-- Header -->
-    <header class="main-header" id="main-header">
-      <div class="header-inner">
-        <a href="/" class="logo" aria-label="The Toys Virago - Home">
-          <img src="/assets/logo.jpg" alt="The Toys Virago" class="brand-logo-img" />
-        </a>
-
-        <div class="header-actions">
-          <button id="btn-stealth-nav" class="stealth-pill" title="Stealth mode (Esc)">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            <span>Stealth</span>
-            <kbd class="stealth-esc-hint">Esc</kbd>
-          </button>
-                    <button id="btn-cart-nav" class="mobile-nav-cart-btn" aria-label="View Cart">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-            <span class="mobile-cart-badge" id="mobile-cart-badge" style="display: none;">0</span>
-          </button>
-          <button id="btn-mobile-menu" class="btn-mobile-toggle" aria-label="Menu">
-            <span class="bar"></span><span class="bar"></span>
-          </button>
-        </div>
-      </div>
-      
-      <!-- Dropdown Menu -->
-      <div id="nav-dropdown" class="nav-dropdown" hidden style="display: none;">
-        <a href="/" class="dropdown-link nav-closer">Home</a>
-        <a href="/products.html" class="dropdown-link nav-closer active">Shop</a>
-        <a href="/#faq" class="dropdown-link nav-closer">FAQ</a>
-        <a href="/products.html#abuja" class="dropdown-link nav-closer">📍 Abuja Exclusives</a>
-        <a href="/emails.html" class="dropdown-link nav-closer" style="color: #e11d48;">✉️ Email Studio</a>
-        <button id="btn-install-dropdown" class="dropdown-link btn-install-trigger nav-closer">
-          <span>Install App</span>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        </button>
-      </div>
-    </header>
+    <!-- @include partials/header.html -->
 
     <!-- ===== HERO ===== -->
     
@@ -3282,584 +3233,12 @@
       </svg>
     </div>
 
-    <!-- ===== FOOTER ===== -->
-    <footer class="footer">
-      <div class="section-inner">
-        <div class="footer-top">
-          <div class="footer-left">
-            <h5>TheToysVirago</h5>
-            <p class="footer-bio">Curated intimate wellness pieces for unfiltered pleasure.</p>
-            <div class="footer-stealth-hint">
-              Privacy shield: <kbd id="footer-stealth-trigger">Esc</kbd> or <kbd id="footer-stealth-trigger-tap">double-tap</kbd>
-            </div>
-          </div>
-
-
-          <div class="footer-right">
-            <h5>Holla At Us</h5>
-            <ul>
-              <li><a href="https://wa.me/2348036514814" target="_blank" rel="noopener">WhatsApp (08036514814)</a></li>
-              <li><a href="https://x.com/thetoysvirago" target="_blank" rel="noopener">X (@thetoysvirago)</a></li>
-              <li><a href="/index.html#faq">FAQ</a></li>
-              <li><a href="/admin.html" style="color: rgba(255,255,255,0.45); font-size: 13px;">Admin Vault</a></li>
-              <li><a href="#" class="btn-install-trigger">Install App</a></li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="footer-massive-logo" style="position: relative;">
-          <div class="color-illus-wrap" style="width: 17vw; left: 8%; top: -75%; transform: rotate(-35deg);"><img src="/assets/illus-1.jpg" alt="Wand vibrator" loading="lazy" decoding="async" /></div>
-          <div class="color-illus-wrap" style="width: 15vw; left: 32%; top: -95%; transform: rotate(15deg) scaleX(-1);"><img src="/assets/illus-2.jpg" alt="Rabbit vibrator" loading="lazy" decoding="async" /></div>
-          <div class="color-illus-wrap" style="width: 16vw; left: 56%; top: -75%; transform: rotate(-15deg);"><img src="/assets/illus-3.jpg" alt="Rose suction toy" loading="lazy" decoding="async" /></div>
-          <div class="color-illus-wrap" style="width: 17vw; right: 8%; top: -70%; transform: rotate(35deg);"><img src="/assets/illus-4.jpg" alt="Arc vibrator" loading="lazy" decoding="async" /></div>
-          <span style="position: relative; z-index: 1;">THETOYSVIRAGO.</span>
-        </div>
-
-        <div class="footer-bottom">
-          <p>© 2026 TheToysVirago.</p>
-          <div class="footer-legal">
-            <button type="button" class="policy-legal-link" data-policy="terms">Terms</button>
-            <span class="legal-dot">•</span>
-            <button type="button" class="policy-legal-link" data-policy="shipping">Shipping</button>
-            <span class="legal-dot">•</span>
-            <button type="button" class="policy-legal-link" data-policy="returns">Returns</button>
-            <span class="legal-dot">•</span>
-            <button type="button" class="policy-legal-link" data-policy="refunds">Refunds</button>
-            <span class="age-pill">18+ Only</span>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-    <!-- Floating Stealth removed -->
-
-    <!-- Cart Drawer -->
-    <div id="cart-drawer-overlay" class="drawer-overlay" hidden>
-      <aside class="cart-drawer" id="cart-drawer" role="dialog" aria-modal="true" aria-label="Cart">
-        <div class="drawer-header">
-          <div>
-            <h3 class="drawer-title">Your Bag</h3>
-            <span class="drawer-count" id="drawer-items-count">(0 items)</span>
-          </div>
-          <button id="btn-close-cart" class="btn-close-drawer">✕</button>
-        </div>
-        <!-- Shipping Bar removed -->
-        <div class="drawer-items" id="drawer-items">
-          <div class="empty-cart-state">
-            <div class="empty-glow-orbit">
-              <div class="empty-icon-halo">
-                <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M7 12C5.2 15 5.2 21 7 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.4" />
-                  <path d="M10 9C7.8 13 7.8 23 10 27" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.85" />
-                  <path d="M26 9C28.2 13 28.2 23 26 27" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.85" />
-                  <path d="M29 12C30.8 15 30.8 21 29 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.4" />
-                  <path d="M18 4.5C15.5 4.5 13.5 6.8 13.5 10V23C13.5 26.5 15.5 29.5 18 29.5C20.5 29.5 22.5 26.5 22.5 23V10C22.5 6.8 20.5 4.5 18 4.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
-                  <path d="M14.5 11C16.5 9.5 19.5 9.5 21.5 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity="0.6" />
-                  <circle cx="18" cy="19.5" r="1.8" fill="currentColor" />
-                  <line x1="15.5" y1="25.5" x2="20.5" y2="25.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity="0.6" />
-                </svg>
-              </div>
-            </div>
-
-            <h3 class="empty-state-title">Nothing to buzz about.</h3>
-            <p class="empty-state-sub">Let's give your bag some good vibrations.</p>
-
-            <a href="/products.html" class="btn btn-black btn-lg empty-shop-cta" onclick="window.closeCartDrawer();">
-              <span>Find Your Buzz &rarr;</span>
-            </a>
-          </div>
-        </div>
-
-        <div class="drawer-foot" id="drawer-footer" style="display: none;">
-          <div class="promo-row">
-            <input type="text" id="promo-input" placeholder="Promo code (inactive)" class="input-field" disabled style="opacity: 0.55; cursor: not-allowed; background: #f8fafc;" />
-            <button id="btn-apply-promo" class="btn-promo" disabled style="opacity: 0.55; cursor: not-allowed; pointer-events: none;">Apply</button>
-          </div>
-          <div id="promo-feedback" class="promo-msg" hidden></div>
-
-          <!-- Collapsible Subtotal & Delivery Details -->
-          <button type="button" id="btn-toggle-cart-details" class="cart-collapse-toggle" aria-expanded="false" aria-controls="cart-collapsible-details">
-            <div class="collapse-toggle-left">
-              <span class="collapse-toggle-title">Subtotal &amp; Delivery Details</span>
-              <span class="collapse-toggle-hint">Tap to view</span>
-            </div>
-            <div class="collapse-toggle-right">
-              <span class="collapse-total-peek" id="cart-total-peek">₦0</span>
-              <svg class="collapse-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </div>
-          </button>
-
-          <div id="cart-collapsible-details" class="cart-collapsible-details">
-            <div class="cart-lines">
-              <div class="cart-line"><span>Subtotal</span><span id="cart-subtotal">₦0</span></div>
-              <div class="cart-line" id="cart-discount-row" hidden><span>Discount (15%)</span><span id="cart-discount" class="green-txt">-₦0</span></div>
-              <div class="cart-line"><span>Delivery</span><span id="cart-shipping" class="green-txt">Free</span></div>
-              <div class="cart-line total-line"><span>Total</span><span id="cart-total" class="ruby-txt">₦0</span></div>
-            </div>
-
-            <div class="delivery-timeline-card in-drawer">
-              <div class="deliv-line">
-                <span class="deliv-line-left"><span class="deliv-dot"></span>Within Lagos</span>
-                <span class="deliv-line-val">Same or next business day</span>
-              </div>
-              <div class="deliv-line">
-                <span class="deliv-line-left"><span class="deliv-dot deliv-dot-amber"></span>Outside Lagos</span>
-                <span class="deliv-line-val">1 – 5 business days</span>
-              </div>
-              <div class="deliv-discreet-footer">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                <span>Ships discreetly in a plain courier bag</span>
-              </div>
-              <div class="deliv-color-note">
-                *Items may be sent in an alternate color if selected shade is unavailable.
-              </div>
-            </div>
-          </div>
-
-          <button id="btn-checkout" class="btn btn-black btn-block btn-lg">
-            Checkout
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-      </aside>
-    </div>
-
-    <!-- Quick View Modal -->
-    <div id="quickview-modal" class="modal-overlay" hidden>
-      <div class="qv-card">
-        <button id="btn-close-modal" class="btn-close-modal" onclick="document.getElementById('quickview-modal').style.display='none'; document.getElementById('quickview-modal').setAttribute('hidden','');">✕</button>
-        <div class="qv-inner">
-          <div class="qv-gallery-col">
-            <div class="qv-img-wrap">
-              <img id="qv-img" src="/assets/hero-device.jpg" alt="" class="qv-img" />
-              <video id="qv-video" class="qv-video" playsinline controls loop muted preload="auto" style="display:none;">
-                <source id="qv-video-src" src="" type="video/mp4" />
-              </video>
-            </div>
-            <div id="qv-thumbs" class="qv-thumbs-row" hidden></div>
-          </div>
-          <div class="qv-details">
-            <span class="qv-badge" id="qv-badge">FLAGSHIP</span>
-            <h2 class="qv-name" id="qv-title">The Obsidian Arc</h2>
-            <div class="qv-price" id="qv-price">₦148,000</div>
-            <div id="qv-variants-wrap" class="qv-variants-wrap" style="display:none; margin-bottom: 14px;">
-              <span style="font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); font-weight: 600; display: block; margin-bottom: 6px;">Select Variant</span>
-              <div id="qv-variants" class="color-row" style="margin-bottom: 0;"></div>
-            </div>
-            <p class="qv-desc" id="qv-desc">Precision dual-motor device with whisper-silent vibration and deep sub-bass frequencies.</p>
-            <div class="qv-specs" id="qv-specs">
-              <!-- Dynamically populated with only category-relevant specifications -->
-            </div>
-            <div class="delivery-timeline-card in-quickview">
-              <div class="deliv-line">
-                <span class="deliv-line-left"><span class="deliv-dot"></span>Within Lagos</span>
-                <span class="deliv-line-val">Same or next business day</span>
-              </div>
-              <div class="deliv-line">
-                <span class="deliv-line-left"><span class="deliv-dot deliv-dot-amber"></span>Outside Lagos</span>
-                <span class="deliv-line-val">1 – 5 business days</span>
-              </div>
-              <div class="deliv-discreet-footer">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                <span>Ships discreetly in a plain courier bag</span>
-              </div>
-              <div class="deliv-color-note">
-                *Items may be sent in an alternate color if selected shade is unavailable.
-              </div>
-            </div>
-            <div class="qv-actions">
-              <button id="qv-btn-add" class="btn btn-black btn-lg">Add to Cart</button>
-
-              <button type="button" id="qv-btn-share" class="btn btn-outline btn-lg btn-share-link" title="Copy Product Link">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-                Copy Link
-              </button>
-              <button id="qv-btn-close" class="btn btn-outline btn-lg" onclick="document.getElementById('quickview-modal').style.display='none'; document.getElementById('quickview-modal').setAttribute('hidden','');">Close</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Checkout Modal -->
-    <div id="checkout-modal" class="modal-overlay" hidden>
-      <div class="co-card">
-        <button id="btn-close-checkout" class="btn-close-modal" aria-label="Close checkout">✕</button>
-        <div class="co-head">
-          <h2 class="sh2">Almost there...</h2>
-        </div>
-
-        <form id="checkout-form" class="co-form">
-          <!-- Delivery Address (House of Nina Architecture) -->
-          <div class="co-section">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
-              <label class="co-label" style="margin-bottom: 0;">Delivery Address</label>
-              <span style="font-size: 11px; color: var(--ink-3);">Saved Addresses</span>
-            </div>
-
-            <!-- Saved Address Chips (House of Nina style) -->
-            <div id="address-chips-row" class="address-chips-row">
-              <!-- Dynamically populated: Home, Work, Gift, etc. + Add Address -->
-            </div>
-
-            <!-- Active Selected Address Display Card -->
-            <div id="selected-address-card" class="selected-address-card" style="display: none;">
-              <div class="selected-address-info">
-                <div class="selected-address-title">
-                  <strong id="card-addr-name">Valued Customer</strong>
-                  <span class="addr-label-pill" id="card-addr-label">Home</span>
-                </div>
-                <div class="selected-address-line" id="card-addr-text">42 Bourdillon Road, Ikoyi, Lagos</div>
-                <div class="selected-address-contact" id="card-addr-contact">Tel: +234 803 651 4814 · client@thetoysvirago.shop</div>
-              </div>
-              <button type="button" id="btn-edit-active-address" class="btn-edit-addr">Edit</button>
-            </div>
-
-            <!-- Address Input Section (Visible when editing or adding new address) -->
-            <div id="address-input-section" style="display: flex; flex-direction: column; gap: 9px;">
-              <div class="form-row-2">
-                <input type="text" id="co-firstname" placeholder="Valued" required class="input-field" autocomplete="given-name" />
-                <input type="text" id="co-lastname" placeholder="Customer" required class="input-field" autocomplete="family-name" />
-              </div>
-              <div class="form-row-2">
-                <input type="email" id="co-email" placeholder="client@thetoysvirago.shop" required class="input-field" autocomplete="email" />
-                <input type="tel" id="co-phone" placeholder="+234 803 651 4814" required class="input-field" autocomplete="tel" />
-              </div>
-              <input type="text" id="co-address" placeholder="42 Bourdillon Road" required class="input-field" autocomplete="street-address" />
-              <div class="form-row-2">
-                <input type="text" id="co-city" placeholder="Ikoyi, Lagos" required class="input-field" />
-                <input type="text" id="co-notes" placeholder="Delivery Instructions / Landmark (Optional)" class="input-field" />
-              </div>
-
-              <!-- Save As Label Options (House of Nina style) -->
-              <div class="save-label-row">
-                <span class="save-label-tag">Save as:</span>
-                <button type="button" class="label-pill-btn active" data-label="Home">Home</button>
-                <button type="button" class="label-pill-btn" data-label="Work">Work</button>
-                <button type="button" class="label-pill-btn" data-label="Gift">Gift</button>
-              </div>
-
-              <div class="co-checkbox-row">
-                <input type="checkbox" id="co-save-address-chk" checked />
-                <label for="co-save-address-chk" class="co-checkbox-label">
-                  Save to my addresses on this device
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <!-- Delivery Zone & Method Selector -->
-          <div class="delivery-zone-section" id="co-delivery-zone-box">
-            <div class="co-zone-header">
-              <label class="co-label" style="margin-bottom: 0;">Delivery Zone &amp; Method</label>
-              <span id="co-zone-auto-badge" class="zone-detected-badge">📍 Auto-detected</span>
-            </div>
-
-            <!-- Free launch delivery perk banner (discreet, no order numbers) -->
-            <div id="co-free-delivery-banner" class="co-free-delivery-banner" style="display: none;">
-              🎉 <strong>Launch Special:</strong> FREE Delivery Applied!
-            </div>
-
-            <!-- Zone Selector Dropdown -->
-            <select id="co-delivery-zone-select" class="zone-select" title="Delivery Location / Zone">
-              <optgroup label="Lagos State (Doorstep Dispatch Courier)">
-                <option value="lagos_island_core" data-type="lagos" data-fee="4500" selected>Lagos Island Core (Lekki 1, Ikoyi, VI, Oniru, Banana Island) — ₦4,500</option>
-                <option value="lagos_island_ext" data-type="lagos" data-fee="5500">Lagos Island Extended (Chevron, Ikate, Agungi, VGC, Ajah, Sangotedo) — ₦5,500</option>
-                <option value="lagos_island_far" data-type="lagos" data-fee="6500">Lagos Island Far Axis (Awoyaya, Lakowe, Bogije, Epe) — ₦6,500</option>
-                <option value="lagos_mainland_central" data-type="lagos" data-fee="4000">Lagos Mainland Central / Ikeja (Ikeja GRA, Maryland, Magodo, Gbagada) — ₦4,000</option>
-                <option value="lagos_mainland_near" data-type="lagos" data-fee="3500">Lagos Mainland Near (Yaba, Surulere, Shomolu, Ebute Metta) — ₦3,500</option>
-                <option value="lagos_mainland_west" data-type="lagos" data-fee="4500">Lagos Mainland West (Festac, Okota, Isolo, Agege, Alimosho, Berger) — ₦4,500</option>
-                <option value="lagos_mainland_far" data-type="lagos" data-fee="5000">Lagos Mainland Outskirts (Ikorodu, Ojo, LASU, Badagry) — ₦5,000</option>
-              </optgroup>
-              <optgroup label="Interstate (Outside Lagos)">
-                <option value="abuja_central" data-type="interstate" data-park="4500" data-door="6000">Abuja Central (Maitama, Wuse, Garki, Asokoro, Guzape, Jabi) — ₦4,500</option>
-                <option value="abuja_outer" data-type="interstate" data-park="4500" data-door="6000">Abuja Outer / Satellite (Gwarinpa, Apo, Lokogoma, Kubwa, Lugbe) — ₦4,500</option>
-                <option value="ibadan" data-type="interstate" data-park="4000" data-door="6000">Oyo / Ibadan (Bodija, Oluyole, Jericho, Ring Road, Akobo) — ₦4,000</option>
-                <option value="ogun" data-type="interstate" data-park="4500" data-door="6000">Ogun State (Magboro, Arepo, Ibafo, Mowe, Ota, Abeokuta) — ₦4,500</option>
-                <option value="ph" data-type="interstate" data-park="4500" data-door="6000">Rivers / Port Harcourt (Old/New GRA, Peter Odili, Woji, D/Line) — ₦4,500</option>
-                <option value="edo_delta" data-type="interstate" data-park="4500" data-door="6000">Edo &amp; Delta (Benin City, Asaba, Warri) — ₦4,500</option>
-                <option value="southeast" data-type="interstate" data-park="4500" data-door="6000">South-East Hubs (Enugu, Owerri, Awka, Onitsha, Aba) — ₦4,500</option>
-                <option value="northern_hubs" data-type="interstate" data-park="5500" data-door="7000">Northern Hubs (Kano, Kaduna, Jos, Ilorin) — ₦5,500</option>
-                <option value="nationwide_other" data-type="interstate" data-park="4500" data-door="6000">Other States Nationwide (Uyo, Calabar, Bayelsa, etc.) — ₦4,500</option>
-              </optgroup>
-            </select>
-
-            <!-- Interstate Delivery Method Cards (Shown only when outside Lagos) -->
-            <div id="co-interstate-options" class="interstate-options-wrap" style="display: none;">
-              <div class="delivery-option-card active" data-method="park" id="opt-park-delivery">
-                <div class="deliv-opt-radio"></div>
-                <div class="deliv-opt-info">
-                  <div class="deliv-opt-title">🏢 Park / Terminal Pickup</div>
-                  <div class="deliv-opt-desc">Collect at central transport station</div>
-                </div>
-                <div class="deliv-opt-price" id="park-fee-label">₦4,500</div>
-              </div>
-
-              <div class="delivery-option-card" data-method="doorstep" id="opt-doorstep-delivery">
-                <div class="deliv-opt-radio"></div>
-                <div class="deliv-opt-info">
-                  <div class="deliv-opt-title">🚪 Doorstep Courier</div>
-                  <div class="deliv-opt-desc">Direct to your door (balance verified on WA)</div>
-                </div>
-                <div class="deliv-opt-price" id="doorstep-fee-label">from ₦6,000</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Delivery Timeline Card -->
-          <div class="delivery-timeline-card in-checkout">
-            <div class="deliv-line">
-              <span class="deliv-line-left"><span class="deliv-dot"></span>Within Lagos</span>
-              <span class="deliv-line-val">Same or next business day</span>
-            </div>
-            <div class="deliv-line">
-              <span class="deliv-line-left"><span class="deliv-dot deliv-dot-amber"></span>Outside Lagos</span>
-              <span class="deliv-line-val">1 – 5 business days</span>
-            </div>
-            <div class="deliv-discreet-footer">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-              <span>100% Plain, Opaque Tamper-Evident Courier Bag</span>
-            </div>
-          </div>
-
-          <!-- Payment Method (Direct Bank Transfer - Online Gateway saved for Paystack later) -->
-          <div class="co-section">
-            <label class="co-label">Payment Method</label>
-            <div class="direct-bank-box">
-              <div class="bank-row" style="background: rgba(225, 29, 72, 0.05); padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(225, 29, 72, 0.2);">
-                <span class="bank-label" style="font-weight: 700; color: var(--ruby);">Your Order Reference:</span>
-                <div class="bank-account-num-wrap">
-                  <span id="co-active-order-ref" class="bank-value" style="font-family: monospace; font-size: 13px; color: var(--ruby); font-weight: 800;">TTV-000000</span>
-                  <button type="button" id="btn-copy-active-ref" class="btn-copy-acc" style="background: var(--ruby);">Copy Ref</button>
-                </div>
-              </div>
-              <div class="bank-row">
-                <span class="bank-label">Bank:</span>
-                <span id="store-bank-name" class="bank-value">Moniepoint MFB</span>
-              </div>
-              <div class="bank-row">
-                <span class="bank-label">Account Number:</span>
-                <div class="bank-account-num-wrap">
-                  <span id="store-bank-acc" class="bank-value" style="font-size: 13.5px; font-weight: 800; letter-spacing: 0.04em;">4585343326</span>
-                  <button type="button" id="btn-copy-bank-acc" class="btn-copy-acc">Copy</button>
-                </div>
-              </div>
-              <div class="bank-row">
-                <span class="bank-label">Account Name:</span>
-                <span id="store-bank-owner" class="bank-value">Thetoysvirago</span>
-              </div>
-              <div class="bank-instructions">
-                💡 <strong>Transfer Narration:</strong> Use your Order Ref (<span id="co-narration-hint" style="font-weight: 700; color: var(--ink);">TTV-000000</span>) as the payment narration.
-              </div>
-            </div>
-          </div>
-
-          <!-- Sticky Checkout Footer (Pinned to bottom of modal) -->
-          <div class="co-sticky-footer">
-            <div class="co-summary">
-              <div class="cart-line"><span>Subtotal</span><span id="co-subtotal">₦0</span></div>
-              <div class="cart-line"><span>Discreet Packaging &amp; Delivery</span><span id="co-delivery-fee" class="ruby-txt">₦4,500</span></div>
-              <div class="cart-line total-line"><span>Total Due</span><span id="co-total" class="ruby-txt">₦0</span></div>
-            </div>
-
-            <button type="submit" id="btn-submit-order" class="btn btn-black btn-block btn-lg">
-              Place Order
-            </button>
-          </div>
-        </form>
-
-        <!-- Order Success State -->
-        <div id="checkout-success" class="co-success" hidden>
-          <div class="success-tick">✓</div>
-          <h3 id="co-success-title">Order Confirmed.</h3>
-          
-          <div class="success-ref-inline">
-            <span class="success-ref-label">Order Reference:</span>
-            <span class="success-ref-pill" id="order-ref">TTV-00000</span>
-          </div>
-          <div>
-            <button type="button" id="btn-copy-success-ref" class="btn-copy-acc" style="padding: 5px 14px; margin-bottom: 8px;">Copy Order Reference</button>
-          </div>
-          
-          <div class="co-success-card">
-            <div id="co-success-recipient"><strong>Recipient:</strong> <span>Valued Customer</span></div>
-            <div id="co-success-destination"><strong>Delivery Address:</strong> <span>Lagos</span></div>
-            <div id="co-success-amount"><strong>Total:</strong> <span>₦0</span></div>
-            <div id="co-success-status"><strong>Status:</strong> <span class="status-badge-awaiting">Awaiting Confirmation</span></div>
-          </div>
-
-          <div class="co-success-actions">
-            <a id="btn-wa-confirm-order" href="#" target="_blank" rel="noopener" class="co-success-btn btn-wa-equal">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.299.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.174.086.275.072.376-.043.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824z"/></svg>
-              <span>WhatsApp</span>
-            </a>
-            <button id="btn-done-order" class="co-success-btn btn-shop-equal">Back to Shop</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ===== STORE POLICIES MODAL ===== -->
-    <div id="policy-modal" class="modal-overlay" hidden style="display: none;">
-      <div class="policy-modal-card" role="dialog" aria-modal="true" aria-labelledby="policy-modal-title">
-        <div class="policy-modal-header">
-          <div>
-            <span class="policy-modal-eyebrow">Customer Care</span>
-            <h3 id="policy-modal-title" class="policy-modal-title">Store Policies</h3>
-          </div>
-          <button type="button" id="btn-close-policy" class="btn-close-policy" aria-label="Close policies modal">✕</button>
-        </div>
-
-        <!-- Policy Navigation Tabs -->
-        <div class="policy-tabs" role="tablist">
-          <button type="button" class="policy-tab active" data-tab="terms" role="tab" aria-selected="true">Terms &amp; Conditions</button>
-          <button type="button" class="policy-tab" data-tab="shipping" role="tab" aria-selected="false">Shipping Policy</button>
-          <button type="button" class="policy-tab" data-tab="returns" role="tab" aria-selected="false">Returns Policy</button>
-          <button type="button" class="policy-tab" data-tab="refunds" role="tab" aria-selected="false">Refund Policy</button>
-        </div>
-
-        <!-- Policy Content Panels -->
-        <div class="policy-content-body">
-          <!-- Panel 1: Terms & Conditions -->
-          <div id="policy-panel-terms" class="policy-panel active">
-            <h4>Terms &amp; Conditions</h4>
-            <p class="policy-intro">By browsing or placing an order on TheToysVirago, you agree to the following straightforward guidelines.</p>
-            
-            <div class="policy-item">
-              <h5>1. Strict 18+ Age Requirement</h5>
-              <p>You must be at least 18 years of age to purchase from TheToysVirago or access our collection. By placing an order, you verify under Nigerian law that you are of legal adult age.</p>
-            </div>
-
-            <div class="policy-item">
-              <h5>2. Discretion &amp; Customer Privacy</h5>
-              <p>We treat every client with utmost confidentiality. Your name, delivery address, phone number, and order records are used solely to fulfill your order and confirm payment. We do not sell, rent, or broadcast customer details under any circumstances.</p>
-            </div>
-
-            <div class="policy-item">
-              <h5>3. Payment &amp; Order Reservation</h5>
-              <p>Orders are placed via direct transfer to our verified Moniepoint account. Placed items are temporarily reserved for you for up to 24 hours. If transfer confirmation is not received within this window, the reservation is released so other customers can shop the vault.</p>
-            </div>
-
-            <div class="policy-item">
-              <h5>4. Product Specifications &amp; Images</h5>
-              <p>All items are photographed with care to depict colors and textures accurately. Minor shade variations can happen due to screen calibrations and manufacturing batches, but functional specifications and materials remain strictly as described.</p>
-            </div>
-          </div>
-
-          <!-- Panel 2: Shipping Policy -->
-          <div id="policy-panel-shipping" class="policy-panel">
-            <h4>Shipping &amp; Delivery Policy</h4>
-            <p class="policy-intro">We take the stress out of adult shopping with rapid dispatch and guaranteed discreet packaging.</p>
-
-            <div class="policy-item">
-              <h5>1. 100% Plain, Unmarked Packaging</h5>
-              <p>Your package arrives in a thick, completely opaque, tamper-evident courier bag. There are no sex toy mentions, product names, or virago logos visible on the exterior. The courier only sees standard delivery contact details needed to hand you your parcel.</p>
-            </div>
-
-            <div class="policy-item">
-              <h5>2. Delivery Timeframes</h5>
-              <p><strong>Lagos State:</strong> Doorstep delivery on the same day or next business day following payment verification.</p>
-              <p><strong>Interstate (Outside Lagos):</strong> 1 to 5 business days depending on transit distance and regional transport schedules.</p>
-            </div>
-
-            <div class="policy-item">
-              <h5>3. Interstate Delivery Methods</h5>
-              <p><strong>Park / Terminal Pickup:</strong> Fixed fee (₦4,000 for Ibadan, ₦5,500 for Northern hubs, ₦4,500 for all other states). You pick up directly from a major transport park or terminal in your city.</p>
-              <p><strong>Doorstep Courier:</strong> Direct dispatch to your home or office address through regional express couriers (deposit collected at checkout; balance confirmed via WhatsApp).</p>
-            </div>
-
-            <div class="policy-item">
-              <h5>4. Color Substitutions</h5>
-              <p>If the specific shade you chose is temporarily out of stock when our team packs your order, we may send an alternative shade of the exact same toy so your order is not delayed. If your order requires one specific color only, please let our concierge know on WhatsApp right after placing your order.</p>
-            </div>
-          </div>
-
-          <!-- Panel 3: Returns Policy -->
-          <div id="policy-panel-returns" class="policy-panel">
-            <h4>Returns Policy</h4>
-            <p class="policy-intro">We want you to be confident in what you receive, while maintaining non-negotiable hygiene standards for intimate products.</p>
-
-            <div class="policy-item">
-              <h5>1. 24-Hour Reporting Window</h5>
-              <p>If your package arrives damaged in transit or you received an incorrect item, you must lodge a complaint with us within <strong>24 hours of delivery receipt</strong>.</p>
-            </div>
-
-            <div class="policy-item">
-              <h5>2. Unused &amp; Factory-Sealed Condition</h5>
-              <p>Because these are intimate wellness products used on sensitive areas of the body, we can only accept returns for items that are completely unused, unopened, and with all factory seals and hygiene wrapping 100% intact.</p>
-            </div>
-
-            <div class="policy-item">
-              <h5>3. How to Submit a Return Request</h5>
-              <p>Send a direct message to our WhatsApp concierge at <strong>08036514814</strong> with your Order Reference, a short explanation of what went wrong, and clear photos or a short video showing the unopened package and shipping label.</p>
-            </div>
-
-            <div class="policy-item">
-              <h5>4. Return Inspection</h5>
-              <p>Returned parcels are inspected at our hub upon arrival. Items that show signs of opening, broken seals, or missing accessories will not qualify for return or exchange.</p>
-            </div>
-          </div>
-
-          <!-- Panel 4: Refund Policy -->
-          <div id="policy-panel-refunds" class="policy-panel">
-            <h4>Refund Policy</h4>
-            <p class="policy-intro">Our refund terms are designed to be fair, direct, and protective of personal hygiene.</p>
-
-            <div class="policy-item">
-              <h5>1. No Refunds on Used Items</h5>
-              <p>Due to intimate hygiene standards and health safety, <strong>any item that has been unsealed, opened, or used cannot be refunded under any circumstances</strong>. Once the protective seal has been broken, the sale is final.</p>
-            </div>
-
-            <div class="policy-item">
-              <h5>2. When Refunds Are Issued</h5>
-              <p>A full refund for the item amount will be issued if:</p>
-              <p>&bull; An item you paid for is out of stock before dispatch and you choose not to wait for restock or switch to an alternative.</p>
-              <p>&bull; An unused item with intact factory seal is returned within the 24-hour window and approved following inspection.</p>
-            </div>
-
-            <div class="policy-item">
-              <h5>3. Refund Payout Speed</h5>
-              <p>Approved refunds are credited directly to your designated Nigerian bank account within <strong>24 to 48 business hours</strong> after approval.</p>
-            </div>
-
-            <div class="policy-item">
-              <h5>4. Delivery Fees</h5>
-              <p>Delivery charges are paid directly to third-party couriers and transport stations, and are non-refundable once an order has been dispatched from our vault.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="policy-modal-footer">
-          <span>Need help with an order?</span>
-          <a href="https://wa.me/2348036514814" target="_blank" rel="noopener" class="btn btn-black btn-sm">Chat on WhatsApp</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Toast -->
-    <div id="toast" class="toast" hidden>
-      <span class="toast-icon">✓</span>
-      <span id="toast-message">Added to cart</span>
-    </div>
-
-    <!-- PWA Install Prompt Banner -->
-    <div id="pwa-install-banner" class="pwa-install-banner" hidden>
-      <div class="pwa-banner-main">
-        <img src="/assets/logo.jpg" alt="The Toys Virago" class="pwa-banner-icon" />
-        <div class="pwa-banner-copy">
-          <strong class="pwa-banner-title">TheToysVirago App</strong>
-          <span class="pwa-banner-sub">Install for quick, private shopping</span>
-        </div>
-        <div class="pwa-banner-actions">
-          <button id="btn-install-pwa" class="btn-pwa-install">Install</button>
-          <button id="btn-dismiss-pwa" class="btn-pwa-dismiss" aria-label="Close">✕</button>
-        </div>
-      </div>
-      <div id="pwa-ios-instructions" class="pwa-ios-instructions" hidden>
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-        <span>Tap <strong>Share</strong> then <strong>Add to Home Screen</strong></span>
-      </div>
-    </div>
+    <!-- @include partials/footer.html -->
+    <!-- @include partials/cart-drawer.html -->
+    <!-- @include partials/quickview-modal.html -->
+    <!-- @include partials/checkout-modal.html -->
+    <!-- @include partials/policies-modal.html -->
+    <!-- @include partials/toast-pwa.html -->
 
   </div><!-- /app-wrapper -->
 

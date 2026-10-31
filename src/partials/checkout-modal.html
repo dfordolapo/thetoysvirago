@@ -1,0 +1,242 @@
+    <!-- Checkout Modal -->
+    <div id="checkout-modal" class="modal-overlay" hidden>
+      <div class="co-card">
+        <button id="btn-close-checkout" class="btn-close-modal" aria-label="Close checkout">✕</button>
+        <div class="co-head">
+          <h2 class="sh2">Almost there...</h2>
+        </div>
+
+        <form id="checkout-form" class="co-form">
+          <!-- Delivery Address (House of Nina Architecture) -->
+          <div class="co-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+              <label class="co-label" style="margin-bottom: 0;">Delivery Address</label>
+              <span style="font-size: 11px; color: var(--ink-3);">Saved Addresses</span>
+            </div>
+
+            <!-- Saved Address Chips (House of Nina style) -->
+            <div id="address-chips-row" class="address-chips-row">
+              <!-- Dynamically populated: Home, Work, Gift, etc. + Add Address -->
+            </div>
+
+            <!-- Active Selected Address Display Card -->
+            <div id="selected-address-card" class="selected-address-card" style="display: none;">
+              <div class="selected-address-info">
+                <div class="selected-address-title">
+                  <strong id="card-addr-name">Valued Customer</strong>
+                  <span class="addr-label-pill" id="card-addr-label">Home</span>
+                </div>
+                <div class="selected-address-line" id="card-addr-text">42 Bourdillon Road, Ikoyi, Lagos</div>
+                <div class="selected-address-contact" id="card-addr-contact">Tel: +234 803 651 4814 · client@thetoysvirago.shop</div>
+              </div>
+              <button type="button" id="btn-edit-active-address" class="btn-edit-addr">Edit</button>
+            </div>
+
+            <!-- Address Input Section (Visible when editing or adding new address) -->
+            <div id="address-input-section" style="display: flex; flex-direction: column; gap: 9px;">
+              <div class="form-row-2">
+                <input type="text" id="co-firstname" placeholder="Valued" required class="input-field" autocomplete="given-name" />
+                <input type="text" id="co-lastname" placeholder="Customer" required class="input-field" autocomplete="family-name" />
+              </div>
+              <div class="form-row-2">
+                <input type="email" id="co-email" placeholder="client@thetoysvirago.shop" required class="input-field" autocomplete="email" />
+                <input type="tel" id="co-phone" placeholder="+234 803 651 4814" required class="input-field" autocomplete="tel" />
+              </div>
+              <input type="text" id="co-address" placeholder="42 Bourdillon Road" required class="input-field" autocomplete="street-address" />
+              <div class="form-row-2">
+                <input type="text" id="co-city" placeholder="Ikoyi, Lagos" required class="input-field" />
+                <input type="text" id="co-notes" placeholder="Delivery Instructions / Landmark (Optional)" class="input-field" />
+              </div>
+
+              <!-- Save As Label Options (House of Nina style) -->
+              <div class="save-label-row">
+                <span class="save-label-tag">Save as:</span>
+                <button type="button" class="label-pill-btn active" data-label="Home">Home</button>
+                <button type="button" class="label-pill-btn" data-label="Work">Work</button>
+                <button type="button" class="label-pill-btn" data-label="Gift">Gift</button>
+              </div>
+
+              <div class="co-checkbox-row">
+                <input type="checkbox" id="co-save-address-chk" checked />
+                <label for="co-save-address-chk" class="co-checkbox-label">
+                  Save to my addresses on this device
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Delivery Zone & Method Selector -->
+          <div class="delivery-zone-section" id="co-delivery-zone-box">
+            <div class="co-zone-header">
+              <label class="co-label" style="margin-bottom: 0;">Delivery Zone &amp; Method</label>
+              <span id="co-zone-auto-badge" class="zone-detected-badge">📍 Auto-detected</span>
+            </div>
+
+            <!-- Free launch delivery perk banner (discreet, no order numbers) -->
+            <div id="co-free-delivery-banner" class="co-free-delivery-banner" style="display: none;">
+              🎉 <strong>Launch Special:</strong> FREE Delivery Applied!
+            </div>
+
+            <!-- Zone Selector Dropdown -->
+            <select id="co-delivery-zone-select" class="zone-select" title="Delivery Location / Zone">
+              <optgroup label="Lagos State (Doorstep Dispatch Courier)">
+                <option value="lagos_island_core" data-type="lagos" data-fee="4500" selected>Lagos Island Core (Lekki 1, Ikoyi, VI, Oniru, Banana Island) — ₦4,500</option>
+                <option value="lagos_island_ext" data-type="lagos" data-fee="5500">Lagos Island Extended (Chevron, Ikate, Agungi, VGC, Ajah, Sangotedo) — ₦5,500</option>
+                <option value="lagos_island_far" data-type="lagos" data-fee="6500">Lagos Island Far Axis (Awoyaya, Lakowe, Bogije, Epe) — ₦6,500</option>
+                <option value="lagos_mainland_central" data-type="lagos" data-fee="4000">Lagos Mainland Central / Ikeja (Ikeja GRA, Maryland, Magodo, Gbagada) — ₦4,000</option>
+                <option value="lagos_mainland_near" data-type="lagos" data-fee="3500">Lagos Mainland Near (Yaba, Surulere, Shomolu, Ebute Metta) — ₦3,500</option>
+                <option value="lagos_mainland_west" data-type="lagos" data-fee="4500">Lagos Mainland West (Festac, Okota, Isolo, Agege, Alimosho, Berger) — ₦4,500</option>
+                <option value="lagos_mainland_far" data-type="lagos" data-fee="5000">Lagos Mainland Outskirts (Ikorodu, Ojo, LASU, Badagry) — ₦5,000</option>
+              </optgroup>
+              <optgroup label="Interstate (Outside Lagos)">
+                <option value="abuja_central" data-type="interstate" data-park="4500" data-door="6000">Abuja Central (Maitama, Wuse, Garki, Asokoro, Guzape, Jabi) — ₦4,500</option>
+                <option value="abuja_outer" data-type="interstate" data-park="4500" data-door="6000">Abuja Outer / Satellite (Gwarinpa, Apo, Lokogoma, Kubwa, Lugbe) — ₦4,500</option>
+                <option value="ibadan" data-type="interstate" data-park="4000" data-door="6000">Oyo / Ibadan (Bodija, Oluyole, Jericho, Ring Road, Akobo) — ₦4,000</option>
+                <option value="ogun" data-type="interstate" data-park="4500" data-door="6000">Ogun State (Magboro, Arepo, Ibafo, Mowe, Ota, Abeokuta) — ₦4,500</option>
+                <option value="ph" data-type="interstate" data-park="4500" data-door="6000">Rivers / Port Harcourt (Old/New GRA, Peter Odili, Woji, D/Line) — ₦4,500</option>
+                <option value="edo_delta" data-type="interstate" data-park="4500" data-door="6000">Edo &amp; Delta (Benin City, Asaba, Warri) — ₦4,500</option>
+                <option value="southeast" data-type="interstate" data-park="4500" data-door="6000">South-East Hubs (Enugu, Owerri, Awka, Onitsha, Aba) — ₦4,500</option>
+                <option value="northern_hubs" data-type="interstate" data-park="5500" data-door="7000">Northern Hubs (Kano, Kaduna, Jos, Ilorin) — ₦5,500</option>
+                <option value="nationwide_other" data-type="interstate" data-park="4500" data-door="6000">Other States Nationwide (Uyo, Calabar, Bayelsa, etc.) — ₦4,500</option>
+              </optgroup>
+            </select>
+
+            <!-- Interstate Delivery Method Cards (Shown only when outside Lagos) -->
+            <div id="co-interstate-options" class="interstate-options-wrap" style="display: none;">
+              <div class="delivery-option-card active" data-method="park" id="opt-park-delivery">
+                <div class="deliv-opt-radio"></div>
+                <div class="deliv-opt-info">
+                  <div class="deliv-opt-title">🏢 Park / Terminal Pickup</div>
+                  <div class="deliv-opt-desc">Collect at central transport station</div>
+                </div>
+                <div class="deliv-opt-price" id="park-fee-label">₦4,500</div>
+              </div>
+
+              <div class="delivery-option-card" data-method="doorstep" id="opt-doorstep-delivery">
+                <div class="deliv-opt-radio"></div>
+                <div class="deliv-opt-info">
+                  <div class="deliv-opt-title">🚪 Doorstep Courier</div>
+                  <div class="deliv-opt-desc">Direct to your door (balance verified on WA)</div>
+                </div>
+                <div class="deliv-opt-price" id="doorstep-fee-label">from ₦6,000</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Delivery Timeline Card -->
+          <div class="delivery-timeline-card in-checkout">
+            <div class="deliv-line">
+              <span class="deliv-line-left"><span class="deliv-dot"></span>Within Lagos</span>
+              <span class="deliv-line-val">Same or next business day</span>
+            </div>
+            <div class="deliv-line">
+              <span class="deliv-line-left"><span class="deliv-dot deliv-dot-amber"></span>Outside Lagos</span>
+              <span class="deliv-line-val">1 – 5 business days</span>
+            </div>
+            <div class="deliv-discreet-footer">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <span>100% Plain, Opaque Tamper-Evident Courier Bag</span>
+            </div>
+          </div>
+
+          <!-- Payment Method Options -->
+          <div class="co-section">
+            <label class="co-label">Payment Method</label>
+            
+            <div class="payment-method-tabs" style="display: flex; gap: 8px; margin-bottom: 12px;">
+              <button type="button" class="btn-pay-method active" id="tab-pay-bank" data-method="bank" style="flex: 1; padding: 10px; border-radius: 8px; border: 1.5px solid var(--ink); background: var(--surface); color: var(--ink); font-weight: 600; font-size: 13px; cursor: pointer;">
+                🏦 Direct Bank Transfer
+              </button>
+              <button type="button" class="btn-pay-method" id="tab-pay-online" data-method="online" style="flex: 1; padding: 10px; border-radius: 8px; border: 1.5px solid rgba(0,0,0,0.1); background: #ffffff; color: var(--ink-2); font-weight: 600; font-size: 13px; cursor: pointer;">
+                ⚡ Pay Online (Card / USSD)
+              </button>
+            </div>
+
+            <!-- Direct Bank Box -->
+            <div class="direct-bank-box" id="pay-box-bank">
+              <div class="bank-row" style="background: rgba(225, 29, 72, 0.05); padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(225, 29, 72, 0.2);">
+                <span class="bank-label" style="font-weight: 700; color: var(--ruby);">Your Order Reference:</span>
+                <div class="bank-account-num-wrap">
+                  <span id="co-active-order-ref" class="bank-value" style="font-family: monospace; font-size: 13px; color: var(--ruby); font-weight: 800;">TTV-000000</span>
+                  <button type="button" id="btn-copy-active-ref" class="btn-copy-acc" style="background: var(--ruby);">Copy Ref</button>
+                </div>
+              </div>
+              <div class="bank-row">
+                <span class="bank-label">Bank:</span>
+                <span id="store-bank-name" class="bank-value">Moniepoint MFB</span>
+              </div>
+              <div class="bank-row">
+                <span class="bank-label">Account Number:</span>
+                <div class="bank-account-num-wrap">
+                  <span id="store-bank-acc" class="bank-value" style="font-size: 13.5px; font-weight: 800; letter-spacing: 0.04em;">4585343326</span>
+                  <button type="button" id="btn-copy-bank-acc" class="btn-copy-acc">Copy</button>
+                </div>
+              </div>
+              <div class="bank-row">
+                <span class="bank-label">Account Name:</span>
+                <span id="store-bank-owner" class="bank-value">Thetoysvirago</span>
+              </div>
+              <div class="bank-instructions">
+                💡 <strong>Transfer Narration:</strong> Use your Order Ref (<span id="co-narration-hint" style="font-weight: 700; color: var(--ink);">TTV-000000</span>) as the payment narration.
+              </div>
+            </div>
+
+            <!-- Online Payment Box (Paystack Inline) -->
+            <div class="direct-bank-box" id="pay-box-online" style="display: none; background: #fafafa; border: 1px solid rgba(0,0,0,0.08); padding: 14px; border-radius: 8px;">
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                <span style="font-size: 18px;">🔒</span>
+                <div>
+                  <strong style="display: block; font-size: 13.5px; color: var(--ink);">Instant Secure Payment via Paystack</strong>
+                  <span style="font-size: 12px; color: var(--ink-3);">Supports Debit Cards, Bank Transfer, Apple Pay &amp; USSD</span>
+                </div>
+              </div>
+              <p style="font-size: 12px; color: var(--ink-3); margin: 0; line-height: 1.45;">
+                When you click "Pay with Paystack", a secure popup will open to complete payment instantly.
+              </p>
+            </div>
+          </div>
+
+          <!-- Sticky Checkout Footer (Pinned to bottom of modal) -->
+          <div class="co-sticky-footer">
+            <div class="co-summary">
+              <div class="cart-line"><span>Subtotal</span><span id="co-subtotal">₦0</span></div>
+              <div class="cart-line"><span>Discreet Packaging &amp; Delivery</span><span id="co-delivery-fee" class="ruby-txt">₦4,500</span></div>
+              <div class="cart-line total-line"><span>Total Due</span><span id="co-total" class="ruby-txt">₦0</span></div>
+            </div>
+
+            <button type="submit" id="btn-submit-order" class="btn btn-black btn-block btn-lg">
+              Place Order
+            </button>
+          </div>
+        </form>
+
+        <!-- Order Success State -->
+        <div id="checkout-success" class="co-success" hidden>
+          <div class="success-tick">✓</div>
+          <h3 id="co-success-title">Order Confirmed.</h3>
+          
+          <div class="success-ref-inline">
+            <span class="success-ref-label">Order Reference:</span>
+            <span class="success-ref-pill" id="order-ref">TTV-00000</span>
+          </div>
+          <div>
+            <button type="button" id="btn-copy-success-ref" class="btn-copy-acc" style="padding: 5px 14px; margin-bottom: 8px;">Copy Order Reference</button>
+          </div>
+          
+          <div class="co-success-card">
+            <div id="co-success-recipient"><strong>Recipient:</strong> <span>Valued Customer</span></div>
+            <div id="co-success-destination"><strong>Delivery Address:</strong> <span>Lagos</span></div>
+            <div id="co-success-amount"><strong>Total:</strong> <span>₦0</span></div>
+            <div id="co-success-status"><strong>Status:</strong> <span class="status-badge-awaiting">Awaiting Confirmation</span></div>
+          </div>
+
+          <div class="co-success-actions">
+            <a id="btn-wa-confirm-order" href="#" target="_blank" rel="noopener" class="co-success-btn btn-wa-equal">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.299.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.174.086.275.072.376-.043.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824z"/></svg>
+              <span>WhatsApp</span>
+            </a>
+            <button id="btn-done-order" class="co-success-btn btn-shop-equal">Back to Shop</button>
+          </div>
+        </div>
+      </div>
+    </div>

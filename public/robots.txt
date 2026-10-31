@@ -1,0 +1,27 @@
+# https://thetoysvirago.shop robots.txt
+User-agent: *
+Allow: /
+Allow: /products
+Allow: /products.html
+Allow: /collection
+Allow: /assets/
+Disallow: /admin
+Disallow: /admin.html
+Disallow: /emails.html
+Disallow: /api/
+Disallow: /*?*checkout=
+Disallow: /*?*preview=
+
+# Googlebot specific rules
+User-agent: Googlebot
+Allow: /
+Allow: /products
+Allow: /products.html
+Allow: /collection
+Allow: /assets/
+Disallow: /admin
+Disallow: /admin.html
+Disallow: /emails.html
+
+# Sitemap index
+Sitemap: https://thetoysvirago.shop/sitemap.xml
