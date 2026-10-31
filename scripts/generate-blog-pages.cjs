@@ -113,7 +113,7 @@ async function generateBlogPages() {
     );
     html = html.replace(
       /<img id="reader-hero-img"[^>]*\/>/,
-      `<img id="reader-hero-img" src="${article.heroImg}" alt="${cleanTitle}" />`
+      `<img id="reader-hero-img" src="${article.heroImg}" alt="${cleanTitle}" fetchpriority="high" loading="eager" onerror="this.onerror=null; this.src='/assets/hero-collection.webp';" />`
     );
     html = html.replace(
       /<article class="article-body" id="reader-content">[\s\S]*?<\/article>/,

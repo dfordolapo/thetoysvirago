@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <article class="blog-card" data-slug="${article.slug}">
         <div class="blog-card-media">
           <span class="blog-card-badge">${article.category}</span>
-          <img src="${article.heroImg}" alt="${article.title}" class="blog-card-img" loading="lazy" />
+          <img src="${article.heroImg}" alt="${article.title}" class="blog-card-img" loading="lazy" onerror="this.onerror=null; this.src='/assets/hero-collection.webp';" />
         </div>
         <div class="blog-card-body">
           <div class="blog-card-meta">
@@ -174,6 +174,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (readerHeroImg) {
       readerHeroImg.src = article.heroImg;
       readerHeroImg.alt = article.title;
+      readerHeroImg.onerror = function() {
+        this.onerror = null;
+        this.src = '/assets/hero-collection.webp';
+      };
     }
     if (readerContent) {
       readerContent.innerHTML = article.content;
