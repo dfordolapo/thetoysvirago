@@ -121,37 +121,49 @@
     }
     #main-content {
       background-color: #09090e !important;
-      padding-top: 20px;
+      padding-top: 15px;
     }
 
-    /* Editorial Blog Hero */
+    /* Creative Editorial Blog Hero with Imagery */
     .blog-hero {
-      padding: 60px 0 40px;
-      text-align: center;
-      background: radial-gradient(circle at 50% 10%, rgba(159, 18, 57, 0.22), transparent 70%);
+      padding: 50px 0 30px;
+      background: radial-gradient(circle at 65% 30%, rgba(159, 18, 57, 0.22), transparent 70%), #09090e;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .blog-hero-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 40px;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 900px) {
+      .blog-hero-layout {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        text-align: center;
+      }
     }
     .blog-hero-tag {
       display: inline-block;
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 700;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: #fda4af !important;
       background: rgba(159, 18, 57, 0.35) !important;
-      padding: 5px 14px;
+      padding: 4px 12px;
       border-radius: 20px;
       border: 1px solid rgba(244, 63, 94, 0.45);
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
     .blog-hero-title {
       font-family: var(--serif, 'Cormorant Garamond', Georgia, serif);
-      font-size: clamp(2.4rem, 5.5vw, 4rem);
+      font-size: clamp(1.85rem, 3.4vw, 2.75rem);
       font-weight: 700;
       color: #ffffff !important;
-      line-height: 1.15;
-      margin: 0 auto 14px;
-      max-width: 800px;
+      line-height: 1.2;
+      margin: 0 0 12px;
       text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
     }
     .blog-hero-title em {
@@ -159,35 +171,177 @@
       color: #fda4af !important;
     }
     .blog-hero-sub {
-      font-size: 1.05rem;
+      font-size: 0.92rem;
       color: #cbd5e1 !important;
-      max-width: 620px;
+      line-height: 1.6;
+      margin: 0 0 20px;
+      max-width: 520px;
+    }
+    @media (max-width: 900px) {
+      .blog-hero-sub {
+        margin: 0 auto 20px;
+      }
+    }
+    .blog-hero-perks {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    @media (max-width: 900px) {
+      .blog-hero-perks {
+        justify-content: center;
+      }
+    }
+    .blog-perk-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      color: #e2e8f0;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+
+    /* Hero Visual Montage */
+    .hero-editorial-stage {
+      position: relative;
+      max-width: 420px;
       margin: 0 auto;
-      line-height: 1.65;
+    }
+    .editorial-card-main {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow: 0 16px 45px rgba(0, 0, 0, 0.65);
+      aspect-ratio: 4/3;
+      background: #111118;
+    }
+    .editorial-img-main {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .editorial-overlay-gradient {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(9, 9, 14, 0.82) 0%, transparent 60%);
+    }
+    .editorial-main-badge {
+      position: absolute;
+      bottom: 14px;
+      left: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(12, 12, 18, 0.88);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #f43f5e;
+      box-shadow: 0 0 8px #f43f5e;
+    }
+    .editorial-card-float {
+      position: absolute;
+      bottom: -18px;
+      right: -14px;
+      width: 260px;
+      background: #14141e;
+      border: 1px solid rgba(244, 63, 94, 0.45);
+      border-radius: 10px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.7);
+      text-decoration: none;
+      transition: transform 0.25s ease, border-color 0.25s ease;
+      cursor: pointer;
+    }
+    .editorial-card-float:hover {
+      transform: translateY(-3px);
+      border-color: #f43f5e;
+    }
+    .editorial-float-img {
+      width: 52px;
+      height: 52px;
+      border-radius: 7px;
+      object-fit: cover;
+      background: #08080c;
+      flex-shrink: 0;
+    }
+    .editorial-float-info {
+      flex-grow: 1;
+      overflow: hidden;
+    }
+    .editorial-float-tag {
+      display: block;
+      font-size: 8.5px;
+      font-weight: 800;
+      color: #fda4af;
+      letter-spacing: 0.08em;
+    }
+    .editorial-float-title {
+      font-family: var(--serif, 'Cormorant Garamond', Georgia, serif);
+      font-size: 13px;
+      color: #ffffff;
+      margin: 2px 0;
+      line-height: 1.25;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: 600;
+    }
+    .editorial-float-cta {
+      font-size: 10px;
+      color: #f43f5e;
+      font-weight: 700;
+    }
+    @media (max-width: 600px) {
+      .editorial-card-float {
+        position: static;
+        margin: 14px auto 0;
+        width: 100%;
+        max-width: 300px;
+      }
     }
 
     /* Category Filter Bar */
     .blog-filter-bar {
       display: flex;
       justify-content: center;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
-      padding: 28px 0 10px;
+      padding: 20px 0 6px;
     }
     .blog-filter-pill {
-      background: #171720 !important;
-      border: 1px solid rgba(255, 255, 255, 0.22) !important;
-      color: #f1f5f9 !important;
-      padding: 9px 18px;
+      background: #15151e !important;
+      border: 1px solid rgba(255, 255, 255, 0.18) !important;
+      color: #e2e8f0 !important;
+      padding: 7px 15px;
       border-radius: 8px !important;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
     }
     .blog-filter-pill:hover {
-      background: #232330 !important;
-      border-color: rgba(255, 255, 255, 0.4) !important;
+      background: #20202c !important;
+      border-color: rgba(255, 255, 255, 0.35) !important;
       color: #ffffff !important;
     }
     .blog-filter-pill.active {
@@ -201,30 +355,30 @@
     .blog-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 32px;
-      padding: 35px 0 80px;
+      gap: 24px;
+      padding: 24px 0 60px;
     }
     @media (max-width: 768px) {
       .blog-grid {
         grid-template-columns: 1fr;
-        gap: 24px;
+        gap: 20px;
       }
     }
     .blog-card {
-      background: #13131b !important;
-      border: 1px solid rgba(255, 255, 255, 0.12) !important;
-      border-radius: 14px;
+      background: #121219 !important;
+      border: 1px solid rgba(255, 255, 255, 0.11) !important;
+      border-radius: 12px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
       transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
       cursor: pointer;
     }
     .blog-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(244, 63, 94, 0.5) !important;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+      transform: translateY(-3px);
+      border-color: rgba(244, 63, 94, 0.45) !important;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.55);
     }
     .blog-card-media {
       position: relative;
@@ -244,32 +398,32 @@
     }
     .blog-card-badge {
       position: absolute;
-      top: 14px;
-      left: 14px;
+      top: 12px;
+      left: 12px;
       background: rgba(12, 12, 16, 0.9) !important;
       backdrop-filter: blur(8px);
       color: #fda4af !important;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 700;
-      padding: 5px 12px;
-      border-radius: 6px;
-      border: 1px solid rgba(244, 63, 94, 0.4);
+      padding: 4px 10px;
+      border-radius: 5px;
+      border: 1px solid rgba(244, 63, 94, 0.35);
       text-transform: uppercase;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.05em;
     }
     .blog-card-body {
-      padding: 26px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
       flex-grow: 1;
     }
     .blog-card-meta {
-      font-size: 12px;
+      font-size: 11.5px;
       color: #94a3b8 !important;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       font-weight: 500;
     }
     .blog-card-meta span.dot {
@@ -277,17 +431,17 @@
     }
     .blog-card-title {
       font-family: var(--serif, 'Cormorant Garamond', Georgia, serif);
-      font-size: 1.55rem;
+      font-size: 1.25rem;
       font-weight: 700;
       color: #ffffff !important;
       line-height: 1.3;
-      margin: 0 0 12px;
+      margin: 0 0 10px;
     }
     .blog-card-excerpt {
-      font-size: 0.95rem;
+      font-size: 0.86rem;
       color: #cbd5e1 !important;
-      line-height: 1.6;
-      margin: 0 0 20px;
+      line-height: 1.55;
+      margin: 0 0 16px;
       flex-grow: 1;
     }
     .blog-card-foot {
@@ -295,23 +449,23 @@
       align-items: center;
       gap: 6px;
       color: #fda4af !important;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
     }
 
-    /* Single Article Reader View */
+    /* Single Article Reader View - Refined Smaller Font Sizes */
     #article-reader-view {
       display: none;
-      padding: 30px 0 80px;
+      padding: 24px 0 70px;
       background: #09090e !important;
     }
     .article-breadcrumbs {
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 13px;
+      font-size: 12px;
       color: #94a3b8 !important;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       font-weight: 500;
     }
     .article-breadcrumbs a {
@@ -322,45 +476,45 @@
       color: #ffffff !important;
     }
     .article-reader-wrap {
-      max-width: 820px;
+      max-width: 760px;
       margin: 0 auto;
       padding: 0 16px;
     }
     .article-header {
-      margin-bottom: 30px;
+      margin-bottom: 24px;
       text-align: left;
     }
     .article-header .blog-card-badge {
       position: static;
       display: inline-block;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
     .article-headline {
       font-family: var(--serif, 'Cormorant Garamond', Georgia, serif);
-      font-size: clamp(2.3rem, 4.8vw, 3.5rem);
+      font-size: clamp(1.75rem, 3.4vw, 2.45rem);
       font-weight: 700;
       color: #ffffff !important;
-      line-height: 1.2;
-      margin: 0 0 16px;
+      line-height: 1.22;
+      margin: 0 0 12px;
     }
     .article-reader-meta {
-      font-size: 13px;
+      font-size: 12px;
       color: #94a3b8 !important;
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      gap: 10px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       font-weight: 500;
     }
     .article-hero-frame {
       width: 100%;
       border-radius: 12px;
       overflow: hidden;
-      margin: 28px 0 36px;
+      margin: 22px 0 28px;
       border: 1px solid rgba(255, 255, 255, 0.12);
-      max-height: 440px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      max-height: 380px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
     }
     .article-hero-frame img {
       width: 100%;
@@ -368,91 +522,91 @@
       object-fit: cover;
     }
     .article-body {
-      font-size: 1.1rem;
-      line-height: 1.85;
+      font-size: 0.94rem;
+      line-height: 1.78;
       color: #e2e8f0 !important;
     }
     .article-body .article-lead {
-      font-size: 1.22rem;
+      font-size: 1.05rem;
       color: #f8fafc !important;
-      line-height: 1.75;
-      margin-bottom: 26px;
+      line-height: 1.7;
+      margin-bottom: 22px;
       font-weight: 500;
     }
     .article-body h3 {
       font-family: var(--serif, 'Cormorant Garamond', Georgia, serif);
-      font-size: 1.85rem;
+      font-size: 1.45rem;
       font-weight: 700;
       color: #ffffff !important;
-      margin: 38px 0 16px;
-      line-height: 1.25;
+      margin: 32px 0 12px;
+      line-height: 1.3;
     }
     .article-body p {
-      margin-bottom: 22px;
+      margin-bottom: 18px;
       color: #e2e8f0 !important;
     }
     .article-body ul {
-      margin: 0 0 26px 22px;
+      margin: 0 0 22px 20px;
       padding: 0;
     }
     .article-body li {
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       padding-left: 6px;
       color: #e2e8f0 !important;
     }
     .article-callout {
-      background: #1c0e14 !important;
-      border-left: 4px solid #f43f5e !important;
-      padding: 22px 26px;
-      border-radius: 0 10px 10px 0;
-      margin: 32px 0;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      background: #180d12 !important;
+      border-left: 3px solid #f43f5e !important;
+      padding: 16px 20px;
+      border-radius: 0 8px 8px 0;
+      margin: 26px 0;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
     }
     .article-callout .callout-badge {
       display: block;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 800;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: #fda4af !important;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     .article-callout p {
       margin: 0;
       color: #ffffff !important;
-      font-size: 1.02rem;
-      line-height: 1.65;
+      font-size: 0.9rem;
+      line-height: 1.6;
     }
     .article-product-spotlight {
-      background: #15151e !important;
-      border: 1px solid rgba(255, 255, 255, 0.16) !important;
-      border-radius: 12px;
-      padding: 28px;
-      margin: 40px 0;
+      background: #13131c !important;
+      border: 1px solid rgba(255, 255, 255, 0.15) !important;
+      border-radius: 10px;
+      padding: 22px;
+      margin: 32px 0;
       text-align: center;
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
     }
     .article-product-spotlight h4 {
       font-family: var(--serif, 'Cormorant Garamond', Georgia, serif);
-      font-size: 1.55rem;
+      font-size: 1.32rem;
       font-weight: 700;
       color: #ffffff !important;
-      margin: 0 0 10px;
+      margin: 0 0 8px;
     }
     .article-product-spotlight p {
-      font-size: 0.96rem;
+      font-size: 0.88rem;
       color: #cbd5e1 !important;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
     .article-back-bar {
-      margin-top: 44px;
-      padding-top: 26px;
+      margin-top: 36px;
+      padding-top: 22px;
       border-top: 1px solid rgba(255, 255, 255, 0.12);
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 16px;
+      gap: 14px;
     }
   </style>
 
@@ -477,16 +631,60 @@
     <!-- @include partials/header.html -->
 
     <main id="main-content">
-      <!-- ===== BLOG HERO ===== -->
+      <!-- ===== CREATIVE EDITORIAL BLOG HERO ===== -->
       <section class="blog-hero">
         <div class="section-inner">
-          <span class="blog-hero-tag">The Pleasure Edit</span>
-          <h1 class="blog-hero-title">
-            Intimacy, Pleasure &amp; <em>Unfiltered Advice.</em>
-          </h1>
-          <p class="blog-hero-sub">
-            Real questions, candid answers, and body-safe advice tailored for living and loving in Nigeria.
-          </p>
+          <div class="blog-hero-layout">
+            
+            <!-- Left Copy Column -->
+            <div class="blog-hero-copy">
+              <span class="blog-hero-tag">The Pleasure Edit · Editorial Guides</span>
+              <h1 class="blog-hero-title">
+                Intimacy, Pleasure &amp; <em>Unfiltered Truth.</em>
+              </h1>
+              <p class="blog-hero-sub">
+                Honest guides on discreet delivery across Nigeria, acoustics and silence, body-safe silicone, and zero-bullshit bedroom talk.
+              </p>
+              
+              <div class="blog-hero-perks">
+                <div class="blog-perk-item">
+                  <span>🔒 100% Plain Courier Bags</span>
+                </div>
+                <div class="blog-perk-item">
+                  <span>🤫 Honest Acoustics Advice</span>
+                </div>
+                <div class="blog-perk-item">
+                  <span>🇳🇬 Lagos · Abuja · Nationwide</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Visual Montage Column -->
+            <div class="blog-hero-visual" aria-hidden="true">
+              <div class="hero-editorial-stage">
+                <!-- Main Editorial Image Card -->
+                <div class="editorial-card-main">
+                  <img src="/assets/hero-collection.webp" alt="The Pleasure Edit Collection" class="editorial-img-main" />
+                  <div class="editorial-overlay-gradient"></div>
+                  <div class="editorial-main-badge">
+                    <span class="badge-dot"></span>
+                    <span>Curated Pleasure Journal</span>
+                  </div>
+                </div>
+
+                <!-- Floating Trending Article Teaser Card -->
+                <a href="/blog.html?post=first-vibrator-buyers-guide-nigeria" class="editorial-card-float">
+                  <img src="/assets/rose-pair-duo.webp" alt="First Vibrator Guide" class="editorial-float-img" />
+                  <div class="editorial-float-info">
+                    <span class="editorial-float-tag">MOST READ GUIDE</span>
+                    <h4 class="editorial-float-title">The Real Truth About Toy Noise &amp; Acoustics</h4>
+                    <span class="editorial-float-cta">Read Guide &rarr;</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+          </div>
 
           <!-- Category Filter Pills -->
           <div class="blog-filter-bar" id="blog-filter-bar">
