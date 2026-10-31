@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "prebuild": "node scripts/generate-sitemap.cjs",
+    "prebuild": "node scripts/generate-blog-pages.cjs && node scripts/generate-sitemap.cjs",
     "build": "vite build",
     "preview": "vite preview"
   },

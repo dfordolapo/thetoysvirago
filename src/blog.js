@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Canonical shareable URL
   function getShareUrl(slug) {
     const origin = window.location.origin;
-    return `${origin}/blog?post=${encodeURIComponent(slug)}`;
+    return `${origin}/blog/${encodeURIComponent(slug)}`;
   }
 
   // Share action with Web Share API and Clipboard fallback
@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.title = `${article.title} · The Pleasure Journal | TheToysVirago`;
 
     if (pushState) {
-      const newUrl = `${window.location.pathname}?post=${encodeURIComponent(slug)}`;
+      const newUrl = `/blog/${encodeURIComponent(slug)}`;
       window.history.pushState({ slug }, '', newUrl);
     }
   }
@@ -212,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.title = 'The Pleasure Journal · Intimacy & Wellness Guides | TheToysVirago Nigeria';
 
     if (pushState) {
-      window.history.pushState({}, '', window.location.pathname);
+      window.history.pushState({}, '', '/blog');
     }
   }
 
@@ -263,10 +263,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  function getSlugFromCurrentUrl() {
+    const pathMatch = window.location.pathname.match(/\/blog\/([a-zA-Z0-9_-]+)/);
+    if (pathMatch && pathMatch[1] && pathMatch[1] !== 'index') return pathMatch[1];
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('post');
+  }
+
   // Handle browser back/forward buttons
   window.addEventListener('popstate', (e) => {
-    const params = new URLSearchParams(window.location.search);
-    const postSlug = params.get('post');
+    const postSlug = getSlugFromCurrentUrl();
     if (postSlug) {
       openArticle(postSlug, false);
     } else {
@@ -278,8 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderArticles('all');
 
   // Check URL on page load for deep-link
-  const urlParams = new URLSearchParams(window.location.search);
-  const initialPost = urlParams.get('post');
+  const initialPost = getSlugFromCurrentUrl();
   if (initialPost) {
     openArticle(initialPost, false);
   }
