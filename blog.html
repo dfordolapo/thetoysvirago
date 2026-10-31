@@ -348,10 +348,18 @@
     .blog-card-foot {
       display: flex;
       align-items: center;
-      gap: 6px;
+      justify-content: space-between;
       color: #fda4af !important;
       font-size: 12px;
       font-weight: 700;
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .blog-card-readmore {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
     }
 
     /* Single Article Reader View - Refined Smaller Font Sizes */
@@ -462,6 +470,73 @@
     }
     .article-reader-meta::-webkit-scrollbar {
       display: none;
+    }
+    /* Share toolbar & buttons */
+    .article-share-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 0 4px;
+      flex-wrap: wrap;
+    }
+    .btn-article-share {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      background: #181824 !important;
+      color: #f1f5f9 !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      border-radius: 8px !important;
+      padding: 7px 13px !important;
+      font-size: 11.5px !important;
+      font-weight: 600 !important;
+      cursor: pointer !important;
+      transition: all 0.2s ease !important;
+      text-decoration: none !important;
+      white-space: nowrap !important;
+      line-height: 1 !important;
+      min-height: 34px !important;
+    }
+    .btn-article-share:hover {
+      background: #252538 !important;
+      color: #ffffff !important;
+      border-color: rgba(255, 255, 255, 0.4) !important;
+      transform: translateY(-1px);
+    }
+    .btn-share-wa:hover {
+      border-color: #25d366 !important;
+      color: #25d366 !important;
+    }
+    .btn-share-x:hover {
+      border-color: #ffffff !important;
+      color: #ffffff !important;
+    }
+    .btn-card-share {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 5px !important;
+      background: #1c1c28 !important;
+      color: #e2e8f0 !important;
+      border: 1px solid rgba(255, 255, 255, 0.16) !important;
+      border-radius: 8px !important;
+      padding: 5px 11px !important;
+      font-size: 11px !important;
+      font-weight: 600 !important;
+      cursor: pointer !important;
+      transition: all 0.2s ease !important;
+      white-space: nowrap !important;
+      line-height: 1 !important;
+    }
+    .btn-card-share:hover {
+      background: #28283c !important;
+      border-color: #fda4af !important;
+      color: #fda4af !important;
+    }
+    .article-back-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
     }
     .article-hero-frame {
       width: 100%;
@@ -823,6 +898,22 @@
                 <span>•</span>
                 <span id="reader-time">4 min read</span>
               </div>
+
+              <!-- Share Toolbar -->
+              <div class="article-share-toolbar" aria-label="Share article">
+                <button type="button" class="btn-article-share" id="btn-share-story" title="Share or copy story link">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                  <span>Share Story</span>
+                </button>
+                <a href="#" class="btn-article-share btn-share-wa" id="btn-share-whatsapp" target="_blank" rel="noopener" title="Share on WhatsApp">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.587-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.067-2.107-.514-1.636-.673-2.673-2.335-2.753-2.443-.081-.108-.66-.88-.66-1.678 0-.798.419-1.191.568-1.353.149-.162.325-.203.433-.203.11 0 .217.001.312.006.1.005.234-.038.366.279.135.324.46 1.121.5 1.203.04.081.067.176.014.283-.054.108-.081.176-.162.27-.081.095-.171.212-.244.285-.081.081-.167.171-.072.333.095.162.421.694.903 1.123.621.553 1.144.724 1.307.805.162.081.257.067.352-.04.095-.108.405-.472.514-.634.108-.162.217-.135.366-.081.149.054.947.446 1.109.527.162.081.27.122.311.189.04.068.04.392-.104.797z"/></svg>
+                  <span>WhatsApp</span>
+                </a>
+                <a href="#" class="btn-article-share btn-share-x" id="btn-share-twitter" target="_blank" rel="noopener" title="Share on X">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                  <span>Post on X</span>
+                </a>
+              </div>
             </header>
 
             <div class="article-hero-frame">
@@ -834,9 +925,15 @@
             </article>
 
             <div class="article-back-bar">
-              <button type="button" class="btn-back-stories" id="btn-back-to-articles">
-                &larr; Back to All Stories
-              </button>
+              <div class="article-back-actions">
+                <button type="button" class="btn-back-stories" id="btn-back-to-articles">
+                  &larr; Back to All Stories
+                </button>
+                <button type="button" class="btn-article-share" id="btn-share-story-bottom" title="Share this story">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                  <span>Share Story</span>
+                </button>
+              </div>
               <a href="/products.html" class="btn btn-ruby" style="border-radius: 8px !important;">
                 Explore The Collection &rarr;
               </a>

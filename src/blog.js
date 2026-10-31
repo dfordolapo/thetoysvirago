@@ -19,6 +19,71 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnTopBack = document.getElementById('btn-top-back');
   const btnCrumbJournal = document.getElementById('btn-crumb-journal');
 
+  // Share elements
+  const btnShareStory = document.getElementById('btn-share-story');
+  const btnShareStoryBottom = document.getElementById('btn-share-story-bottom');
+  const btnShareWhatsapp = document.getElementById('btn-share-whatsapp');
+  const btnShareTwitter = document.getElementById('btn-share-twitter');
+
+  let currentArticle = null;
+  let toastTimer = null;
+
+  // Single-line toast notification for feedback
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toast-message');
+    if (!toast || !toastMsg) return;
+    toastMsg.textContent = msg;
+    toast.hidden = false;
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toast.hidden = true;
+    }, 3000);
+  }
+
+  // Canonical shareable URL
+  function getShareUrl(slug) {
+    const origin = window.location.origin;
+    return `${origin}/blog?post=${encodeURIComponent(slug)}`;
+  }
+
+  // Share action with Web Share API and Clipboard fallback
+  async function shareArticle(article) {
+    if (!article) return;
+    const shareUrl = getShareUrl(article.slug);
+    const shareData = {
+      title: article.title,
+      text: article.excerpt || article.title,
+      url: shareUrl
+    };
+
+    if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+      try {
+        await navigator.share(shareData);
+        return;
+      } catch (err) {
+        if (err.name === 'AbortError') return;
+      }
+    }
+
+    // Fallback: clipboard copy
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(shareUrl);
+      } else {
+        const temp = document.createElement('textarea');
+        temp.value = shareUrl;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand('copy');
+        document.body.removeChild(temp);
+      }
+      showToast('Link copied to clipboard');
+    } catch (e) {
+      window.prompt('Copy article link:', shareUrl);
+    }
+  }
+
   // Render cards
   function renderArticles(filter = 'all') {
     if (!cardsGrid) return;
@@ -60,8 +125,14 @@ document.addEventListener('DOMContentLoaded', () => {
           <h2 class="blog-card-title">${article.title}</h2>
           <p class="blog-card-excerpt">${article.excerpt}</p>
           <div class="blog-card-foot">
-            <span>Read full story</span>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <span class="blog-card-readmore">
+              <span>Read full story</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+            <button type="button" class="btn-card-share" data-slug="${article.slug}" title="Share story link">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+              <span>Share</span>
+            </button>
           </div>
         </div>
       </article>
@@ -69,9 +140,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Attach click handlers to cards
     cardsGrid.querySelectorAll('.blog-card').forEach(card => {
-      card.addEventListener('click', () => {
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('.btn-card-share')) return;
         const slug = card.getAttribute('data-slug');
         openArticle(slug, true);
+      });
+    });
+
+    // Attach share click handlers
+    cardsGrid.querySelectorAll('.btn-card-share').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const slug = btn.getAttribute('data-slug');
+        const art = BLOG_ARTICLES.find(a => a.slug === slug);
+        if (art) shareArticle(art);
       });
     });
   }
@@ -80,6 +162,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function openArticle(slug, pushState = true) {
     const article = BLOG_ARTICLES.find(a => a.slug === slug);
     if (!article) return;
+
+    currentArticle = article;
 
     if (readerCategory) readerCategory.textContent = article.category;
     if (readerTitle) readerTitle.textContent = article.title;
@@ -93,6 +177,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (readerContent) {
       readerContent.innerHTML = article.content;
+    }
+
+    // Configure share links
+    const shareUrl = getShareUrl(article.slug);
+    if (btnShareWhatsapp) {
+      btnShareWhatsapp.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(article.title + ' - ' + shareUrl)}`;
+    }
+    if (btnShareTwitter) {
+      btnShareTwitter.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent(shareUrl)}`;
     }
 
     if (indexView) indexView.style.display = 'none';
@@ -112,6 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Close reader and return to index
   function closeArticle(pushState = true) {
+    currentArticle = null;
     if (readerView) readerView.style.display = 'none';
     if (indexView) indexView.style.display = 'block';
     // Strictly no em dashes
@@ -120,6 +214,18 @@ document.addEventListener('DOMContentLoaded', () => {
     if (pushState) {
       window.history.pushState({}, '', window.location.pathname);
     }
+  }
+
+  // Share buttons in reader view
+  if (btnShareStory) {
+    btnShareStory.addEventListener('click', () => {
+      if (currentArticle) shareArticle(currentArticle);
+    });
+  }
+  if (btnShareStoryBottom) {
+    btnShareStoryBottom.addEventListener('click', () => {
+      if (currentArticle) shareArticle(currentArticle);
+    });
   }
 
   // Filter pills
