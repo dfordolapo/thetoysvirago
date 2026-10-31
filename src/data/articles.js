@@ -67,22 +67,30 @@ export const BLOG_ARTICLES = [
         <p>Silicone warms to your body temperature within 30 seconds and cleans effortlessly with warm water and mild antibacterial soap.</p>
       </div>
 
-      <h3>Acoustics: The Real Truth About Toy Noise</h3>
-      <p>Let's keep it 100% honest: <strong>not every toy is dead silent.</strong> One of the most common pieces of feedback online is that viral toys like the Pulsating Rose can buzz noticeably—especially on higher intensity levels or if the hard shell vibrates against a wooden nightstand.</p>
-      <p>If you share an apartment, live with family, or have thin bedroom walls, hearing a loud buzz through the door is an instant mood killer.</p>
+      <h3>Acoustics &amp; Silence: The Honest Truth About Toy Noise</h3>
+      <p>Let's address the elephant in the room: <strong>not every popular toy is quiet.</strong> One of the most frequent complaints on forums and feedback threads is that viral devices like the Pulsating Rose can buzz loudly—especially when switched to high vibration modes or placed against a wooden bedside table.</p>
+      <p>If you live with family, share an apartment with roommates, or have thin bedroom doors, a sharp mechanical buzz is an instant mood killer. Here is what actually works for discreet, whisper-level sessions:</p>
 
       <div class="article-callout">
-        <span class="callout-badge">THE STEALTH CHAMPION</span>
-        <p>If silence is your #1 requirement, skip hard-cased vibrating toys and go for the <strong>Satisfyer Pro 2</strong>. It uses contactless air-pressure waves inside a soft, acoustic-dampened silicone nozzle. It runs near-silent (~40dB), and when used under a duvet, it is practically undetectable.</p>
+        <span class="callout-badge">BUDGET STEALTH (₦15,000)</span>
+        <p><strong>The Mini Wand (₦15,000):</strong> Unlike rigid plastic devices that rattle against hard surfaces, The Mini Wand is capped with a thick, 360° flexible medical silicone head. Heavy silicone naturally dampens and absorbs motor vibration, producing a deep, low-frequency rumble under 30dB (quieter than a whispered conversation) rather than a high-pitched buzz.</p>
+      </div>
+
+      <div class="article-callout">
+        <span class="callout-badge">LUXURY AIR-PULSE STEALTH</span>
+        <p><strong>The Satisfyer Pro 2:</strong> If you want touch-free suction with near-zero noise, the Satisfyer Pro 2 is the gold standard. Because it operates through acoustic air-pressure pulses rather than a spinning vibration motor, it runs nearly silent (~40dB). Tucked under a duvet or blanket, it is practically undetectable from the next room.</p>
       </div>
 
       <div class="article-product-spotlight">
-        <h4>Need Genuine Whisper-Quiet Stealth?</h4>
-        <p>The Satisfyer Pro 2 delivers contactless air-pulse waves with ultra-quiet motor dampening.</p>
-        <a href="/products.html?product=satisfyer-pro-suction" class="btn btn-ruby btn-sm">View Satisfyer Pro 2 &rarr;</a>
+        <h4>Need Real Discretion &amp; Low Decibels?</h4>
+        <p>Compare the bone-deep rumble of <strong>The Mini Wand (₦15,000)</strong> or the whisper-quiet pressure waves of the <strong>Satisfyer Pro 2</strong>.</p>
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+          <a href="/products.html?product=sceptre-wand" class="btn btn-ruby btn-sm" style="border-radius: 8px !important;">The Mini Wand (₦15,000) &rarr;</a>
+          <a href="/products.html?product=satisfyer-pro-suction" class="btn btn-ruby btn-sm" style="border-radius: 8px !important; background: #222230 !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.2) !important;">Satisfyer Pro 2 &rarr;</a>
+        </div>
       </div>
     `,
-    relatedProducts: ['satisfyer-pro-suction', 'pulsating-rose', 'sceptre-wand']
+    relatedProducts: ['sceptre-wand', 'satisfyer-pro-suction', 'pulsating-rose']
   },
   {
     slug: 'water-based-lube-guide-nigeria',

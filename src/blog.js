@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const readerContent = document.getElementById('reader-content');
   const readerCrumbTitle = document.getElementById('reader-crumb-title');
   const btnBack = document.getElementById('btn-back-to-articles');
+  const btnTopBack = document.getElementById('btn-top-back');
   const btnCrumbJournal = document.getElementById('btn-crumb-journal');
 
   // Render cards
@@ -113,6 +114,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (btnBack) {
     btnBack.addEventListener('click', () => closeArticle(true));
+  }
+  if (btnTopBack) {
+    btnTopBack.addEventListener('click', () => closeArticle(true));
   }
   if (btnCrumbJournal) {
     btnCrumbJournal.addEventListener('click', (e) => {

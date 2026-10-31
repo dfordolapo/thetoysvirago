@@ -36,3 +36,8 @@
 - **Fresh Store Drops (`#new-arrivals-grid`)**:
   - Web / Desktop: 4 products per row (or 3 on tablet).
   - Mobile (`<= 580px`): **2 products per row**.
+
+## Highlights, Quotes & Callouts
+- **NO OUTSIDE STROKES OR BORDERS**:
+  - NEVER use outside strokes, borders, border-left bars, or outlines on quotes, callouts, product spotlights, or highlighted text blocks.
+  - Rely exclusively on soft background fills/tints (e.g. `background: #161217; border: none !important;`).
