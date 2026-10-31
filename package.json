@@ -4,8 +4,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "prebuild": "node scripts/generate-blog-pages.cjs && node scripts/generate-sitemap.cjs",
-    "build": "vite build",
+    "prebuild": "node scripts/generate-sitemap.cjs",
+    "build": "vite build && node scripts/generate-blog-pages.cjs",
     "preview": "vite preview"
   },
   "devDependencies": {

@@ -90,22 +90,31 @@
   <script src="https://js.paystack.co/v1/inline.js"></script>
 
   <style>
-    /* Zero-flicker gate blocking */
-    html:not(.age-gate-passed) #app-wrapper {
-      display: none !important;
-      visibility: hidden !important;
+    /* Solid Ruby Red Button Styling */
+    .btn.btn-ruby, a.btn.btn-ruby, button.btn.btn-ruby {
+      background: #9f1239 !important;
+      color: #ffffff !important;
+      border: 1px solid #9f1239 !important;
+      border-radius: 8px !important;
+      font-weight: 600 !important;
+      text-decoration: none !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 9px 18px !important;
+      font-size: 12px !important;
+      box-shadow: 0 4px 14px rgba(159, 18, 57, 0.3) !important;
+      transition: all 0.2s ease !important;
     }
+    .btn.btn-ruby:hover, a.btn.btn-ruby:hover, button.btn.btn-ruby:hover {
+      background: #be123c !important;
+      color: #ffffff !important;
+      border-color: #be123c !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 0 6px 20px rgba(190, 18, 60, 0.45) !important;
+    }
+
     #age-gate {
-      display: flex !important;
-      position: fixed !important;
-      inset: 0 !important;
-      z-index: 999999 !important;
-      background-color: #08080c !important;
-      background-image: url('/assets/age-gate-bg-final.webp');
-      background-size: cover;
-      background-position: center;
-    }
-    html.age-gate-passed #age-gate {
       display: none !important;
     }
 
@@ -838,17 +847,14 @@
   <script>
     (function() {
       try {
-        var isCrawler = /bot|googlebot|crawler|spider|robot|crawling|lighthouse|headless/i.test(navigator.userAgent);
-        if (isCrawler || localStorage.getItem('thetoysvirago_age_verified') === 'true' || localStorage.getItem('rouge_age_verified') === 'true') {
-          document.documentElement.classList.add('age-gate-passed');
-        }
+        document.documentElement.classList.add('age-gate-passed');
+        localStorage.setItem('thetoysvirago_age_verified', 'true');
       } catch(e) {}
     })();
   </script>
 </head>
 <body>
 
-  <!-- @include partials/age-gate.html -->
   <!-- @include partials/stealth-shield.html -->
 
   <div id="app-wrapper">

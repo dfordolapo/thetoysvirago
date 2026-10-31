@@ -5,6 +5,8 @@ Allow: /products
 Allow: /products.html
 Allow: /collection
 Allow: /blog
+Allow: /blog/
+Allow: /blog/*
 Allow: /blog.html
 Allow: /journal
 Allow: /assets/
@@ -21,10 +23,16 @@ Allow: /
 Allow: /products
 Allow: /products.html
 Allow: /collection
+Allow: /blog
+Allow: /blog/
+Allow: /blog/*
+Allow: /blog.html
+Allow: /journal
 Allow: /assets/
 Disallow: /admin
 Disallow: /admin.html
 Disallow: /emails.html
+Disallow: /api/
 
 # Sitemap index
 Sitemap: https://www.thetoysvirago.shop/sitemap.xml

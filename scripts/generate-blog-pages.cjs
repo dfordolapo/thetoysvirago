@@ -2,15 +2,19 @@ const fs = require('fs');
 const path = require('path');
 
 const rootDir = path.resolve(__dirname, '..');
-const blogTemplatePath = path.join(rootDir, 'blog.html');
-const publicBlogDir = path.join(rootDir, 'public', 'blog');
+const distBlogPath = path.join(rootDir, 'dist', 'blog.html');
+const rawBlogPath = path.join(rootDir, 'blog.html');
 
 async function generateBlogPages() {
   const { BLOG_ARTICLES } = await import('../src/data/articles.js');
-  const baseHtml = fs.readFileSync(blogTemplatePath, 'utf8');
 
-  if (!fs.existsSync(publicBlogDir)) {
-    fs.mkdirSync(publicBlogDir, { recursive: true });
+  // Prefer the production compiled dist/blog.html so bundled CSS/JS and posthtml includes are already resolved
+  const sourcePath = fs.existsSync(distBlogPath) ? distBlogPath : rawBlogPath;
+  const baseHtml = fs.readFileSync(sourcePath, 'utf8');
+
+  const distBlogDir = path.join(rootDir, 'dist', 'blog');
+  if (!fs.existsSync(distBlogDir)) {
+    fs.mkdirSync(distBlogDir, { recursive: true });
   }
 
   const BASE_URL = 'https://www.thetoysvirago.shop';
@@ -108,11 +112,11 @@ async function generateBlogPages() {
       `<span id="reader-crumb-title">${article.title}</span>`
     );
     html = html.replace(
-      '<img id="reader-hero-img" src="/assets/hero-collection.webp" alt="Article Cover" />',
+      /<img id="reader-hero-img"[^>]*\/>/,
       `<img id="reader-hero-img" src="${article.heroImg}" alt="${cleanTitle}" />`
     );
     html = html.replace(
-      '<article class="article-body" id="reader-content">\n              <!-- Dynamically populated -->\n            </article>',
+      /<article class="article-body" id="reader-content">[\s\S]*?<\/article>/,
       `<article class="article-body" id="reader-content">${article.content}</article>`
     );
 
@@ -121,20 +125,20 @@ async function generateBlogPages() {
     const tweetText = encodeURIComponent(article.title);
     const encUrl = encodeURIComponent(pageUrl);
     html = html.replace(
-      'id="btn-share-whatsapp" target="_blank" rel="noopener"',
-      `id="btn-share-whatsapp" href="https://api.whatsapp.com/send?text=${shareText}" target="_blank" rel="noopener"`
+      /id="btn-share-whatsapp"[^>]*>/,
+      `id="btn-share-whatsapp" href="https://api.whatsapp.com/send?text=${shareText}" target="_blank" rel="noopener">`
     );
     html = html.replace(
-      'id="btn-share-twitter" target="_blank" rel="noopener"',
-      `id="btn-share-twitter" href="https://twitter.com/intent/tweet?text=${tweetText}&url=${encUrl}" target="_blank" rel="noopener"`
+      /id="btn-share-twitter"[^>]*>/,
+      `id="btn-share-twitter" href="https://twitter.com/intent/tweet?text=${tweetText}&url=${encUrl}" target="_blank" rel="noopener">`
     );
 
-    const destFile = path.join(publicBlogDir, `${slug}.html`);
-    fs.writeFileSync(destFile, html, 'utf8');
-    console.log(`Generated: public/blog/${slug}.html (OG: ${imgUrl})`);
+    const destFile = path.join(distBlogDir, `${slug}.html`);
+    fs.writeFileSync(destFile, html, { encoding: 'utf8' });
+    console.log(`Generated: dist/blog/${slug}.html (OG: ${imgUrl})`);
   }
 
-  console.log(`✓ All ${BLOG_ARTICLES.length} blog post static pages generated with custom OG image metadata!`);
+  console.log(`✓ All ${BLOG_ARTICLES.length} blog post static pages generated in dist/blog/ with custom OG image metadata!`);
 }
 
 generateBlogPages().catch(err => {
