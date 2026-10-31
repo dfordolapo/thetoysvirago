@@ -2,6 +2,8 @@
   "cleanUrls": true,
   "rewrites": [
     { "source": "/products", "destination": "/products.html" },
+    { "source": "/blog", "destination": "/blog.html" },
+    { "source": "/journal", "destination": "/blog.html" },
     { "source": "/admin", "destination": "/admin.html" }
   ]
 }

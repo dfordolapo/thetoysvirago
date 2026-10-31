@@ -4,6 +4,9 @@ Allow: /
 Allow: /products
 Allow: /products.html
 Allow: /collection
+Allow: /blog
+Allow: /blog.html
+Allow: /journal
 Allow: /assets/
 Disallow: /admin
 Disallow: /admin.html

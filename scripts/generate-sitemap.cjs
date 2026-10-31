@@ -35,7 +35,32 @@ xml += '    <changefreq>daily</changefreq>\n';
 xml += '    <priority>0.95</priority>\n';
 xml += '  </url>\n\n';
 
-// 3. Category pages
+// 3. The Pleasure Edit (Blog)
+xml += '  <url>\n';
+xml += `    <loc>${BASE_URL}/blog</loc>\n`;
+xml += `    <lastmod>${today}</lastmod>\n`;
+xml += '    <changefreq>weekly</changefreq>\n';
+xml += '    <priority>0.90</priority>\n';
+xml += '  </url>\n\n';
+
+// 4. Blog Articles
+const blogArticles = [
+  { slug: 'how-discreet-delivery-works-nigeria', title: 'Nobody Go Find Out: What Actually Happens to Your Package in Transit' },
+  { slug: 'first-vibrator-buyers-guide-nigeria', title: 'Overwhelmed by Choice? The Honest First-Timer Guide to Pleasure Pieces' },
+  { slug: 'water-based-lube-guide-nigeria', title: 'Stop Using Coconut Oil and Vaseline: Why Water-Based Lube Is Non-Negotiable' },
+  { slug: 'couples-toys-communication-guide', title: 'Bringing Toys into the Bedroom Without Hurting Anyones Ego' }
+];
+
+blogArticles.forEach(post => {
+  xml += '  <url>\n';
+  xml += `    <loc>${BASE_URL}/blog?post=${encodeURIComponent(post.slug)}</loc>\n`;
+  xml += `    <lastmod>${today}</lastmod>\n`;
+  xml += '    <changefreq>monthly</changefreq>\n';
+  xml += '    <priority>0.85</priority>\n';
+  xml += '  </url>\n\n';
+});
+
+// 5. Category pages
 const categories = [
   { slug: 'toys', title: 'Luxury Adult Toys & Vibrators' },
   { slug: 'lingerie', title: 'Sensual Lingerie & Robes' },
@@ -80,4 +105,4 @@ if (Array.isArray(products)) {
 xml += '</urlset>\n';
 
 fs.writeFileSync(sitemapFile, xml, 'utf8');
-console.log(`Generated ${sitemapFile} with ${2 + categories.length + products.length} URLs!`);
+console.log(`Generated ${sitemapFile} with ${3 + blogArticles.length + categories.length + products.length} URLs!`);

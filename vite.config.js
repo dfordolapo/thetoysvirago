@@ -95,6 +95,7 @@ export default defineConfig(({ mode }) => {
         input: {
           main: resolve(__dirname, 'index.html'),
           products: resolve(__dirname, 'products.html'),
+          blog: resolve(__dirname, 'blog.html'),
           admin: resolve(__dirname, 'admin.html'),
           emails: resolve(__dirname, 'emails.html'),
         },
