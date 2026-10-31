@@ -76,7 +76,11 @@ async function generateBlogPages() {
       `<meta name="twitter:image" content="${imgUrl}" />`
     );
 
-    // 4. Pre-render Article Reader View & Hide Index Grid
+    // 4. Pre-render Article Reader View & Hide Index Grid and Hero
+    html = html.replace(
+      'id="blog-hero-section"',
+      'id="blog-hero-section" style="display: none !important;"'
+    );
     html = html.replace(
       'id="blog-index-view"',
       'id="blog-index-view" style="display: none !important;"'

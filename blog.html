@@ -445,32 +445,87 @@
       margin: 0 auto;
       padding: 0 16px;
     }
+    /* Compact Journal Reader Header */
+    .article-compact-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 0 14px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .compact-journal-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      text-decoration: none;
+    }
+    .compact-journal-badge {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #fda4af;
+      transition: color 0.2s ease;
+    }
+    .compact-journal-brand:hover .compact-journal-badge {
+      color: #ffffff;
+    }
+    .compact-journal-sub {
+      font-size: 10.5px;
+      color: #94a3b8;
+    }
+    .btn-compact-back {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      background: rgba(255, 255, 255, 0.05) !important;
+      color: #f1f5f9 !important;
+      border: 1px solid rgba(255, 255, 255, 0.16) !important;
+      border-radius: 8px !important;
+      padding: 7px 12px !important;
+      font-size: 11.5px !important;
+      font-weight: 600 !important;
+      cursor: pointer !important;
+      transition: all 0.2s ease !important;
+      white-space: nowrap !important;
+    }
+    .btn-compact-back:hover {
+      background: rgba(255, 255, 255, 0.12) !important;
+      border-color: rgba(255, 255, 255, 0.35) !important;
+      color: #ffffff !important;
+      transform: translateX(-2px);
+    }
     .article-header {
-      margin-bottom: 20px;
+      margin-bottom: 26px;
       text-align: left;
     }
     .article-header .blog-card-badge {
       position: static;
       display: inline-block;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
     .article-headline {
       font-family: var(--serif, 'Cormorant Garamond', Georgia, serif);
-      font-size: clamp(1.5rem, 3.2vw, 2.15rem);
+      font-size: clamp(2.1rem, 4.4vw, 3rem);
       font-weight: 700;
       color: #ffffff !important;
-      line-height: 1.24;
-      margin: 0 0 10px;
+      line-height: 1.15;
+      letter-spacing: -0.015em;
+      margin: 8px 0 16px;
+      max-width: 660px;
     }
     .article-reader-meta {
-      font-size: 11px;
+      font-size: 12px;
       color: #94a3b8 !important;
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding-bottom: 14px;
+      gap: 12px;
+      padding: 14px 0 16px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       font-weight: 500;
+      margin-bottom: 8px;
       white-space: nowrap !important;
       flex-wrap: nowrap !important;
       overflow-x: auto;
@@ -752,14 +807,14 @@
         padding: 0 12px;
       }
       .article-headline {
-        font-size: 1.3rem;
-        line-height: 1.25;
-        margin-bottom: 8px;
+        font-size: 1.7rem;
+        line-height: 1.2;
+        margin-bottom: 12px;
       }
       .article-reader-meta {
-        font-size: 10.5px;
-        gap: 6px;
-        padding-bottom: 10px;
+        font-size: 11px;
+        gap: 8px;
+        padding-bottom: 12px;
       }
       .article-hero-frame {
         margin: 14px 0 18px;
@@ -863,7 +918,7 @@
 
     <main id="main-content">
       <!-- ===== THE PLEASURE JOURNAL HERO (FULL-BLEED BLURRED IMAGE, NO BLACK BOX) ===== -->
-      <section class="blog-hero">
+      <section class="blog-hero" id="blog-hero-section">
         <div class="blog-hero-bg" aria-hidden="true"></div>
         <div class="blog-hero-scrim" aria-hidden="true"></div>
         <div class="section-inner blog-hero-content">
@@ -899,6 +954,18 @@
       <section class="article-reader-section" id="article-reader-view">
         <div class="section-inner">
           <div class="article-reader-wrap">
+            <!-- Compact Editorial Header (Direct reader entrance) -->
+            <div class="article-compact-header">
+              <a href="/blog.html" class="compact-journal-brand" id="btn-compact-journal-brand" title="Return to The Pleasure Journal">
+                <span class="compact-journal-badge">THE PLEASURE JOURNAL</span>
+                <span class="compact-journal-sub">Editorial Guides &middot; TheToysVirago</span>
+              </a>
+              <button type="button" class="btn-compact-back" id="btn-compact-back" title="Back to All Stories">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                <span>All Stories</span>
+              </button>
+            </div>
+
             <div class="article-reader-top-bar">
               <button type="button" class="btn-top-back" id="btn-top-back">
                 &larr; All Stories

@@ -192,10 +192,12 @@ document.addEventListener('DOMContentLoaded', () => {
       btnShareTwitter.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent(shareUrl)}`;
     }
 
+    const heroSection = document.getElementById('blog-hero-section');
+    if (heroSection) heroSection.style.display = 'none';
     if (indexView) indexView.style.display = 'none';
     if (readerView) {
       readerView.style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'instant' });
     }
 
     // Update document title (strictly no em dashes)
@@ -210,6 +212,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Close reader and return to index
   function closeArticle(pushState = true) {
     currentArticle = null;
+    const heroSection = document.getElementById('blog-hero-section');
+    if (heroSection) heroSection.style.display = '';
     if (readerView) readerView.style.display = 'none';
     if (indexView) indexView.style.display = 'block';
     // Strictly no em dashes
@@ -259,6 +263,17 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   if (btnTopBack) {
     btnTopBack.addEventListener('click', () => closeArticle(true));
+  }
+  const btnCompactBack = document.getElementById('btn-compact-back');
+  if (btnCompactBack) {
+    btnCompactBack.addEventListener('click', () => closeArticle(true));
+  }
+  const btnCompactBrand = document.getElementById('btn-compact-journal-brand');
+  if (btnCompactBrand) {
+    btnCompactBrand.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeArticle(true);
+    });
   }
   if (btnCrumbJournal) {
     btnCrumbJournal.addEventListener('click', (e) => {

@@ -7,7 +7,7 @@ export const BLOG_ARTICLES = [
     date: 'October 30, 2026',
     author: 'TheToysVirago Team',
     heroImg: '/assets/blog/article-discreet-delivery.jpg',
-    excerpt: 'Plain unbranded courier packaging, riders who have zero clue what is inside, and anonymous bank transfers. Here is how your privacy stays bulletproof from dispatch to doorstep.',
+    excerpt: 'Nosey roommates, estate gate security, and dispatch riders. Here is how your delivery stays 100% anonymous from our dispatch table to your door.',
     content: `
       <p class="article-lead">We know the anxiety. You want something luxurious for your private moments, but you share an apartment, live in a gated estate with nosey security, or don't want a dispatch rider side-eyeing your delivery. Let's pull back the curtain on how discreet delivery actually operates at TheToysVirago.</p>
 
@@ -51,7 +51,7 @@ export const BLOG_ARTICLES = [
     date: 'October 28, 2026',
     author: 'TheToysVirago Team',
     heroImg: '/assets/blog/article-first-timer.jpg',
-    excerpt: 'Motor decibels, deep rumbles vs high-frequency buzzing, air-pulse physics, and body-safe platinum silicone. Practical mechanics to pick your first piece without wasting money.',
+    excerpt: 'Confused between air-pulse suction and deep rumbly vibration? How to pick your first piece without wasting money on something forgotten in a drawer.',
     content: `
       <p class="article-lead">Shopping for a first intimate device often feels needlessly complicated. Between air-pulse suction, variable frequency motors, and dozens of different shapes, it is easy to spend money on viral gadgets that end up abandoned in a bedside drawer. Understanding a few technical basics makes choosing the right piece straightforward.</p>
 
@@ -104,30 +104,36 @@ export const BLOG_ARTICLES = [
     date: 'October 25, 2026',
     author: 'TheToysVirago Team',
     heroImg: '/assets/blog/article-wellness-lube.jpg',
-    excerpt: 'Why kitchen oils dissolve medical silicone, how petroleum jelly alters vaginal microflora, and the science of iso-osmolar lubricants.',
+    excerpt: 'Why kitchen oils ruin luxury silicone, how petroleum jelly disrupts your pH, and what safe glide actually does for pleasure.',
     content: `
-      <p class="article-lead">Using kitchen oils or petroleum jelly in the bedroom is common practice in many Nigerian households simply because they are familiar and readily available. However, from both a material science and microbiological perspective, using these substances for intimate stimulation carries serious hidden consequences for your toys and your body.</p>
+      <p class="article-lead">Using kitchen oils or petroleum jelly in the bedroom is common practice simply because they are familiar and already on the nightstand. However, from material science to tissue microbiology, what you reach for matters tremendously depending on the kind of play and the pieces you use.</p>
 
-      <h3>1. The Chemistry of Silicone Degradation</h3>
-      <p>High-grade intimate devices are made from cross-linked silicone polymers. Silicone is lipophilic, meaning it attracts and absorbs fats and oils. When coconut oil, baby oil, shea butter, or Vaseline comes into contact with medical silicone, the oil molecules penetrate the polymer matrix.</p>
-      <p>Over a few weeks of repeated use, the toy begins to swell, soften, and develop microscopic surface pitting. Once the smooth protective finish pits, the surface remains permanently tacky. Those microscopic pits trap dead skin cells and bacteria that no amount of antiseptic wash or soap can sterilize, effectively ruining a luxury investment.</p>
+      <h3>1. The Chemistry of Silicone Breakdown</h3>
+      <p>High-grade intimate devices are crafted from cross-linked medical silicone. Silicone is lipophilic, meaning it actively attracts and absorbs fats and oils. When coconut oil, baby oil, shea butter, or Vaseline comes into contact with medical silicone, the oil molecules penetrate the polymer matrix.</p>
+      <p>Over just a few sessions, the toy begins to soften, swell, and develop microscopic surface pitting. Once pitted, the silicone stays permanently tacky, trapping dead skin cells and microbes that standard antibacterial washing cannot clear. Using oils on silicone devices permanently degrades them.</p>
 
-      <h3>2. Vaginal Microbiome &amp; Petroleum Occlusion</h3>
-      <p>The vaginal canal maintains a self-cleaning ecosystem dominated by protective Lactobacillus colonies, keeping the natural pH acidic (between 3.8 and 4.5). Petroleum jelly (Vaseline) is an occlusive mineral hydrocarbon designed to lock moisture onto external dry skin. When applied internally, it forms a thick, waterproof coating that prevents natural fluid exchange and traps anaerobic bacteria.</p>
-      <p>Clinical findings published in <em>Obstetrics &amp; Gynecology</em> demonstrated that women who regularly used petroleum jelly internally were more than twice as likely to test positive for bacterial vaginosis compared to non-users. Petroleum residues can linger inside mucosal folds for days because the body cannot dissolve or flush away heavy mineral wax without assistance.</p>
+      <h3>2. Vaginal Tissue vs. Anal Play: Distinct Biological Needs</h3>
+      <p>Different intimate areas operate under completely different biological rules, and using the wrong product carries real health consequences:</p>
+      <ul>
+        <li><strong>Vaginal Tissue (Flora &amp; pH Balance):</strong> The vaginal canal is self-cleaning and maintained by protective Lactobacillus colonies in an acidic environment (pH 3.8 to 4.5). Petroleum jelly (Vaseline) is an occlusive mineral hydrocarbon that forms a waterproof barrier on mucosal surfaces, trapping anaerobic bacteria and dramatically increasing the risk of bacterial vaginosis and yeast infections. A pure, iso-osmolar water-based lubricant matches natural mucosal hydration and rinses clean with water alone.</li>
+        <li><strong>Anal Play (Zero Natural Lubrication):</strong> Unlike vaginal tissue, the rectum produces zero natural lubrication and is lined with fragile, single-layer columnar epithelium that is prone to friction tears and irritation. For anal play, generous lubrication is medically essential. While pure water-based lube is 100% safe for both toys and condoms here, it absorbs more rapidly into mucosal membranes, requiring frequent reapplication during a session.</li>
+      </ul>
 
       <div class="article-callout">
-        <span class="callout-badge">OSMOLARITY &amp; TISSUE HEALTH</span>
-        <p>Many commercial drugstore lubricants contain excessive glycerin and propylene glycol, making them hyperosmolar (drawing water out of mucosal cells by osmosis and causing burning sensations). Premium water-based formulas are iso-osmolar, matching natural vaginal fluid hydration without cellular irritation.</p>
+        <span class="callout-badge">OSMOLARITY MATTERS</span>
+        <p>Avoid drugstore lubricants packed with high concentrations of glycerin or propylene glycol. Hyperosmolar lubricants pull water out of delicate mucosal cells through osmosis, causing burning and irritation. Premium formulas are balanced to hydrate without disrupting cellular tissue.</p>
       </div>
 
-      <h3>3. 100% Condom Safety &amp; Zero Staining</h3>
-      <p>Oil-based lubricants chemically break down latex condoms in as little as 60 seconds, increasing breakage and micro-tear risks by over 90%. Pure water-based lubricant is fully compatible with latex, polyurethane, and polyisoprene condoms.</p>
-      <p>There is also the practical reality of cleanup. Coconut oil and petroleum leave dark, greasy oil rings on cotton bedsheets and silk loungewear that regular washing powder cannot lift. Quality water-based lubricant dissolves completely in cold water, leaving zero residue on fabrics, toys, or skin.</p>
+      <h3>3. Condom Compatibility: Latex Degradation vs. Water Glide</h3>
+      <p>If you use condoms, your choice of lubricant is a matter of immediate safety:</p>
+      <ul>
+        <li><strong>Oil-Based Products Destroy Latex:</strong> Mineral oils, petroleum jelly, coconut oil, massage lotions, and butter dissolve natural latex within 60 seconds of contact, causing invisible micro-perforations and sudden condom breakage.</li>
+        <li><strong>Pure Water-Based Lubricant Is 100% Condom-Safe:</strong> Water formulations are fully compatible with natural rubber latex, polyisoprene, and polyurethane condoms, guaranteeing zero structural breakdown.</li>
+      </ul>
 
       <div class="article-callout">
         <span class="callout-badge">APPLICATION PROTOCOL</span>
-        <p>Apply a coin-sized portion directly to the contact nozzle or silicone head of your piece, and a few drops to your intimate area before powering on. Because water-based lubricant absorbs naturally over time, keep the bottle nearby for a quick top-up during longer sessions.</p>
+        <p>Apply a coin-sized portion directly to the contact tip or silicone head of your piece, and a few drops to your body before powering on. Because water-based glide naturally absorbs over time, keep the bottle within arm's reach for an effortless top-up.</p>
       </div>
     `,
     relatedProducts: ['kailin-water-lube']
@@ -140,13 +146,13 @@ export const BLOG_ARTICLES = [
     date: 'October 22, 2026',
     author: 'TheToysVirago Team',
     heroImg: '/assets/blog/article-couples-guide.jpg',
-    excerpt: 'Dismantling the comparison trap, the Neutral Ground conversation rule, and how remote app-controlled pieces turn solo toys into shared partner play.',
+    excerpt: 'How to suggest a toy to your partner as an upgrade for both of you, without triggering ego, comparison, or awkward defensiveness.',
     content: `
-      <p class="article-lead">Introducing a toy into a relationship can feel delicate. In Nigerian culture, bedroom confidence is often tied to performance and endurance. When one partner suggests bringing a motorized device into bed, the unspoken reaction is frequently defensive: <em>"Am I not enough?"</em> or <em>"What does this gadget do that I cannot do?"</em> Navigating this conversation requires framing the addition as an amplifier for both of you rather than a substitute.</p>
+      <p class="article-lead">Introducing an intimate piece into partner play can feel surprisingly vulnerable. In many relationships, especially where open sexual communication wasn't traditionally encouraged growing up, bedroom confidence often gets tangled with unspoken expectations around performance. When one partner suggests bringing a device into the mix, the quiet fear is often: <em>"Am I not enough?"</em> or <em>"Does this mean something is missing?"</em> Navigating this conversation requires framing the addition as an amplifier for shared pleasure rather than a critique.</p>
 
       <h3>1. Frame Toys as an Accessory, Not a Replacement</h3>
       <p>A sports car doesn't replace the driver; it just makes the ride faster. A pleasure piece is never a competitor or a replacement; it is simply bedroom equipment designed to elevate arousal levels faster so that everything you do together feels twice as intense. Always emphasize that the toy is meant for <em>both of you to enjoy together</em>.</p>
-      <p>The first step in dismantling bedroom ego is acknowledging basic anatomy and physics. A quality motor vibrates between 50Hz and 120Hz: human anatomy cannot replicate continuous 100-hertz vibrational frequencies. Expecting a partner to compete with an electric motor is like expecting a cyclist to race a sports car. When framed as a tool that helps both partners reach mutual climax with less physical strain, the defensive barrier drops immediately.</p>
+      <p>No partner is expected to compete with continuous motorized stimulation, just as a marathon runner isn't competing with a bicycle. Motorized pieces deliver steady mechanical rhythms that human hands and body can never be expected to sustain continuously without fatigue. When framed as a shared tool that relieves pressure on both partners rather than a test of stamina, the defensive barrier drops immediately.</p>
 
       <h3>2. The Neutral Ground Rule</h3>
       <p>Never bring up a new device in the bedroom when clothes are already off. When physical intimacy has already begun, vulnerability is at its peak. Pulling out an unfamiliar toy unannounced can make a partner feel judged, inadequate, or surprised on the spot.</p>
