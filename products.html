@@ -113,7 +113,8 @@
   <script>
     (function() {
       try {
-        if (localStorage.getItem('thetoysvirago_age_verified') === 'true' || localStorage.getItem('rouge_age_verified') === 'true') {
+        var isCrawler = /bot|googlebot|crawler|spider|robot|crawling|lighthouse|headless/i.test(navigator.userAgent);
+        if (isCrawler || localStorage.getItem('thetoysvirago_age_verified') === 'true' || localStorage.getItem('rouge_age_verified') === 'true') {
           document.documentElement.classList.add('age-gate-passed');
         }
       } catch(e) {}
