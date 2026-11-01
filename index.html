@@ -450,7 +450,6 @@
       <div class="section-inner">
         <div class="bestsellers-header" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px;">
           <div>
-            <span class="bestsellers-eyebrow">MOST LOVED ICONS</span>
             <h2 class="bestsellers-title">Our <em>Bestsellers.</em></h2>
             <p class="bestsellers-sub">
               Our verified customer favorites and essentials designed for unforgettable sensations.
@@ -763,115 +762,126 @@
 
 
 
-    <!-- ===== FRESH STORE DROPS (NEW ARRIVALS) ===== -->
-    <section class="collection new-arrivals-section" id="new-arrivals-section">
+    <!-- ===== CURATED STARTER BUNDLES SECTION (PURE WHITE) ===== -->
+    <section class="collection bundles-section" id="curated-bundles-section">
       <div class="section-inner">
-        <div class="collection-header" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 32px; flex-wrap: wrap; gap: 16px;">
+        <div class="collection-header" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
           <div>
-            <h2 class="sh2" style="color: #fff; margin: 0; font-family: var(--serif); font-size: clamp(2rem, 3.5vw, 2.75rem);">Fresh Store <em>Drops.</em></h2>
-            <p style="color: rgba(255,255,255,0.65); font-size: 0.95rem; margin: 8px 0 0; max-width: 540px;">
-              Latest intimate innovations, lingerie drops, and wellness essentials.
-            </p>
+            <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #9f1239; margin-bottom: 8px; display: block;">SAVINGS &amp; STARTER KITS</span>
+            <h2 class="sh2" style="color: #0c0c0e; margin: 0; font-family: var(--serif); font-size: clamp(2rem, 3.5vw, 2.75rem);">Curated Starter <em>Bundles.</em></h2>
           </div>
-          <a href="/products.html" class="btn btn-outline" style="border-color: rgba(255,255,255,0.25); color: #fff;">
-            Explore All Products &rarr;
+          <a href="/products.html" class="btn btn-outline" style="border-color: rgba(12,12,14,0.25); color: #0c0c0e;">
+            Shop All Pieces &rarr;
           </a>
         </div>
 
-        <div class="products-grid" id="new-arrivals-grid">
-          <!-- Instant Pre-rendered Initial Drops (Zero latency load) -->
-          <article class="product-card" data-category="lingerie" data-id="scarlet-corset">
-            <div class="product-img-wrap">
-              <span class="product-badge ruby-badge">LACE-UP BACK</span>
-              <img src="/assets/lingerie-catalog/scarlet-corset-hero.webp" alt="Scarlet Corset" class="product-img" loading="lazy" decoding="async" />
-              <div class="product-overlay">
-                <button class="btn-quick-view" data-product="scarlet-corset">Quick Look</button>
-              </div>
+        <div class="bundles-grid">
+          <!-- BUNDLE 1: The First-Timer Solo Starter Kit -->
+          <article class="bundle-card">
+            <div class="bundle-media-wrap">
+              <span class="bundle-tag-badge">SOLO ESSENTIALS</span>
+              <span class="bundle-savings-badge">SAVE ₦5,000</span>
+              <img src="/assets/bundle-solo-kit.jpg" alt="The First-Timer Solo Starter Kit" class="bundle-img" loading="lazy" decoding="async" />
             </div>
-            <div class="product-body">
-              <div class="product-top">
-                <span class="product-sku">LINGERIE · 07</span>
-                <span class="product-price">₦21,000</span>
+            <div class="bundle-body">
+              <h3 class="bundle-title">The First-Timer Solo Kit</h3>
+              <p class="bundle-subtitle">The proven, no-fuss gateway to clitoral bliss and effortless comfort.</p>
+              <div class="bundle-includes-list">
+                <div class="bundle-include-item">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span><strong>The Rose Sucker</strong> (Air-pulse suction)</span>
+                </div>
+                <div class="bundle-include-item">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span><strong>Pure Water Lube</strong> (Gentle glide dispenser)</span>
+                </div>
               </div>
-              <h3 class="product-name">Scarlet Corset</h3>
-              <p class="product-line">Fiery scarlet backless teddy with crisscross corset ties.</p>
+              <div class="bundle-pricing-row">
+                <span class="bundle-price-current">₦30,000</span>
+                <span class="bundle-price-original">₦35,000</span>
+                <span class="bundle-price-saved">Save ₦5,000</span>
+              </div>
               <button class="btn btn-black btn-block btn-add-cart"
-                data-id="scarlet-corset" data-title="Scarlet Corset"
-                data-price="21000" data-pricestr="₦21,000" data-img="/assets/lingerie-catalog/scarlet-corset-hero.webp">
+                data-id="bundle-solo-starter" data-title="The First-Timer Solo Kit"
+                data-price="30000" data-pricestr="₦30,000" data-img="/assets/bundle-solo-kit.jpg">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Cart
+                Add Bundle to Cart
               </button>
             </div>
           </article>
 
-          <article class="product-card" data-category="toys" data-id="sucking-rabbit">
-            <div class="product-img-wrap">
-              <span class="product-badge ruby-badge">AIR-PULSE</span>
-              <img src="/assets/sucking-rabbit.webp" alt="The Sucking Rabbit" class="product-img" loading="lazy" decoding="async" />
-              <div class="product-overlay">
-                <button class="btn-quick-view" data-product="sucking-rabbit">Quick Look</button>
-              </div>
+          <!-- BUNDLE 2: Couples Climax & Stamina Kit -->
+          <article class="bundle-card">
+            <div class="bundle-media-wrap">
+              <span class="bundle-tag-badge">SHARED ECSTASY</span>
+              <span class="bundle-savings-badge">SAVE ₦5,000</span>
+              <img src="/assets/bundle-couples-kit.jpg" alt="Couples Climax & Stamina Kit" class="bundle-img" loading="lazy" decoding="async" />
             </div>
-            <div class="product-body">
-              <div class="product-top">
-                <span class="product-sku">DUAL · 05</span>
-                <span class="product-price">₦35,000</span>
+            <div class="bundle-body">
+              <h3 class="bundle-title">Couples Climax &amp; Stamina Kit</h3>
+              <p class="bundle-subtitle">Firm stamina, dual clitoral stimulation, and sensory restraint foreplay.</p>
+              <div class="bundle-includes-list">
+                <div class="bundle-include-item">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span><strong>Rabbit Cock Ring</strong> (Dual stamina motor)</span>
+                </div>
+                <div class="bundle-include-item">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span><strong>10-Piece Luxury BDSM Set</strong> (Full restraint &amp; sensory collection)</span>
+                </div>
+                <div class="bundle-include-item">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span><strong>Pure Water Lube</strong> (Long-lasting pump)</span>
+                </div>
               </div>
-              <h3 class="product-name">The Sucking Rabbit</h3>
-              <p class="product-line">Fluttering air-pulse suction ears with deep ribbed G-spot stimulation.</p>
+              <div class="bundle-pricing-row">
+                <span class="bundle-price-current">₦45,000</span>
+                <span class="bundle-price-original">₦50,000</span>
+                <span class="bundle-price-saved">Save ₦5,000</span>
+              </div>
               <button class="btn btn-black btn-block btn-add-cart"
-                data-id="sucking-rabbit" data-title="The Sucking Rabbit"
-                data-price="35000" data-pricestr="₦35,000" data-img="/assets/sucking-rabbit.webp">
+                data-id="bundle-couples-stamina" data-title="Couples Climax &amp; Stamina Kit"
+                data-price="45000" data-pricestr="₦45,000" data-img="/assets/bundle-couples-kit.jpg">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Cart
+                Add Bundle to Cart
               </button>
             </div>
           </article>
 
-          <article class="product-card" data-category="lingerie" data-id="chain-teddy">
-            <div class="product-img-wrap">
-              <span class="product-badge ruby-badge">CHAIN HARNESS</span>
-              <img src="/assets/lingerie-catalog/chain-teddy-hero.webp" alt="Chain Teddy" class="product-img" loading="lazy" decoding="async" />
-              <div class="product-overlay">
-                <button class="btn-quick-view" data-product="chain-teddy">Quick Look</button>
-              </div>
+          <!-- BUNDLE 3: Bedroom Fantasy & Boudoir Set -->
+          <article class="bundle-card">
+            <div class="bundle-media-wrap">
+              <span class="bundle-tag-badge">BOUDOIR &amp; SEDUCTION</span>
+              <span class="bundle-savings-badge">SAVE ₦5,000</span>
+              <img src="/assets/bundle-seduction-kit.jpg" alt="Midnight Seduction Set" class="bundle-img" loading="lazy" decoding="async" />
             </div>
-            <div class="product-body">
-              <div class="product-top">
-                <span class="product-sku">LINGERIE · 36</span>
-                <span class="product-price">₦15,000</span>
+            <div class="bundle-body">
+              <h3 class="bundle-title">Midnight Seduction Set</h3>
+              <p class="bundle-subtitle">Sensual luxury lingerie, fleece-lined leather cuffs, and silky glide.</p>
+              <div class="bundle-includes-list">
+                <div class="bundle-include-item">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span><strong>Any Lingerie of Choice</strong> (From collection)</span>
+                </div>
+                <div class="bundle-include-item">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span><strong>Sovereign Leather Cuffs</strong> (Gold link chain)</span>
+                </div>
+                <div class="bundle-include-item">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span><strong>Pure Water Lube</strong> (Friction-free intimacy)</span>
+                </div>
               </div>
-              <h3 class="product-name">Chain Teddy</h3>
-              <p class="product-line">Black floral lace teddy elevated with shimmering gold chain straps.</p>
+              <div class="bundle-pricing-row">
+                <span class="bundle-price-current">₦38,000</span>
+                <span class="bundle-price-original">₦43,000</span>
+                <span class="bundle-price-saved">Save ₦5,000</span>
+              </div>
               <button class="btn btn-black btn-block btn-add-cart"
-                data-id="chain-teddy" data-title="Chain Teddy"
-                data-price="15000" data-pricestr="₦15,000" data-img="/assets/lingerie-catalog/chain-teddy-hero.webp">
+                data-id="bundle-midnight-seduction" data-title="Midnight Seduction Set"
+                data-price="38000" data-pricestr="₦38,000" data-img="/assets/bundle-seduction-kit.jpg">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Cart
-              </button>
-            </div>
-          </article>
-
-          <article class="product-card" data-category="wellness" data-id="african-brute">
-            <div class="product-img-wrap">
-              <span class="product-badge ruby-badge">STAMINA TONIC</span>
-              <img src="/assets/african-brute.webp" alt="African Brute Tonic" class="product-img" loading="lazy" decoding="async" />
-              <div class="product-overlay">
-                <button class="btn-quick-view" data-product="african-brute">Quick Look</button>
-              </div>
-            </div>
-            <div class="product-body">
-              <div class="product-top">
-                <span class="product-sku">WELLNESS · 02</span>
-                <span class="product-price">₦27,000</span>
-              </div>
-              <h3 class="product-name">African Brute Tonic</h3>
-              <p class="product-line">NAFDAC-approved botanical elixir with 8 natural aphrodisiac extracts.</p>
-              <button class="btn btn-black btn-block btn-add-cart"
-                data-id="african-brute" data-title="African Brute Tonic"
-                data-price="27000" data-pricestr="₦27,000" data-img="/assets/african-brute.webp">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Add to Cart
+                Add Bundle to Cart
               </button>
             </div>
           </article>
