@@ -110,6 +110,66 @@ export const BLOG_ARTICLES = [
         <p><strong>The Satisfyer Pro 2:</strong> Built with internal acoustic sound-dampening chambers. Because it operates through air pressure pulses rather than a spinning vibration motor, it runs nearly silent (~38dB). Tucked under a duvet, it cannot be heard from across a standard bedroom.</p>
       </div>
 
+      <h3>4. Match by Specific First-Timer Needs &amp; Desires</h3>
+      <p>Every person's body and living situation is different. Here is how to match your exact desire or hesitation to the right piece:</p>
+
+      <div style="overflow-x: auto; margin: 24px 0;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 13px; line-height: 1.5; color: #e2e8f0; background: #121217; border-radius: 8px; overflow: hidden;">
+          <thead>
+            <tr style="background: #1c1c24; border-bottom: 1px solid rgba(255,255,255,0.1); text-align: left;">
+              <th style="padding: 12px 14px; font-weight: 700; color: #ffffff;">Need / Situation</th>
+              <th style="padding: 12px 14px; font-weight: 700; color: #ffffff;">Recommended Toy</th>
+              <th style="padding: 12px 14px; font-weight: 700; color: #ffffff;">Why It Fits</th>
+              <th style="padding: 12px 14px; font-weight: 700; color: #ffffff; text-align: right;">Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 12px 14px; font-weight: 600; color: #fda4af;">"I want zero awkwardness or embarrassment, 100% unrecognizable."</td>
+              <td style="padding: 12px 14px; font-weight: 700;"><a href="/products.html?product=lipstick-vibe" style="color: #fff; text-decoration: underline;">Lipstick Vibe</a></td>
+              <td style="padding: 12px 14px; color: #cbd5e1;">Disguised in plain sight as a chic designer lipstick. Operates under 25dB (sub-whisper) with a velvet-soft angled tip. Far quieter than a bullet and impossible for roommates or family to recognize.</td>
+              <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #ffffff;">₦22,000</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 12px 14px; font-weight: 600; color: #fda4af;">"I want something tiny &amp; budget-friendly, but with lots of vibration modes."</td>
+              <td style="padding: 12px 14px; font-weight: 700;"><a href="/products.html?product=pocket-bullet" style="color: #fff; text-decoration: underline;">Velvet Pocket Bullet</a></td>
+              <td style="padding: 12px 14px; color: #cbd5e1;">If you choose a bullet, ensure it is the <strong>soft silicone-covered version</strong> (like our Velvet Pocket Bullet) rather than bare stainless steel or hard plastic. Stainless steel or metal bullets amplify harsh surface vibrations and are way too noisy, whereas velvet silicone dampens motor buzz while offering 10 varied pulse rhythms.</td>
+              <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #ffffff;">₦15,000</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 12px 14px; font-weight: 600; color: #fda4af;">"Vibrations make me numb / I want quick, effortless clitoral climaxes."</td>
+              <td style="padding: 12px 14px; font-weight: 700;"><a href="/products.html?product=pulsating-rose" style="color: #fff; text-decoration: underline;">Pulsating Rose</a></td>
+              <td style="padding: 12px 14px; color: #cbd5e1;">Many first-timers find direct vibrations too intense or desensitizing. The Rose uses touch-free air-pulse suction or flutter licking, mimicking gentle oral sensations without overstimulation.</td>
+              <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #ffffff;">₦35,000</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 12px 14px; font-weight: 600; color: #fda4af;">"I want deeper, whole-body vibrations with zero guesswork."</td>
+              <td style="padding: 12px 14px; font-weight: 700;"><a href="/products.html?product=sceptre-wand" style="color: #fff; text-decoration: underline;">The Mini Wand</a></td>
+              <td style="padding: 12px 14px; color: #cbd5e1;">Compact wand with a 360° flexible silicone head. Instead of pinpoint buzzy contact, it provides broad, rumbling vibrations that are forgiving and great for full-body relaxation.</td>
+              <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #ffffff;">₦15,000</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 12px 14px; font-weight: 600; color: #fda4af;">"I'm in a long-distance relationship / Want couple play without awkwardness."</td>
+              <td style="padding: 12px 14px; font-weight: 700;"><a href="/products.html?product=siren-app" style="color: #fff; text-decoration: underline;">The Siren</a></td>
+              <td style="padding: 12px 14px; color: #cbd5e1;">Ergonomic panty vibe controlled via mobile app. Whisper-quiet (&lt; 30 dB), hands-free, and lets a partner take control from anywhere across the globe or across the room.</td>
+              <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #ffffff;">₦27,000</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 12px 14px; font-weight: 600; color: #fda4af;">"I want internal fullness and clitoral stimulation at the exact same time."</td>
+              <td style="padding: 12px 14px; font-weight: 700;"><a href="/products.html?product=sucking-rabbit" style="color: #fff; text-decoration: underline;">The Sucking Rabbit</a></td>
+              <td style="padding: 12px 14px; color: #cbd5e1;">Combines fluttering air-pulse clitoral suction with a flexible, gently curved G-spot shaft. Perfect for users ready for dual blended orgasms without needing two separate devices.</td>
+              <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #ffffff;">₦35,000</td>
+            </tr>
+            <tr>
+              <td style="padding: 12px 14px; font-weight: 600; color: #fda4af;">"I prefer hands-free play or shower time without battery anxiety."</td>
+              <td style="padding: 12px 14px; font-weight: 700;"><a href="/products.html?product=sculpted-dildo" style="color: #fff; text-decoration: underline;">The Contour Shaft</a></td>
+              <td style="padding: 12px 14px; color: #cbd5e1;">Anatomically sculpted non-vibrating shaft with a suction base that mounts firmly to shower tiles or smooth floors. Completely waterproof, body-safe, and harness-ready.</td>
+              <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #ffffff;">₦15,000+</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
       <div class="article-product-spotlight">
         <h4>Ready to explore beginner-friendly pieces?</h4>
         <p>Experience the discreet stealth of the <strong>Lipstick Vibe (₦22,000)</strong>, the deep rumble of <strong>The Mini Wand (₦15,000)</strong>, or the gentle touchless waves of the <strong>Satisfyer Pro 2</strong>.</p>
@@ -120,7 +180,7 @@ export const BLOG_ARTICLES = [
         </div>
       </div>
     `,
-    relatedProducts: ['lipstick-vibe', 'sceptre-wand', 'satisfyer-pro-suction', 'pulsating-rose']
+    relatedProducts: ['lipstick-vibe', 'sceptre-wand', 'satisfyer-pro-suction', 'pulsating-rose', 'pocket-bullet', 'siren-app', 'sucking-rabbit', 'sculpted-dildo']
   },
   {
     slug: 'water-based-lube-guide-nigeria',
