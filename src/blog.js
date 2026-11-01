@@ -196,8 +196,12 @@ document.addEventListener('DOMContentLoaded', () => {
       window.scrollTo({ top: 0, behavior: 'instant' });
     }
 
-    // Update document title (strictly no em dashes)
-    document.title = `${article.title} · The Pleasure Journal | TheToysVirago`;
+    // Update document title and meta description (strictly no em dashes)
+    document.title = article.seoTitle ? `${article.seoTitle} | TheToysVirago` : `${article.title} · The Pleasure Journal | TheToysVirago`;
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc && article.metaDesc) {
+      metaDesc.setAttribute('content', article.metaDesc);
+    }
 
     if (pushState) {
       const newUrl = `/blog/${encodeURIComponent(slug)}`;

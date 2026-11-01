@@ -32,7 +32,7 @@ function getCustomProducts() {
       return [];
     }
     const parsed = JSON.parse(raw);
-    const cleaned = (Array.isArray(parsed) ? parsed : []).filter(p => p && p.id !== 'noir-chantilly-teddy' && p.id !== 'scarlet-silk-chemise');
+    const cleaned = (Array.isArray(parsed) ? parsed : []).filter(p => p && p.id !== 'noir-chantilly-teddy' && p.id !== 'scarlet-silk-chemise' && p.id !== 'crystal-glass-plugs' && p.id !== 'crystal-dual-dildo');
     if (cleaned.length !== (Array.isArray(parsed) ? parsed.length : 0)) {
       localStorage.setItem(CUSTOM_STORAGE_KEY, JSON.stringify(cleaned));
     }
@@ -1324,7 +1324,7 @@ async function refreshCatalogData() {
     const res = await fetch('/new-products-data.json');
     if (res.ok) {
       const baseProds = await res.json();
-      baseProds.forEach(bp => {
+      baseProds.filter(bp => bp.id !== 'crystal-glass-plugs' && bp.id !== 'crystal-dual-dildo').forEach(bp => {
         if (!mergedMap.has(bp.id)) {
           mergedMap.set(bp.id, {
             id: bp.id,

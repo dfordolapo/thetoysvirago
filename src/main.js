@@ -614,6 +614,10 @@ function filterProducts(resetPage = true) {
   catalogCards.forEach((card) => {
     const cardCat = card.dataset.category || '';
     const cardId = card.dataset.id || '';
+    if (cardId === 'crystal-glass-plugs' || cardId === 'crystal-glass-bubble-plugs' || cardId === 'crystal-dual-dildo' || cardId === 'sweet-hammer-vibe' || cardId === 'escapade-expert-dildo' || cardId === 'dual-rose-stem-vibe' || cardId === 'motorized-dual-cock-ring') {
+      card.remove();
+      return;
+    }
     const generalTerms = (GENERAL_PRODUCT_TERMS[cardId] || '').toLowerCase();
     const cardKeywords = (card.dataset.keywords || '').toLowerCase();
     const name = (card.querySelector('.product-name')?.textContent || '').toLowerCase();
@@ -4195,10 +4199,10 @@ const PRODUCT_DATABASE = {
 },
   'strap-on-harness-briefs': {
     "id": "strap-on-harness-briefs",
-    "title": "Leather Harness Briefs",
-    "badge": "O-RING BRIEFS",
-    "price": 0,
-    "priceStr": "",
+    "title": "Harness Briefs",
+    "badge": "ABUJA ONLY",
+    "price": 17000,
+    "priceStr": "₦17,000",
     "img": "/assets/IMG_3561.webp",
     "desc": "Ergonomic faux-leather strap-on underwear briefs engineered with a rigid front O-ring plate for maximum thrusting stability. Features elasticized waist adjusters and side buckle cinches for an immovable, non-slip fit.",
     "specs": [
@@ -4229,10 +4233,10 @@ const PRODUCT_DATABASE = {
 },
   'strap-on-vegan-harness': {
     "id": "strap-on-vegan-harness",
-    "title": "Vegan Strap-On Harness",
+    "title": "Strap-On Harness",
     "badge": "UNIVERSAL HARNESS",
-    "price": 0,
-    "priceStr": "",
+    "price": 18000,
+    "priceStr": "₦18,000",
     "img": "/assets/IMG_9851.webp",
     "desc": "Heavy-duty pebbled faux-leather strap-on harness featuring snap-on interchangeable O-rings (3 sizes included) to accommodate slim, medium, or girthy dildos. Wide elastic waistband keeps the base firmly anchored.",
     "specs": [
@@ -4264,9 +4268,9 @@ const PRODUCT_DATABASE = {
   'silicone-bone-gag': {
     "id": "silicone-bone-gag",
     "title": "Silicone Bone Gag",
-    "badge": "BREATHABLE RESTRAINT",
-    "price": 0,
-    "priceStr": "",
+    "badge": "ABUJA EXCLUSIVE",
+    "price": 14000,
+    "priceStr": "₦14,000",
     "img": "/assets/IMG_9989.webp",
     "desc": "Novelty dog bone silhouette crafted from seamless, medical-grade velvety silicone mounted to an adjustable vegan leather strap with red top-stitching and secure chrome roller buckle.",
     "specs": [
@@ -4352,10 +4356,24 @@ const PRODUCT_DATABASE = {
   'twist-nipple-suckers': {
     "id": "twist-nipple-suckers",
     "title": "Twist Vacuum Suckers",
-    "badge": "CALIBRATED VACUUM",
-    "price": 0,
-    "priceStr": "",
+    "badge": "ABUJA EXCLUSIVE",
+    "price": 11000,
+    "priceStr": "₦11,000",
     "img": "/assets/IMG_2193.webp",
+    "variants": [
+        {
+                "name": "Small",
+                "price": 11000,
+                "priceStr": "₦11,000",
+                "img": "/assets/IMG_2193.webp"
+        },
+        {
+                "name": "Large",
+                "price": 12000,
+                "priceStr": "₦12,000",
+                "img": "/assets/IMG_2193.webp"
+        }
+],
     "desc": "Dual cylinder suction pumps engineered with a smooth twist-action screw piston. Simply position the soft silicone rim over nipples or clitoris and twist the dial clockwise to dial in calibrated vacuum pressure.",
     "sizes": ["Small", "Large"],
     "specs": [
@@ -4387,9 +4405,9 @@ const PRODUCT_DATABASE = {
   'crystal-glass-plugs': {
     "id": "crystal-glass-plugs",
     "title": "Crystal Glass Plugs",
-    "badge": "BOROSILICATE GLASS",
-    "price": 0,
-    "priceStr": "",
+    "badge": "ABUJA EXCLUSIVE",
+    "price": 16000,
+    "priceStr": "₦16,000",
     "img": "/assets/IMG_6238.webp",
     "desc": "Handcrafted from pure medical borosilicate glass, suspended with ethereal internal champagne micro-bubbles. Non-porous, perfectly smooth, and ideal for sensory temperature play: soak in warm water for radiant heat or chill in ice.",
     "specs": [
@@ -4412,24 +4430,24 @@ const PRODUCT_DATABASE = {
     "pattern": "luxe",
     "variants": [
         {
-            "name": "Small",
-            "price": 20000,
-            "priceStr": "₦20,000",
-            "img": "/assets/IMG_6238.webp"
+                "name": "Small",
+                "price": 16000,
+                "priceStr": "₦16,000",
+                "img": "/assets/IMG_6238.webp"
         },
         {
-            "name": "Medium",
-            "price": 24000,
-            "priceStr": "₦24,000",
-            "img": "/assets/IMG_6238.webp"
+                "name": "Medium",
+                "price": 17000,
+                "priceStr": "₦17,000",
+                "img": "/assets/IMG_6238.webp"
         },
         {
-            "name": "Large",
-            "price": 28000,
-            "priceStr": "₦28,000",
-            "img": "/assets/IMG_6238.webp"
+                "name": "Large",
+                "price": 18000,
+                "priceStr": "₦18,000",
+                "img": "/assets/IMG_6238.webp"
         }
-    ],
+],
     "media": [
         {
             "type": "image",
@@ -4441,9 +4459,9 @@ const PRODUCT_DATABASE = {
   'fantasy-tentacle-dildo': {
     "id": "fantasy-tentacle-dildo",
     "title": "Kraken Tentacle Shaft",
-    "badge": "TEXTURED SUCTION",
-    "price": 0,
-    "priceStr": "",
+    "badge": "ABUJA EXCLUSIVE",
+    "price": 32000,
+    "priceStr": "₦32,000",
     "img": "/assets/IMG_5969.webp",
     "desc": "An otherworldly dual-tone octopus tentacle dildo sculpted with escalating raised suction pods along a flexible tapered tip. Features a heavy-duty suction cup base that mounts firmly to any smooth surface.",
     "specs": [
@@ -4474,10 +4492,10 @@ const PRODUCT_DATABASE = {
 },
   'naughty-wooden-blocks': {
     "id": "naughty-wooden-blocks",
-    "title": "Naughty Stacking Blocks",
-    "badge": "TUMBLING TOWER",
-    "price": 0,
-    "priceStr": "",
+    "title": "Sex Jenga",
+    "badge": "ABUJA EXCLUSIVE",
+    "price": 25000,
+    "priceStr": "₦25,000",
     "img": "/assets/IMG_8178.webp",
     "desc": "A steamy twist on classic block stacking. Each natural pine wood block is laser-engraved with seductive foreplay commands, dares, and sensual challenges. Pull a block without toppling the tower - or perform whatever sweet punishment is revealed.",
     "specs": [
@@ -4613,8 +4631,8 @@ const PRODUCT_DATABASE = {
     "id": "kailin-fruitastic-lube",
     "title": "Fruitastic Lube Set",
     "badge": "DUO FLAVORS",
-    "price": 0,
-    "priceStr": "",
+    "price": 4500,
+    "priceStr": "₦4,500",
     "img": "/assets/IMG_5001.webp",
     "desc": "Edible, sugar-free flavored personal lubricant in a 5-tube box set (5x 30ml tubes). Delicious natural taste designed for oral foreplay, gentle warming sensations, and sweet intimate discovery without stickiness.",
     "specs": [
@@ -4637,18 +4655,18 @@ const PRODUCT_DATABASE = {
     "pattern": "luxe",
     "variants": [
         {
-            "name": "Strawberry",
-            "price": 15000,
-            "priceStr": "₦15,000",
-            "img": "/assets/IMG_5001.webp"
+                "name": "Single Piece",
+                "price": 4500,
+                "priceStr": "₦4,500",
+                "img": "/assets/IMG_5001.webp"
         },
         {
-            "name": "Lemon",
-            "price": 15000,
-            "priceStr": "₦15,000",
-            "img": "/assets/IMG_5001.webp"
+                "name": "Pack of 5",
+                "price": 17000,
+                "priceStr": "₦17,000",
+                "img": "/assets/IMG_5001.webp"
         }
-    ],
+],
     "media": [
         {
             "type": "image",
@@ -5087,40 +5105,6 @@ const PRODUCT_DATABASE = {
         }
     ]
 },
-  'dual-rose-stem-vibe': {
-    "id": "dual-rose-stem-vibe",
-    "title": "Rose Bloom Wand",
-    "badge": "FLEXIBLE G-SPOT",
-    "price": 0,
-    "priceStr": "",
-    "img": "/assets/IMG_7115.webp",
-    "desc": "The best of both worlds in one continuous silicone body: the beloved blooming rose air-pulse sucker on one tip, paired with an insertable curved G-spot shaft on the opposite end.",
-    "specs": [
-        {
-            "label": "Combination",
-            "value": "Air-Wave Clitoral Suction + G-Spot Shaft"
-        },
-        {
-            "label": "Flexibility",
-            "value": "Flexible Memory Silicone Stem"
-        },
-        {
-            "label": "Charging",
-            "value": "Magnetic USB Fast Charging"
-        }
-    ],
-    "material": "Silky Medical Silicone & Chrome Trim",
-    "acoustics": "< 30 dB (Subtle Power)",
-    "freq": 70,
-    "pattern": "luxe",
-    "media": [
-        {
-            "type": "image",
-            "src": "/assets/IMG_7115.webp",
-            "label": "Rose Bloom Wand"
-        }
-    ]
-},
   'foxshow-kegel-egg': {
     "id": "foxshow-kegel-egg",
     "title": "Fox Smart Egg",
@@ -5477,10 +5461,10 @@ const PRODUCT_DATABASE = {
 },
   'two-fingers-thrusting-vibe': {
     "id": "two-fingers-thrusting-vibe",
-    "title": "Peace Thrusting Vibe",
-    "badge": "MOTORIZED THRUST",
-    "price": 0,
-    "priceStr": "",
+    "title": "Golden Hand Finger Vibe",
+    "badge": "ABUJA EXCLUSIVE",
+    "price": 35000,
+    "priceStr": "₦35,000",
     "img": "/assets/IMG_1662.webp",
     "desc": "Engineered with dual reciprocating silicone fingers that thrust in and out in rapid rhythmic sequence, recreating the sensation of skilled foreplay fingers with motorized power.",
     "specs": [
@@ -5506,40 +5490,6 @@ const PRODUCT_DATABASE = {
             "type": "image",
             "src": "/assets/IMG_1662.webp",
             "label": "Peace Thrusting Vibe"
-        }
-    ]
-},
-  'sweet-hammer-vibe': {
-    "id": "sweet-hammer-vibe",
-    "title": "Sweet Hammer Wand",
-    "badge": "NOVELTY WAND",
-    "price": 0,
-    "priceStr": "",
-    "img": "/assets/IMG_2706.webp",
-    "desc": "A playful hammer-inspired wand vibrator featuring a broad silicone mallet head that delivers wide-area rumble pulses across the vulva, clitoris, and external erogenous zones.",
-    "specs": [
-        {
-            "label": "Silhouette",
-            "value": "Novelty Mallet Head for Broad Surface Contact"
-        },
-        {
-            "label": "Vibrations",
-            "value": "10 Deep Rumbling Frequencies"
-        },
-        {
-            "label": "Waterproof",
-            "value": "IPX7 Waterproof"
-        }
-    ],
-    "material": "Velvet Liquid Silicone & Gold Plated Accent",
-    "acoustics": "< 32 dB (Deep Rumble)",
-    "freq": 70,
-    "pattern": "luxe",
-    "media": [
-        {
-            "type": "image",
-            "src": "/assets/IMG_2706.webp",
-            "label": "Sweet Hammer Wand"
         }
     ]
 },
@@ -5594,9 +5544,9 @@ const PRODUCT_DATABASE = {
   'interchangeable-vault-4in1': {
     "id": "interchangeable-vault-4in1",
     "title": "4-in-1 Luxury Vault",
-    "badge": "INTERCHANGEABLE",
-    "price": 0,
-    "priceStr": "",
+    "badge": "ABUJA EXCLUSIVE",
+    "price": 70000,
+    "priceStr": "₦70,000",
     "img": "/assets/IMG_2442.webp",
     "desc": "A complete boudoir modular vault containing a rechargeable power handle and 4 twist-lock interchangeable pleasure attachments: air-pulse suction cup, G-spot wand, rabbit head, and pinpoint bullet.",
     "specs": [
@@ -5656,44 +5606,6 @@ const PRODUCT_DATABASE = {
             "type": "image",
             "src": "/assets/IMG_0094.webp",
             "label": "Vibrating Harness Kit"
-        }
-    ]
-},
-  'escapade-expert-dildo': {
-    "id": "escapade-expert-dildo",
-    "title": "Escapade 6\" Dong",
-    "badge": "REALISTIC TEXTURE",
-    "price": 0,
-    "priceStr": "",
-    "img": "/assets/IMG_8315.webp",
-    "desc": "Authentic Aphrodisia ESCAPADE 6-inch lifelike silicone dong. Features an anatomically sculpted head, detailed raised veins, firm suction cup base for hands-free play, and internal USB rechargeable vibrations.",
-    "specs": [
-        {
-            "label": "Brand & Model",
-            "value": "Aphrodisia ESCAPADE The Expert 6\""
-        },
-        {
-            "label": "Length & Girth",
-            "value": "6.0 inches (152mm) Anatomical Scale"
-        },
-        {
-            "label": "Base",
-            "value": "Suction Base (Mounts to Flat Surfaces)"
-        },
-        {
-            "label": "Waterproof",
-            "value": "100% Submersible Waterproof"
-        }
-    ],
-    "material": "Ultra-Pure Medical Silicone & Suction Base",
-    "acoustics": "< 35 dB (Deep Shaft Rumble)",
-    "freq": 70,
-    "pattern": "luxe",
-    "media": [
-        {
-            "type": "image",
-            "src": "/assets/IMG_8315.webp",
-            "label": "Escapade 6\" Dong"
         }
     ]
 },
@@ -5869,10 +5781,10 @@ const PRODUCT_DATABASE = {
 },
   'crystal-dual-dildo': {
     "id": "crystal-dual-dildo",
-    "title": "Crystal Jelly Shaft",
+    "title": "Crystal Jelly Dual-Penetration Dildo",
     "badge": "DUAL PRONG JELLY",
-    "price": 0,
-    "priceStr": "",
+    "price": 22000,
+    "priceStr": "₦22,000",
     "img": "/assets/IMG_8928.webp",
     "desc": "Clear glass-effect translucent jelly dildo with two side-by-side shafts for deep double stimulation. Perfectly non-porous, waterproof, and compatible with all water-based lubricants.",
     "specs": [
@@ -5904,10 +5816,24 @@ const PRODUCT_DATABASE = {
   'neon-pink-remote-dildo': {
     "id": "neon-pink-remote-dildo",
     "title": "Neon Remote Shaft",
-    "badge": "WIRED CONTROLLER",
-    "price": 0,
-    "priceStr": "",
+    "badge": "ABUJA EXCLUSIVE",
+    "price": 45000,
+    "priceStr": "₦45,000",
     "img": "/assets/IMG_2768.webp",
+    "variants": [
+        {
+                "name": "Thrusting",
+                "price": 45000,
+                "priceStr": "₦45,000",
+                "img": "/assets/IMG_2768.webp"
+        },
+        {
+                "name": "Rotating",
+                "price": 45000,
+                "priceStr": "₦45,000",
+                "img": "/assets/IMG_2768.webp"
+        }
+],
     "desc": "Vibrant translucent neon pink silicone dildo with realistic anatomical contours and a tethered remote control for effortless speed and vibration pattern changes during play.",
     "specs": [
         {
@@ -6014,40 +5940,6 @@ const PRODUCT_DATABASE = {
             "type": "image",
             "src": "/assets/IMG_1091.webp",
             "label": "Automatic Vacuum Pump"
-        }
-    ]
-},
-  'motorized-dual-cock-ring': {
-    "id": "motorized-dual-cock-ring",
-    "title": "Motorized Cock Ring",
-    "badge": "DUAL-LOOP BUZZ",
-    "price": 0,
-    "priceStr": "",
-    "img": "/assets/IMG_4149.webp",
-    "desc": "Dual-ring ergonomic silicone cock and testicle band with an integrated vibrating bullet teaser. Locks firm erections, delays climax, and thrills your partner’s clitoris during penetration.",
-    "specs": [
-        {
-            "label": "Design",
-            "value": "Dual Shaft & Testicle Retention Loops"
-        },
-        {
-            "label": "Motor",
-            "value": "Rechargeable Multi-Speed Vibration Core"
-        },
-        {
-            "label": "Elasticity",
-            "value": "Ultra-Stretchy 100% Medical Liquid Silicone"
-        }
-    ],
-    "material": "Silky Stretch Medical Silicone",
-    "acoustics": "< 32 dB (Whisper Quiet)",
-    "freq": 70,
-    "pattern": "luxe",
-    "media": [
-        {
-            "type": "image",
-            "src": "/assets/IMG_4149.webp",
-            "label": "Motorized Cock Ring"
         }
     ]
 },
@@ -6560,13 +6452,14 @@ function openQuickviewForProduct(prodKey, card = null) {
   quickviewModal.style.display = 'flex';
 }
 
-document.querySelectorAll('.btn-quick-view').forEach((btn) => {
-  btn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const prodKey = btn.dataset.product;
-    const card = btn.closest('.product-card');
-    openQuickviewForProduct(prodKey, card);
-  });
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.btn-quick-view');
+  if (!btn) return;
+  e.preventDefault();
+  e.stopPropagation();
+  const prodKey = btn.dataset.product;
+  const card = btn.closest('.product-card, .gift-pick-card');
+  openQuickviewForProduct(prodKey, card);
 });
 
 function closeQuickviewModal() {
@@ -6881,6 +6774,48 @@ if (btnToggleCartDetails && cartCollapsibleDetails) {
   });
 }
 
+// Discreet Gift Note Toggle & Input Handling
+const btnToggleGiftNote = document.getElementById('btn-toggle-gift-note');
+const giftNoteInputWrap = document.getElementById('cart-gift-note-input-wrap');
+const giftNoteTextarea = document.getElementById('cart-gift-note-text');
+const giftNoteToggleTxt = document.getElementById('gift-note-toggle-txt');
+const giftNoteChars = document.getElementById('gift-note-chars');
+
+if (btnToggleGiftNote && giftNoteInputWrap) {
+  const savedNote = localStorage.getItem('ttv_gift_note') || '';
+  if (savedNote && giftNoteTextarea) {
+    giftNoteTextarea.value = savedNote;
+    giftNoteInputWrap.style.display = 'block';
+    if (giftNoteToggleTxt) giftNoteToggleTxt.textContent = '✓ Added';
+    if (giftNoteChars) giftNoteChars.textContent = `${savedNote.length} / 250`;
+    btnToggleGiftNote.setAttribute('aria-expanded', 'true');
+  }
+
+  btnToggleGiftNote.addEventListener('click', (e) => {
+    e.preventDefault();
+    const isHidden = giftNoteInputWrap.style.display === 'none' || !giftNoteInputWrap.style.display;
+    if (isHidden) {
+      giftNoteInputWrap.style.display = 'block';
+      btnToggleGiftNote.setAttribute('aria-expanded', 'true');
+      if (giftNoteTextarea) giftNoteTextarea.focus();
+      if (giftNoteToggleTxt) giftNoteToggleTxt.textContent = giftNoteTextarea?.value ? '✓ Added' : '– Close';
+    } else {
+      giftNoteInputWrap.style.display = 'none';
+      btnToggleGiftNote.setAttribute('aria-expanded', 'false');
+      if (giftNoteToggleTxt) giftNoteToggleTxt.textContent = giftNoteTextarea?.value ? '✓ Added' : '+ Add';
+    }
+  });
+
+  if (giftNoteTextarea) {
+    giftNoteTextarea.addEventListener('input', () => {
+      const val = giftNoteTextarea.value;
+      localStorage.setItem('ttv_gift_note', val);
+      if (giftNoteChars) giftNoteChars.textContent = `${val.length} / 250`;
+      if (giftNoteToggleTxt) giftNoteToggleTxt.textContent = val.trim() ? '✓ Added' : '+ Add';
+    });
+  }
+}
+
 function getCardVariantInfo(card, btn) {
   const id = btn.dataset.id;
   const rawBaseTitle = (btn.dataset.baseTitle || btn.dataset.title || '').replace(/\s*\([^)]*\)$/, '').trim();
@@ -6925,14 +6860,15 @@ function getCardVariantInfo(card, btn) {
   return { id, cartId: cartKey, title, price, img, finish };
 }
 
-// Add to Cart from collection buttons
-document.querySelectorAll('.btn-add-cart').forEach((btn) => {
-  btn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const card = btn.closest('.product-card');
-    const itemData = getCardVariantInfo(card, btn);
-    addToCart(itemData);
-  });
+// Add to Cart from collection & gift buttons (Robust document-level delegation)
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.btn-add-cart');
+  if (!btn) return;
+  e.preventDefault();
+  e.stopPropagation();
+  const card = btn.closest('.product-card, .gift-pick-card');
+  const itemData = getCardVariantInfo(card, btn);
+  addToCart(itemData);
 });
 
 // Render Cart
@@ -7710,16 +7646,17 @@ if (checkoutForm) {
         finish: item.finish || '',
         img: item.img || item.image || ''
       })),
-      total_amount: finalTotal,
-      status: selectedPaymentMethod === 'online' ? 'pending_payment' : 'awaiting_confirmation',
-      payment_method: selectedPaymentMethod === 'online' ? 'paystack' : 'bank_transfer'
+      payment_method: selectedPaymentMethod === 'online' ? 'paystack' : 'bank_transfer',
+      gift_note: localStorage.getItem('ttv_gift_note') || ''
     };
 
     // Construct WhatsApp Redirect URL
     const itemsList = orderPayload.items.map(i => `${i.qty}x ${i.title}`).join(', ');
     const feeStr = isFreeDeliveryPromoActive ? 'FREE (Launch Special Applied)' : `₦${effectiveDeliveryFee.toLocaleString()}`;
+    const storedGiftNote = (localStorage.getItem('ttv_gift_note') || '').trim();
+    const giftNoteSnippet = storedGiftNote ? `\n• Gift Note: "${storedGiftNote}"` : '';
     const waText = encodeURIComponent(
-      `Hello TheToysVirago Concierge,\n\nI just placed an order!\n• Order Ref: ${orderPayload.reference}\n• Items: ${itemsList}\n• Subtotal: ₦${rawSubtotal.toLocaleString()}\n• Delivery: ${feeStr} (${activeZone.shortName} · ${deliveryMethodStr})\n• Total Due: ₦${Number(orderPayload.total_amount).toLocaleString()}\n• Name: ${orderPayload.customer_name}\n• Phone: ${orderPayload.phone}\n• Delivery Address: ${orderPayload.address}\n• Payment: ${selectedPaymentMethod === 'online' ? 'Paid via Paystack' : `${STORE_BANK_NAME} (${STORE_BANK_ACC})`}\n\nHere are my order details:`
+      `Hello TheToysVirago Concierge,\n\nI just placed an order!\n• Order Ref: ${orderPayload.reference}\n• Items: ${itemsList}\n• Subtotal: ₦${rawSubtotal.toLocaleString()}\n• Delivery: ${feeStr} (${activeZone.shortName} · ${deliveryMethodStr})\n• Total Due: ₦${Number(orderPayload.total_amount).toLocaleString()}\n• Name: ${orderPayload.customer_name}\n• Phone: ${orderPayload.phone}\n• Delivery Address: ${orderPayload.address}\n• Payment: ${selectedPaymentMethod === 'online' ? 'Paid via Paystack' : `${STORE_BANK_NAME} (${STORE_BANK_ACC})`}${giftNoteSnippet}\n\nHere are my order details:`
     );
     const waUrl = `https://wa.me/${STORE_WHATSAPP}?text=${waText}`;
 
@@ -8327,7 +8264,6 @@ function createStoreProductCard(prod, idx) {
         <span class="product-price">${prod.priceStr || ('₦' + Number(prod.price).toLocaleString())}</span>
       </div>
       <h3 class="product-name">${prod.title}</h3>
-      <p class="product-line">${prod.tagline || prod.desc || ''}</p>
       ${variantDotsHtml}
       ${sizePillsHtml}
       <button class="btn btn-black btn-block btn-add-cart"
@@ -8400,8 +8336,31 @@ export function initCustomCatalogProducts() {
     arrivalsSection.style.display = 'block';
   }
 
-  // Purge any obsolete placeholder cards from the DOM
-  document.querySelectorAll('.product-card[data-id="noir-chantilly-teddy"], .product-card[data-id="scarlet-silk-chemise"], .product-card[data-id="couples-card-vault"]').forEach(el => el.remove());
+  // Purge any obsolete cards from the main Lagos grid and fresh store drops
+  const PURGED_OR_ABUJA_EXCLUSIVE_IDS = [
+    'noir-chantilly-teddy', 'scarlet-silk-chemise', 'couples-card-vault',
+    // Purged products completely removed from Lagos:
+    'sweet-hammer-vibe', 'escapade-expert-dildo', 'dual-rose-stem-vibe', 'motorized-dual-cock-ring', 'crystal-dual-dildo', 'crystal-glass-bubble-plugs',
+    // Abuja exclusives (held exclusively in Abuja section, NEVER in main Lagos grid):
+    'twist-nipple-suckers', 'silicone-bone-gag', 'crystal-glass-plugs', 'fantasy-tentacle-dildo',
+    'naughty-wooden-blocks', 'kailin-fruitastic-lube', 'interchangeable-vault-4in1',
+    'two-fingers-thrusting-vibe', 'neon-pink-remote-dildo', 'strap-on-harness-briefs'
+  ];
+
+    // Immediate DOM cleanup of crystal-glass-plugs and crystal-dual-dildo everywhere on page
+  document.querySelectorAll('.product-card[data-id="crystal-glass-plugs"], .product-card[data-id="crystal-glass-bubble-plugs"], .product-card[data-id="crystal-dual-dildo"]').forEach(el => el.remove());
+  try {
+    const rawLocal = localStorage.getItem('thetoysvirago_custom_products');
+    if (rawLocal) {
+      const arr = JSON.parse(rawLocal);
+      if (Array.isArray(arr)) {
+        localStorage.setItem('thetoysvirago_custom_products', JSON.stringify(arr.filter(x => x && x.id !== 'crystal-glass-plugs' && x.id !== 'crystal-glass-bubble-plugs' && x.id !== 'crystal-dual-dildo')));
+      }
+    }
+  } catch (_) {}
+
+  const purgedSelector = PURGED_OR_ABUJA_EXCLUSIVE_IDS.map(id => `#products-grid .product-card[data-id="${id}"], #new-arrivals-grid .product-card[data-id="${id}"], .product-card[data-id="${id}"]:not(#abuja-carousel-track .product-card)`).join(', ');
+  document.querySelectorAll(purgedSelector).forEach(el => el.remove());
 
   let customProds = [];
   try {
@@ -8409,7 +8368,7 @@ export function initCustomCatalogProducts() {
     if (stored) {
       const parsed = JSON.parse(stored);
       if (Array.isArray(parsed)) {
-        customProds = parsed.filter(p => p && p.id !== 'noir-chantilly-teddy' && p.id !== 'scarlet-silk-chemise' && p.id !== 'couples-card-vault');
+                customProds = parsed.filter(p => p && !PURGED_OR_ABUJA_EXCLUSIVE_IDS.includes(p.id) && p.id !== 'crystal-glass-plugs');
         if (customProds.length !== parsed.length) {
           localStorage.setItem('thetoysvirago_custom_products', JSON.stringify(customProds));
         }
@@ -8428,7 +8387,7 @@ export function initCustomCatalogProducts() {
         title: prod.title,
         badge: prod.badge || 'LUXE BOUDOIR',
         price: Number(prod.price) || 0,
-        priceStr: prod.priceStr || `₦${Number(prod.price).toLocaleString()}`,
+        priceStr: prod.priceStr || ('₦' + Number(prod.price).toLocaleString()),
         img: prod.img || '/assets/category-lingerie.webp',
         desc: prod.desc || prod.tagline || '',
         specs: prod.specs || [],
@@ -8446,8 +8405,11 @@ export function initCustomCatalogProducts() {
       GENERAL_PRODUCT_TERMS[prod.id] = `${prod.title} ${prod.category} ${prod.tagline || ''} ${prod.desc || ''} lingerie underwear boudoir lace bra panties corset`;
     });
 
+    // Strictly filter out purged items and Abuja exclusives from main Lagos grid
+    const eligibleMain = prods.filter(p => p && !PURGED_OR_ABUJA_EXCLUSIVE_IDS.includes(p.id));
+
     if (grid) {
-      prods.forEach((prod, idx) => {
+      eligibleMain.forEach((prod, idx) => {
         if (!grid.querySelector(`.product-card[data-id="${prod.id}"]`)) {
           const card = createStoreProductCard(prod, idx);
           grid.prepend(card);
@@ -8459,7 +8421,7 @@ export function initCustomCatalogProducts() {
     }
 
     if (arrivalsGrid) {
-      const freshFiltered = prods.filter(p => p && p.id !== 'couples-card-vault' && !/boudoir card vault|talk, flirt/i.test(p.title || ''));
+      const freshFiltered = eligibleMain.filter(p => p && p.id !== 'couples-card-vault' && !/boudoir card vault|talk, flirt/i.test(p.title || ''));
       if (freshFiltered.length > 0) {
         arrivalsGrid.innerHTML = '';
         const itemsToShow = freshFiltered.slice(0, 8);
@@ -8474,15 +8436,16 @@ export function initCustomCatalogProducts() {
     }
   }
 
-  // 1. Immediate local render (0ms - zero delay)
+  // 1. Immediate local render
   if (customProds.length > 0) {
     applyProducts(customProds);
   }
 
-  // 2. Background sync with Supabase without blocking UI
+  // 2. Background sync with Supabase without polluting main Lagos grid with purged or Abuja products
   getSupabaseProducts().then((remoteProds) => {
     if (remoteProds && Array.isArray(remoteProds) && remoteProds.length > 0) {
-      remoteProds.forEach(rp => {
+      const cleanRemote = remoteProds.filter(rp => rp && !PURGED_OR_ABUJA_EXCLUSIVE_IDS.includes(rp.id));
+      cleanRemote.forEach(rp => {
         const existingIdx = customProds.findIndex(p => p.id === rp.id);
         const mapped = {
           id: rp.id,
@@ -8492,7 +8455,7 @@ export function initCustomCatalogProducts() {
           badge: rp.badge || 'STORE DROP',
           tagline: rp.tagline || '',
           price: Number(rp.price) || 0,
-          priceStr: `₦${Number(rp.price).toLocaleString()}`,
+          priceStr: '₦' + Number(rp.price).toLocaleString(),
           originalPrice: rp.original_price ? Number(rp.original_price) : null,
           img: rp.image || '/assets/category-lingerie.webp',
           desc: rp.description || '',
@@ -8520,7 +8483,6 @@ export function initCustomCatalogProducts() {
   });
 }
 
-// Expose refresh helper to window
 if (typeof window !== 'undefined') {
   window.refreshProductsCatalog = initCustomCatalogProducts;
   if (document.readyState === 'loading') {
@@ -8725,8 +8687,8 @@ const TOY_FINDER_CATALOG = [
     id: 'product-rose',
     title: 'The Rose',
     sku: 'SUCTION · 01',
-    price: 30000,
-    priceStr: '₦30,000',
+    price: 35000,
+    priceStr: '₦35,000',
     img: '/assets/product-rose.webp',
     desc: 'Whisper-quiet air suction with velvety medical-grade silicone.',
     badge: 'AIR-PULSE',
@@ -8873,17 +8835,214 @@ function initToyFinder() {
   renderFinderMatches();
 }
 
+// ── GIFT SECTION TOYS SHUFFLER ──
+const GIFT_SECTION_POOL = [
+  {
+    id: 'product-rose',
+    title: 'The Rose',
+    price: 25000,
+    priceStr: '₦25,000',
+    img: '/assets/product-rose.webp',
+    curation: 'Air-Pulse Suction',
+    witty: 'Whisper-quiet air waves and velvety soft touch. Pure, effortless calm.'
+  },
+  {
+    id: 'sucking-rabbit',
+    title: 'The Sucking Rabbit',
+    price: 35000,
+    priceStr: '₦35,000',
+    img: '/assets/sucking-rabbit.webp',
+    curation: 'Dual Stimulation',
+    witty: 'Targeted clitoral air suction paired with deep, rhythmic vibration for full-body release.'
+  },
+  {
+    id: 'sceptre-wand',
+    title: 'The Mini Wand',
+    price: 15000,
+    priceStr: '₦15,000',
+    img: '/assets/product-wand.jpg',
+    curation: 'Pocket Sized',
+    witty: 'Compact, travel-ready rumble. Instant tension relief whenever needed.'
+  },
+  {
+    id: 'siren-app',
+    title: 'The Siren',
+    price: 27000,
+    priceStr: '₦27,000',
+    img: '/assets/siren-app-red.webp',
+    curation: 'Discreet Wearable',
+    witty: 'Smooth magnetic wearable with whisper motors and long-distance smartphone control.'
+  },
+  {
+    id: 'pulsating-rose',
+    title: 'Pulsating Rose',
+    price: 35000,
+    priceStr: '₦35,000',
+    img: '/assets/rose-pair-duo.webp',
+    curation: 'Dual Pleasure',
+    witty: 'Dual oral sensation options sculpted into a blooming rose silhouette.'
+  },
+  {
+    id: 'rabbit-cock-ring',
+    title: 'Rabbit Cock Ring',
+    price: 25000,
+    priceStr: '₦25,000',
+    img: '/assets/rabbit-cock-ring.webp',
+    curation: 'Couples & Solo',
+    witty: 'Flexible velvet silicone with dual motors for thrilling shared sensations.'
+  },
+  {
+    id: 'lipstick-vibe',
+    title: 'Lipstick Vibe',
+    price: 22000,
+    priceStr: '₦22,000',
+    img: '/assets/lipstick-hand.webp',
+    curation: 'Stealth Beauty',
+    witty: 'Chic designer lipstick silhouette. Toss into any handbag without a second glance.'
+  },
+  {
+    id: 'pocket-bullet',
+    title: 'Velvet Pocket Bullet',
+    price: 15000,
+    priceStr: '₦15,000',
+    img: '/assets/bullet-vibe-all-colors.webp',
+    curation: 'Discreet Bullet',
+    witty: 'Compact velvety bullet vibe with 10 intense vibration speeds.'
+  },
+  {
+    id: 'contour-bullet-6inch',
+    title: 'Heart Bullet 6"',
+    price: 18000,
+    priceStr: '₦18,000',
+    img: '/assets/bullet-6inch-in-hand.webp',
+    curation: 'Extended Reach',
+    witty: 'Slender 6-inch reach capped with a mirror chrome crown and tactile heart control.'
+  },
+  {
+    id: 'sleek-bullet-7inch',
+    title: 'Sleek Bullet 7"',
+    price: 20000,
+    priceStr: '₦20,000',
+    img: '/assets/bullet-7inch-metallic-pair.webp',
+    curation: 'Luxury Metallic',
+    witty: 'Extended 7-inch luxury metallic wand delivering high-velocity deep rumbling waves.'
+  },
+  {
+    id: 'rose-jump-egg',
+    title: 'Rose Jump Egg',
+    price: 28000,
+    priceStr: '₦28,000',
+    img: '/assets/rose-jump-egg-kit.webp',
+    curation: 'App Controlled',
+    witty: 'Discreet jump egg with retrieval tail and long-distance smartphone control.'
+  },
+  {
+    id: 'thrusting-dildo',
+    title: 'Kinetic Thrusting Shaft',
+    price: 45000,
+    priceStr: '₦45,000',
+    img: '/assets/thrusting-dildo-duo.webp',
+    curation: 'Motorized Power',
+    witty: 'High-torque reciprocating thrusting mechanics and deep vibration controlled by remote.'
+  }
+];
+
+function initGiftMobileToggle() {
+  // Use global delegation so clicks are 100% reliable on mobile tap/touch
+  if (window._giftToggleAttached) return;
+  window._giftToggleAttached = true;
+
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('#btn-toggle-gift-picks, .btn-toggle-gift-picks');
+    if (!btn) return;
+    
+    e.preventDefault();
+    e.stopPropagation();
+
+    const picksCol = document.getElementById('gift-single-picks-col');
+    if (!picksCol) return;
+
+    const isCollapsed = picksCol.classList.contains('is-collapsed');
+    if (isCollapsed) {
+      picksCol.classList.remove('is-collapsed');
+      btn.classList.add('is-open');
+      btn.setAttribute('aria-expanded', 'true');
+      const textSpan = btn.querySelector('.gift-toggle-text');
+      if (textSpan) textSpan.textContent = 'Collapse Gift Ideas';
+    } else {
+      picksCol.classList.add('is-collapsed');
+      btn.classList.remove('is-open');
+      btn.setAttribute('aria-expanded', 'false');
+      const textSpan = btn.querySelector('.gift-toggle-text');
+      if (textSpan) textSpan.textContent = 'Show More Gift Ideas';
+    }
+  });
+}
+
+function initGiftSectionShuffle() {
+  const container = document.getElementById('gift-single-picks-col');
+  if (!container) return;
+
+  // Shuffle pool using Fisher-Yates and pick 3 unique items
+  const poolCopy = [...GIFT_SECTION_POOL];
+  for (let i = poolCopy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [poolCopy[i], poolCopy[j]] = [poolCopy[j], poolCopy[i]];
+  }
+  const selectedPicks = poolCopy.slice(0, 3);
+
+  const cardsHtml = selectedPicks.map(p => `
+    <article class="gift-pick-card product-card" data-id="${p.id}">
+      <div class="gift-pick-thumb-wrap">
+        <img src="${p.img}" alt="${p.title}" class="gift-pick-thumb" loading="lazy" />
+      </div>
+      <div class="gift-pick-body">
+        <div class="gift-pick-top">
+          <h3 class="gift-pick-name">${p.title}</h3>
+          <span class="gift-pick-price">${p.priceStr}</span>
+        </div>
+        <div class="gift-pick-action">
+          <button type="button" class="btn btn-add-cart"
+            style="border-radius: 8px !important; background: #ffffff !important; color: #0c0c0e !important; border: 1px solid rgba(255,255,255,0.2) !important; font-weight: 700; padding: 9px 14px; font-size: 12px; min-height: 38px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px;"
+            data-id="${p.id}" data-title="${p.title}" data-price="${p.price}" data-pricestr="${p.priceStr}" data-img="${p.img}">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>
+            Send as Gift
+          </button>
+          <button type="button" class="btn-quick-view" data-product="${p.id}"
+            style="border-radius: 8px !important; background: transparent; color: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.15); padding: 8px 12px; font-size: 11.5px; font-weight: 600; cursor: pointer;">
+            Quick Look
+          </button>
+        </div>
+      </div>
+    </article>
+  `).join('');
+
+  container.innerHTML = cardsHtml + `
+    <button type="button" class="btn-toggle-gift-picks" id="btn-toggle-gift-picks" aria-expanded="false">
+      <span class="gift-toggle-text">Show More Gift Ideas</span>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </button>
+  `;
+
+  initGiftMobileToggle();
+}
+
 if (document.readyState === 'loading') {
   window.addEventListener('DOMContentLoaded', () => {
     initThreeReels();
     setupDeliveryZoneListeners();
     initPolicyModal();
     initToyFinder();
+    initGiftSectionShuffle();
+    initGiftMobileToggle();
   });
 } else {
   initThreeReels();
   setupDeliveryZoneListeners();
   initPolicyModal();
   initToyFinder();
+  initGiftSectionShuffle();
+  initGiftMobileToggle();
 }
+
 

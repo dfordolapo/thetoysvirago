@@ -234,8 +234,8 @@
     "title": "O-Ring Leather Strap-On Briefs",
     "category": "bdsm",
     "badge": "COMFORT WEAR • STABLE BASE",
-    "price": 25000,
-    "priceStr": "₦25,000",
+    "price": 17000,
+    "priceStr": "₦17,000",
     "img": "/assets/IMG_3561.webp",
     "desc": "Ergonomic faux-leather strap-on underwear briefs engineered with a rigid front O-ring plate for maximum thrusting stability. Features elasticized waist adjusters and side buckle cinches for an immovable, non-slip fit.",
     "specs": [
@@ -253,15 +253,16 @@
       }
     ],
     "material": "Textured Faux Leather & Flexible Stretch Elastic",
-    "acoustics": "Rigid Thrusting Stability"
+    "acoustics": "Rigid Thrusting Stability",
+    "regional": "abuja"
   },
   {
     "id": "strap-on-vegan-harness",
     "title": "Universal Multi-Ring Vegan Strap-On Harness",
     "category": "bdsm",
     "badge": "3 INTERCHANGEABLE RINGS",
-    "price": 24000,
-    "priceStr": "₦24,000",
+    "price": 18000,
+    "priceStr": "₦18,000",
     "img": "/assets/IMG_9851.webp",
     "desc": "Heavy-duty pebbled faux-leather strap-on harness featuring snap-on interchangeable O-rings (3 sizes included) to accommodate slim, medium, or girthy dildos. Wide elastic waistband keeps the base firmly anchored.",
     "specs": [
@@ -286,8 +287,8 @@
     "title": "Silicone Bone Restraint Gag",
     "category": "bdsm",
     "badge": "PLAYFUL DISCIPLINE",
-    "price": 18000,
-    "priceStr": "₦18,000",
+    "price": 14000,
+    "priceStr": "₦14,000",
     "img": "/assets/IMG_9989.webp",
     "variants": [
       {
@@ -325,7 +326,8 @@
       }
     ],
     "material": "100% Medical Grade Liquid Silicone & Vegan Leather",
-    "acoustics": "Sensory Speech Restriction"
+    "acoustics": "Sensory Speech Restriction",
+    "regional": "abuja"
   },
   {
     "id": "hemp-bondage-harness",
@@ -358,8 +360,8 @@
     "title": "Precision Twist-Action Vacuum Suckers",
     "category": "bdsm",
     "badge": "SUCTION PLAY • PAIR",
-    "price": 15000,
-    "priceStr": "₦15,000",
+    "price": 11000,
+    "priceStr": "₦11,000",
     "img": "/assets/IMG_2193.webp",
     "desc": "Dual cylinder suction pumps engineered with a smooth twist-action screw piston. Simply position the soft silicone rim over nipples or clitoris and twist the dial clockwise to dial in calibrated vacuum pressure.",
     "specs": [
@@ -377,53 +379,20 @@
       }
     ],
     "material": "Medical Polystyrene & Soft Silicone Seal",
-    "acoustics": "Silent Mechanical Vacuum Control"
-  },
-  {
-    "id": "crystal-glass-plugs",
-    "title": "Artisan Crystal Glass Bubble Plugs",
-    "category": "bdsm",
-    "badge": "BOROSILICATE • TEMPERATURE PLAY",
-    "price": 24000,
-    "priceStr": "₦24,000",
-    "img": "/assets/IMG_6238.webp",
+    "acoustics": "Silent Mechanical Vacuum Control",
+    "regional": "abuja",
     "variants": [
       {
         "name": "Small",
-        "price": 20000,
-        "priceStr": "₦20,000",
-        "img": "/assets/IMG_6238.webp"
-      },
-      {
-        "name": "Medium",
-        "price": 24000,
-        "priceStr": "₦24,000",
-        "img": "/assets/IMG_6238.webp"
+        "price": 11000,
+        "priceStr": "₦11,000"
       },
       {
         "name": "Large",
-        "price": 28000,
-        "priceStr": "₦28,000",
-        "img": "/assets/IMG_6238.webp"
+        "price": 12000,
+        "priceStr": "₦12,000"
       }
-    ],
-    "desc": "Handcrafted from pure medical borosilicate glass, suspended with ethereal internal champagne micro-bubbles. Non-porous, perfectly smooth, and ideal for sensory temperature play—soak in warm water for radiant heat or chill in ice.",
-    "specs": [
-      {
-        "label": "Material",
-        "value": "100% Medical Grade Borosilicate Glass"
-      },
-      {
-        "label": "Sensation",
-        "value": "Temperature Responsive (Heat / Ice Safe)"
-      },
-      {
-        "label": "Safety",
-        "value": "Broad Flared Base for Complete Security"
-      }
-    ],
-    "material": "Pure Borosilicate Crystal Glass",
-    "acoustics": "Smooth Glass Sensations"
+    ]
   },
   {
     "id": "fantasy-tentacle-dildo",
@@ -449,15 +418,16 @@
       }
     ],
     "material": "100% Ultra-Pure Medical Silicone",
-    "acoustics": "Deep Texture Fantasy Penetration"
+    "acoustics": "Deep Texture Fantasy Penetration",
+    "regional": "abuja"
   },
   {
     "id": "naughty-wooden-blocks",
-    "title": "Get Naked: Adult Stacking Blocks Game",
+    "title": "Sex Jenga",
     "category": "games",
     "badge": "COUPLES BEDROOM GAME",
-    "price": 22000,
-    "priceStr": "₦22,000",
+    "price": 25000,
+    "priceStr": "₦25,000",
     "img": "/assets/IMG_8178.webp",
     "desc": "A steamy twist on classic block stacking. Each natural pine wood block is laser-engraved with seductive foreplay commands, dares, and sensual challenges. Pull a block without toppling the tower—or perform whatever sweet punishment is revealed.",
     "specs": [
@@ -475,33 +445,8 @@
       }
     ],
     "material": "100% Eco-Friendly Laser-Engraved Hardwood",
-    "acoustics": "Interactive Couple Game"
-  },
-  {
-    "id": "crystal-glass-bubble-plugs",
-    "title": "Artisan Crystal Glass Bubble Plugs",
-    "category": "toys",
-    "badge": "TEMPERATURE PLAY • DUAL PACK",
-    "price": 25000,
-    "priceStr": "₦25,000",
-    "img": "/assets/IMG_6314.webp",
-    "desc": "Exquisitely hand-blown from ultra-dense medical-grade borosilicate crystal. Safe for warm water warming or ice chilling for exquisite temperature contrast sensations.",
-    "specs": [
-      {
-        "label": "Material",
-        "value": "100% Medical Borosilicate Glass"
-      },
-      {
-        "label": "Sensory",
-        "value": "Hot & Cold Temperature Play Compatible"
-      },
-      {
-        "label": "Design",
-        "value": "Triple Bubble Contour with Flared Base"
-      }
-    ],
-    "material": "100% Medical-Grade Borosilicate Glass",
-    "acoustics": "Silent & Body-Neutral"
+    "acoustics": "Interactive Couple Game",
+    "regional": "abuja"
   },
   {
     "id": "sexual-position-cards",
@@ -560,20 +505,20 @@
     "title": "Kailin Fruitastic Flavored Lube Set",
     "category": "lubes",
     "badge": "5-TUBE FLAVOR VAULT",
-    "price": 15000,
-    "priceStr": "₦15,000",
+    "price": 4500,
+    "priceStr": "₦4,500",
     "img": "/assets/IMG_5001.webp",
     "variants": [
       {
-        "name": "Luscious Strawberry (5x 30ml)",
-        "price": 15000,
-        "priceStr": "₦15,000",
+        "name": "Single Piece",
+        "price": 4500,
+        "priceStr": "₦4,500",
         "img": "/assets/IMG_5001.webp"
       },
       {
-        "name": "Zesty Lemon (5x 30ml)",
-        "price": 15000,
-        "priceStr": "₦15,000",
+        "name": "Pack of 5",
+        "price": 17000,
+        "priceStr": "₦17,000",
         "img": "/assets/IMG_5001.webp"
       }
     ],
@@ -946,32 +891,6 @@
     "acoustics": "< 30 dB (Whisper Silent)"
   },
   {
-    "id": "dual-rose-stem-vibe",
-    "title": "Rose Bloom & G-Spot Flexible Wand",
-    "category": "toys",
-    "badge": "ROSE SUCKER + WAND",
-    "price": 34000,
-    "priceStr": "₦34,000",
-    "img": "/assets/IMG_7115.webp",
-    "desc": "The best of both worlds in one continuous silicone body: the beloved blooming rose air-pulse sucker on one tip, paired with an insertable curved G-spot shaft on the opposite end.",
-    "specs": [
-      {
-        "label": "Combination",
-        "value": "Air-Wave Clitoral Suction + G-Spot Shaft"
-      },
-      {
-        "label": "Flexibility",
-        "value": "Flexible Memory Silicone Stem"
-      },
-      {
-        "label": "Charging",
-        "value": "Magnetic USB Fast Charging"
-      }
-    ],
-    "material": "Silky Medical Silicone & Chrome Trim",
-    "acoustics": "< 30 dB (Subtle Power)"
-  },
-  {
     "id": "foxshow-kegel-egg",
     "title": "FOX C410 App-Controlled Wearable Kegel Egg",
     "category": "toys",
@@ -1247,11 +1166,11 @@
   },
   {
     "id": "two-fingers-thrusting-vibe",
-    "title": "Peace Sign: Dual-Finger Thrusting Vibrator",
+    "title": "Golden Hand Finger Vibe",
     "category": "toys",
     "badge": "MOTORIZED THRUSTING",
-    "price": 34000,
-    "priceStr": "₦34,000",
+    "price": 35000,
+    "priceStr": "₦35,000",
     "img": "/assets/IMG_1662.webp",
     "desc": "Engineered with dual reciprocating silicone fingers that thrust in and out in rapid rhythmic sequence, recreating the sensation of skilled foreplay fingers with motorized power.",
     "specs": [
@@ -1269,33 +1188,8 @@
       }
     ],
     "material": "100% Medical Grade Silicone",
-    "acoustics": "< 38 dB (Motorized Thrust)"
-  },
-  {
-    "id": "sweet-hammer-vibe",
-    "title": "Sweet Hammer Novelty Wand Vibrator",
-    "category": "toys",
-    "badge": "BROAD IMPACT • POWER PULSE",
-    "price": 24000,
-    "priceStr": "₦24,000",
-    "img": "/assets/IMG_2706.webp",
-    "desc": "A playful hammer-inspired wand vibrator featuring a broad silicone mallet head that delivers wide-area rumble pulses across the vulva, clitoris, and external erogenous zones.",
-    "specs": [
-      {
-        "label": "Silhouette",
-        "value": "Novelty Mallet Head for Broad Surface Contact"
-      },
-      {
-        "label": "Vibrations",
-        "value": "10 Deep Rumbling Frequencies"
-      },
-      {
-        "label": "Waterproof",
-        "value": "IPX7 Waterproof"
-      }
-    ],
-    "material": "Velvet Liquid Silicone & Gold Plated Accent",
-    "acoustics": "< 32 dB (Deep Rumble)"
+    "acoustics": "< 38 dB (Motorized Thrust)",
+    "regional": "abuja"
   },
   {
     "id": "finger-vibe-ring",
@@ -1342,8 +1236,8 @@
     "title": "The 4-in-1 Luxury Interchangeable Vibrator Vault",
     "category": "toys",
     "badge": "4 INTERCHANGEABLE HEADS",
-    "price": 42000,
-    "priceStr": "₦42,000",
+    "price": 70000,
+    "priceStr": "₦70,000",
     "img": "/assets/IMG_2442.webp",
     "desc": "A complete boudoir modular vault containing a rechargeable power handle and 4 twist-lock interchangeable pleasure attachments: air-pulse suction cup, G-spot wand, rabbit head, and pinpoint bullet.",
     "specs": [
@@ -1361,7 +1255,8 @@
       }
     ],
     "material": "Medical Silicone & Satin Rose Gold Alloy",
-    "acoustics": "< 30 dB (Multi-Head System)"
+    "acoustics": "< 30 dB (Multi-Head System)",
+    "regional": "abuja"
   },
   {
     "id": "strap-on-dildo-kit",
@@ -1388,36 +1283,6 @@
     ],
     "material": "Body-Safe Silicone, Vegan Leather & Woven Nylon",
     "acoustics": "Shared Couples Thrill"
-  },
-  {
-    "id": "escapade-expert-dildo",
-    "title": "Aphrodisia ESCAPADE 6\" Vibrating Dong",
-    "category": "toys",
-    "badge": "APHRODISIA • 6 INCH VIBRATING",
-    "price": 28000,
-    "priceStr": "₦28,000",
-    "img": "/assets/IMG_8315.webp",
-    "desc": "Authentic Aphrodisia ESCAPADE 6-inch lifelike silicone dong. Features an anatomically sculpted head, detailed raised veins, firm suction cup base for hands-free play, and internal USB rechargeable vibrations.",
-    "specs": [
-      {
-        "label": "Brand & Model",
-        "value": "Aphrodisia ESCAPADE The Expert 6\""
-      },
-      {
-        "label": "Length & Girth",
-        "value": "6.0 inches (152mm) Anatomical Scale"
-      },
-      {
-        "label": "Base",
-        "value": "Suction Base (Mounts to Flat Surfaces)"
-      },
-      {
-        "label": "Waterproof",
-        "value": "100% Submersible Waterproof"
-      }
-    ],
-    "material": "Ultra-Pure Medical Silicone & Suction Base",
-    "acoustics": "< 35 dB (Deep Shaft Rumble)"
   },
   {
     "id": "expansion-remote-dildo",
@@ -1562,8 +1427,8 @@
     "title": "Crystal Jelly Dual-Penetration Dildo",
     "category": "toys",
     "badge": "TRANSLUCENT JELLY • DUAL SHAFT",
-    "price": 26000,
-    "priceStr": "₦26,000",
+    "price": 22000,
+    "priceStr": "₦22,000",
     "img": "/assets/IMG_8928.webp",
     "desc": "Clear glass-effect translucent jelly dildo with two side-by-side shafts for deep double stimulation. Perfectly non-porous, waterproof, and compatible with all water-based lubricants.",
     "specs": [
@@ -1588,8 +1453,8 @@
     "title": "Neon Glow: Wired Remote Vibrating Dildo",
     "category": "toys",
     "badge": "WIRED CONTROLLER • SUCTION BASE",
-    "price": 24000,
-    "priceStr": "₦24,000",
+    "price": 45000,
+    "priceStr": "₦45,000",
     "img": "/assets/IMG_2768.webp",
     "desc": "Vibrant translucent neon pink silicone dildo with realistic anatomical contours and a tethered remote control for effortless speed and vibration pattern changes during play.",
     "specs": [
@@ -1607,7 +1472,22 @@
       }
     ],
     "material": "Silky Soft Silicone & Suction Lock",
-    "acoustics": "< 35 dB (Discreet Power)"
+    "acoustics": "< 35 dB (Discreet Power)",
+    "regional": "abuja",
+    "variants": [
+      {
+        "name": "Thrusting",
+        "price": 45000,
+        "priceStr": "₦45,000",
+        "img": "/assets/IMG_2768.webp"
+      },
+      {
+        "name": "Rotating",
+        "price": 45000,
+        "priceStr": "₦45,000",
+        "img": "/assets/IMG_2768.webp"
+      }
+    ]
   },
   {
     "id": "dual-rabbit-suction-dildo",
@@ -1674,32 +1554,6 @@
     ],
     "material": "Surgical Acrylic & Soft Body-Safe Silicone",
     "acoustics": "< 30 dB (Quiet Motor)"
-  },
-  {
-    "id": "motorized-dual-cock-ring",
-    "title": "Motorized Dual-Loop Vibrating Cock Ring",
-    "category": "toys",
-    "badge": "DUAL LOOP • RECHARGEABLE",
-    "price": 22000,
-    "priceStr": "₦22,000",
-    "img": "/assets/IMG_4149.webp",
-    "desc": "Dual-ring ergonomic silicone cock and testicle band with an integrated vibrating bullet teaser. Locks firm erections, delays climax, and thrills your partner’s clitoris during penetration.",
-    "specs": [
-      {
-        "label": "Design",
-        "value": "Dual Shaft & Testicle Retention Loops"
-      },
-      {
-        "label": "Motor",
-        "value": "Rechargeable Multi-Speed Vibration Core"
-      },
-      {
-        "label": "Elasticity",
-        "value": "Ultra-Stretchy 100% Medical Liquid Silicone"
-      }
-    ],
-    "material": "Silky Stretch Medical Silicone",
-    "acoustics": "< 32 dB (Whisper Quiet)"
   },
   {
     "id": "textured-penis-sleeves",

@@ -24,8 +24,10 @@ async function generateBlogPages() {
     const pageUrl = `${BASE_URL}/blog/${slug}`;
     const imgUrl = `${BASE_URL}${article.heroImg}`;
     const cleanTitle = article.title.replace(/[\u2018\u2019]/g, "'").replace(/"/g, '&quot;');
-    const fullTitle = `${cleanTitle} · The Pleasure Journal | TheToysVirago Nigeria`;
-    const cleanExcerpt = article.excerpt.replace(/[\u2018\u2019]/g, "'").replace(/"/g, '&quot;');
+    const seoTitle = (article.seoTitle || `${cleanTitle} · The Pleasure Journal`).replace(/"/g, '&quot;');
+    const fullTitle = `${seoTitle} | TheToysVirago`;
+    const cleanExcerpt = (article.metaDesc || article.excerpt).replace(/[\u2018\u2019]/g, "'").replace(/"/g, '&quot;');
+    const imgAlt = (article.imgAlt || article.title).replace(/"/g, '&quot;');
 
     let html = baseHtml;
 
@@ -51,7 +53,7 @@ async function generateBlogPages() {
     );
     html = html.replace(
       /<meta property="og:title" content="[\s\S]*?" \/>/,
-      `<meta property="og:title" content="${cleanTitle} · The Pleasure Journal" />`
+      `<meta property="og:title" content="${seoTitle}" />`
     );
     html = html.replace(
       /<meta property="og:description" content="[\s\S]*?" \/>/,
@@ -59,13 +61,13 @@ async function generateBlogPages() {
     );
     html = html.replace(
       /<meta property="og:image" content="[\s\S]*?" \/>/,
-      `<meta property="og:image" content="${imgUrl}" />\n  <meta property="og:image:width" content="1200" />\n  <meta property="og:image:height" content="675" />`
+      `<meta property="og:image" content="${imgUrl}" />\n  <meta property="og:image:alt" content="${imgAlt}" />\n  <meta property="og:image:width" content="1200" />\n  <meta property="og:image:height" content="675" />`
     );
 
     // 3. Replace Twitter Card Metadata
     html = html.replace(
       /<meta name="twitter:title" content="[\s\S]*?" \/>/,
-      `<meta name="twitter:title" content="${cleanTitle} · The Pleasure Journal" />`
+      `<meta name="twitter:title" content="${seoTitle}" />`
     );
     html = html.replace(
       /<meta name="twitter:description" content="[\s\S]*?" \/>/,
@@ -73,10 +75,86 @@ async function generateBlogPages() {
     );
     html = html.replace(
       /<meta name="twitter:image" content="[\s\S]*?" \/>/,
-      `<meta name="twitter:image" content="${imgUrl}" />`
+      `<meta name="twitter:image" content="${imgUrl}" />\n  <meta name="twitter:image:alt" content="${imgAlt}" />`
     );
 
-    // 4. Pre-render Article Reader View & Hide Index Grid and Hero
+    // 4. Inject Schema.org BlogPosting & BreadcrumbList structured data
+    const structuredData = {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "BlogPosting",
+          "@id": `${pageUrl}#article`,
+          "isPartOf": {
+            "@type": "Blog",
+            "@id": `${BASE_URL}/blog#blog`,
+            "name": "The Pleasure Journal",
+            "publisher": {
+              "@type": "Organization",
+              "name": "TheToysVirago",
+              "url": BASE_URL
+            }
+          },
+          "headline": cleanTitle,
+          "alternativeHeadline": article.seoTitle || cleanTitle,
+          "description": cleanExcerpt,
+          "url": pageUrl,
+          "mainEntityOfPage": pageUrl,
+          "datePublished": article.datePublished || "2026-10-30T09:00:00+01:00",
+          "dateModified": article.dateModified || "2026-11-01T08:00:00+01:00",
+          "author": {
+            "@type": "Organization",
+            "name": "TheToysVirago Team",
+            "url": BASE_URL
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "TheToysVirago",
+            "url": BASE_URL,
+            "logo": {
+              "@type": "ImageObject",
+              "url": `${BASE_URL}/assets/logo.jpg`
+            }
+          },
+          "image": {
+            "@type": "ImageObject",
+            "url": imgUrl,
+            "caption": imgAlt
+          },
+          "keywords": article.searchPhrase || "intimate wellness Nigeria"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": `${pageUrl}#breadcrumb`,
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": `${BASE_URL}/`
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "The Pleasure Journal",
+              "item": `${BASE_URL}/blog`
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": cleanTitle,
+              "item": pageUrl
+            }
+          ]
+        }
+      ]
+    };
+
+    const structuredScript = `<script type="application/ld+json">\n${JSON.stringify(structuredData, null, 2)}\n  </script>`;
+    // Replace default Blog structured data with this article's specific BlogPosting schema
+    html = html.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/, structuredScript);
+
+    // 5. Pre-render Article Reader View & Hide Index Grid and Hero
     html = html.replace(
       'id="blog-hero-section"',
       'id="blog-hero-section" style="display: none !important;"'
@@ -143,10 +221,10 @@ async function generateBlogPages() {
 
     const destFile = path.join(distBlogDir, `${slug}.html`);
     fs.writeFileSync(destFile, html, { encoding: 'utf8' });
-    console.log(`Generated: dist/blog/${slug}.html (OG: ${imgUrl})`);
+    console.log(`Generated: dist/blog/${slug}.html (SEO: ${seoTitle})`);
   }
 
-  console.log(`✓ All ${BLOG_ARTICLES.length} blog post static pages generated in dist/blog/ with custom OG image metadata!`);
+  console.log(`✓ All ${BLOG_ARTICLES.length} blog post static pages generated in dist/blog/ with custom Schema.org & SEO metadata!`);
 }
 
 generateBlogPages().catch(err => {

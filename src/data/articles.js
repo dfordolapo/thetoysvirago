@@ -1,6 +1,12 @@
 export const BLOG_ARTICLES = [
   {
     slug: 'how-discreet-delivery-works-nigeria',
+    searchPhrase: 'discreet sex toy delivery Nigeria',
+    seoTitle: 'Discreet Sex Toy Delivery in Nigeria: What Actually Happens to Your Package',
+    metaDesc: 'Curious about discreet sex toy delivery in Nigeria? Here is how plain unbranded packaging, anonymous logistics manifests, and private bank billing keep your orders 100% confidential.',
+    imgAlt: 'Discreet sex toy delivery in Nigeria with unbranded plain packaging',
+    datePublished: '2026-10-30T09:00:00+01:00',
+    dateModified: '2026-11-01T08:00:00+01:00',
     title: 'Nobody Go Find Out: What Actually Happens to Your Package in Transit',
     category: 'Discretion',
     readTime: '6 min read',
@@ -38,14 +44,23 @@ export const BLOG_ARTICLES = [
       <div class="article-product-spotlight">
         <h4>Looking for pieces designed for silent, effortless bedside storage?</h4>
         <p>Explore whisper-quiet devices capped in dense medical silicone with lock modes for complete home privacy.</p>
-        <a href="/products.html?cat=toys" class="btn btn-ruby btn-sm" style="border-radius: 8px !important;">Explore Quiet Pieces &rarr;</a>
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+          <a href="/products.html?product=sceptre-wand" class="btn btn-ruby btn-sm" style="border-radius: 8px !important;">The Mini Wand (₦15,000) &rarr;</a>
+          <a href="/products.html?cat=toys" class="btn btn-ruby btn-sm" style="border-radius: 8px !important; background: #222230 !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.2) !important;">Explore All Quiet Pieces &rarr;</a>
+        </div>
       </div>
     `,
     relatedProducts: ['sceptre-wand', 'pulsating-rose']
   },
   {
     slug: 'first-vibrator-buyers-guide-nigeria',
-    title: 'Overwhelmed by Choice? The Honest First-Timer’s Guide to Pleasure Pieces',
+    searchPhrase: "beginner's guide to sex toys",
+    seoTitle: "Beginner's Guide to Sex Toys: How to Pick Your First Pleasure Piece in Nigeria",
+    metaDesc: "The honest beginner's guide to sex toys in Nigeria. Compare low-frequency motor rumble vs touchless air-pulse suction, platinum medical silicone, and discreet bedside acoustics.",
+    imgAlt: "Beginner's guide to sex toys and body-safe pleasure pieces in Nigeria",
+    datePublished: '2026-10-28T10:00:00+01:00',
+    dateModified: '2026-11-01T08:00:00+01:00',
+    title: 'Overwhelmed by Choice? The Honest First-Timer\'s Guide to Pleasure Pieces',
     category: 'First-Timers',
     readTime: '7 min read',
     date: 'October 28, 2026',
@@ -98,6 +113,12 @@ export const BLOG_ARTICLES = [
   },
   {
     slug: 'water-based-lube-guide-nigeria',
+    searchPhrase: 'water-based lubricant benefits',
+    seoTitle: 'Water-Based Lubricant Benefits: Why It\'s Non-Negotiable for Toys & Intimacy',
+    metaDesc: 'Discover key water-based lubricant benefits for intimate wellness in Nigeria. Protect medical silicone toys from pitting, preserve latex condoms, and support balanced mucosal pH.',
+    imgAlt: 'Water-based lubricant benefits for intimacy and body-safe toys',
+    datePublished: '2026-10-25T11:00:00+01:00',
+    dateModified: '2026-11-01T08:00:00+01:00',
     title: 'Stop Using Coconut Oil and Vaseline: Why Water-Based Lube Is Non-Negotiable',
     category: 'Wellness & Lube',
     readTime: '5 min read',
@@ -135,12 +156,27 @@ export const BLOG_ARTICLES = [
         <span class="callout-badge">APPLICATION PROTOCOL</span>
         <p>Apply a coin-sized portion directly to the contact tip or silicone head of your piece, and a few drops to your body before powering on. Because water-based glide naturally absorbs over time, keep the bottle within arm's reach for an effortless top-up.</p>
       </div>
+
+      <div class="article-product-spotlight">
+        <h4>Protect your pieces and body with balanced hydration</h4>
+        <p>Pure water-based glide formulated without harsh glycerin or sticky sugars. 100% silicone and condom safe.</p>
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+          <a href="/products.html?product=kailin-water-lube" class="btn btn-ruby btn-sm" style="border-radius: 8px !important;">Pure Water-Based Lube (₦10,000) &rarr;</a>
+          <a href="/products.html?cat=wellness" class="btn btn-ruby btn-sm" style="border-radius: 8px !important; background: #222230 !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.2) !important;">All Wellness &amp; Care &rarr;</a>
+        </div>
+      </div>
     `,
     relatedProducts: ['kailin-water-lube']
   },
   {
     slug: 'couples-toys-communication-guide',
-    title: 'Bringing Toys into the Bedroom Without Hurting Anyone’s Ego',
+    searchPhrase: 'introducing sex toys to a partner',
+    seoTitle: 'Introducing Sex Toys to a Partner: Bedroom Intimacy Guide Without the Awkwardness',
+    metaDesc: 'A practical guide to introducing sex toys to a partner without awkwardness, comparison, or hurt egos. Elevate bedroom intimacy and communication together in Nigeria.',
+    imgAlt: 'Introducing sex toys to a partner for enhanced intimacy',
+    datePublished: '2026-10-22T14:00:00+01:00',
+    dateModified: '2026-11-01T08:00:00+01:00',
+    title: 'Bringing Toys into the Bedroom Without Hurting Anyone\'s Ego',
     category: 'Couples',
     readTime: '6 min read',
     date: 'October 22, 2026',
@@ -174,6 +210,15 @@ export const BLOG_ARTICLES = [
       <div class="article-callout">
         <span class="callout-badge">KEY TAKEAWAY</span>
         <p>Curiosity and laughter in the bedroom build more intimacy than perfection. Keep things playful, communicate what feels good, and explore together.</p>
+      </div>
+
+      <div class="article-product-spotlight">
+        <h4>Explore couples pieces designed for shared connection</h4>
+        <p>Hand over the controls with phone app connectivity or gentle dual-ring stimulation designed for two.</p>
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+          <a href="/products.html?product=siren-app" class="btn btn-ruby btn-sm" style="border-radius: 8px !important;">The Siren App-Controlled (₦27,000) &rarr;</a>
+          <a href="/products.html?cat=couples" class="btn btn-ruby btn-sm" style="border-radius: 8px !important; background: #222230 !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.2) !important;">Browse Couples Collection &rarr;</a>
+        </div>
       </div>
     `,
     relatedProducts: ['siren-app', 'bdsm-kit-essentials']
