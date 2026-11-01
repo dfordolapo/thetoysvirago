@@ -8719,15 +8719,171 @@ function initPolicyModal() {
   }
 }
 
+// ── DISCREET TOY FINDER MATCHER ──
+const TOY_FINDER_CATALOG = [
+  {
+    id: 'product-rose',
+    title: 'The Rose',
+    sku: 'SUCTION · 01',
+    price: 30000,
+    priceStr: '₦30,000',
+    img: '/assets/product-rose.webp',
+    desc: 'Whisper-quiet air suction with velvety medical-grade silicone.',
+    badge: 'AIR-PULSE',
+    tags: ['solo-her', 'suction', 'quiet', 'beginner']
+  },
+  {
+    id: 'sucking-rabbit',
+    title: 'The Sucking Rabbit',
+    sku: 'DUAL · 05',
+    price: 35000,
+    priceStr: '₦35,000',
+    img: '/assets/sucking-rabbit.webp',
+    desc: 'Dual air-pulse clitoral suction paired with deep ribbed G-spot stimulation.',
+    badge: 'BESTSELLER',
+    tags: ['solo-her', 'together', 'powerful', 'suction', 'seasoned']
+  },
+  {
+    id: 'siren-app',
+    title: 'The Siren',
+    sku: 'APP · 03',
+    price: 27000,
+    priceStr: '₦27,000',
+    img: '/assets/siren-app.webp',
+    desc: 'Discreet magnetic wearable with whisper motors and long-distance app sync.',
+    badge: 'APP-CONTROLLED',
+    tags: ['together', 'solo-her', 'quiet', 'beginner', 'seasoned']
+  },
+  {
+    id: 'rabbit-cock-ring',
+    title: 'The Apex Ring',
+    sku: 'COUPLES · 02',
+    price: 24000,
+    priceStr: '₦24,000',
+    img: '/assets/rabbit-cock-ring.webp',
+    desc: 'Dual-stimulation vibrating ring engineered for sustained endurance and shared contact.',
+    badge: 'STAMINA & BUZZ',
+    tags: ['solo-him', 'together', 'powerful', 'beginner', 'seasoned']
+  },
+  {
+    id: 'african-brute',
+    title: 'African Brute Tonic',
+    sku: 'WELLNESS · 02',
+    price: 27000,
+    priceStr: '₦27,000',
+    img: '/assets/african-brute.webp',
+    desc: 'Botanical stamina elixir formulated with 8 bio-active aphrodisiac extracts.',
+    badge: 'HERBAL STAMINA',
+    tags: ['solo-him', 'together', 'powerful', 'beginner', 'seasoned']
+  },
+  {
+    id: 'rose-jump-egg-kit',
+    title: 'Rose Jump Egg Duo',
+    sku: 'REMOTE · 09',
+    price: 32000,
+    priceStr: '₦32,000',
+    img: '/assets/rose-jump-egg-kit.webp',
+    desc: 'Dual-speed discreet egg bullet with wireless remote control.',
+    badge: 'REMOTE CONTROL',
+    tags: ['solo-her', 'together', 'quiet', 'beginner']
+  }
+];
+
+function initToyFinder() {
+  const container = document.getElementById('toy-finder');
+  const resultsContainer = document.getElementById('toy-finder-results');
+  if (!container || !resultsContainer) return;
+
+  const currentChoices = {
+    recipient: 'solo-her',
+    vibe: 'suction',
+    level: 'beginner'
+  };
+
+  function renderFinderMatches() {
+    resultsContainer.style.opacity = '0.4';
+
+    const scored = TOY_FINDER_CATALOG.map((item) => {
+      let score = 0;
+      if (item.tags.includes(currentChoices.recipient)) score += 4;
+      if (item.tags.includes(currentChoices.vibe)) score += 3;
+      if (item.tags.includes(currentChoices.level)) score += 2;
+      return { item, score };
+    });
+
+    scored.sort((a, b) => b.score - a.score);
+    const topMatches = scored.slice(0, 3).map(s => s.item);
+
+    setTimeout(() => {
+      resultsContainer.innerHTML = topMatches.map(p => `
+        <article class="product-card" data-category="toys" data-id="${p.id}" style="background: #121215; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column;">
+          <div class="product-img-wrap" style="position: relative; aspect-ratio: 1/1; background: #08080a; overflow: hidden;">
+            <span class="product-badge ruby-badge" style="position: absolute; top: 12px; left: 12px; z-index: 2; background: #9f1239; color: #fff; font-size: 10px; font-weight: 800; padding: 4px 8px; border-radius: 4px; letter-spacing: 0.05em;">${p.badge}</span>
+            <img src="${p.img}" alt="${p.title}" class="product-img" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover;" />
+            <div class="product-overlay" style="position: absolute; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s ease;">
+              <button class="btn-quick-view" data-product="${p.id}" style="border-radius: 8px !important; background: #ffffff; color: #0c0c0e; border: none; padding: 8px 16px; font-weight: 700; font-size: 12px; cursor: pointer;">Quick Look</button>
+            </div>
+          </div>
+          <div class="product-body" style="padding: 16px; display: flex; flex-direction: column; flex-grow: 1;">
+            <div class="product-top" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span class="product-sku" style="font-size: 10.5px; font-weight: 700; color: rgba(255,255,255,0.45); letter-spacing: 0.05em;">${p.sku}</span>
+              <span class="product-price" style="font-weight: 800; font-size: 15px; color: #ffffff;">${p.priceStr}</span>
+            </div>
+            <h3 class="product-name" style="font-size: 16px; font-weight: 700; color: #ffffff; margin: 0 0 6px;">${p.title}</h3>
+            <p class="product-line" style="font-size: 12px; color: rgba(255,255,255,0.65); line-height: 1.45; margin: 0 0 16px; flex-grow: 1;">${p.desc}</p>
+            <button class="btn btn-black btn-block btn-add-cart"
+              style="border-radius: 8px !important; background: #ffffff !important; color: #0c0c0e !important; border: 1px solid rgba(255,255,255,0.2) !important; font-weight: 700; padding: 9px 14px; font-size: 12px; min-height: 38px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;"
+              data-id="${p.id}" data-title="${p.title}"
+              data-price="${p.price}" data-pricestr="${p.priceStr}" data-img="${p.img}">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
+              Add to Cart
+            </button>
+          </div>
+        </article>
+      `).join('');
+
+      resultsContainer.style.opacity = '1';
+
+      resultsContainer.querySelectorAll('.product-img-wrap').forEach(wrap => {
+        const overlay = wrap.querySelector('.product-overlay');
+        if (overlay) {
+          wrap.addEventListener('mouseenter', () => overlay.style.opacity = '1');
+          wrap.addEventListener('mouseleave', () => overlay.style.opacity = '0');
+        }
+      });
+    }, 120);
+  }
+
+  container.querySelectorAll('.finder-chip').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const parentGroup = btn.closest('.finder-options');
+      if (!parentGroup) return;
+      const groupName = parentGroup.dataset.group;
+      const val = btn.dataset.val;
+
+      parentGroup.querySelectorAll('.finder-chip').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      currentChoices[groupName] = val;
+      renderFinderMatches();
+    });
+  });
+
+  renderFinderMatches();
+}
+
 if (document.readyState === 'loading') {
   window.addEventListener('DOMContentLoaded', () => {
     initThreeReels();
     setupDeliveryZoneListeners();
     initPolicyModal();
+    initToyFinder();
   });
 } else {
   initThreeReels();
   setupDeliveryZoneListeners();
   initPolicyModal();
+  initToyFinder();
 }
 
