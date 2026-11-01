@@ -413,4 +413,56 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // -------------------------------------------------------------------------
+  // BLOG LIGHT / DARK MODE TOGGLE SYSTEM
+  // -------------------------------------------------------------------------
+  const themeToggleBtns = document.querySelectorAll('.blog-theme-toggle');
+
+  function updateThemeUI(theme) {
+    const isLight = theme === 'light';
+    if (isLight) {
+      document.documentElement.classList.add('blog-light-mode');
+      document.body.classList.add('blog-light-mode');
+    } else {
+      document.documentElement.classList.remove('blog-light-mode');
+      document.body.classList.remove('blog-light-mode');
+    }
+
+    themeToggleBtns.forEach((btn) => {
+      const sunIcon = btn.querySelector('.theme-icon-sun');
+      const moonIcon = btn.querySelector('.theme-icon-moon');
+      const label = btn.querySelector('.theme-toggle-label');
+
+      if (sunIcon) sunIcon.style.display = isLight ? 'none' : 'inline-block';
+      if (moonIcon) moonIcon.style.display = isLight ? 'inline-block' : 'none';
+      if (label) label.textContent = isLight ? 'Dark Mode' : 'Light Mode';
+      btn.setAttribute('aria-pressed', isLight ? 'true' : 'false');
+      btn.setAttribute('title', isLight ? 'Switch to Dark Mode' : 'Switch to Light Mode');
+    });
+  }
+
+  function toggleBlogTheme() {
+    const currentTheme = document.body.classList.contains('blog-light-mode') ? 'light' : 'dark';
+    const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
+    try {
+      localStorage.setItem('ttv_blog_theme', nextTheme);
+    } catch (e) {}
+    updateThemeUI(nextTheme);
+    showToast(nextTheme === 'light' ? 'Light mode enabled' : 'Dark mode enabled');
+  }
+
+  // Initial Theme sync from localStorage
+  let savedTheme = 'dark';
+  try {
+    savedTheme = localStorage.getItem('ttv_blog_theme') || 'dark';
+  } catch (e) {}
+  updateThemeUI(savedTheme);
+
+  themeToggleBtns.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      toggleBlogTheme();
+    });
+  });
 });
