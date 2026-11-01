@@ -778,7 +778,7 @@ body.cart-open .main-header,
   scroll-margin-top: 24px;
 }
 .discretion-strip {
-  background: var(--white); padding: 80px 0; color: var(--ink);
+  background: var(--white); padding: 64px 0 60px; color: var(--ink);
   border-top: none; border-bottom: none;
 }
 .discretion-inner {
@@ -829,7 +829,7 @@ body.cart-open .main-header,
 .box-statement strong { font-size: 14px; color: #16a34a; }
 
 /* ── FAQ ────────────────────────────────── */
-.faq-section { padding: 80px 0; background: var(--ink); color: var(--white); }
+.faq-section { padding: 64px 0 60px; background: var(--ink); color: var(--white); }
 .faq-section .sh2 { margin-bottom: 48px; color: var(--white); text-align: center; }
 .faq-accordion { display: flex; flex-direction: column; gap: 16px; max-width: 800px; margin: 0 auto; }
 .faq-item {
@@ -852,9 +852,16 @@ body.cart-open .main-header,
 .fb-item { display: inline-block; font-family: var(--serif); font-size: 18px; font-weight: 500; margin-right: 48px; }
 @keyframes scrollLeft { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
+.new-arrivals-section {
+  padding: 64px 0 60px;
+}
+.editorial-preview-section {
+  padding: 64px 0 60px;
+}
+
 /* ── FOOTER ─────────────────────────────── */
 .footer {
-  background: var(--off); padding: 72px 0 36px; color: var(--ink);
+  background: var(--off); padding: 64px 0 36px; color: var(--ink);
   border-top: none; overflow: hidden;
 }
 .footer-top {
@@ -2310,30 +2317,46 @@ body.cart-open .main-header,
   .discretion-list { gap: 18px; }
   .discretion-list p { font-size: 12.5px; }
 
-  /* Reduced spacing between divider and headings on mobile */
+  /* Unified spacing between divider and next sections on mobile (strictly 28px) */
   .luxe-divider-wrap {
     height: 28px !important;
   }
+  .bestsellers-section {
+    padding-top: 28px !important;
+    padding-bottom: 36px !important;
+  }
   .new-arrivals-section {
-    padding-top: 18px !important;
-    padding-bottom: 32px !important;
+    padding-top: 28px !important;
+    padding-bottom: 36px !important;
   }
   .new-arrivals-section .collection-header {
     margin-bottom: 14px !important;
   }
   .toybox-section {
-    padding-top: 18px !important;
+    padding-top: 28px !important;
     padding-bottom: 36px !important;
   }
   .toybox-header {
     margin-bottom: 12px !important;
   }
+  .discretion-strip {
+    padding-top: 28px !important;
+    padding-bottom: 36px !important;
+  }
+  .editorial-preview-section {
+    padding-top: 28px !important;
+    padding-bottom: 36px !important;
+  }
   .faq-section {
-    padding-top: 22px !important;
-    padding-bottom: 44px !important;
+    padding-top: 28px !important;
+    padding-bottom: 36px !important;
   }
   .faq-section .sh2 {
     margin-bottom: 14px !important;
+  }
+  .footer {
+    padding-top: 28px !important;
+    padding-bottom: 32px !important;
   }
 
   /* Three-Reel Experience Mobile: PRESERVE 3 SUBSTANTIAL REELS */
@@ -2709,7 +2732,7 @@ body.cart-open .main-header,
 
 /* ── THE CONFESSIONS CARDBOARD BOX SLIDESHOW (SCATTERED PILLS) ── */
 .toybox-section {
-  padding: 48px 0 56px;
+  padding: 64px 0 60px;
   background: var(--ink) !important;
   border-top: none !important;
   border-bottom: none !important;
@@ -4780,7 +4803,7 @@ body.cart-open {
 .bestsellers-section {
   background: #ffffff;
   color: #121214;
-  padding: 80px 0 70px;
+  padding: 64px 0 60px;
   position: relative;
   z-index: 2;
 }
@@ -4893,7 +4916,7 @@ body.cart-open {
 
 @media (max-width: 768px) {
   .bestsellers-section {
-    padding: 50px 0 45px;
+    padding: 28px 0 36px !important;
   }
   .bestsellers-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
