@@ -3361,8 +3361,40 @@ const PRODUCT_DATABASE = {
 
   // Alias for backward compatibility
   'floral-corset': null,
+  'product-rose': {
+    id: 'product-rose',
+    title: 'The Rose',
+    badge: 'BESTSELLER',
+    price: 25000,
+    priceStr: '₦25,000',
+    img: '/assets/product-rose.webp',
+    variants: [
+      { name: 'Red', price: 25000, priceStr: '₦25,000', img: '/assets/product-rose.webp' },
+      { name: 'Black', price: 25000, priceStr: '₦25,000', img: '/assets/product-rose.webp' },
+      { name: 'Pink', price: 25000, priceStr: '₦25,000', img: '/assets/product-rose.webp' },
+      { name: 'Purple', price: 25000, priceStr: '₦25,000', img: '/assets/product-rose.webp' },
+      { name: 'Yellow', price: 25000, priceStr: '₦25,000', img: '/assets/product-rose.webp' },
+      { name: 'Green', price: 25000, priceStr: '₦25,000', img: '/assets/product-rose.webp' }
+    ],
+    media: [
+      { type: 'image', src: '/assets/product-rose.webp', label: 'Studio Cover' },
+      { type: 'image', src: '/assets/rose-sucker-colors.webp', label: 'Colors' },
+      { type: 'video', src: '/assets/rose-sucker-demo.mp4', thumb: '/assets/product-rose.webp', label: 'Live Video Demo' }
+    ],
+    desc: 'Whisper-quiet air waves and velvety soft touch. Pure, effortless calm.',
+    specs: [
+      { label: 'Material', value: '100% Medical-Grade Liquid Silicone' },
+      { label: 'Sound Level', value: '< 30 dB (Whisper Silent)' },
+      { label: 'Waterproof', value: 'IPX7 - Waterproof' },
+      { label: 'Battery', value: 'Magnetic USB Rechargeable' }
+    ],
+    material: '100% Medical-Grade Liquid Silicone',
+    acoustics: '< 30 dB (Whisper Silent)',
+    freq: 72,
+    pattern: 'surge'
+  },
 
-    'rose-blossom': {
+  'rose-blossom': {
     id: 'rose-blossom',
     title: 'The Rose Sucker',
     badge: 'BESTSELLER',
@@ -6216,12 +6248,14 @@ function showShareToast(message) {
 }
 
 function openQuickviewForProduct(prodKey, card = null) {
-  const prod = PRODUCT_DATABASE[prodKey];
+  const actualKey = (prodKey === 'product-rose') ? 'rose-blossom' : prodKey;
+  const prod = PRODUCT_DATABASE[actualKey] || PRODUCT_DATABASE[prodKey];
   if (!prod || !quickviewModal) return;
 
   currentQvProduct = Object.assign({}, prod);
   if (!card) {
     card = document.querySelector(`.product-card[data-product="${prodKey}"]`) ||
+           document.querySelector(`.product-card[data-product="${actualKey}"]`) ||
            document.querySelector(`.btn-quick-view[data-product="${prodKey}"]`)?.closest('.product-card');
   }
   currentQvProduct.sourceCard = card;
