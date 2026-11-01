@@ -215,6 +215,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Strictly no em dashes
     document.title = 'The Pleasure Journal · Intimacy & Wellness Guides | TheToysVirago Nigeria';
 
+    // Always scroll to the top of the Journal page
+    window.scrollTo({ top: 0, behavior: 'instant' });
+
     if (pushState) {
       window.history.pushState({}, '', '/blog');
     }
@@ -255,10 +258,18 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   if (btnBack) {
-    btnBack.addEventListener('click', () => closeArticle(true));
+    btnBack.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeArticle(true);
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    });
   }
   if (btnTopBack) {
-    btnTopBack.addEventListener('click', () => closeArticle(true));
+    btnTopBack.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeArticle(true);
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    });
   }
   const btnCompactBack = document.getElementById('btn-compact-back');
   if (btnCompactBack) {
