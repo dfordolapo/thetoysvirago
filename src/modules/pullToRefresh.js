@@ -1,17 +1,16 @@
 /**
  * Pull to Refresh Controller
- * - Triggers ONLY from the very top of the screen (scrollY <= 0, touch start <= 70px)
- * - Physical tension resistance (square-root / logarithmic dampening)
+ * - Works on mobile touch devices as well as desktop mouse drag / device emulation
+ * - Triggers when dragging downwards from the top of the viewport (scrollY <= 0)
+ * - Physical tension resistance (logarithmic / exponential dampening)
  * - Visual feedback indicator: animated circular spinner with arrow rotation
- * - Threshold: requires an intentional 85px physical pull
+ * - Threshold: requires an intentional 75px physical pull
  * - Haptic vibration feedback on threshold reached
  * - Smooth spring release and reload
  */
 
 export function initPullToRefresh() {
-  if (typeof window === 'undefined' || !('ontouchstart' in window)) {
-    return; // Touch-only feature for mobile devices and simulators
-  }
+  if (typeof window === 'undefined') return;
 
   // Prevent multiple initializations
   if (document.getElementById('ptr-indicator')) return;
@@ -31,22 +30,19 @@ export function initPullToRefresh() {
   `;
   document.body.appendChild(ptr);
 
-  const ptrPill = ptr.querySelector('.ptr-pill');
   const ptrIcon = ptr.querySelector('.ptr-icon');
-  const ptrArrow = ptr.querySelector('.ptr-arrow');
   const ptrArc = ptr.querySelector('.ptr-arc');
   const ptrLabel = ptr.querySelector('.ptr-label');
 
   let startY = 0;
   let startX = 0;
-  let currentY = 0;
   let pulling = false;
   let refreshing = false;
   let hasVibrated = false;
 
-  const PULL_THRESHOLD = 80; // pixels of dampened pull required
-  const MAX_PULL = 130;      // max displacement cap
-  const TOP_TOUCH_ZONE = 90; // must start touch near top of the screen (within 90px)
+  const PULL_THRESHOLD = 75;  // pixels of dampened pull required to trigger
+  const MAX_PULL = 130;       // max displacement cap
+  const TOP_TOUCH_ZONE = 160; // start drag anywhere within top 160px (under top nav or hero)
 
   function isModalOpen() {
     const modals = [
@@ -60,61 +56,52 @@ export function initPullToRefresh() {
     return !!document.querySelector(modals.join(','));
   }
 
-  window.addEventListener('touchstart', (e) => {
+  function handleStart(clientX, clientY) {
     if (refreshing || isModalOpen()) return;
 
-    // Strict top check: Page must be scrolled to 0 AND finger must start in the top zone
     const scrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-    if (scrollY > 2) return;
+    if (scrollY > 5) return;
 
-    const touch = e.touches[0];
-    if (touch.clientY > TOP_TOUCH_ZONE) {
-      // Must start at the very top of the screen
-      return;
-    }
+    if (clientY > TOP_TOUCH_ZONE) return;
 
-    startY = touch.clientY;
-    startX = touch.clientX;
-    currentY = startY;
+    startY = clientY;
+    startX = clientX;
     pulling = false;
     hasVibrated = false;
-  }, { passive: true });
+  }
 
-  window.addEventListener('touchmove', (e) => {
+  function handleMove(clientX, clientY, e) {
     if (refreshing || startY === 0 || isModalOpen()) return;
 
     const scrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-    if (scrollY > 2) {
-      // User scrolled down into content, cancel pull
+    if (scrollY > 5) {
       cancelPull();
       return;
     }
 
-    const touch = e.touches[0];
-    const diffY = touch.clientY - startY;
-    const diffX = Math.abs(touch.clientX - startX);
+    const diffY = clientY - startY;
+    const diffX = Math.abs(clientX - startX);
 
     // If horizontal swipe or scrolling upwards, ignore
-    if (diffY <= 0 || diffX > diffY) {
+    if (diffY <= 0 || diffX > diffY * 1.2) {
       return;
     }
 
-    // Require an initial intentional drag distance of 14px before activating
-    if (diffY > 14) {
+    // Require an initial intentional drag distance of 10px before activating
+    if (diffY > 10) {
       pulling = true;
-      // Dampened tension resistance: diffY ^ 0.72
-      const pullDistance = Math.min(Math.pow(diffY, 0.74) * 2.5, MAX_PULL);
+      // Dampened tension resistance: diffY ^ 0.74
+      const pullDistance = Math.min(Math.pow(diffY, 0.74) * 2.4, MAX_PULL);
       const progress = Math.min(pullDistance / PULL_THRESHOLD, 1);
 
       ptr.style.transform = `translate(-50%, ${pullDistance}px)`;
-      ptr.style.opacity = Math.min(progress * 1.4, 1);
+      ptr.style.opacity = Math.min(progress * 1.5, 1);
 
       // Rotate arrow and fill circular arc based on progress
       if (ptrIcon) {
         ptrIcon.style.transform = `rotate(${progress * 180}deg)`;
       }
       if (ptrArc) {
-        // stroke-dashoffset: 50 -> 0
         const offset = 50 - (progress * 50);
         ptrArc.style.strokeDashoffset = offset;
       }
@@ -132,12 +119,42 @@ export function initPullToRefresh() {
         hasVibrated = false;
       }
 
-      // Prevent native overscroll quirks when pulling
-      if (e.cancelable && pullDistance > 30) {
+      if (e && e.cancelable && pullDistance > 25) {
         e.preventDefault();
       }
     }
-  }, { passive: false });
+  }
+
+  function handleEnd() {
+    if (refreshing || startY === 0) return;
+
+    if (!pulling) {
+      startY = 0;
+      return;
+    }
+
+    const isReady = ptr.classList.contains('ptr-ready');
+    if (isReady) {
+      // Trigger actual refresh
+      refreshing = true;
+      ptr.classList.remove('ptr-ready');
+      ptr.classList.add('ptr-refreshing');
+      ptr.style.transition = 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)';
+      ptr.style.transform = 'translate(-50%, 75px)';
+      ptr.style.opacity = '1';
+      if (ptrLabel) ptrLabel.textContent = 'Refreshing...';
+
+      if (navigator.vibrate) {
+        navigator.vibrate([15, 40, 15]);
+      }
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 700);
+    } else {
+      cancelPull();
+    }
+  }
 
   function cancelPull() {
     startY = 0;
@@ -154,41 +171,44 @@ export function initPullToRefresh() {
     }, 320);
   }
 
-  window.addEventListener('touchend', (e) => {
-    if (refreshing || startY === 0) return;
-
-    if (!pulling) {
-      startY = 0;
-      return;
+  // 1. Mobile Touch Listeners
+  window.addEventListener('touchstart', (e) => {
+    if (e.touches && e.touches[0]) {
+      handleStart(e.touches[0].clientX, e.touches[0].clientY);
     }
+  }, { passive: true });
 
-    const isReady = ptr.classList.contains('ptr-ready');
-    if (isReady) {
-      // Trigger actual refresh
-      refreshing = true;
-      ptr.classList.remove('ptr-ready');
-      ptr.classList.add('ptr-refreshing');
-      ptr.style.transition = 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)';
-      ptr.style.transform = 'translate(-50%, 65px)';
-      ptr.style.opacity = '1';
-      if (ptrLabel) ptrLabel.textContent = 'Refreshing...';
-
-      if (navigator.vibrate) {
-        navigator.vibrate([15, 40, 15]);
-      }
-
-      // Visual pause so the user sees the refreshing feedback spinner
-      setTimeout(() => {
-        window.location.reload();
-      }, 700);
-    } else {
-      cancelPull();
+  window.addEventListener('touchmove', (e) => {
+    if (e.touches && e.touches[0]) {
+      handleMove(e.touches[0].clientX, e.touches[0].clientY, e);
     }
+  }, { passive: false });
+
+  window.addEventListener('touchend', () => {
+    handleEnd();
   }, { passive: true });
 
   window.addEventListener('touchcancel', () => {
-    if (!refreshing) {
-      cancelPull();
-    }
+    if (!refreshing) cancelPull();
   }, { passive: true });
+
+  // 2. Desktop Mouse Drag (helps testing on desktop & browser inspection without device toolbar)
+  let isMouseDown = false;
+  window.addEventListener('mousedown', (e) => {
+    // Only left click
+    if (e.button !== 0) return;
+    isMouseDown = true;
+    handleStart(e.clientX, e.clientY);
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!isMouseDown) return;
+    handleMove(e.clientX, e.clientY, e);
+  });
+
+  window.addEventListener('mouseup', () => {
+    if (!isMouseDown) return;
+    isMouseDown = false;
+    handleEnd();
+  });
 }
