@@ -194,22 +194,74 @@ if (resetAgeGate) {
 const stealthShield = document.getElementById('stealth-shield');
 const appWrapper = document.getElementById('app-wrapper');
 const btnExitStealth = document.getElementById('btn-exit-stealth');
+const btnShuffleStealth = document.getElementById('btn-stealth-shuffle');
 const originalTitle = document.title;
-const stealthTitle = "Q4_Enterprise_Logistics_Inventory_Audit_Consolidated.xlsx - Excel";
 
+const STEALTH_DISGUISES = [
+  {
+    id: 'stealth-view-excel',
+    title: 'Q4_Enterprise_Logistics_Inventory_Audit_Consolidated.xlsx - Excel'
+  },
+  {
+    id: 'stealth-view-google',
+    title: 'best inverter battery lagos 2026 - Google Search'
+  },
+  {
+    id: 'stealth-view-wikipedia',
+    title: 'Plate tectonics - Wikipedia'
+  },
+  {
+    id: 'stealth-view-news',
+    title: 'CBN Issues Updated Liquidity Risk Guidelines - BusinessDay'
+  },
+  {
+    id: 'stealth-view-recipe',
+    title: 'Authentic Smoky Party Jollof Rice Recipe - 9jaFoodie'
+  }
+];
+
+let currentStealthIndex = 0;
 let isStealthActive = false;
+
 if (stealthShield) {
   stealthShield.style.display = 'none';
 }
 
+function applyStealthDisguise(index) {
+  currentStealthIndex = (index + STEALTH_DISGUISES.length) % STEALTH_DISGUISES.length;
+  const activeDisguise = STEALTH_DISGUISES[currentStealthIndex];
+  STEALTH_DISGUISES.forEach((d, i) => {
+    const el = document.getElementById(d.id);
+    if (el) {
+      if (i === currentStealthIndex) {
+        el.style.display = d.id === 'stealth-view-excel' ? 'flex' : 'block';
+      } else {
+        el.style.display = 'none';
+      }
+    }
+  });
+  document.title = activeDisguise.title;
+}
+
+function shuffleStealthDisguise() {
+  const nextIndex = (currentStealthIndex + 1) % STEALTH_DISGUISES.length;
+  applyStealthDisguise(nextIndex);
+}
+
 function activateStealth() {
   isStealthActive = true;
+  // Pick random disguise so it is not Excel every single time
+  let randomIndex = Math.floor(Math.random() * STEALTH_DISGUISES.length);
+  if (randomIndex === currentStealthIndex && STEALTH_DISGUISES.length > 1) {
+    randomIndex = (randomIndex + 1) % STEALTH_DISGUISES.length;
+  }
+  applyStealthDisguise(randomIndex);
+
   if (stealthShield) {
     stealthShield.removeAttribute('hidden');
-    stealthShield.style.display = 'flex';
+    stealthShield.style.display = 'block';
   }
   if (appWrapper) appWrapper.style.display = 'none';
-  document.title = stealthTitle;
 }
 
 function deactivateStealth() {
@@ -243,6 +295,10 @@ function toggleStealth() {
 
 if (btnExitStealth) {
   btnExitStealth.addEventListener('click', deactivateStealth);
+}
+
+if (btnShuffleStealth) {
+  btnShuffleStealth.addEventListener('click', shuffleStealthDisguise);
 }
 
 // Keyboard shortcuts (Escape key or Alt+S)
@@ -7049,21 +7105,8 @@ function generateUniqueOrderRef() {
 
 let currentCheckoutRef = generateUniqueOrderRef();
 
-// Default initial saved address
-const DEFAULT_SAVED_ADDRESSES = [
-  {
-    id: 'home',
-    label: 'Home',
-    firstName: 'Valued',
-    lastName: 'Customer',
-    email: 'client@thetoysvirago.shop',
-    phone: '+234 803 651 4814',
-    address: '42 Bourdillon Road',
-    city: 'Ikoyi, Lagos',
-    notes: '',
-    isDefault: true
-  }
-];
+// Default initial saved address (starts empty for genuine customer entry)
+const DEFAULT_SAVED_ADDRESSES = [];
 
 function getSavedAddresses() {
   try {
@@ -7071,19 +7114,23 @@ function getSavedAddresses() {
     if (!raw) return DEFAULT_SAVED_ADDRESSES;
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed) || parsed.length === 0) return DEFAULT_SAVED_ADDRESSES;
-    parsed.forEach(addr => {
+    const cleaned = parsed.filter(addr => {
+      if (!addr || !addr.address) return false;
+      return !addr.address.toLowerCase().includes('bourdillon');
+    });
+    cleaned.forEach(addr => {
       if (addr.phone && addr.phone.includes('800 000')) addr.phone = '+234 803 651 4814';
       if (!addr.email) addr.email = 'client@thetoysvirago.shop';
     });
-    return parsed;
+    return cleaned;
   } catch (e) {
     return DEFAULT_SAVED_ADDRESSES;
   }
 }
 
 let savedAddresses = getSavedAddresses();
-let selectedAddressId = savedAddresses[0]?.id || 'home';
-let isEditingAddress = false;
+let selectedAddressId = savedAddresses[0]?.id || 'new';
+let isEditingAddress = savedAddresses.length === 0;
 let activeSaveLabel = 'Home';
 
 // DELIVERY_ZONES and autoDetectDeliveryZoneFromAddress are imported from ./modules/zones.js

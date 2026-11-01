@@ -329,12 +329,84 @@ document.addEventListener('DOMContentLoaded', () => {
   // Stealth mode trigger
   const stealthBtn = document.getElementById('btn-stealth-nav');
   const shield = document.getElementById('stealth-shield');
-  if (stealthBtn && shield) {
-    stealthBtn.addEventListener('click', () => {
-      shield.classList.toggle('active');
+  const blogAppWrapper = document.getElementById('app-wrapper');
+  const blogBtnExitStealth = document.getElementById('btn-exit-stealth');
+  const blogBtnShuffleStealth = document.getElementById('btn-stealth-shuffle');
+  const blogOriginalTitle = document.title;
+
+  const BLOG_STEALTH_DISGUISES = [
+    { id: 'stealth-view-excel', title: 'Q4_Enterprise_Logistics_Inventory_Audit_Consolidated.xlsx - Excel' },
+    { id: 'stealth-view-google', title: 'best inverter battery lagos 2026 - Google Search' },
+    { id: 'stealth-view-wikipedia', title: 'Plate tectonics - Wikipedia' },
+    { id: 'stealth-view-news', title: 'CBN Issues Updated Liquidity Risk Guidelines - BusinessDay' },
+    { id: 'stealth-view-recipe', title: 'Authentic Smoky Party Jollof Rice Recipe - 9jaFoodie' }
+  ];
+  let blogStealthIdx = 0;
+  let blogIsStealth = false;
+
+  function applyBlogDisguise(idx) {
+    blogStealthIdx = (idx + BLOG_STEALTH_DISGUISES.length) % BLOG_STEALTH_DISGUISES.length;
+    const current = BLOG_STEALTH_DISGUISES[blogStealthIdx];
+    BLOG_STEALTH_DISGUISES.forEach((d, i) => {
+      const el = document.getElementById(d.id);
+      if (el) {
+        if (i === blogStealthIdx) {
+          el.style.display = d.id === 'stealth-view-excel' ? 'flex' : 'block';
+        } else {
+          el.style.display = 'none';
+        }
+      }
     });
+    document.title = current.title;
+  }
+
+  function activateBlogStealth() {
+    blogIsStealth = true;
+    let rnd = Math.floor(Math.random() * BLOG_STEALTH_DISGUISES.length);
+    if (rnd === blogStealthIdx && BLOG_STEALTH_DISGUISES.length > 1) {
+      rnd = (rnd + 1) % BLOG_STEALTH_DISGUISES.length;
+    }
+    applyBlogDisguise(rnd);
+    if (shield) {
+      shield.removeAttribute('hidden');
+      shield.style.display = 'block';
+    }
+    if (blogAppWrapper) blogAppWrapper.style.display = 'none';
+  }
+
+  function deactivateBlogStealth() {
+    blogIsStealth = false;
+    if (shield) {
+      shield.setAttribute('hidden', '');
+      shield.style.display = 'none';
+    }
+    if (blogAppWrapper) blogAppWrapper.style.display = 'block';
+    document.title = blogOriginalTitle;
+  }
+
+  if (stealthBtn && shield) {
+    stealthBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (blogIsStealth) deactivateBlogStealth();
+      else activateBlogStealth();
+    });
+    if (blogBtnExitStealth) {
+      blogBtnExitStealth.addEventListener('click', deactivateBlogStealth);
+    }
+    if (blogBtnShuffleStealth) {
+      blogBtnShuffleStealth.addEventListener('click', () => {
+        applyBlogDisguise((blogStealthIdx + 1) % BLOG_STEALTH_DISGUISES.length);
+      });
+    }
     window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') shield.classList.toggle('active');
+      if (e.key === 'Escape') {
+        if (blogIsStealth) deactivateBlogStealth();
+        else activateBlogStealth();
+      } else if (e.altKey && (e.key === 's' || e.key === 'S')) {
+        e.preventDefault();
+        if (blogIsStealth) deactivateBlogStealth();
+        else activateBlogStealth();
+      }
     });
   }
 });
