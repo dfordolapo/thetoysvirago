@@ -6800,17 +6800,23 @@ button,
   text-decoration: none !important;
   border: 1px solid rgba(255, 255, 255, 0.16);
   cursor: pointer;
-  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease, box-shadow 0.22s ease;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease, background 0.2s ease, box-shadow 0.22s ease;
   user-select: none;
   line-height: 1;
 }
-.floating-whatsapp:hover,
-.floating-whatsapp.active {
+.floating-whatsapp:hover {
   background: #18181b;
   transform: translateY(-2px);
   box-shadow: 0 14px 36px rgba(0, 0, 0, 0.55);
   color: #ffffff;
 }
+/* When popup is open: completely hide the bottom trigger button */
+.floating-wa-wrapper.is-open .floating-whatsapp {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
 .floating-wa-icon {
   color: #25D366;
   flex-shrink: 0;
@@ -6828,7 +6834,7 @@ button,
   color: #0f172a;
   border-radius: 12px;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
-  margin-bottom: 12px;
+  margin-bottom: 0;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -6854,15 +6860,7 @@ button,
 .wa-head-left {
   display: flex;
   align-items: center;
-  gap: 9px;
-}
-.wa-online-dot {
-  width: 9px;
-  height: 9px;
-  background: #22c55e;
-  border-radius: 50%;
-  flex-shrink: 0;
-  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.3);
+  gap: 8px;
 }
 .wa-head-title {
   font-family: var(--serif);

@@ -6,6 +6,7 @@
  */
 
 export function initWhatsAppWidget() {
+  const wrapper = document.getElementById('floating-wa-wrapper');
   const btn = document.getElementById('floating-whatsapp-btn');
   const popup = document.getElementById('floating-wa-popup');
   const btnClose = document.getElementById('wa-popup-close');
@@ -21,12 +22,14 @@ export function initWhatsAppWidget() {
     if (open) {
       popup.removeAttribute('hidden');
       popup.classList.add('open');
+      if (wrapper) wrapper.classList.add('is-open');
       btn.classList.add('active');
       setTimeout(() => {
         if (input) input.focus();
       }, 100);
     } else {
       popup.classList.remove('open');
+      if (wrapper) wrapper.classList.remove('is-open');
       btn.classList.remove('active');
       setTimeout(() => {
         popup.setAttribute('hidden', '');
