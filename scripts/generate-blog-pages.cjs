@@ -124,18 +124,22 @@ async function generateBlogPages() {
       `<article class="article-body" id="reader-content">${article.content}</article>`
     );
 
-    // Pre-populate share links
+    // Pre-populate share links if present
     const shareText = encodeURIComponent(`${article.title} - ${pageUrl}`);
     const tweetText = encodeURIComponent(article.title);
     const encUrl = encodeURIComponent(pageUrl);
-    html = html.replace(
-      /id="btn-share-whatsapp"[^>]*>/,
-      `id="btn-share-whatsapp" href="https://api.whatsapp.com/send?text=${shareText}" target="_blank" rel="noopener">`
-    );
-    html = html.replace(
-      /id="btn-share-twitter"[^>]*>/,
-      `id="btn-share-twitter" href="https://twitter.com/intent/tweet?text=${tweetText}&url=${encUrl}" target="_blank" rel="noopener">`
-    );
+    if (html.includes('id="btn-share-whatsapp"')) {
+      html = html.replace(
+        /id="btn-share-whatsapp"[^>]*>/,
+        `id="btn-share-whatsapp" href="https://api.whatsapp.com/send?text=${shareText}" target="_blank" rel="noopener">`
+      );
+    }
+    if (html.includes('id="btn-share-twitter"')) {
+      html = html.replace(
+        /id="btn-share-twitter"[^>]*>/,
+        `id="btn-share-twitter" href="https://twitter.com/intent/tweet?text=${tweetText}&url=${encUrl}" target="_blank" rel="noopener">`
+      );
+    }
 
     const destFile = path.join(distBlogDir, `${slug}.html`);
     fs.writeFileSync(destFile, html, { encoding: 'utf8' });
