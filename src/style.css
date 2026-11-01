@@ -6696,3 +6696,76 @@ button,
   font-size: 42px;
   margin-bottom: 12px;
 }
+
+/* ── PULL TO REFRESH (Physical Top Pull Indicator) ── */
+.ptr-indicator {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -60px);
+  z-index: 999999;
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform, opacity;
+  user-select: none;
+}
+.ptr-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #0c0c0e;
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  font-family: var(--sans);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.ptr-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #e11d48;
+  flex-shrink: 0;
+  transition: transform 0.1s linear;
+}
+.ptr-arc {
+  stroke: #e11d48;
+  transition: stroke-dashoffset 0.1s linear;
+}
+.ptr-indicator.ptr-ready .ptr-pill {
+  background: #e11d48;
+  border-color: #e11d48;
+  color: #ffffff;
+}
+.ptr-indicator.ptr-ready .ptr-icon {
+  color: #ffffff;
+}
+.ptr-indicator.ptr-ready .ptr-arc {
+  stroke: #ffffff;
+}
+.ptr-indicator.ptr-refreshing .ptr-icon {
+  animation: ptrSpin 0.75s linear infinite !important;
+  color: #ffffff;
+}
+.ptr-indicator.ptr-refreshing .ptr-arrow {
+  opacity: 0;
+}
+.ptr-indicator.ptr-refreshing .ptr-arc {
+  stroke-dasharray: 25;
+  stroke-dashoffset: 0;
+  stroke: #ffffff;
+}
+.ptr-indicator.ptr-refreshing .ptr-pill {
+  background: #0c0c0e;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+@keyframes ptrSpin {
+  100% {
+    transform: rotate(360deg);
+  }
+}

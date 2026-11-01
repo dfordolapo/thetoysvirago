@@ -1,6 +1,8 @@
+import { initPullToRefresh } from './modules/pullToRefresh.js';
 import { BLOG_ARTICLES } from './data/articles.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+  initPullToRefresh();
   const cardsGrid = document.getElementById('blog-cards-grid');
   const indexView = document.getElementById('blog-index-view');
   const readerView = document.getElementById('article-reader-view');

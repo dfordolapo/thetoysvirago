@@ -1,3 +1,4 @@
+import { initPullToRefresh } from './modules/pullToRefresh.js';
 import { BLOG_ARTICLES } from './data/articles.js';
 import { getSupabaseProducts, recordSupabaseConfession, getSupabaseConfessions, recordSupabaseOrder, getSupabaseOrders } from './supabase.js';
 import { DELIVERY_ZONES, autoDetectDeliveryZoneFromAddress } from './modules/zones.js';
@@ -9274,3 +9275,6 @@ function renderHomepagePleasureJournal() {
 }
 
 renderHomepagePleasureJournal();
+
+// Initialize Physical Pull to Refresh
+initPullToRefresh();
