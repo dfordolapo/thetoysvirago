@@ -4004,9 +4004,16 @@ body.cart-open .main-header,
 .gift-single-section,
 .editorial-preview-section,
 .faq-section {
-  padding-top: 64px !important;
+  padding-top: 48px !important;
 }
 
+.collection-reels-kicker,
+.bestsellers-eyebrow,
+.editorial-preview-section span[style*="text-transform: uppercase"] {
+  margin-bottom: 8px !important;
+}
+
+.collection-reels-editorial .collection-reels-heading,
 .bestsellers-header,
 .new-arrivals-section .collection-header,
 .toybox-header,
@@ -4014,7 +4021,8 @@ body.cart-open .main-header,
 .gift-single-header,
 .editorial-preview-section .section-inner > div:first-child,
 .faq-section .sh2 {
-  margin-bottom: 32px !important;
+  margin-top: 0 !important;
+  margin-bottom: 24px !important;
 }
 
 @media (max-width: 600px) {
@@ -5719,7 +5727,7 @@ button,
 .gift-single-section {
   background: #09090b !important;
   color: #ffffff !important;
-  padding: 76px 0 72px;
+  padding: 48px 0 60px !important;
   position: relative;
   overflow: hidden;
 }
@@ -5788,12 +5796,13 @@ button,
 .faq-section {
   background: #ffffff !important;
   color: #0c0c0e !important;
-  padding: 64px 0 60px;
+  padding: 48px 0 60px !important;
 }
 .faq-section .sh2 {
   color: #0c0c0e !important;
   text-align: center;
-  margin-bottom: 40px;
+  margin-top: 0 !important;
+  margin-bottom: 24px !important;
 }
 .faq-accordion {
   display: flex;
