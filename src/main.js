@@ -3400,21 +3400,21 @@ const PRODUCT_DATABASE = {
     badge: 'BESTSELLER',
     price: 25000,
     priceStr: '₦25,000',
-    img: '/assets/product-rose.jpg',
+    img: '/assets/product-rose.webp',
     variants: [
-      { name: 'Red', price: 25000, priceStr: '₦25,000', img: '/assets/product-rose.jpg' },
-      { name: 'Black', price: 25000, priceStr: '₦25,000', img: '/assets/product-rose.jpg' },
-      { name: 'Pink', price: 25000, priceStr: '₦25,000', img: '/assets/product-rose.jpg' },
-      { name: 'Purple', price: 25000, priceStr: '₦25,000', img: '/assets/product-rose.jpg' },
-      { name: 'Yellow', price: 25000, priceStr: '₦25,000', img: '/assets/product-rose.jpg' },
-      { name: 'Green', price: 25000, priceStr: '₦25,000', img: '/assets/product-rose.jpg' }
+      { name: 'Red', price: 25000, priceStr: '₦25,000', img: '/assets/product-rose.webp' },
+      { name: 'Black', price: 25000, priceStr: '₦25,000', img: '/assets/product-rose.webp' },
+      { name: 'Pink', price: 25000, priceStr: '₦25,000', img: '/assets/product-rose.webp' },
+      { name: 'Purple', price: 25000, priceStr: '₦25,000', img: '/assets/product-rose.webp' },
+      { name: 'Yellow', price: 25000, priceStr: '₦25,000', img: '/assets/product-rose.webp' },
+      { name: 'Green', price: 25000, priceStr: '₦25,000', img: '/assets/product-rose.webp' }
     ],
     media: [
-      { type: 'image', src: '/assets/product-rose.jpg', label: 'Studio Cover' },
+      { type: 'image', src: '/assets/product-rose.webp', label: 'Studio Cover' },
       { type: 'image', src: '/assets/rose-sucker-colors.webp', label: 'Colorways & USB' },
       { type: 'image', src: '/assets/rose-sucker-box.webp', label: 'Collector Vault' },
       { type: 'image', src: '/assets/rose-sucker-glow.webp', label: 'Night Glow Edition' },
-      { type: 'video', src: '/assets/rose-sucker-demo.mp4', thumb: '/assets/product-rose.jpg', label: 'Live Video Demo' }
+      { type: 'video', src: '/assets/rose-sucker-demo.mp4', thumb: '/assets/product-rose.webp', label: 'Live Video Demo' }
     ],
     desc: 'Sculpted like an innocent blooming rose, engineered like an absolute powerhouse. Uses gentle aerodynamic air-wave pulses to stimulate without direct friction, taking you from a teasing flutter to an undeniable crescendo in minutes.',
     specs: [
@@ -3464,18 +3464,18 @@ const PRODUCT_DATABASE = {
     badge: 'DEEP RUMBLE',
     price: 15000,
     priceStr: '₦15,000',
-    img: '/assets/product-wand.jpg',
+    img: '/assets/product-wand.webp',
     variants: [
-      { name: 'Black', price: 15000, priceStr: '₦15,000', img: '/assets/product-wand.jpg' },
+      { name: 'Black', price: 15000, priceStr: '₦15,000', img: '/assets/product-wand.webp' },
       { name: 'Pink', price: 15000, priceStr: '₦15,000', img: '/assets/mini-wand-colors.webp' },
       { name: 'Purple', price: 15000, priceStr: '₦15,000', img: '/assets/mini-wand-colors.webp' },
       { name: 'Green', price: 15000, priceStr: '₦15,000', img: '/assets/mini-wand-colors.webp' }
     ],
     media: [
-      { type: 'image', src: '/assets/product-wand.jpg', label: 'Studio Cover' },
+      { type: 'image', src: '/assets/product-wand.webp', label: 'Studio Cover' },
       { type: 'image', src: '/assets/mini-wand-colors.webp', label: 'All 4 Colors' },
       { type: 'image', src: '/assets/mini-wand-hand.webp', label: 'In-Hand Scale' },
-      { type: 'video', src: '/assets/mini-wand-demo.mp4', thumb: '/assets/product-wand.jpg', label: 'Live Video Demo' }
+      { type: 'video', src: '/assets/mini-wand-demo.mp4', thumb: '/assets/product-wand.webp', label: 'Live Video Demo' }
     ],
     desc: 'Don’t let the compact silhouette fool you. The Mini Wand packs full-sized, bone-deep vibrations into a palm-sized frame with a 360° flexible silicone head. Perfect for pinpoint clitoral stimulation, all-over tension relief, or slipping into an overnight bag.',
     specs: [
@@ -6250,7 +6250,29 @@ function showShareToast(message) {
 function openQuickviewForProduct(prodKey, card = null) {
   const actualKey = (prodKey === 'product-rose') ? 'rose-blossom' : prodKey;
   const prod = PRODUCT_DATABASE[actualKey] || PRODUCT_DATABASE[prodKey];
-  if (!prod || !quickviewModal) return;
+  const qvNotFoundState = document.getElementById('qv-not-found-state');
+  const qvContentInner = document.getElementById('qv-content-inner');
+
+  if (!prod) {
+    if (quickviewModal) {
+      if (qvNotFoundState) {
+        qvNotFoundState.removeAttribute('hidden');
+        qvNotFoundState.style.display = 'block';
+      }
+      if (qvContentInner) qvContentInner.style.display = 'none';
+      quickviewModal.removeAttribute('hidden');
+      quickviewModal.style.display = 'flex';
+    }
+    return;
+  }
+
+  if (!quickviewModal) return;
+
+  if (qvNotFoundState) {
+    qvNotFoundState.setAttribute('hidden', '');
+    qvNotFoundState.style.display = 'none';
+  }
+  if (qvContentInner) qvContentInner.style.display = 'grid';
 
   currentQvProduct = Object.assign({}, prod);
   if (!card) {
@@ -6557,7 +6579,22 @@ if (typeof window !== 'undefined') {
   const handleDeepLink = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const deepProduct = urlParams.get('product') || urlParams.get('p');
-    if (deepProduct && PRODUCT_DATABASE[deepProduct]) {
+    if (deepProduct) {
+      if (PRODUCT_DATABASE[deepProduct]) {
+        setTimeout(() => {
+          const card = document.querySelector(`.product-card[data-product="${deepProduct}"]`) ||
+                       document.querySelector(`.btn-quick-view[data-product="${deepProduct}"]`)?.closest('.product-card');
+          if (card) {
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+          openQuickviewForProduct(deepProduct, card);
+        }, 350);
+      } else {
+        setTimeout(() => {
+          openQuickviewForProduct(deepProduct);
+        }, 350);
+      }
+    } else if (false) {
       setTimeout(() => {
         const card = document.querySelector(`.product-card[data-product="${deepProduct}"]`) ||
                      document.querySelector(`.btn-quick-view[data-product="${deepProduct}"]`)?.closest('.product-card');
@@ -7045,6 +7082,31 @@ const coActiveOrderRef = document.getElementById('co-active-order-ref');
 const coNarrationHint = document.getElementById('co-narration-hint');
 const btnCopyActiveRef = document.getElementById('btn-copy-active-ref');
 const btnCopySuccessRef = document.getElementById('btn-copy-success-ref');
+const coErrorState = document.getElementById('co-error-state');
+const coErrorTitle = document.getElementById('co-error-title');
+const coErrorMsg = document.getElementById('co-error-msg');
+const btnCoErrorRetry = document.getElementById('btn-co-error-retry');
+
+function showCheckoutError(title, msg) {
+  if (!coErrorState) return;
+  if (coErrorTitle) coErrorTitle.textContent = title || 'Hiccup detected';
+  if (coErrorMsg) coErrorMsg.textContent = msg || 'Network connection dropped. Your bag is safe.';
+  coErrorState.removeAttribute('hidden');
+  coErrorState.style.display = 'flex';
+}
+
+function clearCheckoutError() {
+  if (!coErrorState) return;
+  coErrorState.setAttribute('hidden', '');
+  coErrorState.style.display = 'none';
+}
+
+if (btnCoErrorRetry) {
+  btnCoErrorRetry.addEventListener('click', () => {
+    clearCheckoutError();
+    if (btnSubmitOrder) btnSubmitOrder.click();
+  });
+}
 
 // House of Nina Saved Address Elements
 const addressChipsRow = document.getElementById('address-chips-row');
@@ -8912,7 +8974,7 @@ const GIFT_SECTION_POOL = [
     title: 'The Mini Wand',
     price: 15000,
     priceStr: '₦15,000',
-    img: '/assets/product-wand.jpg',
+    img: '/assets/product-wand.webp',
     curation: 'Pocket Sized',
     witty: 'Compact, travel-ready rumble. Instant tension relief whenever needed.'
   },
@@ -9098,3 +9160,86 @@ if (document.readyState === 'loading') {
 }
 
 
+
+
+// ================= 11. OFFLINE DETECTION & ERROR RECOVERY =================
+const mainOfflineBanner = document.getElementById('offline-banner');
+const btnCloseMainOffline = document.getElementById('btn-close-offline-banner');
+
+function updateMainNetworkStatus() {
+  const isOffline = !navigator.onLine;
+
+  if (mainOfflineBanner) {
+    if (isOffline) {
+      mainOfflineBanner.removeAttribute('hidden');
+      mainOfflineBanner.style.display = 'flex';
+    } else {
+      mainOfflineBanner.setAttribute('hidden', '');
+      mainOfflineBanner.style.display = 'none';
+    }
+  }
+}
+
+window.addEventListener('online', updateMainNetworkStatus);
+window.addEventListener('offline', updateMainNetworkStatus);
+if (btnCloseMainOffline && mainOfflineBanner) {
+  btnCloseMainOffline.addEventListener('click', () => {
+    mainOfflineBanner.setAttribute('hidden', '');
+    mainOfflineBanner.style.display = 'none';
+  });
+}
+updateMainNetworkStatus();
+
+// ================= 12. ERROR STATES GALLERY MODAL (HAMBURGER MENU) =================
+const btnOpenErrorStates = document.getElementById('btn-open-error-states');
+const errorStatesModal = document.getElementById('error-states-modal');
+const btnCloseErrorStates = document.getElementById('btn-close-error-states');
+
+if (btnOpenErrorStates && errorStatesModal) {
+  btnOpenErrorStates.addEventListener('click', (e) => {
+    e.preventDefault();
+    const navDrop = document.getElementById('nav-dropdown');
+    if (navDrop) {
+      navDrop.setAttribute('hidden', '');
+      navDrop.style.display = 'none';
+    }
+    errorStatesModal.removeAttribute('hidden');
+    errorStatesModal.style.display = 'flex';
+  });
+}
+
+if (btnCloseErrorStates && errorStatesModal) {
+  btnCloseErrorStates.addEventListener('click', () => {
+    errorStatesModal.setAttribute('hidden', '');
+    errorStatesModal.style.display = 'none';
+  });
+  errorStatesModal.addEventListener('click', (e) => {
+    if (e.target === errorStatesModal) {
+      errorStatesModal.setAttribute('hidden', '');
+      errorStatesModal.style.display = 'none';
+    }
+  });
+}
+
+// Error state tabs switching
+document.addEventListener('click', (e) => {
+  const tabBtn = e.target.closest('.error-tab-btn');
+  if (tabBtn) {
+    const tabId = tabBtn.dataset.tab;
+    document.querySelectorAll('.error-tab-btn').forEach(b => b.classList.toggle('active', b === tabBtn));
+    document.querySelectorAll('.error-state-view').forEach(v => {
+      v.classList.toggle('active', v.id === `view-${tabId}`);
+    });
+  }
+});
+
+// Global image fallback error handler
+document.addEventListener('error', (e) => {
+  if (e.target && e.target.tagName === 'IMG') {
+    const img = e.target;
+    if (!img.dataset.fallbackApplied) {
+      img.dataset.fallbackApplied = 'true';
+      img.src = '/assets/hero-collection.webp';
+    }
+  }
+}, true);

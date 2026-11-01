@@ -12,7 +12,7 @@ export const BLOG_ARTICLES = [
     readTime: '8 min read',
     date: 'November 1, 2026',
     author: 'TheToysVirago Team',
-    heroImg: '/assets/blog/article-myths-nigeria.jpg',
+    heroImg: '/assets/blog/article-myths-nigeria.webp',
     excerpt: 'From the legendary "toilet infection" to hot salt water washes. Let us talk about the myths passed down through secondary school hostels, barbershops, and WhatsApp broadcasts.',
     content: `
       <p class="article-lead">Most of what many Nigerians learned about sex growing up did not come from a biology textbook or a relaxed conversation at home. It came from whispers in boarding school dormitories, jokes cracked in barbershops, or frightening WhatsApp broadcasts forwarded by an auntie. Because open discussions about bodies and intimacy are still taboo in so many homes, folklore filled the vacuum. It is 2026, and there are several persistent myths we genuinely need to leave behind.</p>

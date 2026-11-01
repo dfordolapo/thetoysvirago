@@ -1731,13 +1731,12 @@ body.cart-open .main-header,
   width: 76px;
   height: 76px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(159, 18, 57, 0.14) 0%, rgba(159, 18, 57, 0.03) 70%, transparent 100%);
-  border: 1px solid rgba(159, 18, 57, 0.24);
+  background: #ffe4e6;
+  border: none !important;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--ruby);
-  box-shadow: 0 0 32px rgba(159, 18, 57, 0.16);
   animation: gentleBuzz 1.5s ease-in-out infinite;
   transform-origin: center center;
 }
@@ -1773,7 +1772,7 @@ body.cart-open .main-header,
   letter-spacing: 0.06em;
   text-transform: uppercase;
   font-weight: 700;
-  border-radius: var(--r-pill);
+  border-radius: 8px !important;
   background: var(--ink);
   color: #ffffff;
   transition: all 0.25s ease;
@@ -6271,3 +6270,429 @@ button,
   }
 }
 
+/* ── OFFLINE MODE, EMPTY STATES & ERROR STATES (Clean, No Glassmorphism, No Outerstroke) ── */
+
+/* 1. Offline Mode Toast / Floating Banner */
+.offline-banner {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100000;
+  background: #0c0c0e;
+  color: #ffffff;
+  padding: 8px 12px 8px 14px;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: min(92vw, 680px);
+  width: max-content;
+  box-sizing: border-box;
+  animation: popUpToast 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.offline-banner[hidden] {
+  display: none !important;
+}
+.offline-banner-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+.offline-banner-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #e11d48;
+  color: #ffffff;
+  padding: 3px 8px;
+  border-radius: 6px !important;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+  line-height: 1.1;
+  align-self: center;
+}
+.offline-banner-text {
+  font-size: 12.5px;
+  line-height: 1.35;
+  color: #f1f5f9;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  flex: 1;
+  margin: 0;
+}
+.offline-banner-close {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px;
+  margin-left: 2px;
+  border-radius: 6px !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  box-sizing: border-box;
+  transition: color 0.15s ease, background-color 0.15s ease;
+  flex-shrink: 0;
+  align-self: center;
+}
+.offline-banner-close:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+}
+@keyframes popUpToast {
+  from { transform: translateX(-50%) translateY(16px); opacity: 0; }
+  to { transform: translateX(-50%) translateY(0); opacity: 1; }
+}
+@media (max-width: 640px) {
+  .offline-banner {
+    bottom: 20px !important;
+    left: 12px !important;
+    right: 12px !important;
+    transform: none !important;
+    width: auto !important;
+    max-width: calc(100vw - 24px) !important;
+    padding: 10px 12px;
+    animation: popUpMobile 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .offline-banner-inner {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+  .offline-banner-pill {
+    align-self: flex-start;
+    margin-top: 2px;
+  }
+  .offline-banner-text {
+    font-size: 12px;
+    line-height: 1.35;
+    white-space: normal;
+    word-break: break-word;
+    flex: 1;
+  }
+  .offline-banner-close {
+    align-self: flex-start;
+    margin-top: -1px;
+    margin-left: 0;
+  }
+}
+@keyframes popUpMobile {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* 2. Empty States & Error States Shared System */
+.empty-box,
+.error-box {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 40px 24px;
+  text-align: center;
+  margin: 20px auto;
+  max-width: 520px;
+  color: #0f172a;
+}
+/* In Light Contexts (e.g. products.html main collection) */
+.collection.collection-page-white .empty-box,
+.collection.collection-page-white .error-box,
+.search-no-results {
+  background: #f8fafc !important;
+  border: none !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+  color: #0f172a !important;
+}
+
+.empty-icon-badge,
+.error-icon-badge {
+  width: auto;
+  height: auto;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  display: inline-block;
+  margin-bottom: 14px;
+  font-size: 38px;
+  line-height: 1;
+}
+
+.empty-box-title,
+.error-box-title {
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+  color: inherit;
+}
+.empty-box-desc,
+.error-box-desc {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: #64748b;
+  max-width: 420px;
+  margin: 0 auto 20px;
+}
+.collection.collection-page-white .empty-box-desc,
+.collection.collection-page-white .error-box-desc {
+  color: #64748b !important;
+}
+
+.empty-box-actions,
+.error-box-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.empty-box-actions .btn,
+.error-box-actions .btn {
+  border-radius: 8px !important;
+}
+
+/* 3. Inline Checkout Error Box (Clean White / Soft Off-white, Zero Brown, Zero Glass, Zero Outerstroke) */
+.co-error-box {
+  background: #f8fafc;
+  color: #0f172a;
+  border-radius: 8px !important;
+  padding: 14px 16px;
+  margin-top: 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  text-align: left;
+  animation: popUp 0.2s ease-out;
+}
+.co-error-box[hidden] {
+  display: none !important;
+}
+.co-error-icon {
+  font-size: 18px;
+  line-height: 1;
+  flex-shrink: 0;
+  color: #e11d48;
+  margin-top: 2px;
+}
+.co-error-body {
+  flex: 1;
+}
+.co-error-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 3px;
+}
+.co-error-msg {
+  font-size: 12px;
+  line-height: 1.45;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+.co-error-btn-retry {
+  background: #121214;
+  color: #ffffff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px !important;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.co-error-btn-retry:hover {
+  background: #9f1239;
+}
+
+/* 4. Hamburger Menu Error Preview Drawer & Viewer (No Glassmorphism, No Outerstroke) */
+.nav-dropdown-divider {
+  height: 1px;
+  background: #f0f0f4;
+  margin: 4px 0;
+}
+.dropdown-link-error {
+  color: #be123c !important;
+}
+.dropdown-link-error:hover {
+  background: #fff1f2 !important;
+  color: #9f1239 !important;
+}
+.error-preview-pill {
+  background: #ffe4e6;
+  color: #be123c;
+  padding: 2px 7px;
+  border-radius: 6px !important;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Error States Modal / Bottom Sheet (Crisp White Modal, Zero Glassmorphism, Zero Outerstroke) */
+.error-states-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+.error-states-modal[hidden] {
+  display: none !important;
+}
+.error-states-sheet {
+  background: #ffffff;
+  color: #0f172a;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 580px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+  animation: popUp 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+.error-states-header {
+  padding: 18px 20px;
+  background: #f8fafc;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.error-states-title {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+.error-states-close {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  font-size: 22px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px !important;
+  line-height: 1;
+}
+.error-states-close:hover {
+  color: #0f172a;
+}
+.error-states-tabs {
+  display: flex;
+  background: #ffffff;
+  border-bottom: 1px solid #f1f5f9;
+  overflow-x: auto;
+  scrollbar-width: none;
+  gap: 6px;
+  padding: 10px 16px;
+}
+.error-states-tabs::-webkit-scrollbar {
+  display: none;
+}
+.error-tab-btn {
+  background: #f1f5f9;
+  color: #475569;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px !important;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+.error-tab-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+.error-tab-btn.active {
+  background: #be123c;
+  color: #ffffff;
+}
+.error-states-body {
+  padding: 24px 20px;
+  overflow-y: auto;
+  flex: 1;
+  background: #ffffff;
+}
+.error-states-sheet .empty-box,
+.error-states-sheet .error-box {
+  background: #f8fafc !important;
+  color: #0f172a !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+.error-states-sheet .empty-box-title,
+.error-states-sheet .error-box-title {
+  color: #0f172a !important;
+}
+.error-states-sheet .empty-box-desc,
+.error-states-sheet .error-box-desc {
+  color: #64748b !important;
+}
+.error-states-sheet .empty-icon-badge,
+.error-states-sheet .error-icon-badge {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+.error-state-view {
+  display: none;
+}
+.error-state-view.active {
+  display: block;
+}
+.error-state-preview-note {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 16px;
+  text-align: center;
+}
+@media (max-width: 640px) {
+  .error-states-modal {
+    padding: 0;
+    align-items: flex-end;
+  }
+  .error-states-sheet {
+    max-height: 88vh;
+    border-radius: 16px 16px 0 0;
+  }
+  .error-states-header {
+    padding: 14px 16px;
+  }
+  .error-states-body {
+    padding: 18px 14px;
+  }
+}
+
+/* Product 404 Modal State */
+.qv-not-found-state {
+  padding: 48px 24px;
+  text-align: center;
+  background: #ffffff;
+  color: #0f172a;
+}
+.qv-not-found-state .empty-icon-badge {
+  font-size: 42px;
+  margin-bottom: 12px;
+}

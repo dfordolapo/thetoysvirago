@@ -2,7 +2,18 @@
     <div id="quickview-modal" class="modal-overlay" hidden>
       <div class="qv-card">
         <button id="btn-close-modal" class="btn-close-modal" onclick="document.getElementById('quickview-modal').style.display='none'; document.getElementById('quickview-modal').setAttribute('hidden','');">✕</button>
-        <div class="qv-inner">
+
+        <!-- Product Not Found 404 State (Clean White Modal, No Outerstroke) -->
+        <div id="qv-not-found-state" class="qv-not-found-state" hidden style="display: none;">
+          <div class="empty-icon-badge">🛍️</div>
+          <h2 class="empty-box-title" style="margin-bottom: 8px;">Product Not Found</h2>
+          <p class="empty-box-desc" style="max-width: 380px; margin: 0 auto 20px;">This piece is currently unavailable, archived, or the link may have been mistyped. Explore our live catalog to discover all active pieces.</p>
+          <div class="empty-box-actions">
+            <a href="/products.html" class="btn btn-black btn-md" style="border-radius: 8px !important; text-decoration: none;" onclick="document.getElementById('quickview-modal').style.display='none'; document.getElementById('quickview-modal').setAttribute('hidden','');">Browse All Pieces</a>
+          </div>
+        </div>
+
+        <div class="qv-inner" id="qv-content-inner">
           <div class="qv-gallery-col">
             <div class="qv-img-wrap">
               <img id="qv-img" src="/assets/hero-device.webp" alt="" class="qv-img" />

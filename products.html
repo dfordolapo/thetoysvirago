@@ -170,10 +170,13 @@
         </div>
 
         <!-- No Results Fallback -->
-        <div id="search-no-results" class="search-no-results" hidden>
-          <h3 id="no-results-title">Patience is a virtue (and a kink).</h3>
-          <p id="no-results-desc">We're stocking this vault right now. Check back shortly or browse our active collection.</p>
-          <button id="btn-reset-search" class="btn btn-black btn-md">Browse All Products</button>
+        <div id="search-no-results" class="search-no-results empty-box" hidden>
+          <div class="empty-icon-badge">🔍</div>
+          <h3 id="no-results-title" class="empty-box-title">Patience is a virtue (and a kink).</h3>
+          <p id="no-results-desc" class="empty-box-desc">We're stocking this vault right now. Check back shortly or browse our active collection.</p>
+          <div class="empty-box-actions">
+            <button id="btn-reset-search" class="btn btn-black btn-md" style="border-radius: 8px !important;">Browse All Products</button>
+          </div>
         </div>
 
         <div class="products-grid" id="products-grid">

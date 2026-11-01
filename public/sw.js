@@ -1,9 +1,11 @@
-const CACHE_NAME = 'thetoysvirago-v8';
+const CACHE_NAME = 'thetoysvirago-v9';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
   '/products.html',
+  '/blog.html',
   '/manifest.webmanifest',
+  '/src/style.css',
   '/assets/logo.webp',
   '/assets/hero-collection.webp',
   '/assets/hero-device.webp',
@@ -49,6 +51,11 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  // Only handle GET requests
+  if (event.request.method !== 'GET') return;
+
+  const url = new URL(event.request.url);
+
   // Network first, falling back to cache
   event.respondWith(
     fetch(event.request)
@@ -61,8 +68,23 @@ self.addEventListener('fetch', (event) => {
         }
         return networkResponse;
       })
-      .catch(() => {
-        return caches.match(event.request);
+      .catch(async () => {
+        const cached = await caches.match(event.request);
+        if (cached) return cached;
+
+        // If it's a page navigation request that failed offline, return cached /index.html or /products.html
+        if (event.request.mode === 'navigate') {
+          if (url.pathname.includes('/blog')) {
+            const cachedBlog = await caches.match('/blog.html');
+            if (cachedBlog) return cachedBlog;
+          }
+          if (url.pathname.includes('/products')) {
+            const cachedProducts = await caches.match('/products.html');
+            if (cachedProducts) return cachedProducts;
+          }
+          return caches.match('/index.html') || caches.match('/');
+        }
+        return null;
       })
   );
 });

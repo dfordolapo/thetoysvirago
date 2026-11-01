@@ -94,9 +94,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (filtered.length === 0) {
       cardsGrid.innerHTML = `
-        <div style="grid-column: 1 / -1; text-align: center; padding: 48px 20px; color: #94a3b8;">
-          <p style="font-size: 14px; margin-bottom: 14px;">No articles found in this category.</p>
-          <button type="button" class="btn btn-ruby btn-sm" id="btn-reset-filter" style="border-radius: 8px !important;">View All Stories</button>
+        <div class="empty-box" style="grid-column: 1 / -1;">
+          <div class="empty-icon-badge">✍️</div>
+          <h3 class="empty-box-title">More bedtime stories coming.</h3>
+          <p class="empty-box-desc">We haven't filed any dispatches in this category yet, but our pleasure writers are on it.</p>
+          <div class="empty-box-actions">
+            <button type="button" class="btn btn-ruby btn-md" id="btn-reset-filter" style="border-radius: 8px !important;">Explore All Articles</button>
+          </div>
         </div>
       `;
       const btnReset = document.getElementById('btn-reset-filter');
@@ -161,7 +165,37 @@ document.addEventListener('DOMContentLoaded', () => {
   // Open single article
   function openArticle(slug, pushState = true) {
     const article = BLOG_ARTICLES.find(a => a.slug === slug);
-    if (!article) return;
+    if (!article) {
+      // Friendly, playful 404 article error state
+      if (readerView && readerContent) {
+        if (readerCategory) readerCategory.textContent = 'Lost in the Sheets';
+        if (readerTitle) readerTitle.textContent = 'This article slipped away.';
+        if (readerAuthor) readerAuthor.textContent = 'TheToysVirago';
+        if (readerDate) readerDate.textContent = 'Dispatches';
+        if (readerTime) readerTime.textContent = '1 min';
+        if (readerCrumbTitle) readerCrumbTitle.textContent = 'Story Not Found';
+        readerContent.innerHTML = `
+          <div class="error-box" style="margin: 40px auto;">
+            <div class="error-icon-badge">📄</div>
+            <h3 class="error-box-title">We couldn't find this piece.</h3>
+            <p class="error-box-desc">It may have been moved, renamed, or retired to make room for fresh intimacy dispatches.</p>
+            <div class="error-box-actions">
+              <button type="button" class="btn btn-ruby btn-md" id="btn-err-back-to-journal" style="border-radius: 8px !important;">Back to Pleasure Journal</button>
+            </div>
+          </div>
+        `;
+        const heroSection = document.getElementById('blog-hero-section');
+        if (heroSection) heroSection.style.display = 'none';
+        if (indexView) indexView.style.display = 'none';
+        readerView.style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        const btnErrBack = document.getElementById('btn-err-back-to-journal');
+        if (btnErrBack) {
+          btnErrBack.addEventListener('click', () => closeArticle(true));
+        }
+      }
+      return;
+    }
 
     currentArticle = article;
 
@@ -464,5 +498,74 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       toggleBlogTheme();
     });
+  });
+
+  // Offline detection banner
+  const offlineBanner = document.getElementById('offline-banner');
+  const btnCloseOffline = document.getElementById('btn-close-offline-banner');
+
+  function updateNetworkStatus() {
+    const isOffline = !navigator.onLine;
+
+    if (offlineBanner) {
+      if (isOffline) {
+        offlineBanner.removeAttribute('hidden');
+        offlineBanner.style.display = 'flex';
+      } else {
+        offlineBanner.setAttribute('hidden', '');
+        offlineBanner.style.display = 'none';
+      }
+    }
+  }
+
+  window.addEventListener('online', updateNetworkStatus);
+  window.addEventListener('offline', updateNetworkStatus);
+  if (btnCloseOffline && offlineBanner) {
+    btnCloseOffline.addEventListener('click', () => {
+      offlineBanner.setAttribute('hidden', '');
+      offlineBanner.style.display = 'none';
+    });
+  }
+  updateNetworkStatus();
+
+  // Error States Gallery Modal in Blog
+  const btnOpenBlogErrorStates = document.getElementById('btn-open-error-states');
+  const blogErrorStatesModal = document.getElementById('error-states-modal');
+  const btnCloseBlogErrorStates = document.getElementById('btn-close-error-states');
+
+  if (btnOpenBlogErrorStates && blogErrorStatesModal) {
+    btnOpenBlogErrorStates.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (dropdown) {
+        dropdown.setAttribute('hidden', '');
+        dropdown.style.display = 'none';
+      }
+      blogErrorStatesModal.removeAttribute('hidden');
+      blogErrorStatesModal.style.display = 'flex';
+    });
+  }
+
+  if (btnCloseBlogErrorStates && blogErrorStatesModal) {
+    btnCloseBlogErrorStates.addEventListener('click', () => {
+      blogErrorStatesModal.setAttribute('hidden', '');
+      blogErrorStatesModal.style.display = 'none';
+    });
+    blogErrorStatesModal.addEventListener('click', (e) => {
+      if (e.target === blogErrorStatesModal) {
+        blogErrorStatesModal.setAttribute('hidden', '');
+        blogErrorStatesModal.style.display = 'none';
+      }
+    });
+  }
+
+  document.addEventListener('click', (e) => {
+    const tabBtn = e.target.closest('.error-tab-btn');
+    if (tabBtn) {
+      const tabId = tabBtn.dataset.tab;
+      document.querySelectorAll('.error-tab-btn').forEach(b => b.classList.toggle('active', b === tabBtn));
+      document.querySelectorAll('.error-state-view').forEach(v => {
+        v.classList.toggle('active', v.id === `view-${tabId}`);
+      });
+    }
   });
 });

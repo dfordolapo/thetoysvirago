@@ -1,3 +1,12 @@
+    <!-- Offline Mode Banner -->
+    <div id="offline-banner" class="offline-banner" hidden>
+      <div class="offline-banner-inner">
+        <span class="offline-banner-pill">Offline</span>
+        <span class="offline-banner-text">No internet connection. You're browsing offline mode - your bag and saved items are safe.</span>
+        <button type="button" id="btn-close-offline-banner" class="offline-banner-close" aria-label="Dismiss offline banner">&times;</button>
+      </div>
+    </div>
+
     <!-- Toast -->
     <div id="toast" class="toast" hidden>
       <span class="toast-icon">✓</span>
@@ -20,5 +29,93 @@
       <div id="pwa-ios-instructions" class="pwa-ios-instructions" hidden>
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
         <span>Tap <strong>Share</strong> then <strong>Add to Home Screen</strong></span>
+      </div>
+    </div>
+
+    <!-- Error States Gallery Modal (Zero glassmorphism, no outer strokes, easily accessible from Hamburger Menu) -->
+    <div id="error-states-modal" class="error-states-modal" hidden>
+      <div class="error-states-sheet" role="dialog" aria-modal="true" aria-label="System Error States">
+        <div class="error-states-header">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="error-preview-pill">System States</span>
+            <h3 class="error-states-title">Error States Preview</h3>
+          </div>
+          <button type="button" id="btn-close-error-states" class="error-states-close" aria-label="Close error modal">&times;</button>
+        </div>
+
+        <div class="error-states-tabs">
+          <button type="button" class="error-tab-btn active" data-tab="checkout-err">1. Checkout Drop</button>
+          <button type="button" class="error-tab-btn" data-tab="search-err">2. Search Empty</button>
+          <button type="button" class="error-tab-btn" data-tab="shop-404">3. Shop 404</button>
+          <button type="button" class="error-tab-btn" data-tab="blog-err">4. Article 404</button>
+          <button type="button" class="error-tab-btn" data-tab="network-err">5. Network Drop</button>
+        </div>
+
+        <div class="error-states-body">
+          <!-- State 1: Checkout Error -->
+          <div class="error-state-view active" id="view-checkout-err">
+            <div class="co-error-box" style="display: flex !important;">
+              <div class="co-error-icon">⚠️</div>
+              <div class="co-error-body">
+                <div class="co-error-title">Payment Gateway or Network Timeout</div>
+                <div class="co-error-msg">The connection took a quick nap before confirming your transaction. No money was lost, and your bedside bag is completely safe.</div>
+                <button type="button" class="co-error-btn-retry" onclick="alert('Retry action triggered!');">Retry Order</button>
+              </div>
+            </div>
+            <p class="error-state-preview-note">Rendered inline right above the "Place Order" button during network or Paystack payment drops.</p>
+          </div>
+
+          <!-- State 2: Search Empty State -->
+          <div class="error-state-view" id="view-search-err">
+            <div class="empty-box" style="margin: 0 auto;">
+              <div class="empty-icon-badge">🔍</div>
+              <h3 class="empty-box-title">Nothing to buzz about yet.</h3>
+              <p class="empty-box-desc">We couldn't find anything matching your query. Give it another tease with 'rose', 'bullet', 'dildo', 'lingerie', or 'lube'.</p>
+              <div class="empty-box-actions">
+                <button type="button" class="btn btn-ruby btn-md" style="border-radius: 8px !important;">Clear Search &amp; Reset</button>
+              </div>
+            </div>
+            <p class="error-state-preview-note">Rendered across the catalog whenever product searches or filter tags return 0 matches.</p>
+          </div>
+
+          <!-- State 3: Shop / Product 404 -->
+          <div class="error-state-view" id="view-shop-404">
+            <div class="empty-box" style="margin: 0 auto;">
+              <div class="empty-icon-badge">🛍️</div>
+              <h3 class="empty-box-title">Product Not Found.</h3>
+              <p class="empty-box-desc">This piece is currently unavailable, archived, or the link may have been mistyped. Explore our live catalog to discover all active pieces.</p>
+              <div class="empty-box-actions">
+                <a href="/products.html" class="btn btn-black btn-md" style="border-radius: 8px !important; text-decoration: none;">Browse All Pieces</a>
+              </div>
+            </div>
+            <p class="error-state-preview-note">Rendered as a clean white modal whenever a product link or query points to a non-existent item.</p>
+          </div>
+
+          <!-- State 4: Article 404 -->
+          <div class="error-state-view" id="view-blog-err">
+            <div class="error-box" style="margin: 0 auto;">
+              <div class="error-icon-badge">📄</div>
+              <h3 class="error-box-title">We couldn't find this piece.</h3>
+              <p class="error-box-desc">This intimacy dispatch may have slipped between the sheets, been moved, or retired for fresh guides.</p>
+              <div class="error-box-actions">
+                <a href="/blog.html" class="btn btn-ruby btn-md" style="border-radius: 8px !important; text-decoration: none;">Back to Pleasure Journal</a>
+              </div>
+            </div>
+            <p class="error-state-preview-note">Rendered in the Pleasure Journal reader if an invalid article slug is requested.</p>
+          </div>
+
+          <!-- State 4: Network Drop -->
+          <div class="error-state-view" id="view-network-err">
+            <div class="error-box" style="margin: 0 auto;">
+              <div class="error-icon-badge">📡</div>
+              <h3 class="error-box-title">Connection Interrupted.</h3>
+              <p class="error-box-desc">No internet connection detected. You are viewing offline mode - your saved bag and addresses are safe on this device.</p>
+              <div class="error-box-actions">
+                <button type="button" class="btn btn-black btn-md" style="border-radius: 8px !important;" onclick="window.location.reload();">Retry Connection</button>
+              </div>
+            </div>
+            <p class="error-state-preview-note">Displayed when devices disconnect or timeout while navigating pages.</p>
+          </div>
+        </div>
       </div>
     </div>

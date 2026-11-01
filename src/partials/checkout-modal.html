@@ -207,6 +207,16 @@
             <button type="submit" id="btn-submit-order" class="btn btn-black btn-block btn-lg">
               Place Order
             </button>
+
+            <!-- Inline Checkout Error State (Zero glassmorphism, flat tint, 8px radius) -->
+            <div id="co-error-state" class="co-error-box" hidden>
+              <div class="co-error-icon">⚠️</div>
+              <div class="co-error-body">
+                <div class="co-error-title" id="co-error-title">Payment or Network Hiccup</div>
+                <div class="co-error-msg" id="co-error-msg">Network did not respond in time. Don't worry, your bag is safe. Tap retry to try again.</div>
+                <button type="button" id="btn-co-error-retry" class="co-error-btn-retry">Retry Order</button>
+              </div>
+            </div>
           </div>
         </form>
 
