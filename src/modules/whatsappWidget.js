@@ -26,14 +26,13 @@ export function initWhatsAppWidget() {
       btn.classList.add('active');
       setTimeout(() => {
         if (input) input.focus();
-      }, 100);
+      }, 60);
     } else {
+      // Immediate clean collapse: hide popup synchronously so both never show at the same instant
+      popup.setAttribute('hidden', '');
       popup.classList.remove('open');
       if (wrapper) wrapper.classList.remove('is-open');
       btn.classList.remove('active');
-      setTimeout(() => {
-        popup.setAttribute('hidden', '');
-      }, 250);
     }
   }
 
