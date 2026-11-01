@@ -78,8 +78,13 @@ export const BLOG_ARTICLES = [
       <p>Beginners usually choose between two core technologies:</p>
       <ul>
         <li><strong>Contactless Air-Pulse Waves:</strong> The human clitoral glans houses between 8,000 and 10,000 concentrated sensory nerve endings. Direct friction can quickly trigger overstimulation or temporary numbness. Air-pulse toys (such as the Satisfyer Pro 2 or Pulsating Rose) do not make vibrating contact with skin. Instead, they use rapid, gentle changes in air pressure to stimulate external nerve endings touch-free.</li>
-        <li><strong>Direct Silicone Vibration:</strong> Classic wand and bullet designs deliver concentrated vibrational waves through flexible silicone heads. These work best for full-body relaxation, targeted stimulation, or warming up muscle tension during partner play. <em>Example: The Mini Wand.</em></li>
+        <li><strong>Direct Silicone Vibration &amp; Wand Comfort:</strong> Rather than hard, high-pitched pinpoint vibrations, beginners do best with broader, low-frequency contact. Devices like <em>The Mini Wand</em> disperse rumbles across a 360° flexible silicone head to prevent surface numbness.</li>
       </ul>
+
+      <div class="article-callout">
+        <span class="callout-badge">WHY BULLETS ARE NOT FOR BEGINNERS</span>
+        <p>A common mistake is assuming tiny bullet vibrators are the best entry point. In reality, traditional bullets concentrate rigid, buzzing vibration directly onto a pinpoint spot. For first-timers, this easily causes uncomfortable overstimulation or rapid numbness before you can even relax. On top of that, standard bullets are notorious for higher-pitched motor whine that buzzes loudly against surfaces.</p>
+      </div>
 
       <div class="article-callout">
         <span class="callout-badge">THE ROSE CONTROVERSY</span>
@@ -89,6 +94,11 @@ export const BLOG_ARTICLES = [
       <h3>3. Material Safety: Platinum Silicone vs Porous Plastics</h3>
       <p>Never purchase cheap jelly rubber, soft vinyl, or mystery TPR toys from unverified marketplaces. These materials are porous, meaning microscopic crevices harbor bacteria even after thorough washing. They also rely on chemical plasticizers (phthalates) to remain flexible, which can break down into an oily, foul-smelling film that causes severe mucosal irritation.</p>
       <p>Every piece at TheToysVirago is crafted exclusively from <strong>100% medical-grade, platinum-cured silicone</strong> and body-safe ABS. Medical silicone is non-porous, hypoallergenic, warms to body temperature within 30 seconds, and cleans completely with warm tap water and mild unscented soap.</p>
+
+      <div class="article-callout">
+        <span class="callout-badge">TOP BEGINNER PICK: ZERO EMBARRASSMENT</span>
+        <p><strong>The Lipstick Vibe (₦22,000):</strong> The gold standard for first-timers who want zero awkwardness. Disguised in plain sight as a chic white and gold designer lipstick, it is completely unrecognizable in your bag or makeup drawer. Better yet, its sub-whisper motor operates under 25dB - far quieter than any buzzy bullet - with an angled, velvet-soft silicone tip that feels gentle and forgiving.</p>
+      </div>
 
       <div class="article-callout">
         <span class="callout-badge">BUDGET STEALTH (₦15,000)</span>
@@ -101,15 +111,16 @@ export const BLOG_ARTICLES = [
       </div>
 
       <div class="article-product-spotlight">
-        <h4>Ready to compare acoustics and sensations?</h4>
-        <p>Explore the deep rumble of <strong>The Mini Wand (₦15,000)</strong> or the whisper-quiet pressure waves of the <strong>Satisfyer Pro 2</strong>.</p>
+        <h4>Ready to explore beginner-friendly pieces?</h4>
+        <p>Experience the discreet stealth of the <strong>Lipstick Vibe (₦22,000)</strong>, the deep rumble of <strong>The Mini Wand (₦15,000)</strong>, or the gentle touchless waves of the <strong>Satisfyer Pro 2</strong>.</p>
         <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-          <a href="/products.html?product=sceptre-wand" class="btn btn-ruby btn-sm" style="border-radius: 8px !important;">The Mini Wand (₦15,000) &rarr;</a>
-          <a href="/products.html?product=satisfyer-pro-suction" class="btn btn-ruby btn-sm" style="border-radius: 8px !important; background: #222230 !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.2) !important;">Satisfyer Pro 2 &rarr;</a>
+          <a href="/products.html?product=lipstick-vibe" class="btn btn-ruby btn-sm" style="border-radius: 8px !important;">Lipstick Vibe (₦22,000) &rarr;</a>
+          <a href="/products.html?product=sceptre-wand" class="btn btn-ruby btn-sm" style="border-radius: 8px !important; background: #222230 !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.2) !important;">The Mini Wand (₦15,000) &rarr;</a>
+          <a href="/products.html?product=satisfyer-pro-suction" class="btn btn-ruby btn-sm" style="border-radius: 8px !important; background: #161217 !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.2) !important;">Satisfyer Pro 2 &rarr;</a>
         </div>
       </div>
     `,
-    relatedProducts: ['sceptre-wand', 'satisfyer-pro-suction', 'pulsating-rose']
+    relatedProducts: ['lipstick-vibe', 'sceptre-wand', 'satisfyer-pro-suction', 'pulsating-rose']
   },
   {
     slug: 'water-based-lube-guide-nigeria',
