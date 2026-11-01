@@ -12,7 +12,7 @@ export const BLOG_ARTICLES = [
     readTime: '6 min read',
     date: 'October 30, 2026',
     author: 'TheToysVirago Team',
-    heroImg: '/assets/blog/article-discreet-delivery.jpg',
+    heroImg: '/assets/blog/article-discreet-delivery.webp',
     excerpt: 'Nosey roommates, estate gate security, and dispatch riders. Here is how your delivery stays 100% anonymous from our dispatch table to your door.',
     content: `
       <p class="article-lead">We know the anxiety. You want something luxurious for your private moments, but you share an apartment, live in a gated estate with nosey security, or don't want a dispatch rider side-eyeing your delivery. Let's pull back the curtain on how discreet delivery actually operates at TheToysVirago.</p>
@@ -65,7 +65,7 @@ export const BLOG_ARTICLES = [
     readTime: '7 min read',
     date: 'October 28, 2026',
     author: 'TheToysVirago Team',
-    heroImg: '/assets/blog/article-first-timer.jpg',
+    heroImg: '/assets/blog/article-first-timer.webp',
     excerpt: 'Confused between air-pulse suction and deep rumbly vibration? How to pick your first piece without wasting money on something forgotten in a drawer.',
     content: `
       <p class="article-lead">Shopping for a first intimate device often feels needlessly complicated. Between air-pulse suction, variable frequency motors, and dozens of different shapes, it is easy to spend money on viral gadgets that end up abandoned in a bedside drawer. Understanding a few technical basics makes choosing the right piece straightforward.</p>
@@ -124,7 +124,7 @@ export const BLOG_ARTICLES = [
     readTime: '5 min read',
     date: 'October 25, 2026',
     author: 'TheToysVirago Team',
-    heroImg: '/assets/blog/article-wellness-lube.jpg',
+    heroImg: '/assets/blog/article-wellness-lube.webp',
     excerpt: 'Why kitchen oils ruin luxury silicone, how petroleum jelly disrupts your pH, and what safe glide actually does for pleasure.',
     content: `
       <p class="article-lead">Using kitchen oils or petroleum jelly in the bedroom is common practice simply because they are familiar and already on the nightstand. However, from material science to tissue microbiology, what you reach for matters tremendously depending on the kind of play and the pieces you use.</p>
@@ -181,7 +181,7 @@ export const BLOG_ARTICLES = [
     readTime: '6 min read',
     date: 'October 22, 2026',
     author: 'TheToysVirago Team',
-    heroImg: '/assets/blog/article-couples-guide.jpg',
+    heroImg: '/assets/blog/article-couples-guide.webp',
     excerpt: 'How to suggest a toy to your partner as an upgrade for both of you, without triggering ego, comparison, or awkward defensiveness.',
     content: `
       <p class="article-lead">Introducing an intimate piece into partner play can feel surprisingly vulnerable. In many relationships, especially where open sexual communication wasn't traditionally encouraged growing up, bedroom confidence often gets tangled with unspoken expectations around performance. When one partner suggests bringing a device into the mix, the quiet fear is often: <em>"Am I not enough?"</em> or <em>"Does this mean something is missing?"</em> Navigating this conversation requires framing the addition as an amplifier for shared pleasure rather than a critique.</p>
