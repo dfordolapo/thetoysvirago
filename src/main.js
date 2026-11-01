@@ -7129,9 +7129,19 @@ async function refreshLaunchFreeDeliveryEligibility() {
   updateCheckoutTotalsDisplay();
 }
 
+// Starter bundles do NOT qualify for free delivery
+function cartHasNonFreeDeliveryItem() {
+  return cart.some(item => {
+    const id = (item.id || item.cartId || item.baseId || '').toLowerCase();
+    const title = (item.title || '').toLowerCase();
+    return id.startsWith('bundle-') || title.includes('starter kit') || title.includes('seduction set') || title.includes('bundle');
+  });
+}
+
 function getCalculatedDeliveryFee() {
   const zone = DELIVERY_ZONES[currentDeliveryZoneId] || DELIVERY_ZONES.lagos_island_core;
-  if (isFreeDeliveryPromoActive) return 0;
+  // If cart contains curated starter bundles, it NEVER qualifies for free delivery
+  if (isFreeDeliveryPromoActive && !cartHasNonFreeDeliveryItem()) return 0;
   if (zone.type === 'lagos') {
     return zone.fee;
   } else {
@@ -7161,7 +7171,9 @@ function updateCheckoutTotalsDisplay() {
   const parkFeeLabel = document.getElementById('park-fee-label');
   const doorstepFeeLabel = document.getElementById('doorstep-fee-label');
 
-  if (isFreeDeliveryPromoActive) {
+  const isEligibleForFree = isFreeDeliveryPromoActive && !cartHasNonFreeDeliveryItem();
+
+  if (isEligibleForFree) {
     if (coDeliveryFeeEl) coDeliveryFeeEl.innerHTML = `<span class="green-txt">Free</span>`;
     if (coFreeBanner) coFreeBanner.style.display = 'block';
   } else {
