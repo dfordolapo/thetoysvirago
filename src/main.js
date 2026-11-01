@@ -7129,9 +7129,11 @@ async function refreshLaunchFreeDeliveryEligibility() {
   updateCheckoutTotalsDisplay();
 }
 
-// Starter bundles do NOT qualify for free delivery
-function cartHasNonFreeDeliveryItem() {
-  return cart.some(item => {
+// Starter bundles alone do NOT qualify for free delivery.
+// If a bundle is purchased with another item (cart has regular products alongside the bundle), it CAN qualify.
+function isCartOnlyStarterBundles() {
+  if (cart.length === 0) return false;
+  return cart.every(item => {
     const id = (item.id || item.cartId || item.baseId || '').toLowerCase();
     const title = (item.title || '').toLowerCase();
     return id.startsWith('bundle-') || title.includes('starter kit') || title.includes('seduction set') || title.includes('bundle');
@@ -7140,8 +7142,9 @@ function cartHasNonFreeDeliveryItem() {
 
 function getCalculatedDeliveryFee() {
   const zone = DELIVERY_ZONES[currentDeliveryZoneId] || DELIVERY_ZONES.lagos_island_core;
-  // If cart contains curated starter bundles, it NEVER qualifies for free delivery
-  if (isFreeDeliveryPromoActive && !cartHasNonFreeDeliveryItem()) return 0;
+  // If the cart consists ONLY of starter bundles, it does not qualify for free delivery.
+  // But if purchased with any other store product, it qualifies!
+  if (isFreeDeliveryPromoActive && !isCartOnlyStarterBundles()) return 0;
   if (zone.type === 'lagos') {
     return zone.fee;
   } else {
@@ -7171,7 +7174,7 @@ function updateCheckoutTotalsDisplay() {
   const parkFeeLabel = document.getElementById('park-fee-label');
   const doorstepFeeLabel = document.getElementById('doorstep-fee-label');
 
-  const isEligibleForFree = isFreeDeliveryPromoActive && !cartHasNonFreeDeliveryItem();
+  const isEligibleForFree = isFreeDeliveryPromoActive && !isCartOnlyStarterBundles();
 
   if (isEligibleForFree) {
     if (coDeliveryFeeEl) coDeliveryFeeEl.innerHTML = `<span class="green-txt">Free</span>`;
