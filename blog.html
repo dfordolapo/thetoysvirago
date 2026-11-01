@@ -697,6 +697,17 @@
       color: #ffffff !important;
       font-weight: 700;
     }
+    .article-body a {
+      color: #f43f5e !important;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      font-weight: 600;
+      transition: color 0.15s ease, opacity 0.15s ease;
+    }
+    .article-body a:hover {
+      color: #fb7185 !important;
+      opacity: 0.9;
+    }
 
     /* STRICT NO OUTSIDE STROKES: Callouts, quotes, and spotlights rely solely on soft background fills */
     .article-callout {
@@ -740,6 +751,174 @@
       padding: 22px;
       margin: 28px 0;
       text-align: center;
+    }
+
+    /* First-Timer Recommendations Table & Admin-Style Mobile Card Layout */
+    .article-recommend-table-wrap {
+      display: block;
+      overflow-x: auto;
+      margin: 24px 0;
+      border-radius: 8px;
+    }
+    .article-guide-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #e2e8f0;
+      background: #121217;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .article-guide-table th {
+      padding: 13px 16px;
+      font-weight: 700;
+      color: #ffffff;
+      background: #1c1c24;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: left;
+    }
+    .article-guide-table td {
+      padding: 13px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      vertical-align: top;
+    }
+    .article-guide-table td.col-need {
+      font-weight: 600;
+      color: #fda4af;
+      width: 25%;
+    }
+    .article-guide-table td.col-toy {
+      font-weight: 700;
+      width: 20%;
+    }
+    .article-guide-table td.col-toy a {
+      color: #ffffff;
+      text-decoration: underline;
+      transition: color 0.2s ease;
+    }
+    .article-guide-table td.col-toy a:hover {
+      color: #fb7185;
+    }
+    .article-guide-table td.col-why {
+      color: #cbd5e1;
+      width: 42%;
+    }
+    .article-guide-table td.col-price {
+      text-align: right;
+      font-weight: 700;
+      color: #ffffff;
+      width: 13%;
+      white-space: nowrap;
+    }
+
+    /* Mobile Admin-Style Card List (Zero Horizontal Scrolling) */
+    .article-recommend-cards-wrap {
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+      margin: 20px 0;
+    }
+    .guide-admin-card {
+      background: #14141c;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px !important;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    }
+    .guide-admin-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      padding-bottom: 10px;
+    }
+    .guide-admin-card-toy {
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .guide-admin-card-toy:hover {
+      color: #fb7185;
+    }
+    .guide-admin-card-price {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #fb7185;
+      background: rgba(225, 29, 72, 0.12);
+      padding: 3px 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+    .guide-admin-card-need {
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: #fda4af;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .guide-admin-card-quote {
+      font-size: 11.5px;
+      font-style: italic;
+      color: #fda4af;
+      background: rgba(225, 29, 72, 0.08);
+      border-radius: 6px;
+      padding: 5px 9px;
+      line-height: 1.45;
+      display: inline-block;
+      margin: 0;
+    }
+    .guide-admin-card-why {
+      font-size: 12.5px;
+      line-height: 1.55;
+      color: #cbd5e1;
+      margin: 0;
+    }
+    .guide-admin-card-why strong {
+      color: #ffffff;
+    }
+    .guide-admin-card-action {
+      margin-top: 4px;
+      display: flex;
+    }
+    .guide-admin-card-action a {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #ffffff;
+      background: #1f1f2e;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px !important;
+      padding: 6px 12px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+    }
+    .guide-admin-card-action a:hover {
+      background: #9f1239;
+      border-color: #9f1239;
+    }
+
+    @media (max-width: 768px) {
+      .article-recommend-table-wrap {
+        display: none !important;
+      }
+      .article-recommend-cards-wrap {
+        display: flex !important;
+      }
     }
     .article-product-spotlight h4 {
       font-family: var(--serif, 'Cormorant Garamond', Georgia, serif);
@@ -1089,6 +1268,14 @@
     body.blog-light-mode .article-body strong {
       color: #000000 !important;
     }
+    body.blog-light-mode .article-body a {
+      color: #be123c !important;
+      text-decoration: underline;
+      font-weight: 600;
+    }
+    body.blog-light-mode .article-body a:hover {
+      color: #9f1239 !important;
+    }
     body.blog-light-mode .article-body em {
       background: #ffe4e6 !important;
       color: #9f1239 !important;
@@ -1147,6 +1334,79 @@
       background: #e2e8f0 !important;
       color: #be123c !important;
       border-color: #be123c !important;
+    }
+
+    /* Light Mode Overrides for Table & Admin-Style Cards */
+    body.blog-light-mode .article-guide-table {
+      background: #ffffff !important;
+      color: #1e293b !important;
+      border: 1px solid #e2e8f0 !important;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04) !important;
+    }
+    body.blog-light-mode .article-guide-table th {
+      background: #f8fafc !important;
+      color: #0f172a !important;
+      border-bottom: 1px solid #e2e8f0 !important;
+    }
+    body.blog-light-mode .article-guide-table td {
+      border-bottom: 1px solid #f1f5f9 !important;
+    }
+    body.blog-light-mode .article-guide-table td.col-need {
+      color: #9f1239 !important;
+    }
+    body.blog-light-mode .article-guide-table td.col-toy a {
+      color: #0f172a !important;
+    }
+    body.blog-light-mode .article-guide-table td.col-toy a:hover {
+      color: #e11d48 !important;
+    }
+    body.blog-light-mode .article-guide-table td.col-why {
+      color: #475569 !important;
+    }
+    body.blog-light-mode .article-guide-table td.col-price {
+      color: #0f172a !important;
+    }
+
+    body.blog-light-mode .guide-admin-card {
+      background: #ffffff !important;
+      border: 1px solid #e2e8f0 !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+    }
+    body.blog-light-mode .guide-admin-card-header {
+      border-bottom-color: #f1f5f9 !important;
+    }
+    body.blog-light-mode .guide-admin-card-toy {
+      color: #0f172a !important;
+    }
+    body.blog-light-mode .guide-admin-card-toy:hover {
+      color: #e11d48 !important;
+    }
+    body.blog-light-mode .guide-admin-card-price {
+      color: #9f1239 !important;
+      background: rgba(159, 18, 57, 0.09) !important;
+    }
+    body.blog-light-mode .guide-admin-card-need {
+      color: #be123c !important;
+    }
+    body.blog-light-mode .guide-admin-card-quote {
+      color: #9f1239 !important;
+      background: #fff1f2 !important;
+    }
+    body.blog-light-mode .guide-admin-card-why {
+      color: #334155 !important;
+    }
+    body.blog-light-mode .guide-admin-card-why strong {
+      color: #0f172a !important;
+    }
+    body.blog-light-mode .guide-admin-card-action a {
+      background: #f8fafc !important;
+      color: #0f172a !important;
+      border-color: #cbd5e1 !important;
+    }
+    body.blog-light-mode .guide-admin-card-action a:hover {
+      background: #9f1239 !important;
+      color: #ffffff !important;
+      border-color: #9f1239 !important;
     }
 
     /* THEME TOGGLE BUTTON STYLING */
