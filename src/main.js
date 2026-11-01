@@ -7129,22 +7129,25 @@ async function refreshLaunchFreeDeliveryEligibility() {
   updateCheckoutTotalsDisplay();
 }
 
-// Starter bundles alone do NOT qualify for free delivery.
-// If a bundle is purchased with another item (cart has regular products alongside the bundle), it CAN qualify.
-function isCartOnlyStarterBundles() {
+// Free delivery only applies to products over ₦25,000.
+// Starter bundles alone do not qualify for free delivery;
+// but if a bundle or order has a qualifying product priced over ₦25,000, it qualifies!
+function hasQualifyingFreeDeliveryProduct() {
   if (cart.length === 0) return false;
-  return cart.every(item => {
+  // Must contain at least one non-bundle product priced > ₦25,000
+  return cart.some(item => {
     const id = (item.id || item.cartId || item.baseId || '').toLowerCase();
     const title = (item.title || '').toLowerCase();
-    return id.startsWith('bundle-') || title.includes('starter kit') || title.includes('seduction set') || title.includes('bundle');
+    const isBundle = id.startsWith('bundle-') || title.includes('starter kit') || title.includes('seduction set') || title.includes('bundle');
+    const unitPrice = parseFloat(item.price) || 0;
+    return !isBundle && unitPrice > 25000;
   });
 }
 
 function getCalculatedDeliveryFee() {
   const zone = DELIVERY_ZONES[currentDeliveryZoneId] || DELIVERY_ZONES.lagos_island_core;
-  // If the cart consists ONLY of starter bundles, it does not qualify for free delivery.
-  // But if purchased with any other store product, it qualifies!
-  if (isFreeDeliveryPromoActive && !isCartOnlyStarterBundles()) return 0;
+  // Free delivery only applies if promo is active AND order contains a product over ₦25,000
+  if (isFreeDeliveryPromoActive && hasQualifyingFreeDeliveryProduct()) return 0;
   if (zone.type === 'lagos') {
     return zone.fee;
   } else {
@@ -7174,7 +7177,7 @@ function updateCheckoutTotalsDisplay() {
   const parkFeeLabel = document.getElementById('park-fee-label');
   const doorstepFeeLabel = document.getElementById('doorstep-fee-label');
 
-  const isEligibleForFree = isFreeDeliveryPromoActive && !isCartOnlyStarterBundles();
+  const isEligibleForFree = isFreeDeliveryPromoActive && hasQualifyingFreeDeliveryProduct();
 
   if (isEligibleForFree) {
     if (coDeliveryFeeEl) coDeliveryFeeEl.innerHTML = `<span class="green-txt">Free</span>`;
