@@ -1,7 +1,9 @@
+import { initWhatsAppWidget } from './modules/whatsappWidget.js';
 import { initPullToRefresh } from './modules/pullToRefresh.js';
 import { BLOG_ARTICLES } from './data/articles.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+  initWhatsAppWidget();
   initPullToRefresh();
   const cardsGrid = document.getElementById('blog-cards-grid');
   const indexView = document.getElementById('blog-index-view');

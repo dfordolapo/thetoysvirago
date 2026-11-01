@@ -1,3 +1,4 @@
+import { initWhatsAppWidget } from './modules/whatsappWidget.js';
 import { initPullToRefresh } from './modules/pullToRefresh.js';
 import { BLOG_ARTICLES } from './data/articles.js';
 import { getSupabaseProducts, recordSupabaseConfession, getSupabaseConfessions, recordSupabaseOrder, getSupabaseOrders } from './supabase.js';
@@ -9278,3 +9279,6 @@ renderHomepagePleasureJournal();
 
 // Initialize Physical Pull to Refresh
 initPullToRefresh();
+
+// Initialize Floating WhatsApp Interactive Chat Widget
+initWhatsAppWidget();
