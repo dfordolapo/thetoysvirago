@@ -1,3 +1,4 @@
+import { BLOG_ARTICLES } from './data/articles.js';
 import { getSupabaseProducts, recordSupabaseConfession, getSupabaseConfessions, recordSupabaseOrder, getSupabaseOrders } from './supabase.js';
 import { DELIVERY_ZONES, autoDetectDeliveryZoneFromAddress } from './modules/zones.js';
 import { openPaystackInline, isPaystackConfigured, PAYSTACK_PUBLIC_KEY } from './modules/paystack.js';
@@ -9243,3 +9244,33 @@ document.addEventListener('error', (e) => {
     }
   }
 }, true);
+
+// ================= 13. HOMEPAGE PLEASURE JOURNAL (ALWAYS 3 LATEST) =================
+function renderHomepagePleasureJournal() {
+  const container = document.getElementById('homepage-blog-grid');
+  if (!container || !Array.isArray(BLOG_ARTICLES) || BLOG_ARTICLES.length === 0) return;
+
+  const top3 = BLOG_ARTICLES.slice(0, 3);
+  container.innerHTML = top3.map(art => {
+    const cleanTitle = (art.title || '').replace(/[\u2018\u2019]/g, "'").replace(/"/g, '&quot;');
+    const cleanExcerpt = (art.excerpt || art.metaDesc || '').replace(/[\u2018\u2019]/g, "'").replace(/"/g, '&quot;');
+    const cat = art.category || 'Journal';
+    const readTime = art.readTime || '5 min read';
+
+    return `
+      <a href="/blog.html?post=${art.slug}" style="text-decoration: none; color: inherit; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s ease, border-color 0.2s ease; box-shadow: var(--sh-sm);">
+        <div style="aspect-ratio: 16/9; overflow: hidden; background: #f1f5f9;">
+          <img src="${art.heroImg}" alt="${cleanTitle}" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy" decoding="async" />
+        </div>
+        <div style="padding: 20px; display: flex; flex-direction: column; flex-grow: 1;">
+          <span style="font-size: 10px; font-weight: 800; color: #9f1239; background: #fdf2f4; border: 1px solid #fecdd3; padding: 3px 8px; border-radius: 4px; display: inline-block; width: fit-content; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px;">${cat}</span>
+          <h3 style="font-family: var(--serif); font-size: 1.25rem; color: #0c0c0e; margin: 0 0 8px; line-height: 1.3;">${cleanTitle}</h3>
+          <p style="font-size: 0.88rem; color: #4b5563; margin: 0 0 14px; line-height: 1.5; flex-grow: 1;">${cleanExcerpt}</p>
+          <span style="color: #9f1239; font-size: 12px; font-weight: 700;">${readTime} &rarr;</span>
+        </div>
+      </a>
+    `;
+  }).join('');
+}
+
+renderHomepagePleasureJournal();
