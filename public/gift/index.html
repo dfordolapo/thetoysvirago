@@ -30,10 +30,12 @@
   <meta name="twitter:description" content="Pick a favorite pleasure piece for your friend, add an optional anonymous note, and we deliver 100% quietly anywhere in Nigeria." />
   <meta name="twitter:image" content="https://www.thetoysvirago.shop/assets/gift-og-cover.jpg" />
 
-  <!-- Instant Redirection into Gift Section of Homepage -->
-  <meta http-equiv="refresh" content="0; url=https://www.thetoysvirago.shop/#gift-single-friend" />
+  <!-- Smooth Redirection into Gift Section of Homepage -->
   <script>
-    window.location.replace("https://www.thetoysvirago.shop/#gift-single-friend");
+    // Allow social crawlers and preview bots to parse tags, redirect human visitors
+    setTimeout(function() {
+      window.location.replace("https://www.thetoysvirago.shop/#gift-single-friend");
+    }, 150);
   </script>
   <style>
     body {
