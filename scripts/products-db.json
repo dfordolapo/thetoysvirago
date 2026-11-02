@@ -6086,5 +6086,43 @@
         "label": "Aphrodite Torso Doll"
       }
     ]
+  },
+  "bluey-set-3297": {
+    "id": "bluey-set-3297",
+    "title": "Bluey Set",
+    "badge": "STORE DROP",
+    "sku": "LINGERIE · DROP",
+    "price": 22000,
+    "priceStr": "₦22,000",
+    "img": "/assets/uploads/bluey-set-3297.webp",
+    "desc": "Engineered with high-tensile four-way stretch floral mesh and double-lined scalloped lace cups for delicate support without restrictive underwires. Ultra-fine micro-yarn seams eliminate friction on bare skin. Includes fully adjustable silk shoulder straps and a discreet cotton-lined gusset for effortless comfort through intimate evenings.",
+    "specs": [
+      {
+        "label": "Silhouette",
+        "value": "3-Piece Scalloped Lace Set"
+      },
+      {
+        "label": "Sizes",
+        "value": "S, M, L"
+      },
+      {
+        "label": "Packaging",
+        "value": "100% Plain Discreet Delivery"
+      }
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "material": "Premium Boudoir Lace & Sheer Microfiber",
+    "pattern": "lingerie",
+    "media": [
+      {
+        "type": "image",
+        "src": "/assets/uploads/bluey-set-3297.webp",
+        "label": "Bluey Set"
+      }
+    ]
   }
 }

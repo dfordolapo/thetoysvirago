@@ -15,14 +15,21 @@ async function generateProductPages() {
   // Also merge all products from Supabase so admin uploads get static pages
   try {
     const { createClient } = require('@supabase/supabase-js');
+    let url = process.env.VITE_SUPABASE_URL;
+    let key = process.env.VITE_SUPABASE_ANON_KEY;
     const envPath = path.join(rootDir, '.env');
-    if (fs.existsSync(envPath)) {
+    if ((!url || !key) && fs.existsSync(envPath)) {
       const env = fs.readFileSync(envPath, 'utf8');
-      const url = env.match(/VITE_SUPABASE_URL=(.*)/)?.[1]?.trim();
-      const key = env.match(/VITE_SUPABASE_ANON_KEY=(.*)/)?.[1]?.trim();
-      if (url && key) {
-        const sb = createClient(url, key);
-        const { data: remoteData } = await sb.from('products').select('*');
+      url = url || env.match(/VITE_SUPABASE_URL=(.*)/)?.[1]?.trim();
+      key = key || env.match(/VITE_SUPABASE_ANON_KEY=(.*)/)?.[1]?.trim();
+    }
+    // Hardcoded production fallbacks so Vercel serverless builds never fail to generate product pages
+    url = url || 'https://icopgheozdrauqevcbat.supabase.co';
+    key = key || 'sb_publishable_859wsyvaLXUwaQlU3IuqsQ_x2yv3epp';
+
+    if (url && key) {
+      const sb = createClient(url, key);
+      const { data: remoteData } = await sb.from('products').select('*');
         if (remoteData && Array.isArray(remoteData)) {
           remoteData.forEach(rp => {
             if (rp && rp.id && !db[rp.id]) {
@@ -37,7 +44,6 @@ async function generateProductPages() {
             }
           });
         }
-      }
     }
   } catch (err) {
     console.warn('Notice: Could not load remote Supabase products for static pages:', err.message);
