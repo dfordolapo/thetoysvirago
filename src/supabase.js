@@ -38,13 +38,14 @@ if (!isSupabaseConfigured) {
 
 /**
  * Fetch products from Supabase if configured, otherwise returns null.
+ * @param {string} columns - Columns to select (default: '*' or lightweight summary)
  */
-export async function getSupabaseProducts() {
+export async function getSupabaseProducts(columns = '*') {
   if (!supabase) return null;
   try {
     const { data, error } = await supabase
       .from('products')
-      .select('*')
+      .select(columns)
       .order('updated_at', { ascending: false, nullsFirst: false });
 
     if (error) {
@@ -54,6 +55,29 @@ export async function getSupabaseProducts() {
     return data;
   } catch (err) {
     console.error('[Supabase] Unexpected error fetching products:', err);
+    return null;
+  }
+}
+
+/**
+ * Fetch full details for a single product by ID (used on-demand when editing).
+ */
+export async function getSupabaseProductById(id) {
+  if (!supabase || !id) return null;
+  try {
+    const { data, error } = await supabase
+      .from('products')
+      .select('*')
+      .eq('id', id)
+      .maybeSingle();
+
+    if (error) {
+      console.warn('[Supabase] Failed to fetch product:', error.message);
+      return null;
+    }
+    return data;
+  } catch (err) {
+    console.error('[Supabase] Unexpected error fetching product:', err);
     return null;
   }
 }

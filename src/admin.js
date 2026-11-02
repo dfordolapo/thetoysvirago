@@ -7,6 +7,7 @@ import {
   supabase,
   isSupabaseConfigured,
   getSupabaseProducts,
+  getSupabaseProductById,
   upsertSupabaseProduct,
   deleteSupabaseProduct,
   getSupabaseOrders,
@@ -392,7 +393,7 @@ function compressImageFile(dataUrl, callback) {
     const canvas = document.createElement('canvas');
     let width = img.width;
     let height = img.height;
-    const maxDim = 800; // Optimized from 1200 to keep base64 payloads under 50KB
+    const maxDim = 800; // Constrain resolution to 800px max dimension
 
     if (width > maxDim || height > maxDim) {
       if (width > height) {
@@ -407,9 +408,13 @@ function compressImageFile(dataUrl, callback) {
     canvas.width = width;
     canvas.height = height;
     const ctx = canvas.getContext('2d');
+    // Enable high quality image smoothing
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(img, 0, 0, width, height);
 
-    const compressed = canvas.toDataURL('image/webp', 0.80);
+    // Compress to efficient WebP at 75% quality for ultra-crisp display under 50KB
+    const compressed = canvas.toDataURL('image/webp', 0.75);
     if (callback) callback(compressed, ctx, width, height);
   };
   img.src = dataUrl;
@@ -1162,7 +1167,7 @@ function toggleProductStock(id, inStock) {
   updateStats();
 }
 
-function loadProductIntoForm(prod) {
+async function loadProductIntoForm(prod) {
   const editingIdInput = document.getElementById('editing-product-id');
   const titleInput = document.getElementById('prod-title');
   const catInput = document.getElementById('prod-category');
@@ -1187,8 +1192,19 @@ function loadProductIntoForm(prod) {
   if (acousticsInput) acousticsInput.value = prod.acoustics || '';
   if (inStockInput) inStockInput.checked = prod.inStock !== false;
 
-  if (Array.isArray(prod.media) && prod.media.length > 0) {
-    currentMediaList = [...prod.media];
+  // If remote product had media omitted in lightweight summary, fetch full item on demand
+  let activeMedia = Array.isArray(prod.media) && prod.media.length > 0 ? prod.media : null;
+  if (!activeMedia && isSupabaseConfigured && prod.id) {
+    try {
+      const fullProd = await getSupabaseProductById(prod.id);
+      if (fullProd && Array.isArray(fullProd.media) && fullProd.media.length > 0) {
+        activeMedia = fullProd.media;
+      }
+    } catch (e) {}
+  }
+
+  if (activeMedia && activeMedia.length > 0) {
+    currentMediaList = [...activeMedia];
   } else if (prod.img) {
     currentMediaList = [{ type: 'image', src: prod.img, label: prod.title || 'Product Image' }];
   } else {
@@ -1284,34 +1300,40 @@ async function refreshCatalogData() {
   currentCustomProducts = getCustomProducts();
 
   const mergedMap = new Map();
-  // Add local custom products first
+  // Add local custom products first for instant rendering
   currentCustomProducts.forEach(p => mergedMap.set(p.id, p));
 
-  // Sync with Supabase cloud if connected
+  // Render immediately if we already have local custom products
+  if (mergedMap.size > 0 && !allInventoryProducts.length) {
+    allInventoryProducts = Array.from(mergedMap.values());
+    updateStats();
+    renderInventoryTable();
+  }
+
+  // Sync with Supabase cloud if connected (LIGHTWEIGHT QUERY - skips heavy media payloads)
   if (isSupabaseConfigured) {
     try {
-      const remote = await getSupabaseProducts();
+      const summaryColumns = 'id, title, category, badge, tagline, price, original_price, image, description, in_stock, variants, sizes, updated_at';
+      const remote = await getSupabaseProducts(summaryColumns);
       if (remote && Array.isArray(remote)) {
         remote.forEach(rp => {
-          if (!mergedMap.has(rp.id)) {
-            const mapped = {
-              id: rp.id,
-              title: rp.title,
-              category: rp.category || 'toys',
-              sku: rp.category ? `${rp.category.toUpperCase()} · ${rp.id.slice(0, 4)}` : 'VAULT · 01',
-              badge: rp.badge || '',
-              tagline: rp.tagline || '',
-              price: Number(rp.price) || 0,
-              priceStr: `₦${Number(rp.price).toLocaleString()}`,
-              img: rp.image || '/assets/category-lingerie.webp',
-              desc: rp.description || '',
-              inStock: rp.in_stock !== false,
-              variants: Array.isArray(rp.variants) ? rp.variants : [],
-              sizes: Array.isArray(rp.sizes) ? rp.sizes : [],
-              media: Array.isArray(rp.media) ? rp.media : []
-            };
-            mergedMap.set(rp.id, mapped);
-          }
+          const mapped = {
+            id: rp.id,
+            title: rp.title,
+            category: rp.category || 'toys',
+            sku: rp.category ? `${rp.category.toUpperCase()} · ${rp.id.slice(0, 4)}` : 'VAULT · 01',
+            badge: rp.badge || '',
+            tagline: rp.tagline || '',
+            price: Number(rp.price) || 0,
+            priceStr: `₦${Number(rp.price).toLocaleString()}`,
+            img: rp.image || '/assets/category-lingerie.webp',
+            desc: rp.description || '',
+            inStock: rp.in_stock !== false,
+            variants: Array.isArray(rp.variants) ? rp.variants : [],
+            sizes: Array.isArray(rp.sizes) ? rp.sizes : [],
+            media: []
+          };
+          mergedMap.set(rp.id, mapped);
         });
       }
     } catch (e) {

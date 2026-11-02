@@ -111,9 +111,11 @@ async function generateProductPages() {
       /<meta property="og:description" content="[\s\S]*?" \/>/,
       `<meta property="og:description" content="${cleanDesc}" />`
     );
+    // Remove any leftover og:image:secure_url that pointed to og-cover
+    html = html.replace(/<meta property="og:image:secure_url"[\s\S]*?\/>\s*/g, '');
     html = html.replace(
       /<meta property="og:image" content="[\s\S]*?" \/>/,
-      `<meta property="og:image" content="${cleanImg}" />\n  <meta property="og:image:alt" content="${cleanTitle}" />\n  <meta property="og:image:width" content="1200" />\n  <meta property="og:image:height" content="1200" />`
+      `<meta property="og:image" content="${cleanImg}" />\n  <meta property="og:image:secure_url" content="${cleanImg}" />\n  <meta property="og:image:alt" content="${cleanTitle}" />\n  <meta property="og:image:width" content="1200" />\n  <meta property="og:image:height" content="1200" />`
     );
 
     // 3. Replace Twitter Card metadata
