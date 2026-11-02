@@ -45,7 +45,7 @@ export async function getSupabaseProducts() {
     const { data, error } = await supabase
       .from('products')
       .select('*')
-      .order('id', { ascending: true });
+      .order('updated_at', { ascending: false, nullsFirst: false });
 
     if (error) {
       console.warn('[Supabase] Failed to fetch products:', error.message);

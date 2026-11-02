@@ -746,9 +746,9 @@ if (btnResetSearch) {
 
 // URL Query Parameter filter auto-activation
 const urlParams = new URLSearchParams(window.location.search);
-const initialFilter = urlParams.get('filter');
+const initialFilter = urlParams.get('filter') || urlParams.get('cat') || urlParams.get('category');
 if (initialFilter) {
-  let targetCategory = initialFilter;
+  let targetCategory = initialFilter.toLowerCase();
   const matchBtn = Array.from(document.querySelectorAll('.filter-btn')).find(b => {
     const f = b.dataset.filter;
     return f === targetCategory ||
@@ -6558,7 +6558,7 @@ if (btnQvShare) {
     e.preventDefault();
     if (!currentQvProduct) return;
     const origin = window.location.origin || 'https://thetoysvirago.shop';
-    const shareUrl = `${origin}/products.html?product=${encodeURIComponent(currentQvProduct.id)}`;
+    const shareUrl = `${origin}/products/${encodeURIComponent(currentQvProduct.id)}`;
     try {
       if (navigator.clipboard && navigator.clipboard.writeText) {
         await navigator.clipboard.writeText(shareUrl);
@@ -6581,7 +6581,13 @@ if (btnQvShare) {
 if (typeof window !== 'undefined') {
   const handleDeepLink = () => {
     const urlParams = new URLSearchParams(window.location.search);
-    const deepProduct = urlParams.get('product') || urlParams.get('p');
+    let deepProduct = urlParams.get('product') || urlParams.get('p');
+    if (!deepProduct && window.location.pathname) {
+      const match = window.location.pathname.match(/\/products\/([^/?#]+)/i);
+      if (match && match[1]) {
+        deepProduct = decodeURIComponent(match[1].replace(/\.html$/, ''));
+      }
+    }
     if (deepProduct) {
       if (PRODUCT_DATABASE[deepProduct]) {
         setTimeout(() => {
@@ -8562,6 +8568,7 @@ export function initCustomCatalogProducts() {
   getSupabaseProducts().then((remoteProds) => {
     if (remoteProds && Array.isArray(remoteProds) && remoteProds.length > 0) {
       const cleanRemote = remoteProds.filter(rp => rp && !PURGED_OR_ABUJA_EXCLUSIVE_IDS.includes(rp.id));
+      // Prepend newest remote products to front of customProds
       cleanRemote.forEach(rp => {
         const existingIdx = customProds.findIndex(p => p.id === rp.id);
         const mapped = {
@@ -8590,10 +8597,16 @@ export function initCustomCatalogProducts() {
         if (existingIdx >= 0) {
           customProds[existingIdx] = mapped;
         } else {
-          customProds.push(mapped);
+          customProds.unshift(mapped);
         }
       });
+      try {
+        localStorage.setItem('thetoysvirago_custom_products', JSON.stringify(customProds));
+      } catch (e) {}
       applyProducts(customProds);
+      if (typeof filterProducts === 'function') {
+        filterProducts(false);
+      }
     }
   }).catch((e) => {
     console.info('[Supabase] Live sync notice:', e.message);
