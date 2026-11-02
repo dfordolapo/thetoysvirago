@@ -9312,3 +9312,22 @@ initPullToRefresh();
 
 // Initialize Floating WhatsApp Interactive Chat Widget
 initWhatsAppWidget();
+
+// ================= 14. IMAGE PROTECTION (PREVENT DOWNLOAD / SAVE AS) =================
+(function initImageProtection() {
+  // Prevent context menu (Save image as..., Copy image, Inspect) on all images
+  document.addEventListener('contextmenu', (e) => {
+    if (e.target && (e.target.tagName === 'IMG' || e.target.closest('img') || e.target.tagName === 'PICTURE')) {
+      e.preventDefault();
+      return false;
+    }
+  }, { capture: true });
+
+  // Prevent drag-to-desktop or drag-to-new-tab
+  document.addEventListener('dragstart', (e) => {
+    if (e.target && (e.target.tagName === 'IMG' || e.target.closest('img'))) {
+      e.preventDefault();
+      return false;
+    }
+  }, { capture: true });
+})();

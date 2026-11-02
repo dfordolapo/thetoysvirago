@@ -158,10 +158,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/src/style.css" />
-  <!-- Paystack Inline SDK (Cards, Bank Transfer, Apple Pay, USSD) -->
-  <script src="https://js.paystack.co/v1/inline.js"></script>
-  <!-- BudPay Inline SDK (Cards, Dynamic Bank Transfer, Apple Pay) -->
-  <script src="https://inline.budpay.com/budpay-inline.js"></script>
+  <!-- Paystack & BudPay Inline SDKs (Deferred for instantaneous initial paint) -->
+  <script src="https://js.paystack.co/v1/inline.js" defer></script>
+  <script src="https://inline.budpay.com/budpay-inline.js" defer></script>
   <style>
     /* Strict zero-flicker gate blocking */
     html:not(.age-gate-passed) #app-wrapper {
@@ -185,8 +184,15 @@
   <script>
     (function() {
       try {
+        var h = window.location.hash || '';
+        var s = window.location.search || '';
+        var isGiftOrReferral = h.indexOf('gift') !== -1 || s.indexOf('utm_') !== -1 || s.indexOf('ref=') !== -1;
         var isCrawler = /bot|googlebot|crawler|spider|robot|crawling|lighthouse|headless/i.test(navigator.userAgent);
-        if (isCrawler || localStorage.getItem('thetoysvirago_age_verified') === 'true' || localStorage.getItem('rouge_age_verified') === 'true') {
+        if (isCrawler || isGiftOrReferral || localStorage.getItem('thetoysvirago_age_verified') === 'true' || localStorage.getItem('rouge_age_verified') === 'true') {
+          if (isGiftOrReferral) {
+            localStorage.setItem('thetoysvirago_age_verified', 'true');
+            localStorage.setItem('rouge_age_verified', 'true');
+          }
           document.documentElement.classList.add('age-gate-passed');
         }
       } catch(e) {}

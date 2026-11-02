@@ -572,4 +572,19 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   });
+
+  // Image download protection (Disable context menu & drag on blog images)
+  document.addEventListener('contextmenu', (e) => {
+    if (e.target && (e.target.tagName === 'IMG' || e.target.closest('img') || e.target.tagName === 'PICTURE')) {
+      e.preventDefault();
+      return false;
+    }
+  }, { capture: true });
+
+  document.addEventListener('dragstart', (e) => {
+    if (e.target && (e.target.tagName === 'IMG' || e.target.closest('img'))) {
+      e.preventDefault();
+      return false;
+    }
+  }, { capture: true });
 });

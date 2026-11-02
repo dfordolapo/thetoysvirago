@@ -7083,3 +7083,19 @@ body.modal-open .floating-wa-wrapper,
     padding: 3px 6px;
   }
 }
+
+/* ==========================================================================
+   IMAGE PROTECTION & ANTI-DOWNLOAD SHIELD (STOREFRONT & BLOG)
+   Prevents dragging, long-press save menu on mobile, and callout popups
+   ========================================================================== */
+img, picture, svg, video, .product-card img, .hero-img, .blog-hero-img, .blog-content img, .gift-single-img, .bundle-card-img {
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  -khtml-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  -webkit-user-drag: none !important;
+  user-drag: none !important;
+  pointer-events: auto;
+}

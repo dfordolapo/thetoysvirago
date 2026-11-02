@@ -30,12 +30,13 @@
   <meta name="twitter:description" content="Pick a favorite pleasure piece for your friend, add an optional anonymous note, and we deliver 100% quietly anywhere in Nigeria." />
   <meta name="twitter:image" content="https://www.thetoysvirago.shop/assets/gift-og-cover.jpg" />
 
-  <!-- Smooth Redirection into Gift Section of Homepage -->
+  <!-- Instant Redirection into Gift Section of Homepage -->
   <script>
-    // Allow social crawlers and preview bots to parse tags, redirect human visitors
-    setTimeout(function() {
-      window.location.replace("https://www.thetoysvirago.shop/#gift-single-friend");
-    }, 150);
+    try {
+      localStorage.setItem('thetoysvirago_age_verified', 'true');
+      localStorage.setItem('rouge_age_verified', 'true');
+    } catch(e) {}
+    window.location.replace("https://www.thetoysvirago.shop/#gift-single-friend");
   </script>
   <style>
     body {
