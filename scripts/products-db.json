@@ -3868,8 +3868,8 @@
     "id": "fluffy-bunny-tail-plugs",
     "title": "Bunny Tail Plug",
     "badge": "FAUX FUR TAIL",
-    "price": 0,
-    "priceStr": "",
+    "price": 12000,
+    "priceStr": "₦12,000",
     "img": "/assets/IMG_0283.webp",
     "desc": "An ultra-soft plush faux-fur pom-pom bunny tail mounted to an ergonomically tapered plug. Available in silky liquid silicone stems and mirror-polished stainless steel stems capped with sparkling base jewels.",
     "specs": [
@@ -3893,26 +3893,26 @@
     "variants": [
       {
         "name": "Scarlet",
-        "price": 18000,
-        "priceStr": "₦18,000",
+        "price": 12000,
+        "priceStr": "₦12,000",
         "img": "/assets/IMG_0283.webp"
       },
       {
         "name": "Noir",
-        "price": 18000,
-        "priceStr": "₦18,000",
+        "price": 12000,
+        "priceStr": "₦12,000",
         "img": "/assets/IMG_0284.webp"
       },
       {
         "name": "Violet",
-        "price": 20000,
-        "priceStr": "₦20,000",
+        "price": 12000,
+        "priceStr": "₦12,000",
         "img": "/assets/IMG_0286.webp"
       },
       {
         "name": "Blush",
-        "price": 20000,
-        "priceStr": "₦20,000",
+        "price": 12000,
+        "priceStr": "₦12,000",
         "img": "/assets/IMG_0288.webp"
       }
     ],
