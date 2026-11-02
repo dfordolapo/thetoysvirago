@@ -1036,8 +1036,8 @@ const PRODUCT_DATABASE = {
     title: 'Lilac Bodystocking',
     badge: 'SEAMLESS KNIT',
     sku: 'LINGERIE · 03',
-    price: 12000,
-    priceStr: '₦12,000',
+    price: 11000,
+    priceStr: '₦11,000',
     img: '/assets/lingerie-catalog/lilac-bodystocking-hero.webp',
     desc: "Ethereal lavender open-knit bodystocking with ribbed contour paneling, delicate long sleeves, and tantalizing peekaboo decolletage cutouts. Ultra-stretchy micro-mesh hugs every natural curve like liquid silk.",
     specs: [
