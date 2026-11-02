@@ -9266,22 +9266,39 @@ function renderHomepagePleasureJournal() {
   if (!container || !Array.isArray(BLOG_ARTICLES) || BLOG_ARTICLES.length === 0) return;
 
   const top3 = BLOG_ARTICLES.slice(0, 3);
-  container.innerHTML = top3.map(art => {
+  container.innerHTML = top3.map((art, idx) => {
     const cleanTitle = (art.title || '').replace(/[\u2018\u2019]/g, "'").replace(/"/g, '&quot;');
     const cleanExcerpt = (art.excerpt || art.metaDesc || '').replace(/[\u2018\u2019]/g, "'").replace(/"/g, '&quot;');
     const cat = art.category || 'Journal';
     const readTime = art.readTime || '5 min read';
+    const isDark = idx === 1;
+
+    if (isDark) {
+      return `
+        <a href="/blog.html?post=${art.slug}" class="blog-card-black" style="text-decoration: none; color: inherit; background: #0c0c0e !important; border: 1px solid rgba(255, 255, 255, 0.12) !important; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s ease, border-color 0.2s ease; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);">
+          <div style="aspect-ratio: 16/9; overflow: hidden; background: #18181b;">
+            <img src="${art.heroImg}" alt="${cleanTitle}" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy" decoding="async" />
+          </div>
+          <div style="padding: 20px; display: flex; flex-direction: column; flex-grow: 1;">
+            <span class="blog-card-tag" style="font-size: 10px; font-weight: 800; color: #fda4af; background: rgba(225, 29, 72, 0.18); border: 1px solid rgba(225, 29, 72, 0.35); padding: 3px 8px; border-radius: 4px; display: inline-block; width: fit-content; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px;">${cat}</span>
+            <h3 style="font-family: var(--serif); font-size: 1.25rem; color: #ffffff; margin: 0 0 8px; line-height: 1.3;">${cleanTitle}</h3>
+            <p style="font-size: 0.88rem; color: #94a3b8; margin: 0 0 14px; line-height: 1.5; flex-grow: 1;">${cleanExcerpt}</p>
+            <span class="blog-card-readmore" style="color: #fb7185; font-size: 12px; font-weight: 700;">${readTime} &rarr;</span>
+          </div>
+        </a>
+      `;
+    }
 
     return `
-      <a href="/blog.html?post=${art.slug}" style="text-decoration: none; color: inherit; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s ease, border-color 0.2s ease; box-shadow: var(--sh-sm);">
+      <a href="/blog.html?post=${art.slug}" class="blog-card-white" style="text-decoration: none; color: inherit; background: #ffffff !important; border: 1px solid #e2e8f0 !important; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s ease, border-color 0.2s ease; box-shadow: var(--sh-sm);">
         <div style="aspect-ratio: 16/9; overflow: hidden; background: #f1f5f9;">
           <img src="${art.heroImg}" alt="${cleanTitle}" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy" decoding="async" />
         </div>
         <div style="padding: 20px; display: flex; flex-direction: column; flex-grow: 1;">
-          <span style="font-size: 10px; font-weight: 800; color: #9f1239; background: #fdf2f4; border: 1px solid #fecdd3; padding: 3px 8px; border-radius: 4px; display: inline-block; width: fit-content; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px;">${cat}</span>
+          <span class="blog-card-tag" style="font-size: 10px; font-weight: 800; color: #9f1239; background: #fdf2f4; border: 1px solid #fecdd3; padding: 3px 8px; border-radius: 4px; display: inline-block; width: fit-content; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px;">${cat}</span>
           <h3 style="font-family: var(--serif); font-size: 1.25rem; color: #0c0c0e; margin: 0 0 8px; line-height: 1.3;">${cleanTitle}</h3>
           <p style="font-size: 0.88rem; color: #4b5563; margin: 0 0 14px; line-height: 1.5; flex-grow: 1;">${cleanExcerpt}</p>
-          <span style="color: #9f1239; font-size: 12px; font-weight: 700;">${readTime} &rarr;</span>
+          <span class="blog-card-readmore" style="color: #9f1239; font-size: 12px; font-weight: 700;">${readTime} &rarr;</span>
         </div>
       </a>
     `;

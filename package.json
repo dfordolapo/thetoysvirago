@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "vite",
     "prebuild": "node scripts/update-favicons.cjs && node scripts/generate-sitemap.cjs",
-    "build": "vite build && node scripts/generate-blog-pages.cjs && node scripts/generate-og-cover.cjs && node scripts/generate-product-pages.cjs",
+    "build": "vite build && node scripts/generate-blog-pages.cjs && node scripts/generate-og-cover.cjs && node scripts/generate-gift-og-cover.cjs && node scripts/generate-product-pages.cjs",
     "preview": "vite preview"
   },
   "devDependencies": {

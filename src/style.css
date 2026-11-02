@@ -5781,7 +5781,7 @@ button,
   color: #0c0c0e !important;
 }
 
-/* 8. THE PLEASURE EDIT (BLOG PREVIEW): Pure Black */
+/* 8. THE PLEASURE EDIT (BLOG PREVIEW): Pure Black Background */
 .editorial-preview-section {
   background: #09090e !important;
   color: #ffffff !important;
@@ -5792,16 +5792,43 @@ button,
 .editorial-preview-section p {
   color: rgba(255, 255, 255, 0.72) !important;
 }
-.editorial-preview-section a[style*="background: #ffffff"] {
-  background: #141419 !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
+.editorial-preview-section .blog-card-white {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  color: #0c0c0e !important;
+}
+.editorial-preview-section .blog-card-white h3 {
+  color: #0c0c0e !important;
+}
+.editorial-preview-section .blog-card-white p {
+  color: #4b5563 !important;
+}
+.editorial-preview-section .blog-card-white .blog-card-tag {
+  color: #9f1239 !important;
+  background: #fdf2f4 !important;
+  border: 1px solid #fecdd3 !important;
+}
+.editorial-preview-section .blog-card-white .blog-card-readmore {
+  color: #9f1239 !important;
+}
+.editorial-preview-section .blog-card-black {
+  background: #111116 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
   color: #ffffff !important;
 }
-.editorial-preview-section a[style*="background: #ffffff"] h3 {
+.editorial-preview-section .blog-card-black h3 {
   color: #ffffff !important;
 }
-.editorial-preview-section a[style*="background: #ffffff"] p {
-  color: rgba(255, 255, 255, 0.68) !important;
+.editorial-preview-section .blog-card-black p {
+  color: #94a3b8 !important;
+}
+.editorial-preview-section .blog-card-black .blog-card-tag {
+  color: #fda4af !important;
+  background: rgba(225, 29, 72, 0.18) !important;
+  border: 1px solid rgba(225, 29, 72, 0.35) !important;
+}
+.editorial-preview-section .blog-card-black .blog-card-readmore {
+  color: #fb7185 !important;
 }
 .editorial-preview-section a.btn-black {
   background: #ffffff !important;
@@ -6067,8 +6094,13 @@ button,
   filter: none !important;
 }
 
-/* High contrast for small blog preview meta & read time */
-.editorial-preview-section a span[style*="font-size: 12px"] {
+/* Read time typography styling */
+.editorial-preview-section .blog-card-white .blog-card-readmore {
+  color: #9f1239 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.03em;
+}
+.editorial-preview-section .blog-card-black .blog-card-readmore {
   color: #fda4af !important;
   font-weight: 700 !important;
   letter-spacing: 0.03em;
