@@ -6041,7 +6041,7 @@ button,
 }
 
 /* ==========================================================================
-   HIGH-CONTRAST RED TEXT ON DARK BACKGROUNDS (ROSE OUTER STROKE)
+   CLEAN RED TEXT ON DARK BACKGROUNDS (NO OUTER STROKE OR SHADOW)
    ========================================================================== */
 .collection-reels-section em,
 .gift-single-section em,
@@ -6055,15 +6055,14 @@ button,
 .toybox-section .product-sku,
 .collection-reels-section .product-sku,
 .editorial-preview-section .product-sku {
-  color: #e11d48 !important;
-  -webkit-text-stroke: 0.6px #fda4af;
-  paint-order: stroke fill;
-  text-shadow: 0 0 3px rgba(253, 164, 175, 0.45);
+  color: #fb7185 !important;
+  -webkit-text-stroke: 0 !important;
+  text-shadow: none !important;
 }
 
-/* Gift icon should have NO stroke */
+/* Gift icon clean styling */
 .gift-single-header .gift-title-icon {
-  stroke: #e11d48 !important;
+  stroke: #fb7185 !important;
   -webkit-text-stroke: 0 !important;
   filter: none !important;
 }
