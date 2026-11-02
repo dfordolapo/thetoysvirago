@@ -26,28 +26,22 @@ const svgOverlay = Buffer.from(`
   <rect width="100%" height="100%" fill="url(#giftRubyGlow)"/>
 
   <!-- Left Content Area -->
-  <g transform="translate(85, 120)">
-    <!-- Cheeky Pill Tag -->
-    <g transform="translate(0, 0)">
-      <rect x="0" y="0" width="185" height="34" rx="17" fill="rgba(225, 29, 72, 0.2)" stroke="rgba(225, 29, 72, 0.45)" stroke-width="1"/>
-      <text x="92" y="22" fill="#fda4af" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="800" letter-spacing="1.5" text-anchor="middle">BESTIE GIFT GUIDE</text>
-    </g>
-
+  <g transform="translate(85, 140)">
     <!-- Clever Copy Header (Playful & Direct) -->
-    <text x="0" y="85" fill="#ffffff" font-family="Georgia, 'Times New Roman', serif" font-size="52" font-weight="700" letter-spacing="-0.5">
+    <text x="0" y="60" fill="#ffffff" font-family="Georgia, 'Times New Roman', serif" font-size="56" font-weight="700" letter-spacing="-0.5">
       Because Single Friends
     </text>
-    <text x="0" y="145" fill="#fda4af" font-family="Georgia, 'Times New Roman', serif" font-size="52" font-weight="700" letter-spacing="-0.5">
+    <text x="0" y="126" fill="#fda4af" font-family="Georgia, 'Times New Roman', serif" font-size="56" font-weight="700" letter-spacing="-0.5">
       Deserve Better Orgasms.
     </text>
 
     <!-- Subtitle Copy -->
-    <text x="0" y="210" fill="#e2e8f0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="21" font-weight="400">
+    <text x="0" y="195" fill="#e2e8f0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="400">
       Pick a favorite. Add an anonymous note. Delivered 100% quietly.
     </text>
 
     <!-- Clean CTA Button (8px radius) & URL Brand -->
-    <g transform="translate(0, 275)">
+    <g transform="translate(0, 260)">
       <rect x="0" y="0" width="240" height="52" rx="8" fill="#e11d48"/>
       <text x="120" y="32" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700" letter-spacing="1" text-anchor="middle">SEND AS A GIFT &#8594;</text>
       <text x="275" y="33" fill="#9ca3af" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500">thetoysvirago.shop/gift</text>
