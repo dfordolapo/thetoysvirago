@@ -117,11 +117,15 @@ async function generateProductPages() {
       /<meta property="og:description" content="[\s\S]*?" \/>/,
       `<meta property="og:description" content="${cleanDesc}" />`
     );
-    // Remove any leftover og:image:secure_url that pointed to og-cover
+    // Remove any leftover og:image metadata lines from base template (type, alt, width, height)
     html = html.replace(/<meta property="og:image:secure_url"[\s\S]*?\/>\s*/g, '');
+    html = html.replace(/<meta property="og:image:type"[\s\S]*?\/>\s*/g, '');
+    html = html.replace(/<meta property="og:image:width"[\s\S]*?\/>\s*/g, '');
+    html = html.replace(/<meta property="og:image:height"[\s\S]*?\/>\s*/g, '');
+    html = html.replace(/<meta property="og:image:alt"[\s\S]*?\/>\s*/g, '');
     html = html.replace(
       /<meta property="og:image" content="[\s\S]*?" \/>/,
-      `<meta property="og:image" content="${cleanImg}" />\n  <meta property="og:image:secure_url" content="${cleanImg}" />\n  <meta property="og:image:alt" content="${cleanTitle}" />\n  <meta property="og:image:width" content="1200" />\n  <meta property="og:image:height" content="1200" />`
+      `<meta property="og:image" content="${cleanImg}" />\n  <meta property="og:image:secure_url" content="${cleanImg}" />\n  <meta property="og:image:type" content="image/webp" />\n  <meta property="og:image:width" content="1200" />\n  <meta property="og:image:height" content="1200" />\n  <meta property="og:image:alt" content="${cleanTitle}" />`
     );
 
     // 3. Replace Twitter Card metadata
@@ -135,7 +139,7 @@ async function generateProductPages() {
     );
     html = html.replace(
       /<meta name="twitter:image" content="[\s\S]*?" \/>/,
-      `<meta name="twitter:image" content="${cleanImg}" />`
+      `<meta name="twitter:image" content="${cleanImg}" />\n  <meta name="twitter:image:alt" content="${cleanTitle}" />`
     );
 
     // Write file to dist/products/[id].html
