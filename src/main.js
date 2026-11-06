@@ -6370,6 +6370,15 @@ function openQuickviewForProduct(prodKey, card = null) {
   if (qvMaterial) qvMaterial.textContent = prod.material || '';
   if (qvAcoustics) qvAcoustics.textContent = prod.acoustics || '';
 
+  // Alternate color notice: Lingerie items are specific designs and should NOT show the alternate color notice
+  const qvDelivColorNote = document.getElementById('qv-deliv-color-note');
+  if (qvDelivColorNote) {
+    const isLingerie = (prod.category || '').toLowerCase().includes('lingerie') ||
+                       (prodKey || '').toLowerCase().includes('lingerie') ||
+                       (card?.dataset?.category || '').toLowerCase().includes('lingerie');
+    qvDelivColorNote.style.display = isLingerie ? 'none' : 'block';
+  }
+
   // Populate Category-Specific Specs
   if (qvSpecs) {
     qvSpecs.innerHTML = '';
