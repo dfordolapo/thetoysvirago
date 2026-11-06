@@ -7200,18 +7200,19 @@ async function refreshLaunchFreeDeliveryEligibility() {
   updateCheckoutTotalsDisplay();
 }
 
-// Free delivery only applies to products over ₦25,000.
+// Free delivery applies to qualifying pleasure products priced from ₦25,000 (including The Rose Sucker).
 // Starter bundles alone do not qualify for free delivery;
-// but if a bundle or order has a qualifying product priced over ₦25,000, it qualifies!
+// but if a bundle or order has a qualifying product priced >= ₦25,000, it qualifies!
 function hasQualifyingFreeDeliveryProduct() {
   if (cart.length === 0) return false;
-  // Must contain at least one non-bundle product priced > ₦25,000
+  // Must contain at least one non-bundle product priced >= ₦25,000 (e.g. The Rose Sucker at ₦25,000)
   return cart.some(item => {
     const id = (item.id || item.cartId || item.baseId || '').toLowerCase();
     const title = (item.title || '').toLowerCase();
     const isBundle = id.startsWith('bundle-') || title.includes('starter kit') || title.includes('seduction set') || title.includes('bundle');
+    const isRose = id.includes('rose') || title.includes('rose');
     const unitPrice = parseFloat(item.price) || 0;
-    return !isBundle && unitPrice > 25000;
+    return (!isBundle && unitPrice >= 25000) || isRose;
   });
 }
 
@@ -7679,43 +7680,19 @@ const payBoxBank = document.getElementById('pay-box-bank');
 const payBoxOnline = document.getElementById('pay-box-online');
 
 function updatePaymentMethodTabs() {
-  if (tabPayBank && tabPayOnline) {
-    if (selectedPaymentMethod === 'bank') {
-      tabPayBank.classList.add('active');
-      tabPayBank.style.borderColor = 'var(--ink)';
-      tabPayBank.style.background = 'var(--surface)';
-      tabPayBank.style.color = 'var(--ink)';
+  selectedPaymentMethod = 'bank';
+  if (tabPayBank) {
+    tabPayBank.classList.add('active');
+    tabPayBank.style.borderColor = 'var(--ink)';
+    tabPayBank.style.background = 'var(--surface)';
+    tabPayBank.style.color = 'var(--ink)';
+  }
+  if (payBoxBank) payBoxBank.style.display = 'block';
+  if (payBoxOnline) payBoxOnline.style.display = 'none';
 
-      tabPayOnline.classList.remove('active');
-      tabPayOnline.style.borderColor = 'rgba(0,0,0,0.1)';
-      tabPayOnline.style.background = '#ffffff';
-      tabPayOnline.style.color = 'var(--ink-2)';
-
-      if (payBoxBank) payBoxBank.style.display = 'block';
-      if (payBoxOnline) payBoxOnline.style.display = 'none';
-
-      if (btnSubmitOrder) {
-        btnSubmitOrder.textContent = 'Place Order';
-      }
-    } else {
-      tabPayOnline.classList.add('active');
-      tabPayOnline.style.borderColor = 'var(--ink)';
-      tabPayOnline.style.background = 'var(--surface)';
-      tabPayOnline.style.color = 'var(--ink)';
-
-      tabPayBank.classList.remove('active');
-      tabPayBank.style.borderColor = 'rgba(0,0,0,0.1)';
-      tabPayBank.style.background = '#ffffff';
-      tabPayBank.style.color = 'var(--ink-2)';
-
-      if (payBoxBank) payBoxBank.style.display = 'none';
-      if (payBoxOnline) payBoxOnline.style.display = 'block';
-
-      if (btnSubmitOrder) {
-        const { finalTotal } = getCheckoutCartTotals();
-        btnSubmitOrder.textContent = `Pay ₦${Number(finalTotal).toLocaleString()} with Paystack`;
-      }
-    }
+  if (tabPayOnline) {
+    tabPayOnline.classList.remove('active');
+    tabPayOnline.style.display = 'none';
   }
 }
 

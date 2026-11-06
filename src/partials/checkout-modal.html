@@ -211,11 +211,8 @@
             <label class="co-label">Payment Method</label>
             
             <div class="payment-method-tabs" style="display: flex; gap: 8px; margin-bottom: 12px;">
-              <button type="button" class="btn-pay-method active" id="tab-pay-bank" data-method="bank" style="flex: 1; padding: 10px; border-radius: 8px; border: 1.5px solid var(--ink); background: var(--surface); color: var(--ink); font-weight: 600; font-size: 13px; cursor: pointer;">
+              <button type="button" class="btn-pay-method active" id="tab-pay-bank" data-method="bank" style="flex: 1; padding: 10px; border-radius: 8px; border: 1.5px solid var(--ink); background: var(--surface); color: var(--ink); font-weight: 600; font-size: 13px; cursor: default;">
                 🏦 Direct Bank Transfer
-              </button>
-              <button type="button" class="btn-pay-method" id="tab-pay-online" data-method="online" style="flex: 1; padding: 10px; border-radius: 8px; border: 1.5px solid rgba(0,0,0,0.1); background: #ffffff; color: var(--ink-2); font-weight: 600; font-size: 13px; cursor: pointer;">
-                ⚡ Pay Online (Card / USSD)
               </button>
             </div>
 
@@ -246,20 +243,6 @@
               <div class="bank-instructions">
                 💡 <strong>Transfer Narration:</strong> Use your Order Ref (<span id="co-narration-hint" style="font-weight: 700; color: var(--ink);">TTV-000000</span>) as the payment narration.
               </div>
-            </div>
-
-            <!-- Online Payment Box (Paystack Inline) -->
-            <div class="direct-bank-box" id="pay-box-online" style="display: none; background: #fafafa; border: 1px solid rgba(0,0,0,0.08); padding: 14px; border-radius: 8px;">
-              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                <span style="font-size: 18px;">🔒</span>
-                <div>
-                  <strong style="display: block; font-size: 13.5px; color: var(--ink);">Instant Secure Payment via Paystack</strong>
-                  <span style="font-size: 12px; color: var(--ink-3);">Supports Debit Cards, Bank Transfer, Apple Pay &amp; USSD</span>
-                </div>
-              </div>
-              <p style="font-size: 12px; color: var(--ink-3); margin: 0; line-height: 1.45;">
-                When you click "Pay with Paystack", a secure popup will open to complete payment instantly.
-              </p>
             </div>
           </div>
 
