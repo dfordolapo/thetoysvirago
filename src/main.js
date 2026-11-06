@@ -7175,7 +7175,7 @@ let isEditingAddress = savedAddresses.length === 0;
 let activeSaveLabel = 'Home';
 
 // DELIVERY_ZONES and autoDetectDeliveryZoneFromAddress are imported from ./modules/zones.js
-let currentDeliveryZoneId = 'lagos_island_core';
+let currentDeliveryZoneId = null;
 let currentDeliveryMethod = 'park'; // 'park' (fixed fee) or 'doorstep'
 let isFreeDeliveryPromoActive = false; // Evaluated dynamically for first 5 launch orders
 let hasCheckedFreeDelivery = false;
@@ -7216,7 +7216,8 @@ function hasQualifyingFreeDeliveryProduct() {
 }
 
 function getCalculatedDeliveryFee() {
-  const zone = DELIVERY_ZONES[currentDeliveryZoneId] || DELIVERY_ZONES.lagos_island_core;
+  if (!currentDeliveryZoneId || !DELIVERY_ZONES[currentDeliveryZoneId]) return 0;
+  const zone = DELIVERY_ZONES[currentDeliveryZoneId];
   // Free delivery only applies if promo is active AND order contains a product over ₦25,000
   if (isFreeDeliveryPromoActive && hasQualifyingFreeDeliveryProduct()) return 0;
   if (zone.type === 'lagos') {
@@ -7238,7 +7239,7 @@ function getCheckoutCartTotals() {
 // Update Checkout Summary & Total Display
 function updateCheckoutTotalsDisplay() {
   const { rawSubtotal, deliveryFee, finalTotal } = getCheckoutCartTotals();
-  const zone = DELIVERY_ZONES[currentDeliveryZoneId] || DELIVERY_ZONES.lagos_island_core;
+  const zone = currentDeliveryZoneId ? DELIVERY_ZONES[currentDeliveryZoneId] : null;
 
   if (coSubtotal) coSubtotal.textContent = `₦${rawSubtotal.toLocaleString()}`;
 
@@ -7247,10 +7248,16 @@ function updateCheckoutTotalsDisplay() {
   const coInterstateOptions = document.getElementById('co-interstate-options');
   const parkFeeLabel = document.getElementById('park-fee-label');
   const doorstepFeeLabel = document.getElementById('doorstep-fee-label');
+  const badge = document.getElementById('co-zone-auto-badge');
 
   const isEligibleForFree = isFreeDeliveryPromoActive && hasQualifyingFreeDeliveryProduct();
 
-  if (isEligibleForFree) {
+  if (!zone) {
+    if (coDeliveryFeeEl) coDeliveryFeeEl.textContent = 'Calculated after address';
+    if (coFreeBanner) coFreeBanner.style.display = 'none';
+    if (coInterstateOptions) coInterstateOptions.style.display = 'none';
+    if (badge && !userManuallySelectedZone) badge.style.display = 'none';
+  } else if (isEligibleForFree) {
     if (coDeliveryFeeEl) coDeliveryFeeEl.innerHTML = `<span class="green-txt">Free</span>`;
     if (coFreeBanner) coFreeBanner.style.display = 'block';
   } else {
@@ -7259,7 +7266,7 @@ function updateCheckoutTotalsDisplay() {
   }
 
   // Handle Interstate UI (Park vs Doorstep)
-  if (zone.type === 'interstate') {
+  if (zone && zone.type === 'interstate') {
     if (coInterstateOptions) coInterstateOptions.style.display = 'grid';
     if (parkFeeLabel) parkFeeLabel.textContent = `₦${zone.parkFee.toLocaleString()}`;
     if (doorstepFeeLabel) doorstepFeeLabel.textContent = `from ₦${zone.doorstepFee.toLocaleString()}`;
@@ -7284,19 +7291,27 @@ function onAddressOrCityInput() {
   const addrVal = inputAddress?.value || '';
   const cityVal = inputCity?.value || '';
   const detected = autoDetectDeliveryZoneFromAddress(addrVal, cityVal);
-  if (detected && detected !== currentDeliveryZoneId) {
-    currentDeliveryZoneId = detected;
-    const selectEl = document.getElementById('co-delivery-zone-select');
-    if (selectEl) selectEl.value = detected;
+  if (detected) {
+    if (detected !== currentDeliveryZoneId) {
+      currentDeliveryZoneId = detected;
+      const selectEl = document.getElementById('co-delivery-zone-select');
+      if (selectEl) selectEl.value = detected;
+      const badge = document.getElementById('co-zone-auto-badge');
+      if (badge) {
+        badge.style.display = 'inline-block';
+        badge.textContent = '📍 Auto-detected';
+      }
+      const zone = DELIVERY_ZONES[currentDeliveryZoneId];
+      if (zone && zone.type === 'interstate') {
+        currentDeliveryMethod = 'park';
+      }
+      updateCheckoutTotalsDisplay();
+    }
+  } else if (!currentDeliveryZoneId) {
     const badge = document.getElementById('co-zone-auto-badge');
-    if (badge) {
-      badge.style.display = 'inline-block';
-      badge.textContent = '📍 Auto-detected';
-    }
-    const zone = DELIVERY_ZONES[currentDeliveryZoneId];
-    if (zone && zone.type === 'interstate') {
-      currentDeliveryMethod = 'park';
-    }
+    if (badge) badge.style.display = 'none';
+    const selectEl = document.getElementById('co-delivery-zone-select');
+    if (selectEl && selectEl.value !== '') selectEl.value = '';
     updateCheckoutTotalsDisplay();
   }
 }
@@ -7455,6 +7470,13 @@ function clearAddressInputs() {
   if (inputNotes) inputNotes.value = '';
   activeSaveLabel = 'Home';
   updateLabelPills('Home');
+  userManuallySelectedZone = false;
+  currentDeliveryZoneId = null;
+  const selectEl = document.getElementById('co-delivery-zone-select');
+  if (selectEl) selectEl.value = '';
+  const badge = document.getElementById('co-zone-auto-badge');
+  if (badge) badge.style.display = 'none';
+  updateCheckoutTotalsDisplay();
 }
 
 function updateLabelPills(label) {
@@ -7590,6 +7612,12 @@ if (btnCheckout) {
         if (zone && zone.type === 'interstate') {
           currentDeliveryMethod = 'park';
         }
+      } else {
+        currentDeliveryZoneId = null;
+        const selectEl = document.getElementById('co-delivery-zone-select');
+        if (selectEl) selectEl.value = '';
+        const badge = document.getElementById('co-zone-auto-badge');
+        if (badge) badge.style.display = 'none';
       }
     }
 
@@ -7719,6 +7747,13 @@ if (checkoutForm) {
 
     if (!firstName || !lastName || !email || !phone || !address || !city) {
       showToast('Please fill in all required delivery details.');
+      return;
+    }
+
+    if (!currentDeliveryZoneId || !DELIVERY_ZONES[currentDeliveryZoneId]) {
+      showToast('Please select your delivery zone to continue.');
+      const selectEl = document.getElementById('co-delivery-zone-select');
+      if (selectEl) selectEl.focus();
       return;
     }
 
