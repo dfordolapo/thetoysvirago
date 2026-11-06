@@ -43,8 +43,10 @@ export default async function handler(req, res) {
 
     const customerName = order.customer_name || 'Valued Client';
     const orderRef = order.reference || 'TTV-' + Date.now().toString(36).toUpperCase();
-    const totalAmount = Number(order.total_amount || 0).toLocaleString();
     const items = Array.isArray(order.items) ? order.items : [];
+    const calculatedItemsSum = items.reduce((sum, item) => sum + ((Number(item.price) || 0) * (Number(item.qty) || 1)), 0);
+    const parsedTotal = Number(order.total_amount || order.amount || (calculatedItemsSum + (Number(order.delivery_fee) || 0)) || 0);
+    const totalAmount = parsedTotal.toLocaleString();
     const whatsappNum = process.env.VITE_STORE_WHATSAPP || '2348036514814';
     const fromEmail = process.env.VITE_RESEND_FROM_EMAIL || process.env.RESEND_FROM_EMAIL || 'TheToysVirago <admin@thetoysvirago.shop>';
 
@@ -152,7 +154,7 @@ export default async function handler(req, res) {
       // 1. Send alert ONLY to store owner (thetoysvirago@gmail.com)
       await sendResendEmail(
         storeOwnerEmails,
-        `🚨 New Order Placed: [${orderRef}] ₦${totalAmount} from ${customerName}`,
+        `🚨 New Order Placed: [${orderRef}] from ${customerName}`,
         ownerAlertHtml
       );
 

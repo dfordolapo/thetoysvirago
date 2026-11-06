@@ -7780,6 +7780,8 @@ if (checkoutForm) {
       city: city,
       subtotal: rawSubtotal,
       delivery_fee: effectiveDeliveryFee,
+      total_amount: finalTotal,
+      amount: finalTotal,
       delivery_zone: activeZone.name,
       delivery_method: deliveryMethodStr,
       items: cart.map(item => ({

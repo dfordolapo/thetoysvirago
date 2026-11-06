@@ -1787,7 +1787,7 @@ function renderOrdersList() {
         <div class="admin-order-card-footer">
           <div class="admin-order-total-block">
             <span class="admin-order-total-label">Total Amount</span>
-            <span class="admin-order-amount">₦${Number(order.total_amount || 0).toLocaleString()}</span>
+            <span class="admin-order-amount">₦${Number(order.total_amount || (items.reduce((s, it) => s + ((it.price || 0) * (it.qty || 1)), 0) + (order.delivery_fee || 0)) || order.amount || 0).toLocaleString()}</span>
           </div>
           <div class="admin-order-actions-group">
             ${actionsHtml}
