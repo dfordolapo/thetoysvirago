@@ -6405,8 +6405,25 @@ function openQuickviewForProduct(prodKey, card = null) {
   // Populate Variants if available
   const qvVariantsWrap = document.getElementById('qv-variants-wrap');
   const qvVariants = document.getElementById('qv-variants');
+  const qvVariantsLabel = document.getElementById('qv-variants-label');
   if (qvVariantsWrap && qvVariants) {
     qvVariants.innerHTML = '';
+
+    const isLingerie = (prod.category || '').toLowerCase().includes('lingerie') ||
+                       (prodKey || '').toLowerCase().includes('lingerie') ||
+                       (card?.dataset?.category || '').toLowerCase().includes('lingerie');
+    const hasSizes = (Array.isArray(prod.sizes) && prod.sizes.length > 0) ||
+                     (card && card.querySelectorAll('.size-pill').length > 0);
+
+    if (qvVariantsLabel) {
+      if (isLingerie || hasSizes) {
+        qvVariantsLabel.textContent = 'Select Size';
+      } else if (card && card.querySelectorAll('.color-dot').length > 0) {
+        qvVariantsLabel.textContent = 'Select Color';
+      } else {
+        qvVariantsLabel.textContent = 'Select Option';
+      }
+    }
 
     let variantsList = prod.variants;
     if (!variantsList || variantsList.length === 0) {
@@ -6695,11 +6712,21 @@ if (qvBtnAdd) {
       const img = currentQvProduct.selectedImg || currentQvProduct.img;
       const baseTitle = currentQvProduct.title.replace(/\s*\([^)]*\)$/, '').trim();
 
+      const isLingerie = (currentQvProduct.category || '').toLowerCase().includes('lingerie') ||
+                         (currentQvProduct.id || '').toLowerCase().includes('lingerie');
+      const hasSizes = (Array.isArray(currentQvProduct.sizes) && currentQvProduct.sizes.length > 0) ||
+                       ['S', 'M', 'L', 'XL', 'XXL', 'One Size', 'Free Size'].includes(variantName);
+
       let finish = variantName || 'Standard';
+      let size = '';
+      let color = '';
       if (finish === 'Sucker' || finish === 'Licker') {
         finish = `${finish} Variant`;
       } else if (['S', 'M', 'L', 'XL', 'XXL'].includes(finish)) {
+        size = finish;
         finish = `Size ${finish}`;
+      } else if (isLingerie || hasSizes) {
+        size = finish;
       }
 
       const title = (finish && finish !== 'Standard')
@@ -6714,7 +6741,10 @@ if (qvBtnAdd) {
         title: title,
         price: price,
         img: img,
-        finish: finish
+        finish: finish,
+        size: size,
+        color: color,
+        category: currentQvProduct.category || (isLingerie ? 'lingerie' : 'toys')
       });
       closeQuickviewModal();
     }
@@ -6768,6 +6798,9 @@ function addToCart(product) {
       price: product.price,
       img: product.img,
       finish: finish,
+      size: product.size || '',
+      color: product.color || '',
+      category: product.category || '',
       qty: 1
     });
   }
@@ -6923,12 +6956,13 @@ function getCardVariantInfo(card, btn) {
 
   const activeColorDot = card?.querySelector('.color-dot.active');
   const activeSizePill = card?.querySelector('.size-pill.active');
-  const activeColor = activeColorDot?.dataset.color;
-  const activeSize = activeSizePill?.dataset.size || activeSizePill?.textContent.trim();
+  const activeColor = activeColorDot?.dataset.color || '';
+  const activeSize = activeSizePill?.dataset.size || activeSizePill?.textContent.trim() || '';
+  const category = card?.dataset.category || btn.dataset.category || '';
 
   let finish = '';
   if (activeColor && activeSize) {
-    finish = `${activeSize} ${activeColor}`;
+    finish = `${activeSize} · ${activeColor}`;
   } else if (activeSize) {
     finish = activeSize;
   } else if (activeColor) {
@@ -6956,7 +6990,7 @@ function getCardVariantInfo(card, btn) {
   const title = finish ? `${rawBaseTitle} (${finish})` : rawBaseTitle;
   const cartKey = finish ? `${id}__${finish.replace(/\s+/g, '_')}` : id;
 
-  return { id, cartId: cartKey, title, price, img, finish };
+  return { id, cartId: cartKey, title, price, img, finish, size: activeSize, color: activeColor, category };
 }
 
 // Add to Cart from collection & gift buttons (Robust document-level delegation)
@@ -7395,18 +7429,37 @@ function renderCheckoutItemsPreview() {
     return;
   }
 
-  dropdown.innerHTML = cart.map(item => `
-    <div class="co-preview-item">
-      <img src="${item.img || '/assets/category-toys.webp'}" alt="${item.title || 'Item'}" class="co-preview-thumb" />
-      <div class="co-preview-info">
-        <div class="co-preview-title">${item.title || 'Product'}</div>
-        <div class="co-preview-meta">
-          ${item.finish ? `<span>Finish: ${item.finish}</span> · ` : ''}Qty: ${item.qty || 1}
+  dropdown.innerHTML = cart.map(item => {
+    const rawVariant = (item.size || item.finish || item.variant || '').trim();
+    let metaLabel = '';
+    if (rawVariant && rawVariant.toLowerCase() !== 'standard') {
+      const cleanVal = rawVariant.replace(/^Size\s+/i, '').trim();
+      const isLingerie = (item.category || '').toLowerCase().includes('lingerie') ||
+                         (item.title || '').toLowerCase().includes('lingerie') ||
+                         (item.title || '').toLowerCase().includes('teddy') ||
+                         (item.title || '').toLowerCase().includes('chemise') ||
+                         (item.title || '').toLowerCase().includes('bodysuit') ||
+                         (item.title || '').toLowerCase().includes('corset') ||
+                         (item.title || '').toLowerCase().includes('pasties') ||
+                         (item.title || '').toLowerCase().includes('robe') ||
+                         (item.title || '').toLowerCase().includes('set');
+      const isSize = isLingerie || /^(s|m|l|xl|xxl|2xl|3xl|4xl|xs|one\s*size|free\s*size|small|medium|large)$/i.test(cleanVal) || /^size\s+/i.test(rawVariant);
+      metaLabel = isSize ? `Size: ${cleanVal}` : (item.color ? `Color: ${item.color}` : `Option: ${cleanVal}`);
+    }
+
+    return `
+      <div class="co-preview-item">
+        <img src="${item.img || '/assets/category-toys.webp'}" alt="${item.title || 'Item'}" class="co-preview-thumb" />
+        <div class="co-preview-info">
+          <div class="co-preview-title">${item.title || 'Product'}</div>
+          <div class="co-preview-meta">
+            ${metaLabel ? `<span>${metaLabel}</span> · ` : ''}Qty: ${item.qty || 1}
+          </div>
         </div>
+        <div class="co-preview-price">₦${(Number(item.price || 0) * Number(item.qty || 1)).toLocaleString()}</div>
       </div>
-      <div class="co-preview-price">₦${(Number(item.price || 0) * Number(item.qty || 1)).toLocaleString()}</div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 const btnToggleCoItems = document.getElementById('btn-toggle-co-items');

@@ -59,11 +59,29 @@ export default async function handler(req, res) {
     const fromEmail = process.env.VITE_RESEND_FROM_EMAIL || process.env.RESEND_FROM_EMAIL || 'TheToysVirago <admin@thetoysvirago.shop>';
 
     const itemsRowsHtml = items.length > 0
-      ? items.map(item => `
+      ? items.map(item => {
+        const raw = (item.size || item.finish || item.variant || '').trim();
+        let metaHtml = '';
+        if (raw && raw.toLowerCase() !== 'standard') {
+          const cleanVal = raw.replace(/^Size\s+/i, '').trim();
+          const isLingerie = (item.category || '').toLowerCase().includes('lingerie') ||
+                             (item.title || '').toLowerCase().includes('lingerie') ||
+                             (item.title || '').toLowerCase().includes('teddy') ||
+                             (item.title || '').toLowerCase().includes('chemise') ||
+                             (item.title || '').toLowerCase().includes('bodysuit') ||
+                             (item.title || '').toLowerCase().includes('corset') ||
+                             (item.title || '').toLowerCase().includes('pasties') ||
+                             (item.title || '').toLowerCase().includes('robe') ||
+                             (item.title || '').toLowerCase().includes('set');
+          const isSize = isLingerie || /^(s|m|l|xl|xxl|2xl|3xl|4xl|xs|one\s*size|free\s*size|small|medium|large)$/i.test(cleanVal) || /^size\s+/i.test(raw);
+          const label = isSize ? `Size: ${cleanVal}` : (item.color ? `Color: ${item.color}` : `Option: ${cleanVal}`);
+          metaHtml = `<br/><span style="font-size: 11.5px; color: #64748b; background: #f8fafc; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 3px;">${label}</span>`;
+        }
+        return `
         <tr style="border-bottom: 1px solid #f1f5f9;">
           <td style="padding: 12px 10px; font-size: 14px; color: #0f172a;">
             <strong>${item.title || 'Item'}</strong>
-            ${item.finish ? `<br/><span style="font-size: 11.5px; color: #64748b; background: #f8fafc; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 3px;">Finish: ${item.finish}</span>` : ''}
+            ${metaHtml}
           </td>
           <td style="padding: 12px 10px; font-size: 14px; text-align: center; color: #475569; font-weight: 600;">
             ${item.qty || 1}
@@ -72,7 +90,8 @@ export default async function handler(req, res) {
             ₦${Number(item.price || 0).toLocaleString()}
           </td>
         </tr>
-      `).join('')
+      `;
+      }).join('')
       : `<tr><td colspan="3" style="padding: 12px 10px; color: #475569;">Intimate Wellness Items</td></tr>`;
 
     const siteUrl = process.env.VITE_SITE_URL || process.env.SITE_URL || 'https://thetoysvirago.shop';
