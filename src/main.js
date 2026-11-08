@@ -6370,13 +6370,23 @@ function openQuickviewForProduct(prodKey, card = null) {
   if (qvMaterial) qvMaterial.textContent = prod.material || '';
   if (qvAcoustics) qvAcoustics.textContent = prod.acoustics || '';
 
-  // Alternate color notice: Lingerie items are specific designs and should NOT show the alternate color notice
+  // Alternate color notice: only show for TOYS with multiple variant colors; never on lingerie or single-color pieces
   const qvDelivColorNote = document.getElementById('qv-deliv-color-note');
   if (qvDelivColorNote) {
     const isLingerie = (prod.category || '').toLowerCase().includes('lingerie') ||
                        (prodKey || '').toLowerCase().includes('lingerie') ||
                        (card?.dataset?.category || '').toLowerCase().includes('lingerie');
-    qvDelivColorNote.style.display = isLingerie ? 'none' : 'block';
+    const isToy = (prod.category || '').toLowerCase() === 'toys' || 
+                  (!isLingerie && (prod.category || '').toLowerCase() !== 'lubes' && (prod.category || '').toLowerCase() !== 'games' && (prod.category || '').toLowerCase() !== 'bdsm');
+
+    const cardDots = card ? card.querySelectorAll('.color-dot') : [];
+    const hasColorDots = cardDots.length > 1;
+    const hasColorVariants = Array.isArray(prod.variants) && prod.variants.length > 1 && 
+      prod.variants.some(v => v.color || (v.name && !['s', 'm', 'l', 'xl', 'xxl', '2xl', '3xl', 'free size', 'one size'].includes(v.name.toLowerCase().trim())));
+
+    const hasMultipleColors = hasColorDots || hasColorVariants;
+
+    qvDelivColorNote.style.display = (!isLingerie && isToy && hasMultipleColors) ? 'block' : 'none';
   }
 
   // Populate Category-Specific Specs
@@ -7292,6 +7302,7 @@ function updateCheckoutTotalsDisplay() {
   }
 
   if (coTotal) coTotal.textContent = `₦${finalTotal.toLocaleString()}`;
+  renderCheckoutItemsPreview();
   updateCheckoutSubmitButton();
 }
 
@@ -7368,6 +7379,44 @@ function setupDeliveryZoneListeners() {
   if (inputCity) {
     inputCity.addEventListener('input', onAddressOrCityInput);
   }
+}
+
+// Render and toggle Checkout Items Preview Accordion
+function renderCheckoutItemsPreview() {
+  const titleEl = document.getElementById('co-items-toggle-title');
+  const dropdown = document.getElementById('co-items-dropdown');
+  if (!dropdown || !titleEl) return;
+
+  const totalItemsCount = cart.reduce((acc, it) => acc + (it.qty || 1), 0);
+  titleEl.textContent = `Review Items in Bag (${totalItemsCount})`;
+
+  if (cart.length === 0) {
+    dropdown.innerHTML = '<div style="font-size: 11px; color: var(--ink-3); text-align: center; padding: 6px;">Your bag is empty</div>';
+    return;
+  }
+
+  dropdown.innerHTML = cart.map(item => `
+    <div class="co-preview-item">
+      <img src="${item.img || '/assets/category-toys.webp'}" alt="${item.title || 'Item'}" class="co-preview-thumb" />
+      <div class="co-preview-info">
+        <div class="co-preview-title">${item.title || 'Product'}</div>
+        <div class="co-preview-meta">
+          ${item.finish ? `<span>Finish: ${item.finish}</span> · ` : ''}Qty: ${item.qty || 1}
+        </div>
+      </div>
+      <div class="co-preview-price">₦${(Number(item.price || 0) * Number(item.qty || 1)).toLocaleString()}</div>
+    </div>
+  `).join('');
+}
+
+const btnToggleCoItems = document.getElementById('btn-toggle-co-items');
+const coItemsDropdown = document.getElementById('co-items-dropdown');
+if (btnToggleCoItems && coItemsDropdown) {
+  btnToggleCoItems.addEventListener('click', () => {
+    const isExpanded = btnToggleCoItems.getAttribute('aria-expanded') === 'true';
+    btnToggleCoItems.setAttribute('aria-expanded', !isExpanded);
+    coItemsDropdown.style.display = isExpanded ? 'none' : 'flex';
+  });
 }
 
 // Update Submit Button CTA text cleanly
@@ -7515,6 +7564,43 @@ document.addEventListener('click', (e) => {
   }
 });
 
+// Checkout draft autosave in sessionStorage
+function saveCheckoutDraft() {
+  try {
+    const draft = {
+      firstName: inputFirstName?.value || '',
+      lastName: inputLastName?.value || '',
+      email: inputEmail?.value || '',
+      phone: inputPhone?.value || '',
+      address: inputAddress?.value || '',
+      city: inputCity?.value || '',
+      notes: inputNotes?.value || ''
+    };
+    sessionStorage.setItem('ttv_checkout_draft', JSON.stringify(draft));
+  } catch (e) {}
+}
+
+function restoreCheckoutDraft() {
+  try {
+    const raw = sessionStorage.getItem('ttv_checkout_draft');
+    if (!raw) return;
+    const draft = JSON.parse(raw);
+    if (inputFirstName && !inputFirstName.value) inputFirstName.value = draft.firstName || '';
+    if (inputLastName && !inputLastName.value) inputLastName.value = draft.lastName || '';
+    if (inputEmail && !inputEmail.value) inputEmail.value = draft.email || '';
+    if (inputPhone && !inputPhone.value) inputPhone.value = draft.phone || '';
+    if (inputAddress && !inputAddress.value) inputAddress.value = draft.address || '';
+    if (inputCity && !inputCity.value) {
+      inputCity.value = draft.city || '';
+    }
+    if (inputNotes && !inputNotes.value) inputNotes.value = draft.notes || '';
+  } catch (e) {}
+}
+
+[inputFirstName, inputLastName, inputEmail, inputPhone, inputAddress, inputCity, inputNotes].forEach(el => {
+  if (el) el.addEventListener('input', saveCheckoutDraft);
+});
+
 // Copy Bank Account Number listener
 if (btnCopyBankAcc) {
   btnCopyBankAcc.addEventListener('click', async () => {
@@ -7569,10 +7655,34 @@ if (btnCopySuccessRef) {
         await navigator.clipboard.writeText(currentCheckoutRef);
       }
       btnCopySuccessRef.textContent = 'Copied!';
-      showToast(`Order Reference copied: ${currentCheckoutRef}`);
-      setTimeout(() => { btnCopySuccessRef.textContent = 'Copy Order Reference'; }, 2500);
+      showToast('Order ref copied');
+      setTimeout(() => { btnCopySuccessRef.textContent = 'Copy Ref'; }, 2500);
     } catch (err) {
       window.prompt('Order Reference:', currentCheckoutRef);
+    }
+  });
+}
+
+// Copy Bank Account listener on Success screen
+const btnCopySuccessAcc = document.getElementById('btn-copy-success-acc');
+if (btnCopySuccessAcc) {
+  btnCopySuccessAcc.addEventListener('click', async () => {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(STORE_BANK_ACC);
+      } else {
+        const temp = document.createElement('input');
+        temp.value = STORE_BANK_ACC;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand('copy');
+        document.body.removeChild(temp);
+      }
+      btnCopySuccessAcc.textContent = 'Copied!';
+      showToast('Account copied');
+      setTimeout(() => { btnCopySuccessAcc.textContent = 'Copy'; }, 2500);
+    } catch (err) {
+      window.prompt('Account Number:', STORE_BANK_ACC);
     }
   });
 }
@@ -7598,11 +7708,15 @@ if (btnCheckout) {
     refreshActiveOrderRef();
 
     savedAddresses = getSavedAddresses();
-    if (!savedAddresses.find(a => a.id === selectedAddressId)) {
-      selectedAddressId = savedAddresses[0]?.id || 'home';
+    if (savedAddresses.length > 0) {
+      if (!savedAddresses.find(a => a.id === selectedAddressId)) {
+        selectedAddressId = savedAddresses[0]?.id || 'home';
+      }
+      const current = savedAddresses.find(a => a.id === selectedAddressId);
+      if (current) syncFormWithAddress(current);
+    } else {
+      restoreCheckoutDraft();
     }
-    const current = savedAddresses.find(a => a.id === selectedAddressId);
-    if (current) syncFormWithAddress(current);
 
     renderAddressBook();
 
@@ -7668,17 +7782,18 @@ function displayOrderSuccess(orderPayload, waUrl) {
     const refEl = document.getElementById('order-ref');
     const recipientEl = document.getElementById('co-success-recipient');
     const destEl = document.getElementById('co-success-destination');
-    const amountEl = document.getElementById('co-success-amount');
-    const statusEl = document.getElementById('co-success-status');
+    const amountDueEl = document.getElementById('co-success-amount-due');
+    const accNumEl = document.getElementById('co-success-acc-num');
     const waBtn = document.getElementById('btn-wa-confirm-order');
 
     if (refEl) refEl.textContent = orderPayload.reference;
     if (recipientEl) recipientEl.innerHTML = `<strong>Recipient:</strong> <span>${orderPayload.customer_name}</span>`;
     if (destEl) destEl.innerHTML = `<strong>Delivery Address:</strong> <span>${orderPayload.address}</span>`;
-    if (amountEl) amountEl.innerHTML = `<strong>Total:</strong> <span>₦${Number(orderPayload.total_amount).toLocaleString()}</span>`;
-    if (statusEl) statusEl.innerHTML = `<strong>Status:</strong> <span class="status-badge-awaiting">Awaiting Confirmation</span>`;
+    if (amountDueEl) amountDueEl.textContent = `₦${Number(orderPayload.total_amount).toLocaleString()}`;
+    if (accNumEl) accNumEl.textContent = STORE_BANK_ACC;
 
     if (waBtn) waBtn.href = waUrl;
+    try { sessionStorage.removeItem('ttv_checkout_draft'); } catch (e) {}
   }
 }
 
@@ -7889,7 +8004,7 @@ if (checkoutForm) {
 
     // DIRECT BANK TRANSFER FLOW
     if (btnSubmitOrder) {
-      btnSubmitOrder.innerHTML = '<span>Redirecting to WhatsApp...</span>';
+      btnSubmitOrder.innerHTML = '<span>Placing Order...</span>';
       btnSubmitOrder.disabled = true;
     }
 
@@ -7931,12 +8046,10 @@ if (checkoutForm) {
     cart = [];
     discountPercent = 0;
     saveCart();
-    if (btnSubmitOrder) btnSubmitOrder.disabled = false;
-
-    // DIRECT REDIRECT to WhatsApp
-    setTimeout(() => {
-      window.location.href = waUrl;
-    }, 450);
+    if (btnSubmitOrder) {
+      btnSubmitOrder.disabled = false;
+      btnSubmitOrder.innerHTML = '<span>Place Order</span>';
+    }
   });
 }
 

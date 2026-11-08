@@ -1,6 +1,14 @@
 // Vercel Serverless Function: Automated Email Dispatch via Resend
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  const allowedOrigins = ['https://www.thetoysvirago.shop', 'https://thetoysvirago.shop'];
+  const reqOrigin = req.headers.origin || req.headers.referer || '';
+  const isAllowedOrigin = !reqOrigin || allowedOrigins.some(o => reqOrigin.startsWith(o)) || reqOrigin.includes('localhost') || reqOrigin.includes('.vercel.app');
+
+  if (reqOrigin && isAllowedOrigin) {
+    res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
+  } else {
+    res.setHeader('Access-Control-Allow-Origin', 'https://www.thetoysvirago.shop');
+  }
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
@@ -14,13 +22,13 @@ export default async function handler(req, res) {
 
   try {
     const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
-    const { order, action, apiKey } = body;
+    const { order, action } = body;
 
     if (!order) {
       return res.status(400).json({ error: 'Order details missing from request' });
     }
 
-    let resendApiKey = apiKey || process.env.VITE_RESEND_API_KEY || process.env.RESEND_API_KEY;
+    let resendApiKey = process.env.RESEND_API_KEY || process.env.VITE_RESEND_API_KEY;
     if (!resendApiKey) {
       try {
         const fs = await import('fs');
@@ -28,7 +36,7 @@ export default async function handler(req, res) {
         const envPath = path.join(process.cwd(), '.env');
         if (fs.existsSync(envPath)) {
           const envContent = fs.readFileSync(envPath, 'utf8');
-          const m = envContent.match(/(?:VITE_RESEND_API_KEY|RESEND_API_KEY)=["']?([^"'\r\n]+)["']?/);
+          const m = envContent.match(/(?:RESEND_API_KEY|VITE_RESEND_API_KEY)=["']?([^"'\r\n]+)["']?/);
           if (m) resendApiKey = m[1].trim();
         }
       } catch (e) {}

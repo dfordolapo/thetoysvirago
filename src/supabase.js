@@ -195,8 +195,6 @@ export async function updateSupabaseOrderStatus(orderRef, newStatus = 'confirmed
  * Dispatches automatically via Vercel Serverless /api/send-confirmation.
  */
 export async function sendCustomerOrderStatusEmail(order, action = 'order_confirmed') {
-  const resendApiKey = import.meta.env.VITE_RESEND_API_KEY || (typeof window !== 'undefined' ? localStorage.getItem('ttv_resend_api_key') : '');
-
   try {
     const apiRes = await fetch('/api/send-confirmation', {
       method: 'POST',
@@ -205,8 +203,7 @@ export async function sendCustomerOrderStatusEmail(order, action = 'order_confir
       },
       body: JSON.stringify({
         order,
-        action,
-        apiKey: resendApiKey
+        action
       })
     });
 
