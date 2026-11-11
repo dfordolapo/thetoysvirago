@@ -1079,7 +1079,7 @@ async function handleSaveProduct(shouldRedirectToShop = false) {
         const res = await upsertSupabaseProduct(productData);
         if (res.success) {
           liveUploaded = true;
-          showToast(`✓ "${title}" is now LIVE! <a href="/products.html?filter=${category}" target="_blank" rel="noopener">View on Shop &rarr;</a>`, true);
+          showToast(`✓ "${title}" is now LIVE! <a href="/products/${encodeURIComponent(id)}" target="_blank" rel="noopener">View Product &rarr;</a>`, true);
         } else {
           console.warn('[Supabase] Sync notice:', res.error);
           if (res.isRlsError || (res.error && (res.error.includes('row-level security') || res.error.includes('42501')))) {
@@ -1093,7 +1093,7 @@ async function handleSaveProduct(shouldRedirectToShop = false) {
         showToast(`Saved locally. Supabase upload error.`);
       }
     } else {
-      showToast(`Saved "${title}" to Catalog. <a href="/products.html?filter=${category}" target="_blank" rel="noopener">View on Shop &rarr;</a>`, true);
+      showToast(`Saved "${title}" to Catalog. <a href="/products/${encodeURIComponent(id)}" target="_blank" rel="noopener">View Product &rarr;</a>`, true);
     }
 
     // Refresh UI tables and stats with live cloud products
@@ -1170,7 +1170,7 @@ function renderInventoryTable() {
         </label>
       </td>
       <td style="text-align: right; white-space: nowrap;">
-        <a href="/products.html?filter=${prod.category}" target="_blank" rel="noopener" class="admin-btn admin-btn-outline" style="padding: 6px 10px; font-size: 12px; text-decoration: none;" title="View on Live Shop">↗ Shop</a>
+        <a href="/products/${encodeURIComponent(prod.id)}" target="_blank" rel="noopener" class="admin-btn admin-btn-outline" style="padding: 6px 10px; font-size: 12px; text-decoration: none;" title="View on Live Shop">↗ Shop</a>
         <button class="admin-btn admin-btn-outline btn-edit-prod" data-id="${prod.id}" style="padding: 6px 12px; font-size: 12px;">Edit</button>
         ${isCustom ? `<button class="admin-btn admin-btn-outline btn-del-prod" data-id="${prod.id}" style="padding: 6px 10px; font-size: 12px; color: #f43f5e;" title="Delete product">&times;</button>` : ''}
       </td>

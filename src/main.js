@@ -6625,20 +6625,25 @@ if (typeof window !== 'undefined') {
       }
     }
     if (deepProduct) {
-      if (PRODUCT_DATABASE[deepProduct]) {
-        setTimeout(() => {
-          const card = document.querySelector(`.product-card[data-product="${deepProduct}"]`) ||
-                       document.querySelector(`.btn-quick-view[data-product="${deepProduct}"]`)?.closest('.product-card');
+      // Admin-uploaded products arrive from Supabase asynchronously, so retry
+      // briefly until the product is registered before opening the quickview.
+      const tryOpenDeepProduct = (attempt = 0) => {
+        const card = document.querySelector(`.product-card[data-id="${deepProduct}"], .product-card[data-product="${deepProduct}"]`) ||
+                     document.querySelector(`.btn-quick-view[data-product="${deepProduct}"]`)?.closest('.product-card');
+        if (PRODUCT_DATABASE[deepProduct]) {
           if (card) {
             card.scrollIntoView({ behavior: 'smooth', block: 'center' });
           }
           openQuickviewForProduct(deepProduct, card);
-        }, 350);
-      } else {
-        setTimeout(() => {
-          openQuickviewForProduct(deepProduct);
-        }, 350);
-      }
+          return;
+        }
+        if (attempt < 20) {
+          setTimeout(() => tryOpenDeepProduct(attempt + 1), 300);
+        } else {
+          openQuickviewForProduct(deepProduct, card);
+        }
+      };
+      setTimeout(() => tryOpenDeepProduct(0), 350);
     } else if (false) {
       setTimeout(() => {
         const card = document.querySelector(`.product-card[data-product="${deepProduct}"]`) ||
