@@ -1,7 +1,7 @@
 import { initWhatsAppWidget } from './modules/whatsappWidget.js';
 import { initPullToRefresh } from './modules/pullToRefresh.js';
 import { BLOG_ARTICLES } from './data/articles.js';
-import { getSupabaseProducts, recordSupabaseConfession, getSupabaseConfessions, recordSupabaseOrder, getSupabaseOrders } from './supabase.js';
+import { getSupabaseProducts, getSupabaseProductById, recordSupabaseConfession, getSupabaseConfessions, recordSupabaseOrder, getSupabaseOrders } from './supabase.js';
 import { DELIVERY_ZONES, autoDetectDeliveryZoneFromAddress } from './modules/zones.js';
 import { openPaystackInline, isPaystackConfigured, PAYSTACK_PUBLIC_KEY } from './modules/paystack.js';
 import { resolveColorHex, isLightColor, formatColorName } from './modules/colorResolver.js';
@@ -6304,13 +6304,15 @@ function openQuickviewForProduct(prodKey, card = null) {
   currentQvProduct.cardActiveColor = cardActiveColor;
   currentQvProduct.cardActiveSize = cardActiveSize;
 
-  // Populate media thumbnails
-  if (qvThumbs) {
+  // Populate media thumbnails (every uploaded image and video)
+  const populateQuickviewMedia = (mediaProd) => {
+    if (!qvThumbs) return;
     qvThumbs.innerHTML = '';
-    if (prod.media && prod.media.length > 1) {
+    const mediaList = Array.isArray(mediaProd.media) ? mediaProd.media : [];
+    if (mediaList.length > 1) {
       qvThumbs.removeAttribute('hidden');
       qvThumbs.style.display = 'flex';
-      prod.media.forEach((item, idx) => {
+      mediaList.forEach((item, idx) => {
         const thumbBtn = document.createElement('button');
         thumbBtn.className = `qv-thumb ${idx === 0 ? 'active' : ''}`;
         thumbBtn.type = 'button';
@@ -6318,7 +6320,7 @@ function openQuickviewForProduct(prodKey, card = null) {
 
         if (item.type === 'video') {
           thumbBtn.innerHTML = `
-            <img src="${item.thumb || prod.img}" alt="${item.label}" />
+            <img src="${item.thumb || mediaProd.img || prod.img}" alt="${item.label}" />
             <span class="qv-thumb-video-icon">▶</span>
           `;
         } else {
@@ -6363,6 +6365,24 @@ function openQuickviewForProduct(prodKey, card = null) {
       qvThumbs.setAttribute('hidden', '');
       qvThumbs.style.display = 'none';
     }
+  };
+
+  populateQuickviewMedia(prod);
+
+  // Supabase products load with a single lightweight image for speed, so pull the
+  // full gallery on demand to show every uploaded image and video here.
+  if (prod.isRemote && prod.id) {
+    getSupabaseProductById(prod.id).then((full) => {
+      if (!full || !currentQvProduct || currentQvProduct.id !== prod.id) return;
+      const fullMedia = Array.isArray(full.media) && full.media.length
+        ? full.media
+        : (full.image ? [{ type: 'image', src: full.image, label: full.title }] : []);
+      if (fullMedia.length <= 1) return;
+      currentQvProduct.media = fullMedia;
+      populateQuickviewMedia({ ...prod, media: fullMedia });
+    }).catch((err) => {
+      console.info('[Supabase] Quickview gallery notice:', err && err.message);
+    });
   }
 
   if (qvBadge) qvBadge.textContent = prod.badge;
@@ -8725,6 +8745,7 @@ export function initCustomCatalogProducts() {
     prods.forEach((prod) => {
       PRODUCT_DATABASE[prod.id] = {
         id: prod.id,
+        isRemote: prod.isRemote === true,
         title: prod.title,
         badge: prod.badge || 'LUXE BOUDOIR',
         price: Number(prod.price) || 0,
@@ -8794,6 +8815,7 @@ export function initCustomCatalogProducts() {
         const existingIdx = customProds.findIndex(p => p.id === rp.id);
         const mapped = {
           id: rp.id,
+          isRemote: true,
           title: rp.title,
           category: rp.category || 'toys',
           sku: rp.category ? `${rp.category.toUpperCase()} · ${rp.id.slice(0, 4)}` : 'VAULT · 01',
