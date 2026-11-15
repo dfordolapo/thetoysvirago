@@ -4,6 +4,7 @@ import { BLOG_ARTICLES } from './data/articles.js';
 import { getSupabaseProducts, recordSupabaseConfession, getSupabaseConfessions, recordSupabaseOrder, getSupabaseOrders } from './supabase.js';
 import { DELIVERY_ZONES, autoDetectDeliveryZoneFromAddress } from './modules/zones.js';
 import { openPaystackInline, isPaystackConfigured, PAYSTACK_PUBLIC_KEY } from './modules/paystack.js';
+import { resolveColorHex, isLightColor, formatColorName } from './modules/colorResolver.js';
 
 /**
  * ROUGE NOIR - Haute Intimité & Sensual Wellness
@@ -784,6 +785,7 @@ document.querySelectorAll('.color-selector, .color-row').forEach((selector) => {
       dots.forEach((d) => d.classList.remove('active'));
       dot.classList.add('active');
       const chosenColor = dot.dataset.color;
+      if (label && chosenColor) label.textContent = chosenColor;
       
 
       // Update card preview image if color dot has an individual image
@@ -6476,7 +6478,16 @@ function openQuickviewForProduct(prodKey, card = null) {
         const vBtn = document.createElement('button');
         vBtn.className = `size-pill ${idx === selectedIdx ? 'active' : ''}`;
         vBtn.type = 'button';
-        vBtn.textContent = v.name;
+        vBtn.style.borderRadius = '8px';
+        const isSizeName = /^(s|m|l|xl|xxl|2xl|3xl|one\s*size|free\s*size)$/i.test(String(v.name || '').trim());
+        const hasColor = Boolean(v.color) || !isSizeName;
+        if (hasColor) {
+          const hex = resolveColorHex(v.color, v.name);
+          const borderStyle = isLightColor(hex) ? 'border: 1px solid #cbd5e1;' : 'border: 1px solid rgba(0,0,0,0.15);';
+          vBtn.innerHTML = `<span style="width: 10px; height: 10px; border-radius: 50%; background: ${hex}; display: inline-block; vertical-align: middle; margin-right: 6px; ${borderStyle}"></span><span>${v.name}</span>`;
+        } else {
+          vBtn.textContent = v.name;
+        }
         vBtn.dataset.price = v.price;
         vBtn.dataset.pricestr = v.priceStr;
         if (v.img) vBtn.dataset.img = v.img;
@@ -8556,7 +8567,11 @@ function createStoreProductCard(prod, idx) {
 
   const variantDotsHtml = (prod.variants && prod.variants.length > 0)
     ? `<div class="color-row">
-        ${prod.variants.map((v, i) => `<span class="color-dot ${i === 0 ? 'active' : ''}" data-color="${v.name}" data-img="${v.img || prod.img}" title="${v.name}" style="background: ${v.color || (v.name.toLowerCase().includes('red') || v.name.toLowerCase().includes('ruby') ? '#e11d48' : '#111')};"></span>`).join('')}
+        ${prod.variants.map((v, i) => {
+          const hex = resolveColorHex(v.color, v.name);
+          const borderStyle = isLightColor(hex) ? 'border: 1px solid #cbd5e1;' : '';
+          return `<button type="button" class="color-dot ${i === 0 ? 'active' : ''}" data-color="${v.name}" data-img="${v.img || prod.img}" title="${v.name}" style="background: ${hex}; ${borderStyle}"></button>`;
+        }).join('')}
         <span class="color-name">${prod.variants[0]?.name || ''}</span>
       </div>`
     : '';
@@ -8628,7 +8643,16 @@ function createStoreProductCard(prod, idx) {
         if (addBtn) addBtn.dataset.img = dot.dataset.img;
       }
       if (addBtn) {
-        addBtn.dataset.title = `${prod.title} (${dot.dataset.color})`;
+        addBtn.dataset.selectedColor = dot.dataset.color;
+        const activeSizePill = card.querySelector('.size-pill.active');
+        const activeSize = activeSizePill?.dataset.size || activeSizePill?.textContent.trim();
+        const baseTitle = (addBtn.dataset.baseTitle || prod.title).replace(/\s*\([^)]*\)$/, '').trim();
+        if (!addBtn.dataset.baseTitle) addBtn.dataset.baseTitle = baseTitle;
+        if (activeSize) {
+          addBtn.dataset.title = `${baseTitle} (${activeSize} ${dot.dataset.color})`;
+        } else {
+          addBtn.dataset.title = `${baseTitle} (${dot.dataset.color})`;
+        }
       }
     });
   });

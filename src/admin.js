@@ -18,6 +18,7 @@ import {
   subscribeToSupabaseOrders
 } from './supabase.js';
 import { buildProductCopyPrompt, GEMINI_VISION_MODELS, parseGeminiJson } from './aiPrompt.js';
+import { resolveColorHex, isLightColor, formatColorName } from './modules/colorResolver.js';
 
 // ================= 1. AUTHENTICATION & SECURITY GATE =================
 const ADMIN_PIN_KEY = 'thetoysvirago_admin_pin';
@@ -923,18 +924,22 @@ if (descInput) descInput.addEventListener('input', updateWordCount);
 const btnAddVariant = document.getElementById('btn-add-variant');
 const variantNameInput = document.getElementById('new-variant-name');
 const variantColorInput = document.getElementById('new-variant-color');
+const variantColorPreview = document.getElementById('variant-color-preview');
 const variantsList = document.getElementById('variants-list');
 
 function renderVariants() {
   if (!variantsList) return;
   variantsList.innerHTML = '';
   currentVariants.forEach((v, idx) => {
+    const hex = resolveColorHex(v.color, v.name);
+    v.color = hex;
     const chip = document.createElement('span');
     chip.className = 'tag-chip';
+    const borderStyle = isLightColor(hex) ? 'border: 1px solid #cbd5e1;' : 'border: 1px solid rgba(0,0,0,0.15);';
     chip.innerHTML = `
-      <span style="width: 10px; height: 10px; border-radius: 50%; background: ${v.color || '#e11d48'}; display: inline-block;"></span>
-      ${v.name}
-      <span class="tag-chip-del" data-idx="${idx}">&times;</span>
+      <span style="width: 12px; height: 12px; border-radius: 50%; background: ${hex}; display: inline-block; ${borderStyle} box-shadow: 0 1px 2px rgba(0,0,0,0.1);"></span>
+      <strong>${v.name}</strong>
+      <span class="tag-chip-del" data-idx="${idx}" title="Remove color">&times;</span>
     `;
     chip.querySelector('.tag-chip-del').addEventListener('click', () => {
       currentVariants.splice(idx, 1);
@@ -944,26 +949,70 @@ function renderVariants() {
   });
 }
 
-function addColorVariant(name, color) {
-  if (!name) return;
-  const singleWord = name.trim().split(/\s+/)[0];
-  if (!singleWord) return;
-  const capitalized = singleWord.charAt(0).toUpperCase() + singleWord.slice(1).toLowerCase();
-  if (!currentVariants.some(v => v.name.toLowerCase() === capitalized.toLowerCase())) {
-    currentVariants.push({ name: capitalized, color });
-    renderVariants();
+function updateVariantColorPreview() {
+  const text = variantNameInput ? variantNameInput.value.trim() : '';
+  const firstToken = text ? text.split(/[,;/]+/)[0].trim() : '';
+  const hex = resolveColorHex(firstToken || '#0c0c0e');
+  if (variantColorPreview) {
+    variantColorPreview.style.backgroundColor = hex;
+    variantColorPreview.style.borderColor = isLightColor(hex) ? '#94a3b8' : 'rgba(0,0,0,0.2)';
+  }
+  if (variantColorInput && (!variantColorInput.dataset.manualOverride || !text)) {
+    variantColorInput.value = hex;
   }
 }
 
-if (btnAddVariant && variantNameInput) {
-  btnAddVariant.addEventListener('click', () => {
-    const name = variantNameInput.value.trim();
-    const color = variantColorInput ? variantColorInput.value : '#e11d48';
-    if (name) {
-      addColorVariant(name, color);
-      variantNameInput.value = '';
+function addColorVariant(rawName, explicitColor) {
+  if (!rawName) return;
+  const tokens = String(rawName).split(/[,;/]+/).map(t => t.trim()).filter(Boolean);
+  if (tokens.length === 0) return;
+
+  tokens.forEach(token => {
+    const cleanName = formatColorName(token);
+    if (!cleanName) return;
+    const resolvedHex = resolveColorHex(explicitColor, cleanName);
+    const existingIdx = currentVariants.findIndex(v => v.name.toLowerCase() === cleanName.toLowerCase());
+    if (existingIdx >= 0) {
+      currentVariants[existingIdx].color = resolvedHex;
+    } else {
+      currentVariants.push({ name: cleanName, color: resolvedHex });
     }
   });
+  renderVariants();
+}
+
+function triggerAddVariant() {
+  if (!variantNameInput) return;
+  const name = variantNameInput.value.trim();
+  if (!name) return;
+  const manual = variantColorInput && variantColorInput.dataset.manualOverride === 'true' ? variantColorInput.value : '';
+  addColorVariant(name, manual);
+  variantNameInput.value = '';
+  if (variantColorInput) delete variantColorInput.dataset.manualOverride;
+  updateVariantColorPreview();
+}
+
+if (variantNameInput) {
+  variantNameInput.addEventListener('input', updateVariantColorPreview);
+  variantNameInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      triggerAddVariant();
+    }
+  });
+}
+
+if (variantColorInput) {
+  variantColorInput.addEventListener('input', () => {
+    variantColorInput.dataset.manualOverride = 'true';
+    if (variantColorPreview) {
+      variantColorPreview.style.backgroundColor = variantColorInput.value;
+    }
+  });
+}
+
+if (btnAddVariant) {
+  btnAddVariant.addEventListener('click', triggerAddVariant);
 }
 
 // Sizes
@@ -1121,11 +1170,11 @@ async function handleSaveProduct(shouldRedirectToShop = false) {
         { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
       ],
       variants: currentVariants.length > 0 ? currentVariants.map(v => ({
-        name: v.name,
+        name: formatColorName(v.name),
         price: price,
         priceStr: `₦${price.toLocaleString()}`,
-        img: imgSrc,
-        color: v.color
+        img: v.img || imgSrc,
+        color: resolveColorHex(v.color, v.name)
       })) : [],
       sizes: [...currentSizes],
       media: finalMedia,
@@ -1344,7 +1393,13 @@ async function loadProductIntoForm(prod) {
     if (prodImgUrlInput) prodImgUrlInput.value = prod.img;
   }
 
-  currentVariants = Array.isArray(prod.variants) ? [...prod.variants] : [];
+  currentVariants = Array.isArray(prod.variants)
+    ? prod.variants.map(v => ({
+        ...v,
+        name: formatColorName(v.name || ''),
+        color: resolveColorHex(v.color, v.name)
+      }))
+    : [];
   currentSizes = Array.isArray(prod.sizes) ? [...prod.sizes] : ['S', 'M', 'L'];
   renderVariants();
   renderSizes();

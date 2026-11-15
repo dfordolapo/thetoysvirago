@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-  <title>Admin &amp; Product Vault — TheToysVirago</title>
+  <title>Admin &amp; Product Vault · TheToysVirago</title>
   <meta name="robots" content="noindex, nofollow" />
   <meta name="theme-color" content="#ffffff" />
   <link rel="icon" type="image/jpeg" href="/assets/logo.jpg" />
@@ -2230,12 +2230,18 @@
               <!-- Color Variants -->
               <div class="form-group">
                 <label class="form-label">Color Variants</label>
-                <div style="display: flex; gap: 8px;">
-                  <input type="text" id="new-variant-name" class="form-input" placeholder="Color Name (e.g. Noir Black, Ruby Wine)" />
-                  <input type="color" id="new-variant-color" value="#e11d48" style="height: 44px; width: 50px; background: none; border: 1px solid #cbd5e1; border-radius: 8px; cursor: pointer;" />
-                  <button type="button" id="btn-add-variant" class="admin-btn admin-btn-outline" style="white-space: nowrap;">Add</button>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                  <div style="position: relative; flex: 1;">
+                    <input type="text" id="new-variant-name" class="form-input" placeholder="Color name(s) e.g. Black, Rose Gold, Pink, Purple" style="padding-left: 38px;" />
+                    <span id="variant-color-preview" title="Auto-detected color hue" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; border-radius: 50%; background: #0c0c0e; border: 1px solid rgba(0,0,0,0.2); box-shadow: 0 1px 3px rgba(0,0,0,0.1); pointer-events: none; transition: background 0.15s ease;"></span>
+                  </div>
+                  <input type="color" id="new-variant-color" value="#0c0c0e" title="Optional: Fine-tune custom hue" style="height: 44px; width: 44px; background: none; border: 1px solid #cbd5e1; border-radius: 8px; cursor: pointer;" />
+                  <button type="button" id="btn-add-variant" class="admin-btn admin-btn-outline" style="white-space: nowrap; border-radius: 8px !important;">Add Color</button>
                 </div>
-                <div id="variants-list" class="tags-container"></div>
+                <div style="font-size: 11px; color: #64748b; margin-top: 4px;">
+                  Type any color name (e.g. Black, Rose Gold, Pink, Emerald) · The color hue is auto-detected instantly.
+                </div>
+                <div id="variants-list" class="tags-container" style="margin-top: 8px;"></div>
               </div>
 
               <!-- Size Pills -->

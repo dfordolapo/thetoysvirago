@@ -1,4 +1,5 @@
 import { buildImageList } from './productMedia.js';
+import { resolveColorHex, isLightColor, formatColorName } from './modules/colorResolver.js';
 
 const CATEGORY_LABELS = {
   toys: 'Luxury Adult Toys & Vibrators',
@@ -215,6 +216,26 @@ export function renderProductPage(product = {}, options = {}) {
         <dl>
           ${specs.map((spec) => `<div class="spec-row"><dt>${escapeHtml(spec.label || 'Detail')}</dt><dd>${escapeHtml(spec.value)}</dd></div>`).join('')}
         </dl>
+      </section>` : '';
+
+  const rawVariants = Array.isArray(product.variants) ? product.variants : [];
+  const variants = rawVariants.filter((v) => v && v.name).map((v) => ({
+    name: formatColorName(v.name),
+    color: resolveColorHex(v.color, v.name),
+    img: v.img || ''
+  }));
+
+  const variantsHtml = variants.length ? `
+      <section class="spec-block" aria-label="Available colors">
+        <h2>Available Colors</h2>
+        <div class="color-row" style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+          ${variants.map((v, i) => {
+            const hex = resolveColorHex(v.color, v.name);
+            const border = isLightColor(hex) ? 'border: 1px solid #cbd5e1;' : 'border: 1px solid rgba(255,255,255,0.2);';
+            return `<span class="color-dot${i === 0 ? ' active' : ''}" data-color="${escapeHtml(v.name)}" title="${escapeHtml(v.name)}" style="background: ${hex}; ${border} width: 18px; height: 18px; border-radius: 50%; display: inline-block;"></span>`;
+          }).join('')}
+          <span class="color-name" style="font-size: 13px; color: var(--muted); margin-left: 4px;">${escapeHtml(variants[0]?.name || '')}</span>
+        </div>
       </section>` : '';
 
   const sizesHtml = sizes.length ? `
@@ -465,6 +486,7 @@ export function renderProductPage(product = {}, options = {}) {
           ${descriptionParagraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join('')}
         </div>
 
+        ${variantsHtml}
         ${sizesHtml}
         ${specsHtml}
 
