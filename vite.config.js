@@ -36,49 +36,160 @@ function htmlPartialsPlugin() {
   };
 }
 
-// Dev middleware to route /api/send-confirmation through Node.js during local Vite development
-function resendDevApiPlugin() {
+// Minimal Vercel-style response adapter so the real api/* handlers can run
+// inside the Vite dev server.
+function createMockResponse(res) {
+  const mock = {
+    statusCode: 200,
+    setHeader(key, value) { res.setHeader(key, value); },
+    getHeader(key) { return res.getHeader(key); },
+    status(code) {
+      mock.statusCode = code;
+      res.statusCode = code;
+      return mock;
+    },
+    send(data) {
+      if (data !== undefined && !res.getHeader('Content-Type')) {
+        res.setHeader('Content-Type', typeof data === 'string' ? 'text/html; charset=utf-8' : 'application/octet-stream');
+      }
+      res.end(data);
+      return mock;
+    },
+    json(data) {
+      if (!res.getHeader('Content-Type')) res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.end(JSON.stringify(data));
+      return mock;
+    },
+    redirect(statusOrUrl, maybeUrl) {
+      const code = typeof statusOrUrl === 'number' ? statusOrUrl : 302;
+      const location = typeof statusOrUrl === 'string' ? statusOrUrl : maybeUrl;
+      mock.statusCode = code;
+      res.statusCode = code;
+      res.setHeader('Location', location);
+      res.end();
+      return mock;
+    },
+    end(data) {
+      res.end(data);
+      return mock;
+    }
+  };
+  return mock;
+}
+
+// Dev middleware that executes the real serverless functions locally.
+function devApiPlugin() {
+  const routes = {
+    '/api/send-confirmation': () => import('./api/send-confirmation.js'),
+    '/api/generate-copy': () => import('./api/generate-copy.js'),
+    '/api/product-page': () => import('./api/product-page.js'),
+    '/api/product-image': () => import('./api/product-image.js'),
+    '/api/sitemap-products': () => import('./api/sitemap-products.js')
+  };
+
+  const matchCleanRoute = (pathname, query) => {
+    if (/^\/products\/[^/.]+\/?$/.test(pathname)) {
+      const id = decodeURIComponent(pathname.replace(/^\/products\//, '').replace(/\/$/, ''));
+      return {
+        loader: routes['/api/product-page'],
+        query: { ...query, id },
+        // Mirror Vercel's filesystem precedence: a page generated at build
+        // time wins over the on-demand function.
+        staticFile: path.join(process.cwd(), 'dist', 'products', `${id}.html`)
+      };
+    }
+    if (/^\/product-image\/[^/]+\/?$/.test(pathname)) {
+      return {
+        loader: routes['/api/product-image'],
+        query: { ...query, id: decodeURIComponent(pathname.replace(/^\/product-image\//, '').replace(/\/$/, '')) }
+      };
+    }
+    if (pathname === '/sitemap-products.xml') {
+      return { loader: routes['/api/sitemap-products'], query };
+    }
+    return null;
+  };
+
   return {
-    name: 'resend-dev-api',
+    name: 'dev-api',
     configureServer(server) {
       server.middlewares.use(async (req, res, next) => {
-        if (req.url === '/api/send-confirmation' && req.method === 'POST') {
-          try {
-            let body = '';
-            req.on('data', chunk => { body += chunk; });
-            req.on('end', async () => {
-              try {
-                // Dynamically import the handler
-                const { default: handler } = await import('./api/send-confirmation.js');
-                const parsedBody = body ? JSON.parse(body) : {};
-                const mockReq = { method: 'POST', body: parsedBody, headers: req.headers };
-                const mockRes = {
-                  statusCode: 200,
-                  setHeader(k, v) { res.setHeader(k, v); },
-                  status(code) {
-                    this.statusCode = code;
-                    res.statusCode = code;
-                    return this;
-                  },
-                  json(data) {
-                    res.setHeader('Content-Type', 'application/json');
-                    res.end(JSON.stringify(data));
-                  },
-                  end() { res.end(); }
-                };
-                await handler(mockReq, mockRes);
-              } catch (e) {
-                res.statusCode = 500;
-                res.setHeader('Content-Type', 'application/json');
-                res.end(JSON.stringify({ error: e.message }));
-              }
-            });
-          } catch (err) {
-            next(err);
-          }
-        } else {
-          next();
+        const parsed = new URL(req.url || '/', 'http://localhost');
+        const query = Object.fromEntries(parsed.searchParams.entries());
+        const clean = matchCleanRoute(parsed.pathname, query);
+        const loader = routes[parsed.pathname] || (clean && clean.loader);
+        if (!loader) return next();
+
+        if (clean && clean.staticFile && fs.existsSync(clean.staticFile)) {
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'text/html; charset=utf-8');
+          res.end(fs.readFileSync(clean.staticFile, 'utf8'));
+          return;
         }
+
+        try {
+          let body = null;
+          if (req.method === 'POST') {
+            body = await new Promise((resolveBody) => {
+              let raw = '';
+              req.on('data', (chunk) => { raw += chunk; });
+              req.on('end', () => {
+                try {
+                  resolveBody(raw ? JSON.parse(raw) : {});
+                } catch (err) {
+                  resolveBody({});
+                }
+              });
+            });
+          }
+
+          const { default: handler } = await loader();
+          const mockReq = {
+            method: req.method,
+            body,
+            headers: req.headers,
+            query: clean ? clean.query : query,
+            url: req.url
+          };
+          await handler(mockReq, createMockResponse(res));
+        } catch (err) {
+          res.statusCode = 500;
+          res.setHeader('Content-Type', 'application/json; charset=utf-8');
+          res.end(JSON.stringify({ error: err.message }));
+        }
+      });
+    }
+  };
+}
+
+// Emulate Vercel cleanUrls locally so /admin, /products, /blog etc. open the
+// right HTML page instead of the SPA fallback.
+function cleanUrlsDevPlugin() {
+  const map = [
+    [/^\/admin\/?$/i, '/admin.html'],
+    [/^\/emails\/?$/i, '/emails.html'],
+    [/^\/products\/?$/i, '/products.html'],
+    [/^\/blog\/?$/i, '/blog.html'],
+    [/^\/journal\/?$/i, '/blog.html'],
+    [/^\/blog\/[^/.]+\/?$/i, '/blog.html']
+  ];
+
+  return {
+    name: 'clean-urls-dev',
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        if (req.method !== 'GET' && req.method !== 'HEAD') return next();
+        const url = req.url || '/';
+        const queryIndex = url.indexOf('?');
+        const pathname = queryIndex === -1 ? url : url.slice(0, queryIndex);
+        const query = queryIndex === -1 ? '' : url.slice(queryIndex);
+        for (const [pattern, destination] of map) {
+          if (pattern.test(pathname)) {
+            req.url = destination + query;
+            break;
+          }
+        }
+        next();
       });
     }
   };
@@ -89,7 +200,11 @@ export default defineConfig(({ mode }) => {
   Object.assign(process.env, env);
 
   return {
-    plugins: [htmlPartialsPlugin(), resendDevApiPlugin()],
+    plugins: [htmlPartialsPlugin(), devApiPlugin(), cleanUrlsDevPlugin()],
+    server: {
+      host: true,
+      port: 5173
+    },
     build: {
       rollupOptions: {
         input: {

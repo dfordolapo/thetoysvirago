@@ -1,7 +1,9 @@
 {
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/products/:id", "destination": "/products" },
+    { "source": "/products/:id", "destination": "/api/product-page?id=:id" },
+    { "source": "/product-image/:id", "destination": "/api/product-image?id=:id" },
+    { "source": "/sitemap-products.xml", "destination": "/api/sitemap-products" },
     { "source": "/products", "destination": "/products.html" },
     { "source": "/blog/:slug", "destination": "/blog/:slug.html" },
     { "source": "/blog", "destination": "/blog.html" },

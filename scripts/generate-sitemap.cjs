@@ -78,26 +78,49 @@ categories.forEach(cat => {
   xml += '  </url>\n\n';
 });
 
-// 4. Individual Product Deep Links
+// 4. Individual Product Pages (real crawlable URLs + image sitemap entries)
+function imageSources(product) {
+  const list = [];
+  const push = (src) => {
+    if (typeof src !== 'string') return;
+    const value = src.trim();
+    if (value && !list.includes(value)) list.push(value);
+  };
+  push(product.image);
+  push(product.img);
+  (Array.isArray(product.media) ? product.media : []).forEach(m => {
+    if (m && (!m.type || m.type === 'image')) push(m.src || m.url);
+  });
+  (Array.isArray(product.variants) ? product.variants : []).forEach(v => {
+    if (v) push(v.img || v.image);
+  });
+  return list;
+}
+
 if (Array.isArray(products)) {
   products.forEach(p => {
     if (!p || !p.id) return;
+    const encodedId = encodeURIComponent(p.id);
     xml += '  <url>\n';
-    xml += `    <loc>${BASE_URL}/products?product=${encodeURIComponent(p.id)}</loc>\n`;
+    xml += `    <loc>${BASE_URL}/products/${encodedId}</loc>\n`;
     xml += `    <lastmod>${today}</lastmod>\n`;
     xml += '    <changefreq>weekly</changefreq>\n';
     xml += '    <priority>0.80</priority>\n';
-    if (p.img) {
-      const imgUrl = p.img.startsWith('http')
-        ? p.img
-        : `${BASE_URL}${p.img.startsWith('/') ? '' : '/'}${p.img}`;
+
+    imageSources(p).forEach((src, index) => {
+      const imgUrl = src.startsWith('data:image/')
+        ? `${BASE_URL}/product-image/${encodedId}${index > 0 ? `?i=${index}` : ''}`
+        : src.startsWith('http')
+          ? src
+          : `${BASE_URL}${src.startsWith('/') ? '' : '/'}${src}`;
       xml += '    <image:image>\n';
       xml += `      <image:loc>${imgUrl}</image:loc>\n`;
       if (p.title) {
         xml += `      <image:title><![CDATA[${p.title}]]></image:title>\n`;
       }
       xml += '    </image:image>\n';
-    }
+    });
+
     xml += '  </url>\n\n';
   });
 }
