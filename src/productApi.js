@@ -79,23 +79,24 @@ export async function fetchSupabaseProduct(id) {
 }
 
 /**
- * Fetch a single image source for a product. `index` maps to the raw
- * `media` array index. Index 0 falls back to the legacy `image` column.
+ * Fetch a single media entry (image or video) for a product. `index` maps to
+ * the raw `media` array index. Index 0 falls back to the legacy `image` column.
+ * Returns `{ src, type, label }` or null.
  */
-export async function fetchSupabaseProductImage(id, index = 0) {
-  if (!id) return '';
+export async function fetchSupabaseProductMedia(id, index = 0) {
+  if (!id) return null;
   const safeIndex = Number.isInteger(index) && index >= 0
     ? Math.min(index, MEDIA_META_LIMIT - 1)
     : 0;
 
-  const select = `src:media->${safeIndex}->>src,type:media->${safeIndex}->>type`;
+  const select = `src:media->${safeIndex}->>src,type:media->${safeIndex}->>type,label:media->${safeIndex}->>label`;
   const url = `${SUPABASE_URL}/rest/v1/products?id=eq.${encodeURIComponent(id)}&select=${select}&limit=1`;
   const response = await fetch(url, { headers: supabaseHeaders() });
   if (response.ok) {
     const rows = await response.json();
     const row = Array.isArray(rows) && rows.length ? rows[0] : null;
-    if (row && row.src && (!row.type || row.type === 'image')) {
-      return String(row.src);
+    if (row && row.src) {
+      return { src: String(row.src), type: row.type || 'image', label: row.label || '' };
     }
   }
 
@@ -105,10 +106,22 @@ export async function fetchSupabaseProductImage(id, index = 0) {
     if (fallbackResponse.ok) {
       const rows = await fallbackResponse.json();
       const row = Array.isArray(rows) && rows.length ? rows[0] : null;
-      if (row && row.src) return String(row.src);
+      if (row && row.src) return { src: String(row.src), type: 'image', label: '' };
     }
   }
 
+  return null;
+}
+
+/**
+ * Fetch a single image source for a product. `index` maps to the raw
+ * `media` array index. Index 0 falls back to the legacy `image` column.
+ */
+export async function fetchSupabaseProductImage(id, index = 0) {
+  const media = await fetchSupabaseProductMedia(id, index);
+  if (media && media.src && (!media.type || media.type === 'image')) {
+    return String(media.src);
+  }
   return '';
 }
 

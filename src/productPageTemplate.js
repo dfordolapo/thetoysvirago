@@ -1,5 +1,5 @@
 import { buildImageList } from './productMedia.js';
-import { resolveColorHex, isLightColor, formatColorName } from './modules/colorResolver.js';
+import { resolveColorHex, isLightColor, formatColorName, isRecognizedColorName } from './modules/colorResolver.js';
 
 const CATEGORY_LABELS = {
   toys: 'Luxury Adult Toys & Vibrators',
@@ -126,6 +126,12 @@ function toAbsolute(url, siteUrl) {
   return `${siteUrl}${url.startsWith('/') ? '' : '/'}${url}`;
 }
 
+function withWidth(url, width) {
+  if (!url || !/\/product-image\//.test(url)) return url;
+  const separator = url.includes('?') ? '&' : '?';
+  return `${url}${separator}w=${width}`;
+}
+
 function jsonForScript(value) {
   return JSON.stringify(value).replace(/</g, '\\u003c').replace(/>/g, '\\u003e');
 }
@@ -207,7 +213,7 @@ export function renderProductPage(product = {}, options = {}) {
 
   const thumbnails = galleryImages.map((src, index) => `
         <button type="button" class="thumb${index === 0 ? ' is-active' : ''}" data-gallery-src="${escapeHtml(src)}" aria-label="View image ${index + 1} of ${galleryImages.length}">
-          <img src="${escapeHtml(src)}" alt="${escapeHtml(index === 0 ? altBase : `${altBase} - view ${index + 1}`)}" loading="${index === 0 ? 'eager' : 'lazy'}" decoding="async" />
+          <img src="${escapeHtml(withWidth(src, 240))}" alt="${escapeHtml(index === 0 ? altBase : `${altBase} - view ${index + 1}`)}" loading="${index === 0 ? 'eager' : 'lazy'}" decoding="async" width="240" height="240" />
         </button>`).join('');
 
   const specsHtml = specs.length ? `
@@ -219,24 +225,46 @@ export function renderProductPage(product = {}, options = {}) {
       </section>` : '';
 
   const rawVariants = Array.isArray(product.variants) ? product.variants : [];
-  const variants = rawVariants.filter((v) => v && v.name).map((v) => ({
-    name: formatColorName(v.name),
-    color: resolveColorHex(v.color, v.name),
-    img: v.img || ''
-  }));
+  const isOptionVariants = rawVariants.some((v) => v && (v.price || !isRecognizedColorName(v.name)));
 
-  const variantsHtml = variants.length ? `
+  const variants = rawVariants.filter((v) => v && v.name).map((v, i) => {
+    const explicit = (v.img && !/^data:/i.test(String(v.img))) ? String(v.img) : '';
+    const index = Number.isInteger(v.imgIndex) ? v.imgIndex : i;
+    const mapped = explicit || galleryImages[index] || galleryImages[0] || '';
+    const vPrice = v.price ? Number(v.price) : 0;
+    const vPriceStr = v.priceStr || (vPrice ? `₦${vPrice.toLocaleString()}` : '');
+    return {
+      name: formatColorName(v.name),
+      price: vPrice,
+      priceStr: vPriceStr,
+      color: resolveColorHex(v.color, v.name),
+      image: mapped ? toAbsolute(mapped, siteUrl) : ''
+    };
+  });
+
+  const variantsHtml = variants.length ? (
+    isOptionVariants ? `
+      <section class="spec-block" aria-label="Available editions and options">
+        <h2>Available Editions & Options</h2>
+        <div class="variant-options-row" style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+          ${variants.map((v, i) => {
+            const priceTag = v.priceStr ? ` · ${v.priceStr}` : '';
+            return `<span class="size-pill${i === 0 ? ' active' : ''}" style="border-radius: 8px !important; font-weight: 600; padding: 6px 12px; border: 1px solid rgba(255,255,255,0.2); font-size: 13px;">${escapeHtml(v.name + priceTag)}</span>`;
+          }).join('')}
+        </div>
+      </section>` : `
       <section class="spec-block" aria-label="Available colors">
         <h2>Available Colors</h2>
         <div class="color-row" style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
           ${variants.map((v, i) => {
             const hex = resolveColorHex(v.color, v.name);
             const border = isLightColor(hex) ? 'border: 1px solid #cbd5e1;' : 'border: 1px solid rgba(255,255,255,0.2);';
-            return `<span class="color-dot${i === 0 ? ' active' : ''}" data-color="${escapeHtml(v.name)}" title="${escapeHtml(v.name)}" style="background: ${hex}; ${border} width: 18px; height: 18px; border-radius: 50%; display: inline-block;"></span>`;
+            return `<button type="button" class="color-dot${i === 0 ? ' active' : ''}" data-color="${escapeHtml(v.name)}"${v.image ? ` data-img="${escapeHtml(v.image)}"` : ''} title="${escapeHtml(v.name)}" aria-label="Show ${escapeHtml(v.name)}" style="background: ${hex}; ${border} width: 24px; height: 24px; border-radius: 50%; display: inline-block; padding: 0; cursor: pointer;"></button>`;
           }).join('')}
           <span class="color-name" style="font-size: 13px; color: var(--muted); margin-left: 4px;">${escapeHtml(variants[0]?.name || '')}</span>
         </div>
-      </section>` : '';
+      </section>`
+  ) : '';
 
   const sizesHtml = sizes.length ? `
       <section class="spec-block" aria-label="Available sizes">
@@ -501,16 +529,36 @@ export function renderProductPage(product = {}, options = {}) {
   </footer>
 
   <script>
-    document.querySelectorAll('[data-gallery-src]').forEach(function (button) {
-      button.addEventListener('click', function () {
-        var main = document.getElementById('main-image');
-        if (main) main.src = button.getAttribute('data-gallery-src');
-        document.querySelectorAll('[data-gallery-src]').forEach(function (item) {
-          item.classList.remove('is-active');
+    (function () {
+      var main = document.getElementById('main-image');
+      var thumbs = Array.prototype.slice.call(document.querySelectorAll('[data-gallery-src]'));
+      var dots = Array.prototype.slice.call(document.querySelectorAll('.color-dot'));
+
+      function showImage(src) {
+        if (!src) return;
+        if (main) main.src = src;
+        thumbs.forEach(function (thumb) {
+          thumb.classList.toggle('is-active', thumb.getAttribute('data-gallery-src') === src);
         });
-        button.classList.add('is-active');
+      }
+
+      thumbs.forEach(function (thumb) {
+        thumb.addEventListener('click', function () {
+          showImage(thumb.getAttribute('data-gallery-src'));
+          dots.forEach(function (d) { d.classList.remove('active'); });
+        });
       });
-    });
+
+      dots.forEach(function (dot) {
+        dot.addEventListener('click', function () {
+          dots.forEach(function (d) { d.classList.remove('active'); });
+          dot.classList.add('active');
+          showImage(dot.getAttribute('data-img'));
+          var label = document.querySelector('.color-name');
+          if (label) label.textContent = dot.getAttribute('data-color') || label.textContent;
+        });
+      });
+    })();
   </script>
 </body>
 </html>`;

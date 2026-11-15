@@ -120,7 +120,7 @@ function saveCustomProducts(products) {
 let currentCustomProducts = getCustomProducts();
 let allInventoryProducts = [];
 let currentVariants = [];
-let currentSizes = ['S', 'M', 'L'];
+let currentSizes = [];
 let sampledColorPalette = [];
 let currentMediaList = []; // [{ type: 'image' | 'video', src: string, label: string }]
 let autoCopyPending = false;
@@ -947,9 +947,50 @@ if (descInput) descInput.addEventListener('input', updateWordCount);
 // ================= 5. VARIANTS & SIZES MANAGEMENT =================
 const btnAddVariant = document.getElementById('btn-add-variant');
 const variantNameInput = document.getElementById('new-variant-name');
+const variantPriceInput = document.getElementById('new-variant-price');
 const variantColorInput = document.getElementById('new-variant-color');
 const variantColorPreview = document.getElementById('variant-color-preview');
 const variantsList = document.getElementById('variants-list');
+
+export function parseVariantToken(token, fallbackPrice) {
+  let raw = String(token || '').trim();
+  if (!raw) return null;
+
+  let parsedPrice = null;
+
+  // Match patterns like:
+  // "Thrusting 45,000" or "Thrusting - 45000" or "Thrusting: ₦45,000" or "Ordinary 40k" or "Ordinary (40,000)"
+  const priceRegex = /(?:[:\-·|–—]|\s+)\s*(?:₦|NGN\s*)?([0-9]{1,3}(?:,[0-9]{3})+|[0-9]{4,7}|\d+k)\s*\)?$/i;
+  const match = raw.match(priceRegex);
+
+  if (match) {
+    const priceStr = match[1].toLowerCase().trim();
+    let num = 0;
+    if (priceStr.endsWith('k')) {
+      num = parseFloat(priceStr.replace('k', '')) * 1000;
+    } else {
+      num = parseFloat(priceStr.replace(/,/g, ''));
+    }
+    if (!isNaN(num) && num > 0) {
+      parsedPrice = num;
+      // Strip matched price portion from name
+      raw = raw.substring(0, match.index).replace(/[\(:–—\-·|]\s*$/, '').trim();
+    }
+  }
+
+  // If no price extracted from token, use fallbackPrice if valid
+  if (parsedPrice === null && fallbackPrice != null && !isNaN(Number(fallbackPrice)) && Number(fallbackPrice) > 0) {
+    parsedPrice = Number(fallbackPrice);
+  }
+
+  const cleanName = formatColorName(raw);
+  if (!cleanName) return null;
+
+  return {
+    name: cleanName,
+    price: parsedPrice
+  };
+}
 
 function renderVariants() {
   if (!variantsList) return;
@@ -960,10 +1001,11 @@ function renderVariants() {
     const chip = document.createElement('span');
     chip.className = 'tag-chip';
     const borderStyle = isLightColor(hex) ? 'border: 1px solid #cbd5e1;' : 'border: 1px solid rgba(0,0,0,0.15);';
+    const priceDisplay = (v.price && !isNaN(v.price) && v.price > 0) ? ` <span style="font-size: 11px; opacity: 0.85; font-weight: 600;">· ₦${Number(v.price).toLocaleString()}</span>` : '';
     chip.innerHTML = `
       <span style="width: 12px; height: 12px; border-radius: 50%; background: ${hex}; display: inline-block; ${borderStyle} box-shadow: 0 1px 2px rgba(0,0,0,0.1);"></span>
-      <strong>${v.name}</strong>
-      <span class="tag-chip-del" data-idx="${idx}" title="Remove color">&times;</span>
+      <strong>${v.name}</strong>${priceDisplay}
+      <span class="tag-chip-del" data-idx="${idx}" title="Remove variant">&times;</span>
     `;
     chip.querySelector('.tag-chip-del').addEventListener('click', () => {
       currentVariants.splice(idx, 1);
@@ -976,7 +1018,9 @@ function renderVariants() {
 function updateVariantColorPreview() {
   const text = variantNameInput ? variantNameInput.value.trim() : '';
   const firstToken = text ? text.split(/[,;/]+/)[0].trim() : '';
-  const hex = resolveColorHex(firstToken || '#0c0c0e');
+  const parsed = parseVariantToken(firstToken);
+  const cleanName = parsed ? parsed.name : firstToken;
+  const hex = resolveColorHex(cleanName || '#0c0c0e');
   if (variantColorPreview) {
     variantColorPreview.style.backgroundColor = hex;
     variantColorPreview.style.borderColor = isLightColor(hex) ? '#94a3b8' : 'rgba(0,0,0,0.2)';
@@ -986,20 +1030,35 @@ function updateVariantColorPreview() {
   }
 }
 
-function addColorVariant(rawName, explicitColor) {
+function addColorVariant(rawName, explicitColor, explicitPrice) {
   if (!rawName) return;
   const tokens = String(rawName).split(/[,;/]+/).map(t => t.trim()).filter(Boolean);
   if (tokens.length === 0) return;
 
   tokens.forEach(token => {
-    const cleanName = formatColorName(token);
-    if (!cleanName) return;
+    const parsed = parseVariantToken(token, explicitPrice);
+    if (!parsed || !parsed.name) return;
+
+    const cleanName = parsed.name;
     const resolvedHex = resolveColorHex(explicitColor, cleanName);
     const existingIdx = currentVariants.findIndex(v => v.name.toLowerCase() === cleanName.toLowerCase());
+    
+    const variantObj = {
+      name: cleanName,
+      color: resolvedHex
+    };
+    if (parsed.price != null && !isNaN(parsed.price) && parsed.price > 0) {
+      variantObj.price = parsed.price;
+      variantObj.priceStr = `₦${parsed.price.toLocaleString()}`;
+    }
+
     if (existingIdx >= 0) {
-      currentVariants[existingIdx].color = resolvedHex;
+      currentVariants[existingIdx] = {
+        ...currentVariants[existingIdx],
+        ...variantObj
+      };
     } else {
-      currentVariants.push({ name: cleanName, color: resolvedHex });
+      currentVariants.push(variantObj);
     }
   });
   renderVariants();
@@ -1009,9 +1068,11 @@ function triggerAddVariant() {
   if (!variantNameInput) return;
   const name = variantNameInput.value.trim();
   if (!name) return;
+  const explicitPrice = variantPriceInput && variantPriceInput.value ? parseFloat(variantPriceInput.value) : null;
   const manual = variantColorInput && variantColorInput.dataset.manualOverride === 'true' ? variantColorInput.value : '';
-  addColorVariant(name, manual);
+  addColorVariant(name, manual, explicitPrice);
   variantNameInput.value = '';
+  if (variantPriceInput) variantPriceInput.value = '';
   if (variantColorInput) delete variantColorInput.dataset.manualOverride;
   updateVariantColorPreview();
 }
@@ -1019,6 +1080,15 @@ function triggerAddVariant() {
 if (variantNameInput) {
   variantNameInput.addEventListener('input', updateVariantColorPreview);
   variantNameInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      triggerAddVariant();
+    }
+  });
+}
+
+if (variantPriceInput) {
+  variantPriceInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       triggerAddVariant();
@@ -1089,7 +1159,7 @@ function resetForm() {
   currentMediaList = [];
   renderMediaGallery();
   currentVariants = [];
-  currentSizes = ['S', 'M', 'L'];
+  currentSizes = [];
   sampledColorPalette = [];
   renderVariants();
   renderSizes();
@@ -1176,6 +1246,12 @@ async function handleSaveProduct(shouldRedirectToShop = false) {
 
     const sku = `${category.toUpperCase()} · ${String(currentCustomProducts.length + 1).padStart(2, '0')}`;
 
+    // If variants exist and have specific prices, ensure base price reflects the lowest variant price
+    const variantPrices = currentVariants.map(v => (typeof v.price === 'number' && !isNaN(v.price) && v.price > 0) ? v.price : null).filter(Boolean);
+    const effectivePrice = (price === 0 && variantPrices.length > 0) ? Math.min(...variantPrices) : price;
+    const hasDiffVariantPrices = variantPrices.length > 1 && new Set(variantPrices).size > 1;
+    const effectivePriceStr = hasDiffVariantPrices ? `From ₦${effectivePrice.toLocaleString()}` : `₦${effectivePrice.toLocaleString()}`;
+
     const productData = {
       id,
       title,
@@ -1183,8 +1259,8 @@ async function handleSaveProduct(shouldRedirectToShop = false) {
       sku,
       badge,
       tagline,
-      price,
-      priceStr: `₦${price.toLocaleString()}`,
+      price: effectivePrice,
+      priceStr: effectivePriceStr,
       originalPrice,
       img: imgSrc,
       desc,
@@ -1193,13 +1269,16 @@ async function handleSaveProduct(shouldRedirectToShop = false) {
         { label: 'Sensation', value: acoustics },
         { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
       ],
-      variants: currentVariants.length > 0 ? currentVariants.map(v => ({
-        name: formatColorName(v.name),
-        price: price,
-        priceStr: `₦${price.toLocaleString()}`,
-        img: v.img || imgSrc,
-        color: resolveColorHex(v.color, v.name)
-      })) : [],
+      variants: currentVariants.length > 0 ? currentVariants.map(v => {
+        const vPrice = (typeof v.price === 'number' && !isNaN(v.price) && v.price > 0) ? v.price : effectivePrice;
+        return {
+          name: formatColorName(v.name),
+          price: vPrice,
+          priceStr: v.priceStr || `₦${vPrice.toLocaleString()}`,
+          img: v.img || imgSrc,
+          color: resolveColorHex(v.color, v.name)
+        };
+      }) : [],
       sizes: [...currentSizes],
       media: finalMedia,
       material,
@@ -1418,13 +1497,18 @@ async function loadProductIntoForm(prod) {
   }
 
   currentVariants = Array.isArray(prod.variants)
-    ? prod.variants.map(v => ({
-        ...v,
-        name: formatColorName(v.name || ''),
-        color: resolveColorHex(v.color, v.name)
-      }))
+    ? prod.variants.map(v => {
+        const vPrice = (typeof v.price === 'number' && !isNaN(v.price) && v.price > 0) ? v.price : (Number(prod.price) || 0);
+        return {
+          ...v,
+          name: formatColorName(v.name || ''),
+          price: vPrice,
+          priceStr: v.priceStr || (vPrice ? `₦${vPrice.toLocaleString()}` : ''),
+          color: resolveColorHex(v.color, v.name)
+        };
+      })
     : [];
-  currentSizes = Array.isArray(prod.sizes) ? [...prod.sizes] : ['S', 'M', 'L'];
+  currentSizes = Array.isArray(prod.sizes) ? [...prod.sizes] : (prod.category === 'lingerie' ? ['S', 'M', 'L'] : []);
   renderVariants();
   renderSizes();
   updateWordCount();

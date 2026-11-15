@@ -41,9 +41,13 @@ export default async function handler(req, res) {
   mediaMeta.forEach((item) => {
     if (item.index > 0 && item.type === 'image') imageIndexes.push(item.index);
   });
+  const version = String(product.updated_at || '').trim();
   const imageUrls = imageIndexes.map((index) => {
-    const suffix = index > 0 ? `?i=${index}` : '';
-    return `${origin}/product-image/${encodeURIComponent(id)}${suffix}`;
+    const params = [];
+    if (index > 0) params.push(`i=${index}`);
+    if (version) params.push(`v=${encodeURIComponent(version)}`);
+    const query = params.length ? `?${params.join('&')}` : '';
+    return `${origin}/product-image/${encodeURIComponent(id)}${query}`;
   });
 
   const html = renderProductPage(product, {

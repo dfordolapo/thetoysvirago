@@ -83,6 +83,45 @@ export async function getSupabaseProductById(id) {
 }
 
 /**
+ * Fetch just the gallery metadata (labels/types) for one product, without
+ * downloading the heavy `media` data URLs. Used to build optimised
+ * /product-image/<id>?i=n URLs for the quick-view gallery.
+ */
+export async function getSupabaseProductGallery(id, limit = 10) {
+  if (!supabase || !id) return null;
+  try {
+    const parts = ['id', 'title', 'updated_at'];
+    for (let i = 0; i < limit; i++) {
+      parts.push(`media${i}_label:media->${i}->>label`);
+      parts.push(`media${i}_type:media->${i}->>type`);
+    }
+    const { data, error } = await supabase
+      .from('products')
+      .select(parts.join(','))
+      .eq('id', id)
+      .maybeSingle();
+
+    if (error) {
+      console.warn('[Supabase] Failed to fetch product gallery:', error.message);
+      return null;
+    }
+    if (!data) return null;
+
+    const mediaMeta = [];
+    for (let i = 0; i < limit; i++) {
+      const label = data[`media${i}_label`];
+      const type = data[`media${i}_type`];
+      if (!label && !type) continue;
+      mediaMeta.push({ index: i, label: label || '', type: type || '' });
+    }
+    return { id: data.id, title: data.title, updatedAt: data.updated_at, mediaMeta };
+  } catch (err) {
+    console.error('[Supabase] Unexpected product gallery error:', err);
+    return null;
+  }
+}
+
+/**
  * Save customer order to Supabase `orders` table.
  */
 export async function recordSupabaseOrder(order) {
@@ -278,7 +317,8 @@ export async function upsertSupabaseProduct(product) {
         price: Number(v.price) || Number(product.price) || 0,
         priceStr: v.priceStr || `₦${Number(v.price || product.price).toLocaleString()}`,
         color: v.color || '',
-        img: (v.img && !v.img.startsWith('data:')) ? v.img : (v.img === (product.img || product.image) ? '' : (v.img || ''))
+        imgIndex: Number.isInteger(v.imgIndex) ? v.imgIndex : null,
+        img: (v.img && !String(v.img).startsWith('data:')) ? v.img : ''
       })) : [],
       sizes: Array.isArray(product.sizes) ? product.sizes : [],
       media: Array.isArray(product.media) ? product.media : [{ type: 'image', src: product.img || product.image || '', label: product.title }],

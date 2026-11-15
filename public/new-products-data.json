@@ -429,7 +429,7 @@
     "price": 25000,
     "priceStr": "₦25,000",
     "img": "/assets/IMG_8178.webp",
-    "desc": "A steamy twist on classic block stacking. Each natural pine wood block is laser-engraved with seductive foreplay commands, dares, and sensual challenges. Pull a block without toppling the tower—or perform whatever sweet punishment is revealed.",
+    "desc": "A steamy twist on classic block stacking. Each natural pine wood block is laser-engraved with seductive foreplay commands, dares, and sensual challenges. Pull a block without toppling the tower - or perform whatever sweet punishment is revealed.",
     "specs": [
       {
         "label": "Blocks",
@@ -1583,11 +1583,11 @@
   },
   {
     "id": "cyclone-stroker",
-    "title": "Cyclone 360° Automatic Rotating Stroker Cup",
+    "title": "Gawk Gawk 3000",
     "category": "toys",
-    "badge": "360° ROTATION • BEADED CHAMBER",
-    "price": 45000,
-    "priceStr": "₦45,000",
+    "badge": "360° ROTATION · THRUSTING",
+    "price": 40000,
+    "priceStr": "From ₦40,000",
     "img": "/assets/IMG_2385.webp",
     "desc": "State-of-the-art automatic male masturbator with 360° motorized multi-directional rotation. Houses a super-soft, beaded ribbed chamber that mimics lifelike oral sensations, complete with hands-free suction control.",
     "specs": [
@@ -1602,6 +1602,20 @@
       {
         "label": "Hygiene",
         "value": "Detachable Inner Sleeve for Fast Cleaning"
+      }
+    ],
+    "variants": [
+      {
+        "name": "Ordinary",
+        "price": 40000,
+        "priceStr": "₦40,000",
+        "img": "/assets/IMG_2385.webp"
+      },
+      {
+        "name": "Thrusting",
+        "price": 45000,
+        "priceStr": "₦45,000",
+        "img": "/assets/IMG_2385.webp"
       }
     ],
     "material": "Medical TPE Inner Core & ABS Ergonomic Casing",

@@ -1,10 +1,10 @@
 import { initWhatsAppWidget } from './modules/whatsappWidget.js';
 import { initPullToRefresh } from './modules/pullToRefresh.js';
 import { BLOG_ARTICLES } from './data/articles.js';
-import { getSupabaseProducts, getSupabaseProductById, recordSupabaseConfession, getSupabaseConfessions, recordSupabaseOrder, getSupabaseOrders } from './supabase.js';
+import { getSupabaseProducts, getSupabaseProductGallery, recordSupabaseConfession, getSupabaseConfessions, recordSupabaseOrder, getSupabaseOrders } from './supabase.js';
 import { DELIVERY_ZONES, autoDetectDeliveryZoneFromAddress } from './modules/zones.js';
 import { openPaystackInline, isPaystackConfigured, PAYSTACK_PUBLIC_KEY } from './modules/paystack.js';
-import { resolveColorHex, isLightColor, formatColorName } from './modules/colorResolver.js';
+import { resolveColorHex, isLightColor, formatColorName, isRecognizedColorName } from './modules/colorResolver.js';
 
 /**
  * ROUGE NOIR - Haute Intimité & Sensual Wellness
@@ -895,6 +895,32 @@ const qvAcoustics = document.getElementById('qv-acoustics');
 const qvSpecs = document.getElementById('qv-specs');
 const qvBtnAdd = document.getElementById('qv-btn-add');
 let currentQvProduct = null;
+
+// Build an optimised /product-image URL (optionally width-limited and versioned).
+const supabaseMediaUrl = (id, index = 0, version = '') => {
+  const params = [];
+  if (index > 0) params.push('i=' + index);
+  if (version) params.push('v=' + encodeURIComponent(version));
+  return '/product-image/' + encodeURIComponent(id) + (params.length ? '?' + params.join('&') : '');
+};
+
+// Downscale remote product images for thumbnails; leave local/data URLs untouched.
+const thumbImageUrl = (src, width = 240) => {
+  if (!src || !/^\/product-image\//.test(src)) return src;
+  return src + (src.includes('?') ? '&' : '?') + 'w=' + width;
+};
+
+// Resolve the photo that represents a colour variant: explicit image first,
+// then the image at imgIndex (auto by upload order when no index is set).
+const resolveVariantImage = (variant, images, position) => {
+  if (!variant) return '';
+  const explicit = (variant.img && !/^data:/i.test(String(variant.img))) ? String(variant.img) : '';
+  if (explicit) return explicit;
+  if (!Array.isArray(images) || images.length === 0) return '';
+  const index = Number.isInteger(variant.imgIndex) ? variant.imgIndex : position;
+  const safeIndex = Math.min(Math.max(index, 0), images.length - 1);
+  return images[safeIndex] || '';
+};
 
 const PRODUCT_DATABASE = {
   'boudoir-pasties': {
@@ -6016,10 +6042,10 @@ const PRODUCT_DATABASE = {
 },
   'cyclone-stroker': {
     "id": "cyclone-stroker",
-    "title": "Cyclone 360 Stroker",
-    "badge": "360 ROTATING",
-    "price": 0,
-    "priceStr": "",
+    "title": "Gawk Gawk 3000",
+    "badge": "360 ROTATING · THRUSTING",
+    "price": 40000,
+    "priceStr": "From ₦40,000",
     "img": "/assets/IMG_2385.webp",
     "desc": "State-of-the-art automatic male masturbator with 360° motorized multi-directional rotation. Houses a super-soft, beaded ribbed chamber that mimics lifelike oral sensations, complete with hands-free suction control.",
     "specs": [
@@ -6036,6 +6062,20 @@ const PRODUCT_DATABASE = {
             "value": "Detachable Inner Sleeve for Fast Cleaning"
         }
     ],
+    "variants": [
+        {
+            "name": "Ordinary",
+            "price": 40000,
+            "priceStr": "₦40,000",
+            "img": "/assets/IMG_2385.webp"
+        },
+        {
+            "name": "Thrusting",
+            "price": 45000,
+            "priceStr": "₦45,000",
+            "img": "/assets/IMG_2385.webp"
+        }
+    ],
     "material": "Medical TPE Inner Core & ABS Ergonomic Casing",
     "acoustics": "< 45 dB (High-Torque Quiet Motor)",
     "freq": 70,
@@ -6044,7 +6084,7 @@ const PRODUCT_DATABASE = {
         {
             "type": "image",
             "src": "/assets/IMG_2385.webp",
-            "label": "Cyclone 360 Stroker"
+            "label": "Gawk Gawk 3000"
         }
     ]
 },
@@ -6320,11 +6360,11 @@ function openQuickviewForProduct(prodKey, card = null) {
 
         if (item.type === 'video') {
           thumbBtn.innerHTML = `
-            <img src="${item.thumb || mediaProd.img || prod.img}" alt="${item.label}" />
+            <img src="${thumbImageUrl(item.thumb || mediaProd.img || prod.img)}" alt="${item.label}" />
             <span class="qv-thumb-video-icon">▶</span>
           `;
         } else {
-          thumbBtn.innerHTML = `<img src="${item.src}" alt="${item.label}" />`;
+          thumbBtn.innerHTML = `<img src="${thumbImageUrl(item.src)}" alt="${item.label}" />`;
         }
 
         thumbBtn.addEventListener('click', () => {
@@ -6369,17 +6409,24 @@ function openQuickviewForProduct(prodKey, card = null) {
 
   populateQuickviewMedia(prod);
 
-  // Supabase products load with a single lightweight image for speed, so pull the
-  // full gallery on demand to show every uploaded image and video here.
+  // Supabase products sync with a single lightweight image for speed. Pull the
+  // gallery metadata (labels/types only, never the heavy data URLs) and render
+  // every uploaded image and video through the optimised /product-image route.
   if (prod.isRemote && prod.id) {
-    getSupabaseProductById(prod.id).then((full) => {
-      if (!full || !currentQvProduct || currentQvProduct.id !== prod.id) return;
-      const fullMedia = Array.isArray(full.media) && full.media.length
-        ? full.media
-        : (full.image ? [{ type: 'image', src: full.image, label: full.title }] : []);
-      if (fullMedia.length <= 1) return;
-      currentQvProduct.media = fullMedia;
-      populateQuickviewMedia({ ...prod, media: fullMedia });
+    getSupabaseProductGallery(prod.id).then((gallery) => {
+      if (!gallery || !currentQvProduct || currentQvProduct.id !== prod.id) return;
+      const version = gallery.updatedAt || prod.updatedAt || '';
+      const meta = Array.isArray(gallery.mediaMeta) ? gallery.mediaMeta : [];
+      const media = meta.length
+        ? meta.map((entry) => ({
+            type: entry.type || 'image',
+            label: entry.label || '',
+            src: supabaseMediaUrl(prod.id, entry.index, version)
+          }))
+        : [{ type: 'image', src: supabaseMediaUrl(prod.id, 0, version), label: prod.title }];
+      if (media.length === 0) return;
+      currentQvProduct.media = media;
+      populateQuickviewMedia({ ...prod, media });
     }).catch((err) => {
       console.info('[Supabase] Quickview gallery notice:', err && err.message);
     });
@@ -6510,7 +6557,18 @@ function openQuickviewForProduct(prodKey, card = null) {
         }
         vBtn.dataset.price = v.price;
         vBtn.dataset.pricestr = v.priceStr;
-        if (v.img) vBtn.dataset.img = v.img;
+
+        const explicitVariantImg = (v.img && !/^data:/i.test(String(v.img))) ? String(v.img) : '';
+        let variantImage = explicitVariantImg;
+        if (!variantImage && prod.isRemote && prod.id) {
+          const imgIdx = Number.isInteger(v.imgIndex) ? v.imgIndex : idx;
+          variantImage = supabaseMediaUrl(prod.id, imgIdx, prod.updatedAt || '');
+        }
+        if (!variantImage) {
+          const imageList = (currentQvProduct.media || []).filter(m => m.type !== 'video').map(m => m.src);
+          variantImage = resolveVariantImage(v, imageList, idx);
+        }
+        if (variantImage) vBtn.dataset.img = variantImage;
 
         vBtn.addEventListener('click', () => {
           qvVariants.querySelectorAll('.size-pill').forEach(b => b.classList.remove('active'));
@@ -6518,19 +6576,21 @@ function openQuickviewForProduct(prodKey, card = null) {
 
           currentQvProduct.selectedVariant = v.name;
           currentQvProduct.selectedPrice = v.price;
-          currentQvProduct.selectedImg = v.img;
+          currentQvProduct.selectedImg = variantImage || v.img;
 
           if (qvPrice) qvPrice.textContent = v.priceStr;
 
-          if (v.img && qvImg) {
+          if (variantImage && qvImg) {
             if (qvVideo) qvVideo.style.display = 'none';
             qvImg.style.display = 'block';
-            qvImg.src = v.img;
+            qvImg.src = variantImage;
 
             if (qvThumbs) {
               qvThumbs.querySelectorAll('.qv-thumb').forEach(t => {
                 const tImg = t.querySelector('img');
-                if (tImg && tImg.getAttribute('src') === v.img) {
+                const tSrc = tImg && tImg.getAttribute('src');
+                const matches = tSrc === variantImage || (tSrc && thumbImageUrl(variantImage) === tSrc);
+                if (matches) {
                   qvThumbs.querySelectorAll('.qv-thumb').forEach(tb => tb.classList.remove('active'));
                   t.classList.add('active');
                 }
@@ -8585,22 +8645,48 @@ function createStoreProductCard(prod, idx) {
   card.dataset.id = prod.id;
   card.dataset.keywords = `${prod.title} ${prod.category} ${prod.badge || ''} lingerie lace sensual boudoir`;
 
-  const variantDotsHtml = (prod.variants && prod.variants.length > 0)
+  const variants = Array.isArray(prod.variants) ? prod.variants : [];
+  const hasVariants = variants.length > 0;
+  const isOptionPills = hasVariants && variants.some(v => {
+    const hasDiffPrice = v.price && Number(v.price) > 0 && Number(v.price) !== Number(prod.price);
+    const notColor = !isRecognizedColorName(v.name);
+    return hasDiffPrice || notColor;
+  });
+
+  const variantDotsHtml = (!isOptionPills && hasVariants)
     ? `<div class="color-row">
-        ${prod.variants.map((v, i) => {
+        ${variants.map((v, i) => {
           const hex = resolveColorHex(v.color, v.name);
           const borderStyle = isLightColor(hex) ? 'border: 1px solid #cbd5e1;' : '';
-          return `<button type="button" class="color-dot ${i === 0 ? 'active' : ''}" data-color="${v.name}" data-img="${v.img || prod.img}" title="${v.name}" style="background: ${hex}; ${borderStyle}"></button>`;
+          const vPrice = Number(v.price) || prod.price;
+          const vPriceStr = v.priceStr || ('₦' + vPrice.toLocaleString());
+          return `<button type="button" class="color-dot ${i === 0 ? 'active' : ''}" data-color="${v.name}" data-img="${v.img || prod.img}" data-price="${vPrice}" data-pricestr="${vPriceStr}" title="${v.name}" style="background: ${hex}; ${borderStyle}"></button>`;
         }).join('')}
-        <span class="color-name">${prod.variants[0]?.name || ''}</span>
+        <span class="color-name">${variants[0]?.name || ''}</span>
       </div>`
     : '';
 
-  const sizePillsHtml = (prod.sizes && prod.sizes.length > 0)
-    ? `<div class="size-row" style="display: flex; gap: 6px; margin: 8px 0; flex-wrap: wrap;">
-        ${prod.sizes.map((s, i) => `<button type="button" class="size-pill ${i === 0 ? 'active' : ''}" data-size="${s}">${s}</button>`).join('')}
+  const optionPillsHtml = isOptionPills
+    ? `<div class="size-row variant-options-row" style="display: flex; gap: 6px; margin: 8px 0; flex-wrap: wrap;">
+        ${variants.map((v, i) => {
+          const vPrice = Number(v.price) || prod.price;
+          const vPriceStr = v.priceStr || ('₦' + vPrice.toLocaleString());
+          const displayLabel = vPrice ? `${v.name} · ₦${Math.round(vPrice / 1000)}k` : v.name;
+          return `<button type="button" class="size-pill ${i === 0 ? 'active' : ''}" data-size="${v.name}" data-price="${vPrice}" data-pricestr="${vPriceStr}" ${v.img ? `data-img="${v.img}"` : ''} style="border-radius: 8px !important;">${displayLabel}</button>`;
+        }).join('')}
       </div>`
     : '';
+
+  const sizePillsHtml = (!isOptionPills && prod.sizes && prod.sizes.length > 0)
+    ? `<div class="size-row" style="display: flex; gap: 6px; margin: 8px 0; flex-wrap: wrap;">
+        ${prod.sizes.map((s, i) => `<button type="button" class="size-pill ${i === 0 ? 'active' : ''}" data-size="${s}" style="border-radius: 8px !important;">${s}</button>`).join('')}
+      </div>`
+    : '';
+
+  const initialVariant = isOptionPills && variants[0] ? variants[0] : null;
+  const initialPrice = initialVariant ? (Number(initialVariant.price) || prod.price) : prod.price;
+  const initialPriceStr = initialVariant ? (initialVariant.priceStr || ('₦' + initialPrice.toLocaleString())) : (prod.priceStr || ('₦' + Number(prod.price).toLocaleString()));
+  const initialTitle = initialVariant ? `${prod.title} (${initialVariant.name})` : prod.title;
 
   card.innerHTML = `
     <div class="product-img-wrap">
@@ -8613,16 +8699,18 @@ function createStoreProductCard(prod, idx) {
     <div class="product-body">
       <div class="product-top">
         <span class="product-sku">${prod.sku || (prod.category.toUpperCase() + ' · ' + String(idx + 1).padStart(2, '0'))}</span>
-        <span class="product-price">${prod.priceStr || ('₦' + Number(prod.price).toLocaleString())}</span>
+        <span class="product-price">${initialPriceStr}</span>
       </div>
       <h3 class="product-name">${prod.title}</h3>
+      ${optionPillsHtml}
       ${variantDotsHtml}
       ${sizePillsHtml}
       <button class="btn btn-black btn-block btn-add-cart"
         data-id="${prod.id}"
-        data-title="${prod.title}"
-        data-price="${prod.price}"
-        data-pricestr="${prod.priceStr || ('₦' + Number(prod.price).toLocaleString())}"
+        data-title="${initialTitle}"
+        data-base-title="${prod.title}"
+        data-price="${initialPrice}"
+        data-pricestr="${initialPriceStr}"
         data-img="${prod.img}">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
         Add to Cart
@@ -8662,6 +8750,18 @@ function createStoreProductCard(prod, idx) {
         if (cImg) cImg.src = dot.dataset.img;
         if (addBtn) addBtn.dataset.img = dot.dataset.img;
       }
+      if (dot.dataset.price) {
+        const newPrice = parseFloat(dot.dataset.price);
+        const newPriceStr = dot.dataset.pricestr || ('₦' + newPrice.toLocaleString());
+        const priceDisplay = card.querySelector('.product-price');
+        if (priceDisplay) {
+          priceDisplay.textContent = newPriceStr;
+        }
+        if (addBtn) {
+          addBtn.dataset.price = newPrice;
+          addBtn.dataset.pricestr = newPriceStr;
+        }
+      }
       if (addBtn) {
         addBtn.dataset.selectedColor = dot.dataset.color;
         const activeSizePill = card.querySelector('.size-pill.active');
@@ -8677,12 +8777,45 @@ function createStoreProductCard(prod, idx) {
     });
   });
 
-  // Wire size pills
+  // Wire size / option pills
   card.querySelectorAll('.size-pill').forEach(pill => {
     pill.addEventListener('click', (e) => {
       e.stopPropagation();
       card.querySelectorAll('.size-pill').forEach(p => p.classList.remove('active'));
       pill.classList.add('active');
+
+      const chosenOption = pill.dataset.size || pill.textContent.trim();
+      if (pill.dataset.img) {
+        const cImg = card.querySelector('.product-img');
+        if (cImg) cImg.src = pill.dataset.img;
+        if (addBtn) addBtn.dataset.img = pill.dataset.img;
+      }
+
+      if (pill.dataset.price) {
+        const newPrice = parseFloat(pill.dataset.price);
+        const newPriceStr = pill.dataset.pricestr || ('₦' + newPrice.toLocaleString());
+        const priceDisplay = card.querySelector('.product-price');
+        if (priceDisplay) {
+          priceDisplay.textContent = newPriceStr;
+        }
+        if (addBtn) {
+          addBtn.dataset.price = newPrice;
+          addBtn.dataset.pricestr = newPriceStr;
+        }
+      }
+
+      if (addBtn) {
+        addBtn.dataset.selectedSize = chosenOption;
+        const baseTitle = (addBtn.dataset.baseTitle || prod.title).replace(/\s*\([^)]*\)$/, '').trim();
+        if (!addBtn.dataset.baseTitle) addBtn.dataset.baseTitle = baseTitle;
+        const activeColorDot = card.querySelector('.color-dot.active');
+        const activeColor = activeColorDot?.dataset.color;
+        if (activeColor && activeColor !== chosenOption) {
+          addBtn.dataset.title = `${baseTitle} (${chosenOption} · ${activeColor})`;
+        } else {
+          addBtn.dataset.title = `${baseTitle} (${chosenOption})`;
+        }
+      }
     });
   });
 

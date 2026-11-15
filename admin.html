@@ -2227,19 +2227,20 @@
                 </div>
               </div>
 
-              <!-- Color Variants -->
+              <!-- Product Variants & Options -->
               <div class="form-group">
-                <label class="form-label">Color Variants</label>
-                <div style="display: flex; gap: 8px; align-items: center;">
-                  <div style="position: relative; flex: 1;">
-                    <input type="text" id="new-variant-name" class="form-input" placeholder="Color name(s) e.g. Black, Rose Gold, Pink, Purple" style="padding-left: 38px;" />
+                <label class="form-label">Variants &amp; Options (Models, Editions, or Colors with Custom Prices)</label>
+                <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                  <div style="position: relative; flex: 2; min-width: 180px;">
+                    <input type="text" id="new-variant-name" class="form-input" placeholder="e.g. Thrusting 45,000, Ordinary, Rose Gold" style="padding-left: 38px;" />
                     <span id="variant-color-preview" title="Auto-detected color hue" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; border-radius: 50%; background: #0c0c0e; border: 1px solid rgba(0,0,0,0.2); box-shadow: 0 1px 3px rgba(0,0,0,0.1); pointer-events: none; transition: background 0.15s ease;"></span>
                   </div>
-                  <input type="color" id="new-variant-color" value="#0c0c0e" title="Optional: Fine-tune custom hue" style="height: 44px; width: 44px; background: none; border: 1px solid #cbd5e1; border-radius: 8px; cursor: pointer;" />
-                  <button type="button" id="btn-add-variant" class="admin-btn admin-btn-outline" style="white-space: nowrap; border-radius: 8px !important;">Add Color</button>
+                  <input type="number" id="new-variant-price" class="form-input" placeholder="Price (₦, optional)" style="flex: 1; min-width: 130px;" />
+                  <input type="color" id="new-variant-color" value="#0c0c0e" title="Optional: Fine-tune custom hue" style="height: 44px; width: 44px; background: none; border: 1px solid #cbd5e1; border-radius: 8px; cursor: pointer; flex-shrink: 0;" />
+                  <button type="button" id="btn-add-variant" class="admin-btn admin-btn-outline" style="white-space: nowrap; border-radius: 8px !important;">Add Variant</button>
                 </div>
                 <div style="font-size: 11px; color: #64748b; margin-top: 4px;">
-                  Type any color name (e.g. Black, Rose Gold, Pink, Emerald) · The color hue is auto-detected instantly.
+                  Add options, models, or colors. You can type a custom price (e.g. <code>Thrusting 45,000</code> or use the price field). If left blank, it uses the base product price.
                 </div>
                 <div id="variants-list" class="tags-container" style="margin-top: 8px;"></div>
               </div>
@@ -2249,7 +2250,7 @@
                 <label class="form-label">Sizes Available</label>
                 <div style="display: flex; gap: 8px;">
                   <input type="text" id="new-size-name" class="form-input" placeholder="Size (e.g. S, M, L, XL, One Size)" />
-                  <button type="button" id="btn-add-size" class="admin-btn admin-btn-outline" style="white-space: nowrap;">Add Size</button>
+                  <button type="button" id="btn-add-size" class="admin-btn admin-btn-outline" style="white-space: nowrap; border-radius: 8px !important;">Add Size</button>
                 </div>
                 <div id="sizes-list" class="tags-container"></div>
               </div>

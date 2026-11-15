@@ -352,3 +352,16 @@ export function formatColorName(name = '') {
     .join(' ');
 }
 
+export function isRecognizedColorName(text = '') {
+  const clean = String(text || '').toLowerCase().replace(/[^a-z0-9\s-]/g, ' ').replace(/\s+/g, ' ').trim();
+  if (!clean) return false;
+  if (COLOR_PALETTE[clean]) return true;
+  for (const [kw] of SPECIFIC_KEYWORDS) {
+    if (clean.includes(kw)) return true;
+  }
+  for (const [kw] of BROAD_KEYWORDS) {
+    if (new RegExp(`\\b${kw}\\b`, 'i').test(clean) || clean.includes(kw)) return true;
+  }
+  return false;
+}
+

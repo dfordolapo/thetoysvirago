@@ -5871,10 +5871,10 @@
   },
   "cyclone-stroker": {
     "id": "cyclone-stroker",
-    "title": "Cyclone 360 Stroker",
-    "badge": "360 ROTATING",
-    "price": 0,
-    "priceStr": "",
+    "title": "Gawk Gawk 3000",
+    "badge": "360 ROTATING · THRUSTING",
+    "price": 40000,
+    "priceStr": "From ₦40,000",
     "img": "/assets/IMG_2385.webp",
     "desc": "State-of-the-art automatic male masturbator with 360° motorized multi-directional rotation. Houses a super-soft, beaded ribbed chamber that mimics lifelike oral sensations, complete with hands-free suction control.",
     "specs": [
@@ -5891,6 +5891,20 @@
         "value": "Detachable Inner Sleeve for Fast Cleaning"
       }
     ],
+    "variants": [
+      {
+        "name": "Ordinary",
+        "price": 40000,
+        "priceStr": "₦40,000",
+        "img": "/assets/IMG_2385.webp"
+      },
+      {
+        "name": "Thrusting",
+        "price": 45000,
+        "priceStr": "₦45,000",
+        "img": "/assets/IMG_2385.webp"
+      }
+    ],
     "material": "Medical TPE Inner Core & ABS Ergonomic Casing",
     "acoustics": "< 45 dB (High-Torque Quiet Motor)",
     "freq": 70,
@@ -5899,7 +5913,7 @@
       {
         "type": "image",
         "src": "/assets/IMG_2385.webp",
-        "label": "Cyclone 360 Stroker"
+        "label": "Gawk Gawk 3000"
       }
     ]
   },
