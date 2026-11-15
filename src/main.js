@@ -8759,7 +8759,10 @@ export function initCustomCatalogProducts() {
   }
 
   // 2. Background sync with Supabase without polluting main Lagos grid with purged or Abuja products
-  getSupabaseProducts().then((remoteProds) => {
+  // Use a lightweight column list (never bulk-select image/media data URLs) and serve product
+  // images through the on-demand /product-image endpoint instead.
+  const supabaseImageUrl = (id) => '/product-image/' + encodeURIComponent(id);
+  getSupabaseProducts('id, title, category, badge, tagline, price, original_price, description, specs, in_stock, variants, sizes, updated_at').then((remoteProds) => {
     if (remoteProds && Array.isArray(remoteProds) && remoteProds.length > 0) {
       const cleanRemote = remoteProds.filter(rp => rp && !PURGED_OR_ABUJA_EXCLUSIVE_IDS.includes(rp.id));
       // Prepend newest remote products to front of customProds
@@ -8775,7 +8778,7 @@ export function initCustomCatalogProducts() {
           price: Number(rp.price) || 0,
           priceStr: '₦' + Number(rp.price).toLocaleString(),
           originalPrice: rp.original_price ? Number(rp.original_price) : null,
-          img: rp.image || '/assets/category-lingerie.webp',
+          img: supabaseImageUrl(rp.id),
           desc: rp.description || '',
           specs: Array.isArray(rp.specs) ? rp.specs.map(s => {
             const parts = s.split(':');
@@ -8783,7 +8786,7 @@ export function initCustomCatalogProducts() {
           }) : [],
           variants: Array.isArray(rp.variants) ? rp.variants : [],
           sizes: Array.isArray(rp.sizes) ? rp.sizes : (rp.category === 'lingerie' ? ['S', 'M', 'L'] : []),
-          media: Array.isArray(rp.media) && rp.media.length > 0 ? rp.media : [{ type: 'image', src: rp.image || '/assets/category-lingerie.webp', label: rp.title }],
+          media: [{ type: 'image', src: supabaseImageUrl(rp.id), label: rp.title }],
           material: 'Body-Safe Luxury Materials',
           acoustics: 'Discreet Sensation',
           inStock: rp.in_stock !== false
