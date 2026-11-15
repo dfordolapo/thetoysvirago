@@ -19,6 +19,7 @@ import {
 } from './supabase.js';
 import { buildProductCopyPrompt, GEMINI_VISION_MODELS, parseGeminiJson } from './aiPrompt.js';
 import { resolveColorHex, isLightColor, formatColorName } from './modules/colorResolver.js';
+import { generateLocalProductCopy } from './modules/localCopy.js';
 
 // ================= 1. AUTHENTICATION & SECURITY GATE =================
 const ADMIN_PIN_KEY = 'thetoysvirago_admin_pin';
@@ -783,12 +784,18 @@ async function autoGenerateProductDescription() {
   let failureMessage = '';
 
   try {
-    const inlineImage = await imageSourceToInlineData(currentImgSrc);
+    let inlineImage = null;
+    try {
+      inlineImage = await imageSourceToInlineData(currentImgSrc);
+    } catch (imageErr) {
+      console.warn('Could not load the product photo for analysis:', imageErr);
+    }
+
     const geminiApiKey = localStorage.getItem('thetoysvirago_gemini_key') || '';
 
-    if (geminiApiKey) {
+    if (geminiApiKey && inlineImage) {
       generatedResult = await callGeminiVisionAI(geminiApiKey, inlineImage, category, mood, currentTitle);
-    } else {
+    } else if (inlineImage) {
       if (aiStatusText) aiStatusText.textContent = 'Analysing your photo with the secure copy service...';
       const response = await fetch('/api/generate-copy', {
         method: 'POST',
@@ -808,8 +815,23 @@ async function autoGenerateProductDescription() {
       generatedResult = payload;
     }
   } catch (err) {
-    failureMessage = err && err.message ? err.message : 'The AI could not analyse the photo.';
-    console.warn('Image-grounded copy generation failed:', err);
+    failureMessage = err && err.message ? err.message : 'The AI copy service is unavailable.';
+    console.warn('Image-grounded copy generation failed, drafting locally instead:', err);
+  }
+
+  // No Gemini key (or the service is unavailable): still draft copy locally from
+  // the product photo colours and details so the button always works.
+  let usedLocalWriter = false;
+  if (!generatedResult || !generatedResult.desc) {
+    const colorNames = (sampledColorPalette || []).map(getColorNameFromHex).filter(Boolean);
+    generatedResult = generateLocalProductCopy({
+      lexicon: BOUDOIR_LEXICON,
+      category,
+      mood,
+      title: currentTitle,
+      colorNames
+    });
+    usedLocalWriter = Boolean(generatedResult && generatedResult.desc);
   }
 
   if (!generatedResult || !generatedResult.desc) {
@@ -818,9 +840,9 @@ async function autoGenerateProductDescription() {
       aiStatusText.style.display = 'block';
       aiStatusText.textContent = failureMessage
         ? `Copy not generated: ${failureMessage}`
-        : 'Copy not generated. Add a Gemini API key in Settings to analyse the photo.';
+        : 'Copy could not be generated. Please try again.';
     }
-    showToast(failureMessage || 'Add a Gemini API key in Settings to generate photo-accurate copy.');
+    showToast(failureMessage || 'Copy could not be generated. Please try again.');
     return;
   }
 
@@ -846,9 +868,11 @@ async function autoGenerateProductDescription() {
   restoreAiButton();
   if (aiStatusText) {
     aiStatusText.style.display = 'block';
-    aiStatusText.textContent = `Copy written from the actual uploaded photo in ${mood} tone.`;
+    aiStatusText.textContent = usedLocalWriter
+      ? `Copy drafted from your product photo and details in ${mood} tone. Add a Gemini key later for richer AI writing.`
+      : `Copy written from the actual uploaded photo in ${mood} tone.`;
   }
-  showToast('Photo-accurate copy applied to the product form!');
+  showToast(usedLocalWriter ? 'Copy drafted and applied to the product form!' : 'Photo-accurate copy applied to the product form!');
 }
 
 async function callGeminiVisionAI(apiKey, inlineImage, category, mood, currentTitle) {
