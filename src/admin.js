@@ -17,6 +17,7 @@ import {
   sendCustomerOrderDeliveredEmail,
   subscribeToSupabaseOrders
 } from './supabase.js';
+import { buildProductCopyPrompt, GEMINI_VISION_MODELS, parseGeminiJson } from './aiPrompt.js';
 
 // ================= 1. AUTHENTICATION & SECURITY GATE =================
 const ADMIN_PIN_KEY = 'thetoysvirago_admin_pin';
@@ -120,6 +121,7 @@ let currentVariants = [];
 let currentSizes = ['S', 'M', 'L'];
 let sampledColorPalette = [];
 let currentMediaList = []; // [{ type: 'image' | 'video', src: string, label: string }]
+let autoCopyPending = false;
 
 // Category detection dictionaries
 const CATEGORY_KEYWORDS = {
@@ -318,6 +320,16 @@ function handleMultipleFiles(files) {
             label: file.name
           });
           renderMediaGallery();
+
+          // Once the very first real photo is ready, generate photo-grounded copy.
+          const imageCount = currentMediaList.filter(item => item.type === 'image').length;
+          if (imageCount === 1) {
+            const descField = document.getElementById('prod-desc');
+            if (autoCopyPending && (!descField || !descField.value.trim())) {
+              autoCopyPending = false;
+              setTimeout(() => autoGenerateProductDescription(), 300);
+            }
+          }
         });
       }
     };
@@ -425,6 +437,7 @@ function autoRecognizeProductFromFileName(fileName) {
 
   if (titleInput && (!titleInput.value.trim() || titleInput.value.startsWith('Untitled'))) {
     titleInput.value = synthesizedTitle;
+    titleInput.dataset.autofilled = 'true';
   }
 
   const priceInput = document.getElementById('prod-price');
@@ -432,10 +445,9 @@ function autoRecognizeProductFromFileName(fileName) {
     priceInput.value = SUGGESTED_PRICES[effectiveCat] || 25000;
   }
 
-  // Synthesize complete details automatically
-  setTimeout(() => {
-    autoGenerateProductDescription();
-  }, 200);
+  // Wait until the actual photo has been compressed and added to the gallery
+  // before asking the vision model to describe it.
+  autoCopyPending = true;
 }
 
 function compressImageFile(dataUrl, callback) {
@@ -689,6 +701,47 @@ Finished in velvety liquid silicone with satin rose-gold accents, this device de
   }
 };
 
+function getPrimaryProductImageSrc() {
+  const mediaImage = (currentMediaList || []).find((item) => item && item.type === 'image' && item.src);
+  if (mediaImage && mediaImage.src) return mediaImage.src;
+
+  const previewSrc = previewImg && previewImg.src;
+  if (previewSrc && previewSrc.startsWith('data:image')) return previewSrc;
+
+  const urlValue = prodImgUrlInput ? prodImgUrlInput.value.trim() : '';
+  return urlValue || '';
+}
+
+async function imageSourceToInlineData(src) {
+  if (src.startsWith('data:')) {
+    const commaIndex = src.indexOf(',');
+    const meta = commaIndex === -1 ? '' : src.slice(0, commaIndex);
+    const data = commaIndex === -1 ? '' : src.slice(commaIndex + 1);
+    const mimeMatch = meta.match(/^data:([^;]+)/);
+    return { mimeType: mimeMatch ? mimeMatch[1] : 'image/webp', data };
+  }
+
+  const response = await fetch(src);
+  if (!response.ok) throw new Error(`Could not load the product image (HTTP ${response.status})`);
+  const blob = await response.blob();
+  const bytes = new Uint8Array(await blob.arrayBuffer());
+  let binary = '';
+  const chunkSize = 0x8000;
+  for (let offset = 0; offset < bytes.length; offset += chunkSize) {
+    binary += String.fromCharCode.apply(null, bytes.subarray(offset, offset + chunkSize));
+  }
+  return { mimeType: blob.type || 'image/jpeg', data: btoa(binary) };
+}
+
+function restoreAiButton() {
+  if (!btnAutoGenerateAi) return;
+  btnAutoGenerateAi.disabled = false;
+  btnAutoGenerateAi.innerHTML = `
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+    Regenerate Copy
+  `;
+}
+
 async function autoGenerateProductDescription() {
   const categorySelect = document.getElementById('prod-category');
   const titleInput = document.getElementById('prod-title');
@@ -701,69 +754,85 @@ async function autoGenerateProductDescription() {
 
   const category = categorySelect ? categorySelect.value : 'lingerie';
   const mood = moodSelect ? moodSelect.value : 'seductive';
-  let currentTitle = titleInput ? titleInput.value.trim() : '';
+  const currentTitle = titleInput ? titleInput.value.trim() : '';
+
+  const currentImgSrc = getPrimaryProductImageSrc();
+  if (!currentImgSrc) {
+    if (aiStatusText) {
+      aiStatusText.style.display = 'block';
+      aiStatusText.textContent = 'Upload the actual product photo first - the AI writes from what it can see.';
+    }
+    showToast('Upload a product photo first so the AI can analyse the real item.');
+    return;
+  }
 
   if (btnAutoGenerateAi) {
     btnAutoGenerateAi.disabled = true;
     btnAutoGenerateAi.innerHTML = `
       <svg class="spinner" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: spin 1s linear infinite;"><circle cx="12" cy="12" r="10" stroke-dasharray="32" stroke-linecap="round"/></svg>
-      Synthesizing Boudoir Copy...
+      Analysing Your Photo...
     `;
   }
   if (aiStatusText) {
     aiStatusText.style.display = 'block';
-    aiStatusText.textContent = 'Analyzing image colors, category, and tone...';
+    aiStatusText.textContent = 'Reading the actual uploaded product photo...';
   }
-
-  // Check if user has configured Google Gemini API Key in Settings
-  const geminiApiKey = localStorage.getItem('thetoysvirago_gemini_key') || '';
-  const currentImgSrc = (previewImg && previewImg.src) || (prodImgUrlInput ? prodImgUrlInput.value : '');
 
   let generatedResult = null;
+  let failureMessage = '';
 
-  if (geminiApiKey && currentImgSrc.startsWith('data:image')) {
-    try {
-      if (aiStatusText) aiStatusText.textContent = 'Calling Gemini 1.5 Flash Vision AI...';
-      generatedResult = await callGeminiVisionAI(geminiApiKey, currentImgSrc, category, mood, currentTitle);
-    } catch (err) {
-      console.warn('Gemini Vision AI error, falling back to Haute Boudoir Engine:', err);
+  try {
+    const inlineImage = await imageSourceToInlineData(currentImgSrc);
+    const geminiApiKey = localStorage.getItem('thetoysvirago_gemini_key') || '';
+
+    if (geminiApiKey) {
+      generatedResult = await callGeminiVisionAI(geminiApiKey, inlineImage, category, mood, currentTitle);
+    } else {
+      if (aiStatusText) aiStatusText.textContent = 'Analysing your photo with the secure copy service...';
+      const response = await fetch('/api/generate-copy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          imageBase64: inlineImage.data,
+          mimeType: inlineImage.mimeType,
+          category,
+          mood,
+          title: currentTitle
+        })
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(payload.error || `Copy service failed (HTTP ${response.status})`);
+      }
+      generatedResult = payload;
     }
+  } catch (err) {
+    failureMessage = err && err.message ? err.message : 'The AI could not analyse the photo.';
+    console.warn('Image-grounded copy generation failed:', err);
   }
 
-  // Fallback to Built-in Haute Boudoir Engine
-  if (!generatedResult) {
-    await new Promise(r => setTimeout(r, 450)); // smooth natural cadence
-    const catData = BOUDOIR_LEXICON[category] || BOUDOIR_LEXICON.lingerie;
-
-    if (!currentTitle) {
-      const titles = catData.titles;
-      currentTitle = titles[Math.floor(Math.random() * titles.length)];
+  if (!generatedResult || !generatedResult.desc) {
+    restoreAiButton();
+    if (aiStatusText) {
+      aiStatusText.style.display = 'block';
+      aiStatusText.textContent = failureMessage
+        ? `Copy not generated: ${failureMessage}`
+        : 'Copy not generated. Add a Gemini API key in Settings to analyse the photo.';
     }
-
-    const puns = catData.puns;
-    const badges = catData.badges;
-    const descText = catData.descriptions[mood] || catData.descriptions.seductive;
-    const pun = puns[Math.floor(Math.random() * puns.length)];
-    const badge = badges[Math.floor(Math.random() * badges.length)];
-    const specs = catData.specs;
-
-    generatedResult = {
-      title: currentTitle,
-      tagline: pun,
-      badge: badge,
-      desc: descText,
-      material: specs[0] ? specs[0].value : 'Medical-Grade Body-Safe Materials',
-      acoustics: specs[1] ? specs[1].value : 'Whisper-Soft on Bare Skin'
-    };
+    showToast(failureMessage || 'Add a Gemini API key in Settings to generate photo-accurate copy.');
+    return;
   }
 
-  // Apply to form inputs with typing highlight
-  if (titleInput && !titleInput.value.trim()) titleInput.value = generatedResult.title;
-  if (taglineInput) taglineInput.value = generatedResult.tagline;
-  if (badgeInput && !badgeInput.value.trim()) badgeInput.value = generatedResult.badge;
+  const canApplyTitle = titleInput && (!titleInput.value.trim() || titleInput.dataset.autofilled === 'true');
+  if (canApplyTitle) {
+    titleInput.value = generatedResult.title || titleInput.value;
+    titleInput.dataset.autofilled = 'true';
+  }
+  if (taglineInput && generatedResult.tagline) taglineInput.value = generatedResult.tagline;
+  if (badgeInput && generatedResult.badge) badgeInput.value = generatedResult.badge;
   if (descInput) descInput.value = generatedResult.desc;
-  if (materialInput && !materialInput.value.trim()) materialInput.value = generatedResult.material;
-  if (acousticsInput && !acousticsInput.value.trim()) acousticsInput.value = generatedResult.acoustics;
+  if (materialInput && generatedResult.material) materialInput.value = generatedResult.material;
+  if (acousticsInput && generatedResult.acoustics) acousticsInput.value = generatedResult.acoustics;
 
   // Auto-generate suggested color variant if sampled
   if (sampledColorPalette.length > 0 && currentVariants.length === 0) {
@@ -773,67 +842,71 @@ async function autoGenerateProductDescription() {
   }
 
   updateWordCount();
-
-  if (btnAutoGenerateAi) {
-    btnAutoGenerateAi.disabled = false;
-    btnAutoGenerateAi.innerHTML = `
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
-      Regenerate Copy
-    `;
-  }
+  restoreAiButton();
   if (aiStatusText) {
-    aiStatusText.textContent = `Description generated in ${mood} tone. Ready to publish.`;
+    aiStatusText.style.display = 'block';
+    aiStatusText.textContent = `Copy written from the actual uploaded photo in ${mood} tone.`;
   }
-  showToast('AI Description applied to product form!');
+  showToast('Photo-accurate copy applied to the product form!');
 }
 
-async function callGeminiVisionAI(apiKey, base64Url, category, mood, currentTitle) {
-  const parts = base64Url.split(',');
-  const mimeType = parts[0].match(/:(.*?);/)[1] || 'image/jpeg';
-  const data = parts[1];
+async function callGeminiVisionAI(apiKey, inlineImage, category, mood, currentTitle) {
+  const prompt = buildProductCopyPrompt(category, mood, currentTitle);
+  let lastError = '';
 
-  const prompt = `You are the master luxury boudoir copywriter for TheToysVirago (Rouge Noir), Nigeria's most discreet and sensual pleasure boutique.
-Look at this product image. Category: ${category}. Desired Mood: ${mood}. User product title: ${currentTitle || 'None yet'}.
-Return ONLY valid JSON matching this schema:
-{
-  "title": "Evocative 3-5 word product title",
-  "tagline": "Provocative 1-line hook or pun (under 12 words)",
-  "badge": "2-3 word uppercase luxury badge (e.g. LUXE LINGERIE, AIR-PULSE, SILK SATIN)",
-  "desc": "Evocative, seductive, 2-paragraph description describing materials, sensations, and boudoir appeal. Avoid robotic words.",
-  "material": "Sensual material spec",
-  "acoustics": "Sensation/sound spec"
-}`;
+  for (const model of GEMINI_VISION_MODELS) {
+    try {
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [
+              {
+                parts: [
+                  { text: prompt },
+                  { inlineData: { mimeType: inlineImage.mimeType, data: inlineImage.data } }
+                ]
+              }
+            ],
+            generationConfig: {
+              temperature: 0.7,
+              maxOutputTokens: 1024,
+              responseMimeType: 'application/json'
+            }
+          })
+        }
+      );
 
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [
-          {
-            parts: [
-              { text: prompt },
-              { inlineData: { mimeType, data } }
-            ]
-          }
-        ]
-      })
+      if (!response.ok) {
+        lastError = `${model}: HTTP ${response.status}`;
+        continue;
+      }
+
+      const json = await response.json();
+      const text = (json.candidates?.[0]?.content?.parts || [])
+        .map((part) => part.text || '')
+        .join('');
+      return parseGeminiJson(text);
+    } catch (err) {
+      lastError = `${model}: ${err.message}`;
     }
-  );
-
-  if (!response.ok) {
-    throw new Error(`Gemini API HTTP ${response.status}`);
   }
 
-  const json = await response.json();
-  const text = json.candidates?.[0]?.content?.parts?.[0]?.text || '';
-  const cleanJson = text.replace(/```json/gi, '').replace(/```/g, '').trim();
-  return JSON.parse(cleanJson);
+  throw new Error(lastError || 'Gemini could not analyse the photo.');
 }
 
 if (btnAutoGenerateAi) {
   btnAutoGenerateAi.addEventListener('click', autoGenerateProductDescription);
+}
+
+// A manually typed title should never be overwritten by the AI.
+const productTitleField = document.getElementById('prod-title');
+if (productTitleField) {
+  productTitleField.addEventListener('input', () => {
+    delete productTitleField.dataset.autofilled;
+  });
 }
 
 // Word count watcher
