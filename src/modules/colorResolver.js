@@ -277,7 +277,10 @@ const BROAD_KEYWORDS = [
   ['bronze', '#cd7f32'],
   ['copper', '#b87333'],
   ['amber', '#d97706'],
-  ['charcoal', '#27272a']
+  ['charcoal', '#27272a'],
+  ['almond', '#ebd2be'],
+  ['caramel', '#a76d3d'],
+  ['flesh', '#e8beac']
 ];
 
 /**

@@ -180,7 +180,6 @@ export function renderProductPage(product = {}, options = {}) {
   const galleryImages = imageUrls.length ? imageUrls : [`${siteUrl}/assets/og-cover.jpg`];
   const primaryImage = galleryImages[0];
   const altBase = `${title} - ${categoryLabel} | TheToysVirago Nigeria`;
-  const orderHref = `/products.html?product=${encodeURIComponent(id)}`;
   const sku = String(product.sku || id);
 
   const productJsonLd = {
@@ -227,19 +226,31 @@ export function renderProductPage(product = {}, options = {}) {
       </section>` : '';
 
   const rawVariants = Array.isArray(product.variants) ? product.variants : [];
-  const hasExplicitPrice = (v) => Boolean(
-    v && (v.hasCustomPrice || v.priceStr) && Number(v.price) > 0
-  );
-  const isOptionVariants = rawVariants.some((v) => v && (hasExplicitPrice(v) || !isRecognizedColorName(v.name)));
+
+  const isColorVariant = (v) => {
+    if (!v || !v.name) return false;
+    const name = String(v.name).trim();
+    if (/\(.*\)|\bpack\b|\bpiece\b|\bsize\b|\bthrust|\brotat/i.test(name)) return false;
+    return isRecognizedColorName(name);
+  };
+
+  const allVariantsAreColors = rawVariants.length > 0 && rawVariants.every(isColorVariant);
+  const variantPrices = rawVariants.map((v) => Number(v.price) || 0).filter((p) => p > 0);
+  const hasDiffVariantPrices = new Set(variantPrices).size > 1;
+
+  const isOptionVariants = !allVariantsAreColors && rawVariants.some((v) => !isColorVariant(v) || hasDiffVariantPrices);
 
   const variants = rawVariants.filter((v) => v && v.name).map((v, i) => {
     const explicit = (v.img && !/^data:/i.test(String(v.img))) ? String(v.img) : '';
     const index = Number.isInteger(v.imgIndex) ? v.imgIndex : i;
     const mapped = explicit || galleryImages[index] || galleryImages[0] || '';
-    const vPrice = hasExplicitPrice(v) ? Number(v.price) : 0;
-    const vPriceStr = hasExplicitPrice(v) ? (v.priceStr || `₦${vPrice.toLocaleString()}`) : '';
+    const isCol = isColorVariant(v);
+    const showPrice = !isCol && hasDiffVariantPrices && Number(v.price) > 0;
+    const vPrice = showPrice ? Number(v.price) : 0;
+    const vPriceStr = showPrice ? (v.priceStr || `₦${vPrice.toLocaleString()}`) : '';
     return {
       name: formatColorName(v.name),
+      isColor: isCol,
       price: vPrice,
       priceStr: vPriceStr,
       color: resolveColorHex(v.color, v.name),
@@ -276,7 +287,7 @@ export function renderProductPage(product = {}, options = {}) {
         <div class="variant-block" aria-label="Available sizes">
         <div class="variant-label-title">Size</div>
         <div class="sizes-pills-row">
-          ${sizes.map((size) => `<span class="size-static-pill">${escapeHtml(size)}</span>`).join('')}
+          ${sizes.map((size, i) => `<button type="button" class="size-static-pill${i === 0 ? ' is-active' : ''}" data-size="${escapeHtml(size)}" aria-pressed="${i === 0 ? 'true' : 'false'}">${escapeHtml(size)}</button>`).join('')}
         </div>
       </div>` : '';
 
@@ -325,15 +336,19 @@ export function renderProductPage(product = {}, options = {}) {
       --bg: #ffffff;
       --bg-alt: #fafafa;
       --card-bg: #ffffff;
-      --ink: #0c0c0e;
-      --ink-2: #27272a;
-      --muted: #71717a;
-      --border: #e4e4e7;
-      --border-light: #f4f4f5;
-      --ruby: #9f1239;
-      --ruby-light: #fff1f2;
-      --black: #121214;
+      --ink: #0a0a10;
+      --ink-2: #38383e;
+      --ink-3: #78787e;
+      --ink-4: #b8b8c0;
+      --muted: #78787e;
+      --border: #e5e5ea;
+      --border-d: #c8c8d2;
+      --border-light: #f4f4f6;
+      --ruby: #c0112f;
+      --ruby-light: rgba(192, 17, 47, 0.08);
+      --black: #0a0a10;
       --radius-btn: 8px;
+      --serif: 'Cormorant Garamond', Georgia, serif;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -348,38 +363,38 @@ export function renderProductPage(product = {}, options = {}) {
     a { color: inherit; text-decoration: none; }
     img { max-width: 100%; display: block; }
 
-    /* ── TOP NAV BAR (MATCHES THE SITE'S FLOATING PILL) ── */
+    /* ── TOP NAV BAR (MATCHES THE REST OF THE SITE) ── */
     .main-header {
       position: fixed;
-      top: 16px;
+      top: 20px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 1000;
-      background: #111116;
+      background: var(--ink);
       border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 999px;
+      border-radius: 9999px;
       max-width: 1240px;
-      width: calc(100% - 32px);
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.18);
-      transition: transform 0.3s ease, opacity 0.25s ease;
+      width: calc(100% - 40px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, background 0.2s ease;
     }
     .header-inner {
-      padding: 6px 22px;
+      padding: 6px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      gap: 20px;
     }
     .logo {
       display: flex;
       align-items: center;
     }
     .brand-logo-img {
-      height: 42px;
+      height: 44px;
       width: auto;
       object-fit: contain;
       display: block;
-      transform: scale(1.55);
+      transform: scale(1.6);
       transform-origin: left center;
       border-radius: 8px;
     }
@@ -394,7 +409,7 @@ export function renderProductPage(product = {}, options = {}) {
       color: #ffffff;
       font-size: 11.5px;
       font-weight: 600;
-      padding: 5px 12px;
+      padding: 4px 12px;
       border-radius: 8px !important;
       display: flex;
       align-items: center;
@@ -417,13 +432,14 @@ export function renderProductPage(product = {}, options = {}) {
       display: inline-block;
     }
     .mobile-nav-cart-btn {
-      display: inline-flex;
+      display: inline-flex !important;
       position: relative;
       background: none;
       border: none;
       cursor: pointer;
       color: #ffffff;
       padding: 6px;
+      margin-right: 2px;
       align-items: center;
       justify-content: center;
       transition: opacity 0.2s, transform 0.2s;
@@ -445,6 +461,8 @@ export function renderProductPage(product = {}, options = {}) {
       text-align: center;
       padding: 0 4px;
       box-sizing: border-box;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+      pointer-events: none;
     }
     .btn-mobile-toggle {
       display: flex;
@@ -453,10 +471,11 @@ export function renderProductPage(product = {}, options = {}) {
       cursor: pointer;
       flex-direction: column;
       gap: 5px;
-      padding: 5px;
+      padding: 4px;
+      margin-left: 4px;
     }
     .btn-mobile-toggle .bar {
-      width: 20px;
+      width: 22px;
       height: 2px;
       background: #ffffff;
       transition: all 0.2s ease;
@@ -496,56 +515,33 @@ export function renderProductPage(product = {}, options = {}) {
       letter-spacing: 0.08em;
       transition: background 0.15s, color 0.15s;
       text-align: left;
-    }
-    .dropdown-link:hover {
-      background: #f8fafc;
-      color: var(--ruby);
-    }
-
-    /* ── PAGE TOP ACTIONS (ON PAGE BACK TO SHOP & BREADCRUMBS) ── */
-    .page-top-bar {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 12px 24px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .btn-back-shop {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #27272a;
-      background: #f4f4f5;
-      border: 1px solid var(--border);
-      border-radius: 8px !important;
-      padding: 8px 16px;
-      transition: all 0.2s ease;
+      width: 100%;
       cursor: pointer;
+      text-decoration: none;
+      font-family: inherit;
     }
-    .btn-back-shop:hover {
-      background: #121214;
-      color: #ffffff;
-      border-color: #121214;
-      transform: translateX(-2px);
+    .dropdown-link:hover {
+      background: var(--bg-alt);
+      color: var(--ruby);
     }
-    .breadcrumbs {
+
+    /* ── BREADCRUMBS ── */
+    .product-breadcrumbs, .breadcrumbs {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       font-size: 12.5px;
       color: var(--muted);
       flex-wrap: wrap;
     }
-    .breadcrumbs a {
+    .product-breadcrumbs a, .breadcrumbs a {
       color: #52525b;
       transition: color 0.15s;
     }
-    .breadcrumbs a:hover {
+    .product-breadcrumbs a:hover, .breadcrumbs a:hover {
       color: var(--ruby);
     }
     .crumb-slash {
@@ -627,7 +623,7 @@ export function renderProductPage(product = {}, options = {}) {
     .thumb-btn.is-active,
     .thumb-btn:hover {
       border-color: var(--ruby);
-      box-shadow: 0 0 0 2px rgba(159, 18, 57, 0.15);
+      box-shadow: 0 0 0 2px rgba(192, 17, 47, 0.15);
       background: #ffffff;
     }
     .thumb-btn img {
@@ -689,7 +685,7 @@ export function renderProductPage(product = {}, options = {}) {
     }
     .price-was {
       font-size: 17px;
-      color: #a1a1aa;
+      color: var(--ink-4);
       text-decoration: line-through;
       font-weight: 500;
     }
@@ -711,12 +707,12 @@ export function renderProductPage(product = {}, options = {}) {
       border-radius: 6px;
     }
     .stock-pill.in-stock {
-      background: #ecfdf5;
-      color: #047857;
+      background: var(--bg-alt);
+      color: var(--ink);
     }
     .stock-pill.out-stock {
-      background: #fef2f2;
-      color: #b91c1c;
+      background: var(--ruby-light);
+      color: var(--ruby);
     }
     .stock-dot {
       width: 7px;
@@ -837,10 +833,10 @@ export function renderProductPage(product = {}, options = {}) {
       box-sizing: border-box;
     }
     .btn-order-primary:hover {
-      background: #121214;
-      border-color: #121214;
+      background: var(--black);
+      border-color: var(--black);
       transform: translateY(-1px);
-      box-shadow: 0 10px 24px rgba(18, 18, 20, 0.22);
+      box-shadow: 0 10px 24px rgba(10, 10, 16, 0.22);
     }
     .btn-order-primary svg {
       flex-shrink: 0;
@@ -848,7 +844,7 @@ export function renderProductPage(product = {}, options = {}) {
 
     /* ── DISCREET DELIVERY TRUST CALLOUT (STRICTLY NO OUTSIDE STROKES) ── */
     .trust-strip {
-      background: #f8fafc;
+      background: var(--bg-alt);
       border: none !important;
       border-radius: 12px;
       padding: 18px 20px;
@@ -939,80 +935,82 @@ export function renderProductPage(product = {}, options = {}) {
     }
     .footer-legal {
       font-size: 12px;
-      color: #a1a1aa;
+      color: var(--ink-4);
     }
 
     body {
-      background: radial-gradient(circle at 12% 4%, #ffffff 0%, #fbfaf8 48%, #f4f0ea 100%);
-      color: #26231f;
+      background: var(--bg);
+      color: var(--ink);
       padding-top: 96px;
       overflow-x: hidden;
     }
     .main-header {
-      background: #121216;
+      background: var(--ink);
       border: 1px solid rgba(255, 255, 255, 0.12);
-      box-shadow: 0 18px 48px rgba(24, 20, 16, 0.2);
+      box-shadow: 0 18px 48px rgba(10, 10, 16, 0.2);
     }
-    .page-top-bar {
-      max-width: 1240px;
-      margin: 0 auto;
-      padding: 24px 32px 12px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      box-sizing: border-box;
-      width: 100%;
-    }
-    .btn-back-shop {
+    /* ── FLOATING BACK TO SHOP BUTTON (STANDALONE PILL) ── */
+    .floating-back-shop {
+      position: fixed;
+      bottom: 22px;
+      right: 20px;
+      z-index: 950;
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: #ffffff;
-      border: 1px solid #e4ded7;
-      border-radius: 8px !important;
-      padding: 9px 16px;
-      color: #2b2723;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      box-shadow: 0 4px 14px rgba(38, 31, 24, 0.04);
-      transition: all 0.2s ease;
-      flex-shrink: 0;
-    }
-    .btn-back-shop:hover {
-      background: #121214;
+      background: var(--ink);
       color: #ffffff;
-      border-color: #121214;
-      transform: translateX(-2px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px !important;
+      padding: 9px 15px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      box-shadow: 0 6px 22px rgba(0, 0, 0, 0.32);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background 0.15s ease, box-shadow 0.2s ease;
+      text-decoration: none;
+      cursor: pointer;
     }
-    .breadcrumbs {
+    .floating-back-shop:hover {
+      background: var(--ruby);
+      border-color: var(--ruby);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(192, 17, 47, 0.35);
+    }
+
+    /* ── PRODUCT BREADCRUMBS (STANDALONE ROW ABOVE PRODUCT LAYOUT) ── */
+    .product-breadcrumbs {
       display: flex;
       align-items: center;
       flex-wrap: wrap;
       gap: 6px;
       font-size: 12.5px;
-      color: #8a827a;
+      color: var(--muted);
+      margin: 0 0 20px 0;
+      padding: 4px 0;
       min-width: 0;
     }
-    .breadcrumbs a {
-      color: #5b544d;
+    .product-breadcrumbs a {
+      color: var(--ink-2);
       text-decoration: none;
       transition: color 0.15s ease;
     }
-    .breadcrumbs a:hover {
+    .product-breadcrumbs a:hover {
       color: var(--ruby);
     }
     .crumb-slash {
-      color: #c4bcb4;
+      color: var(--border-d);
+      user-select: none;
     }
     .crumb-active {
-      color: #2b2723;
+      color: var(--ink);
       font-weight: 600;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 380px;
+      max-width: 420px;
     }
     .product-page-main {
       max-width: 1240px;
@@ -1041,8 +1039,8 @@ export function renderProductPage(product = {}, options = {}) {
       aspect-ratio: 4 / 5;
       border-radius: 16px;
       border: none !important;
-      background: linear-gradient(145deg, #f7f4f0 0%, #eee9e3 100%);
-      box-shadow: 0 20px 50px rgba(38, 31, 24, 0.08);
+      background: var(--bg-alt);
+      box-shadow: 0 20px 50px rgba(10, 10, 16, 0.08);
       overflow: hidden;
       display: flex;
       align-items: center;
@@ -1068,7 +1066,7 @@ export function renderProductPage(product = {}, options = {}) {
       font-weight: 800;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      box-shadow: 0 4px 14px rgba(38, 31, 24, 0.08);
+      box-shadow: 0 4px 14px rgba(10, 10, 16, 0.08);
       z-index: 2;
     }
     .thumbs-strip {
@@ -1082,7 +1080,7 @@ export function renderProductPage(product = {}, options = {}) {
     .thumb-btn {
       aspect-ratio: 1 / 1;
       border-radius: 8px !important;
-      border: 1.5px solid #e4ded7;
+      border: 1.5px solid var(--border);
       background: #ffffff;
       padding: 4px;
       cursor: pointer;
@@ -1112,7 +1110,7 @@ export function renderProductPage(product = {}, options = {}) {
       font-weight: 700;
       line-height: 1.08;
       letter-spacing: -0.02em;
-      color: #171412;
+      color: var(--ink);
       margin-bottom: 12px;
       word-break: break-word;
       overflow-wrap: anywhere;
@@ -1120,7 +1118,7 @@ export function renderProductPage(product = {}, options = {}) {
     .product-tagline {
       font-size: 16px;
       line-height: 1.6;
-      color: #5f5851;
+      color: var(--ink-2);
       max-width: 52ch;
       margin-bottom: 24px;
     }
@@ -1131,7 +1129,7 @@ export function renderProductPage(product = {}, options = {}) {
       gap: 16px;
       padding-bottom: 20px;
       margin-bottom: 24px;
-      border-bottom: 1px solid #e8e2dc;
+      border-bottom: 1px solid var(--border);
       flex-wrap: wrap;
       width: 100%;
       box-sizing: border-box;
@@ -1146,15 +1144,15 @@ export function renderProductPage(product = {}, options = {}) {
       font-size: 36px;
       font-weight: 800;
       letter-spacing: -0.02em;
-      color: #171412;
+      color: var(--ink);
     }
     .price-was {
       font-size: 18px;
-      color: #9c948c;
+      color: var(--muted);
       text-decoration: line-through;
     }
     .price-save-badge {
-      background: #fdf0f2;
+      background: var(--ruby-light);
       color: var(--ruby);
       font-size: 11px;
       font-weight: 800;
@@ -1173,12 +1171,12 @@ export function renderProductPage(product = {}, options = {}) {
       font-weight: 600;
     }
     .stock-pill.in-stock {
-      background: #edf6f0;
-      color: #256b49;
+      background: var(--bg-alt);
+      color: var(--ink);
     }
     .stock-pill.out-stock {
-      background: #fdf0f1;
-      color: #9f1239;
+      background: var(--ruby-light);
+      color: var(--ruby);
     }
     .stock-dot {
       width: 8px;
@@ -1197,7 +1195,7 @@ export function renderProductPage(product = {}, options = {}) {
       letter-spacing: 0 !important;
       font-size: 13.5px !important;
       font-weight: 700 !important;
-      color: #2b2723 !important;
+      color: var(--ink) !important;
       margin-bottom: 10px !important;
       display: block;
     }
@@ -1220,21 +1218,23 @@ export function renderProductPage(product = {}, options = {}) {
       padding: 9px 16px;
       font-size: 13px;
       font-weight: 600;
-      border: 1px solid #ddd7d0;
+      border: 1px solid var(--border);
       background: #ffffff;
-      color: #2b2723;
+      color: var(--ink);
+      font-family: inherit;
       cursor: pointer;
       transition: all 0.2s ease;
       box-sizing: border-box;
     }
     .variant-option-pill:hover,
     .size-static-pill:hover {
-      border-color: #121214;
-      background: #faf7f5;
+      border-color: var(--black);
+      background: var(--bg-alt);
     }
-    .variant-option-pill.is-active {
-      background: #121214 !important;
-      border-color: #121214 !important;
+    .variant-option-pill.is-active,
+    .size-static-pill.is-active {
+      background: var(--black) !important;
+      border-color: var(--black) !important;
       color: #ffffff !important;
     }
     .color-swatch-btn {
@@ -1277,19 +1277,19 @@ export function renderProductPage(product = {}, options = {}) {
       text-transform: uppercase;
       border: none;
       border-radius: 8px !important;
-      box-shadow: 0 10px 24px rgba(159, 18, 57, 0.22);
+      box-shadow: 0 10px 24px rgba(192, 17, 47, 0.22);
       transition: all 0.2s ease;
       cursor: pointer;
       box-sizing: border-box;
       text-decoration: none;
     }
     .btn-order-primary:hover {
-      background: #121214;
-      box-shadow: 0 12px 28px rgba(18, 18, 20, 0.25);
+      background: var(--black);
+      box-shadow: 0 12px 28px rgba(10, 10, 16, 0.25);
       transform: translateY(-1px);
     }
     .trust-strip {
-      background: #f7f4f0 !important;
+      background: var(--bg-alt) !important;
       border: none !important;
       border-radius: 12px !important;
       padding: 18px 20px;
@@ -1307,7 +1307,7 @@ export function renderProductPage(product = {}, options = {}) {
       gap: 6px;
       font-size: 12.5px;
       line-height: 1.5;
-      color: #5b544d;
+      color: var(--ink-2);
       min-width: 0;
       box-sizing: border-box;
     }
@@ -1317,7 +1317,7 @@ export function renderProductPage(product = {}, options = {}) {
     }
     .trust-item strong {
       font-size: 13px;
-      color: #2b2723;
+      color: var(--ink);
     }
     .trust-icon {
       color: var(--ruby);
@@ -1326,7 +1326,7 @@ export function renderProductPage(product = {}, options = {}) {
     .product-description-wrap {
       font-size: 15.5px;
       line-height: 1.85;
-      color: #4b453f;
+      color: var(--ink-2);
       max-width: 64ch;
       margin-bottom: 30px;
       width: 100%;
@@ -1336,7 +1336,7 @@ export function renderProductPage(product = {}, options = {}) {
       margin-bottom: 16px;
     }
     .spec-table-wrap {
-      border-top: 1px solid #e8e2dc;
+      border-top: 1px solid var(--border);
       padding-top: 24px;
       width: 100%;
       box-sizing: border-box;
@@ -1346,11 +1346,11 @@ export function renderProductPage(product = {}, options = {}) {
       grid-template-columns: 140px minmax(0, 1fr);
       gap: 16px;
       padding: 12px 0;
-      border-bottom: 1px solid #eee9e3;
+      border-bottom: 1px solid var(--border);
       font-size: 13px;
     }
-    .spec-row dt { color: #8a827a; }
-    .spec-row dd { color: #2b2723; font-weight: 600; }
+    .spec-row dt { color: var(--muted); }
+    .spec-row dd { color: var(--ink); font-weight: 600; }
     /* ── LUXURY SQUIGGLY DIVIDER ── */
     .luxe-divider-wrap {
       width: 100%;
@@ -1363,11 +1363,11 @@ export function renderProductPage(product = {}, options = {}) {
       display: block;
     }
     .squiggly-echo {
-      stroke: rgba(159, 18, 57, 0.14);
+      stroke: rgba(192, 17, 47, 0.14);
       stroke-width: 3px;
     }
     .squiggly-main {
-      stroke: #9f1239;
+      stroke: var(--ruby);
       stroke-width: 2px;
     }
 
@@ -1375,7 +1375,7 @@ export function renderProductPage(product = {}, options = {}) {
     .footer {
       background: #ffffff !important;
       padding: 64px 0 36px;
-      color: #0c0c0e !important;
+      color: var(--ink) !important;
       border-top: none;
       overflow: hidden;
       width: 100%;
@@ -1403,25 +1403,25 @@ export function renderProductPage(product = {}, options = {}) {
       font-family: var(--serif, 'Cormorant Garamond', Georgia, serif);
       font-size: 19px;
       margin-bottom: 14px;
-      color: #0c0c0e;
+      color: var(--ink);
       letter-spacing: -0.01em;
       font-weight: 700;
     }
     .footer-bio {
       font-size: 13.5px;
-      color: #71717a;
+      color: var(--muted);
       line-height: 1.6;
       margin-bottom: 14px;
       max-width: 320px;
     }
     .footer-stealth-hint {
       font-size: 12px;
-      color: #71717a;
+      color: var(--muted);
     }
     .footer-stealth-hint kbd {
-      background: #f4f4f5;
-      color: #0c0c0e;
-      border: 1px solid #e4e4e7;
+      background: var(--border-light);
+      color: var(--ink);
+      border: 1px solid var(--border);
       padding: 2px 7px;
       border-radius: 4px;
       cursor: pointer;
@@ -1437,7 +1437,7 @@ export function renderProductPage(product = {}, options = {}) {
     }
     .footer-right ul a {
       font-size: 13.5px;
-      color: #71717a;
+      color: var(--muted);
       font-weight: 500;
       text-decoration: none;
       transition: color 0.15s ease;
@@ -1451,7 +1451,7 @@ export function renderProductPage(product = {}, options = {}) {
       font-weight: 700;
       line-height: 1;
       letter-spacing: -0.04em;
-      color: #0c0c0e;
+      color: var(--ink);
       text-align: center;
       margin-bottom: 32px;
       width: 100%;
@@ -1474,10 +1474,10 @@ export function renderProductPage(product = {}, options = {}) {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-top: 1px solid #e8e2dc;
+      border-top: 1px solid var(--border);
       padding-top: 24px;
       font-size: 13px;
-      color: #71717a;
+      color: var(--muted);
       flex-wrap: wrap;
       gap: 14px;
     }
@@ -1493,7 +1493,7 @@ export function renderProductPage(product = {}, options = {}) {
       padding: 0;
       font-family: inherit;
       font-size: 13px;
-      color: #71717a;
+      color: var(--muted);
       font-weight: 500;
       cursor: pointer;
       transition: color 0.15s ease;
@@ -1508,7 +1508,7 @@ export function renderProductPage(product = {}, options = {}) {
     }
     .age-pill {
       display: inline-block;
-      background: #fff1f2;
+      background: var(--ruby-light);
       border: 1px solid #fda4af;
       color: var(--ruby);
       font-size: 10px;
@@ -1523,7 +1523,7 @@ export function renderProductPage(product = {}, options = {}) {
       position: fixed;
       inset: 0;
       z-index: 2000;
-      background: rgba(18, 18, 20, 0.75);
+      background: rgba(10, 10, 16, 0.75);
       backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(6px);
       display: flex;
@@ -1565,12 +1565,12 @@ export function renderProductPage(product = {}, options = {}) {
     .policy-modal-title {
       font-family: var(--serif, 'Cormorant Garamond', Georgia, serif);
       font-size: 24px;
-      color: #0c0c0e;
+      color: var(--ink);
       margin: 0;
       font-weight: 700;
     }
     .btn-close-policy {
-      background: #f4f4f5;
+      background: var(--border-light);
       border: none;
       width: 32px;
       height: 32px;
@@ -1579,13 +1579,13 @@ export function renderProductPage(product = {}, options = {}) {
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      color: #71717a;
+      color: var(--muted);
       font-size: 16px;
       transition: all 0.15s ease;
     }
     .btn-close-policy:hover {
-      background: #e4e4e7;
-      color: #0c0c0e;
+      background: var(--border);
+      color: var(--ink);
     }
     .policy-tabs {
       display: flex;
@@ -1601,7 +1601,7 @@ export function renderProductPage(product = {}, options = {}) {
       font-family: inherit;
       font-size: 13px;
       font-weight: 600;
-      color: #71717a;
+      color: var(--muted);
       cursor: pointer;
       white-space: nowrap;
       border-bottom: 2px solid transparent;
@@ -1629,7 +1629,7 @@ export function renderProductPage(product = {}, options = {}) {
     .policy-panel h4 {
       font-family: var(--serif, 'Cormorant Garamond', Georgia, serif);
       font-size: 20px;
-      color: #0c0c0e;
+      color: var(--ink);
       margin-bottom: 10px;
     }
     .policy-intro {
@@ -1642,7 +1642,7 @@ export function renderProductPage(product = {}, options = {}) {
     .policy-item h5 {
       font-size: 13.5px;
       font-weight: 700;
-      color: #0c0c0e;
+      color: var(--ink);
       margin-bottom: 4px;
     }
     .policy-item p {
@@ -1657,13 +1657,13 @@ export function renderProductPage(product = {}, options = {}) {
       background: #fafafa;
       border-top: 1px solid #f1f5f9;
       font-size: 13px;
-      color: #71717a;
+      color: var(--muted);
     }
     .policy-modal-footer .btn-modal-wa {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: #121214;
+      background: var(--black);
       color: #ffffff;
       padding: 8px 16px;
       font-size: 12px;
@@ -1679,42 +1679,31 @@ export function renderProductPage(product = {}, options = {}) {
     /* ── MOBILE RESPONSIVE ALIGNMENT FIXES (TABLET & PHONE) ── */
     @media (max-width: 860px) {
       body {
-        padding-top: 82px !important;
-      }
-      .main-header {
-        top: 10px !important;
-        width: calc(100% - 20px) !important;
-      }
-      .header-inner {
-        padding: 6px 14px !important;
-        gap: 10px !important;
-      }
-      .brand-logo-img {
-        height: 36px !important;
-        transform: scale(1.4) !important;
+        padding-top: 96px !important;
       }
       .stealth-esc-hint {
         display: none !important;
       }
-      .page-top-bar {
-        padding: 14px 16px 8px !important;
-        flex-direction: column !important;
-        align-items: flex-start !important;
-        gap: 8px !important;
-        width: 100% !important;
+      .floating-back-shop {
+        bottom: 18px !important;
+        right: 14px !important;
+        left: auto !important;
+        padding: 7px 13px !important;
+        font-size: 11px !important;
       }
-      .btn-back-shop {
-        padding: 8px 14px !important;
+
+      /* Separate Breadcrumbs on Mobile (Spaced Comfortably Above Product) */
+      .product-breadcrumbs {
+        margin: 6px 0 16px !important;
+        padding: 0 !important;
         font-size: 11.5px !important;
-      }
-      .breadcrumbs {
-        font-size: 11.5px !important;
-        line-height: 1.45 !important;
+        line-height: 1.5 !important;
         gap: 4px 6px !important;
       }
       .crumb-active {
         max-width: 100% !important;
         white-space: normal !important;
+        word-break: break-word !important;
       }
       .product-page-main {
         padding: 0 16px 48px !important;
@@ -1735,7 +1724,7 @@ export function renderProductPage(product = {}, options = {}) {
         aspect-ratio: 1 / 1 !important;
         border-radius: 14px !important;
         width: 100% !important;
-        box-shadow: 0 10px 30px rgba(38, 31, 24, 0.06) !important;
+        box-shadow: 0 10px 30px rgba(10, 10, 16, 0.06) !important;
       }
       .main-img-card img {
         padding: 18px !important;
@@ -1922,18 +1911,25 @@ export function renderProductPage(product = {}, options = {}) {
       <a href="/blog.html" class="dropdown-link nav-closer">The Pleasure Journal (Blog)</a>
       <a href="/index.html#faq" class="dropdown-link nav-closer">FAQ</a>
       <a href="/products.html#abuja" class="dropdown-link nav-closer">📍 Abuja Exclusives</a>
+      <button id="btn-install-dropdown" class="dropdown-link btn-install-trigger nav-closer">
+        <span>Install App</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      </button>
     </div>
   </header>
 
-  <!-- ON-PAGE TOP BAR: BACK TO SHOP BUTTON & BREADCRUMBS -->
-  <div class="page-top-bar">
-    <a href="/products.html" class="btn-back-shop">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M19 12H5M12 19l-7-7 7-7"/>
-      </svg>
-      <span>Back to Shop</span>
-    </a>
-    <nav class="breadcrumbs" aria-label="Breadcrumb">
+  <!-- FLOATING BACK TO SHOP BUTTON (STANDALONE PILL) -->
+  <a href="/products.html" class="floating-back-shop" aria-label="Back to Shop">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+    <span>Back to Shop</span>
+  </a>
+
+  <!-- MAIN PRODUCT SECTION -->
+  <main class="product-page-main">
+    <!-- PRODUCT BREADCRUMBS (SEPARATE FROM BACK-TO-SHOP) -->
+    <nav class="breadcrumbs product-breadcrumbs" aria-label="Breadcrumb">
       <a href="/">Home</a>
       <span class="crumb-slash">/</span>
       <a href="/products.html">Shop</a>
@@ -1942,10 +1938,7 @@ export function renderProductPage(product = {}, options = {}) {
       <span class="crumb-slash">/</span>
       <span class="crumb-active">${escapeHtml(title)}</span>
     </nav>
-  </div>
 
-  <!-- MAIN PRODUCT SECTION -->
-  <main class="product-page-main">
     <div class="product-layout">
 
       <!-- Gallery Column -->
@@ -1967,24 +1960,30 @@ export function renderProductPage(product = {}, options = {}) {
             <span class="price-amount" id="product-price-val">${escapeHtml(priceStr || 'Price on request')}</span>
             ${originalPrice > price && price > 0 ? `<span class="price-was">${escapeHtml(formatNaira(originalPrice))}</span><span class="price-save-badge">Save ${Math.round((1 - price/originalPrice)*100)}%</span>` : ''}
           </div>
-          <div class="stock-pill ${inStock ? 'in-stock' : 'out-stock'}">
+          ${!inStock ? `<div class="stock-pill out-stock">
             <span class="stock-dot"></span>
-            <span>${inStock ? 'In stock · Ready for discreet dispatch' : 'Currently unavailable'}</span>
-          </div>
+            <span>Currently unavailable</span>
+          </div>` : ''}
         </div>
 
         ${variantsHtml}
         ${sizesHtml}
 
         <div class="cta-group">
-          <a class="btn-order-primary" id="btn-order-primary" href="${orderHref}">
+          <button type="button" class="btn-order-primary" id="btn-order-primary"
+            data-id="${escapeHtml(id)}"
+            data-base-id="${escapeHtml(id)}"
+            data-title="${escapeHtml(title)}"
+            data-price="${price}"
+            data-img="${escapeHtml(primaryImage)}"
+            data-category="${escapeHtml(categoryLabel)}">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
               <line x1="3" y1="6" x2="21" y2="6"/>
               <path d="M16 10a4 4 0 0 1-8 0"/>
             </svg>
             <span id="btn-primary-text">Add to Bag</span>
-          </a>
+          </button>
         </div>
 
         <div class="product-description-wrap">
@@ -2020,7 +2019,7 @@ export function renderProductPage(product = {}, options = {}) {
   </div>
 
   <!-- ===== MAIN SITE FOOTER ===== -->
-  <footer class="footer" style="background: #ffffff !important; color: #0c0c0e !important;">
+  <footer class="footer" style="background: #ffffff !important; color: var(--ink) !important;">
     <div class="section-inner">
       <div class="footer-top">
         <div class="footer-left">
@@ -2253,6 +2252,125 @@ export function renderProductPage(product = {}, options = {}) {
         });
       });
 
+      var sizePills = Array.prototype.slice.call(document.querySelectorAll('.size-static-pill'));
+      var primaryBtn = document.getElementById('btn-order-primary');
+      var primaryBtnText = document.getElementById('btn-primary-text');
+
+      sizePills.forEach(function (pill) {
+        pill.addEventListener('click', function () {
+          sizePills.forEach(function (p) {
+            p.classList.remove('is-active');
+            p.setAttribute('aria-pressed', 'false');
+          });
+          pill.classList.add('is-active');
+          pill.setAttribute('aria-pressed', 'true');
+        });
+      });
+
+      if (primaryBtn) {
+        primaryBtn.addEventListener('click', function () {
+          var activeSizePill = null;
+          var activeOption = null;
+          var activeDot = null;
+          var i;
+
+          for (i = 0; i < sizePills.length; i += 1) {
+            if (sizePills[i].classList.contains('is-active')) {
+              activeSizePill = sizePills[i];
+              break;
+            }
+          }
+          for (i = 0; i < optionPills.length; i += 1) {
+            if (optionPills[i].classList.contains('is-active')) {
+              activeOption = optionPills[i];
+              break;
+            }
+          }
+          for (i = 0; i < dots.length; i += 1) {
+            if (dots[i].classList.contains('is-active')) {
+              activeDot = dots[i];
+              break;
+            }
+          }
+
+          var baseId = primaryBtn.getAttribute('data-id') || primaryBtn.getAttribute('data-base-id') || '';
+          var baseTitle = primaryBtn.getAttribute('data-title') || '';
+          var category = primaryBtn.getAttribute('data-category') || '';
+          var defaultPrice = parseFloat(primaryBtn.getAttribute('data-price')) || 0;
+          var defaultImg = primaryBtn.getAttribute('data-img') || '';
+          var size = activeSizePill ? (activeSizePill.getAttribute('data-size') || activeSizePill.textContent.trim()) : '';
+          var color = activeDot ? (activeDot.getAttribute('data-color') || '') : (activeColorLabel ? activeColorLabel.textContent.trim() : '');
+          var finishParts = [];
+
+          if (size) finishParts.push(size);
+          var variantName = activeOption ? (activeOption.getAttribute('data-name') || '') : '';
+          if (variantName && finishParts.indexOf(variantName) === -1) finishParts.push(variantName);
+          if (color && finishParts.indexOf(color) === -1) finishParts.push(color);
+
+          var finish = finishParts.join(' · ');
+          var price = defaultPrice;
+          if (activeOption && activeOption.getAttribute('data-price')) {
+            price = parseFloat(activeOption.getAttribute('data-price')) || defaultPrice;
+          }
+          var img = defaultImg;
+          if (activeOption && activeOption.getAttribute('data-img')) {
+            img = activeOption.getAttribute('data-img');
+          } else if (activeDot && activeDot.getAttribute('data-img')) {
+            img = activeDot.getAttribute('data-img');
+          }
+
+          var cartId = finish ? baseId + '__' + finish.replace(/\s+/g, '_') : baseId;
+          var itemTitle = finish ? baseTitle + ' (' + finish + ')' : baseTitle;
+          var cartData = [];
+          try {
+            var parsedCart = JSON.parse(localStorage.getItem('rouge_noir_cart') || '[]');
+            if (Array.isArray(parsedCart)) cartData = parsedCart;
+          } catch (err) {}
+
+          var found = false;
+          for (i = 0; i < cartData.length; i += 1) {
+            if ((cartData[i].cartId || cartData[i].id) === cartId) {
+              cartData[i].qty = (cartData[i].qty || 1) + 1;
+              found = true;
+              break;
+            }
+          }
+          if (!found) {
+            cartData.push({
+              id: cartId,
+              cartId: cartId,
+              baseId: baseId,
+              title: itemTitle,
+              price: price,
+              img: img,
+              finish: finish,
+              size: size,
+              color: color,
+              category: category,
+              qty: 1
+            });
+          }
+
+          try {
+            localStorage.setItem('rouge_noir_cart', JSON.stringify(cartData));
+            var count = 0;
+            for (i = 0; i < cartData.length; i += 1) {
+              count += (cartData[i].qty || 1);
+            }
+            var badge = document.getElementById('mobile-cart-badge');
+            if (badge) {
+              badge.textContent = count;
+              badge.style.display = count > 0 ? 'inline-block' : 'none';
+            }
+          } catch (err) {}
+
+          if (primaryBtnText) {
+            primaryBtnText.textContent = 'Added';
+            setTimeout(function () { primaryBtnText.textContent = 'Add to Bag'; }, 1600);
+          }
+        });
+      }
+
       // 2. Top Nav Mobile Menu Toggle
       var menuBtn = document.getElementById('btn-mobile-menu');
       var dropdown = document.getElementById('nav-dropdown');
@@ -2407,7 +2525,7 @@ export function renderProductNotFoundPage(siteUrl = 'https://www.thetoysvirago.s
       display: grid;
       place-items: center;
       background: #ffffff;
-      color: #0c0c0e;
+      color: var(--ink);
       font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
       text-align: center;
       padding: 24px;
@@ -2419,7 +2537,7 @@ export function renderProductNotFoundPage(siteUrl = 'https://www.thetoysvirago.s
       margin: 0 0 12px;
     }
     p {
-      color: #71717a;
+      color: var(--muted);
       margin: 0 0 24px;
       font-size: 15px;
     }
@@ -2429,7 +2547,7 @@ export function renderProductNotFoundPage(siteUrl = 'https://www.thetoysvirago.s
       gap: 8px;
       padding: 12px 24px;
       border-radius: 8px !important;
-      background: #121214;
+      background: var(--black);
       color: #ffffff;
       text-decoration: none;
       font-weight: 600;
@@ -2438,7 +2556,7 @@ export function renderProductNotFoundPage(siteUrl = 'https://www.thetoysvirago.s
       transition: background 0.2s;
     }
     a:hover {
-      background: #9f1239;
+      background: var(--ruby);
     }
   </style>
 </head>

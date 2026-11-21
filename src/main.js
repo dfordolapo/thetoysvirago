@@ -8670,12 +8670,19 @@ function createStoreProductCard(prod, idx) {
 
   const variants = Array.isArray(prod.variants) ? prod.variants : [];
   const hasVariants = variants.length > 0;
-  const variantHasExplicitPrice = (v) => Boolean(
-    v && (v.hasCustomPrice || v.priceStr) && Number(v.price) > 0
-  );
-  const isOptionPills = hasVariants && variants.some(v =>
-    variantHasExplicitPrice(v) || !isRecognizedColorName(v.name)
-  );
+
+  const isColorVariant = (v) => {
+    if (!v || !v.name) return false;
+    const name = String(v.name).trim();
+    if (/\(.*\)|\bpack\b|\bpiece\b|\bsize\b|\bthrust|\brotat/i.test(name)) return false;
+    return isRecognizedColorName(name);
+  };
+
+  const allVariantsAreColors = hasVariants && variants.every(isColorVariant);
+  const variantPrices = variants.map(v => Number(v.price) || 0).filter(p => p > 0);
+  const hasDiffVariantPrices = new Set(variantPrices).size > 1;
+
+  const isOptionPills = hasVariants && !allVariantsAreColors && variants.some(v => !isColorVariant(v) || hasDiffVariantPrices);
 
   const variantDotsHtml = (!isOptionPills && hasVariants)
     ? `<div class="color-row" style="display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin: 8px 0 12px 0; max-width: 100%; box-sizing: border-box;">
@@ -8691,11 +8698,12 @@ function createStoreProductCard(prod, idx) {
   const optionPillsHtml = isOptionPills
     ? `<div class="size-row variant-options-row" style="display: flex; gap: 6px; margin: 8px 0 12px 0; flex-wrap: wrap; max-width: 100%; box-sizing: border-box;">
         ${variants.map((v, i) => {
-          const hasExplicitPrice = variantHasExplicitPrice(v);
-          const vPrice = Number(v.price) || prod.price;
-          const vPriceStr = v.priceStr || ('₦' + vPrice.toLocaleString());
-          const displayLabel = hasExplicitPrice ? `${v.name} · ₦${Math.round(vPrice / 1000)}k` : v.name;
-          const priceAttrs = hasExplicitPrice ? `data-price="${vPrice}" data-pricestr="${vPriceStr}"` : '';
+          const isCol = isColorVariant(v);
+          const showPrice = !isCol && hasDiffVariantPrices && Number(v.price) > 0;
+          const vPrice = showPrice ? (Number(v.price) || prod.price) : prod.price;
+          const vPriceStr = showPrice ? (v.priceStr || ('₦' + vPrice.toLocaleString())) : '';
+          const displayLabel = showPrice ? `${v.name} · ₦${Math.round(vPrice / 1000)}k` : v.name;
+          const priceAttrs = showPrice ? `data-price="${vPrice}" data-pricestr="${vPriceStr}"` : '';
           return `<button type="button" class="size-pill ${i === 0 ? 'active' : ''}" data-size="${v.name}" ${priceAttrs} ${v.img ? `data-img="${v.img}"` : ''} style="border-radius: 8px !important; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${displayLabel}</button>`;
         }).join('')}
       </div>`

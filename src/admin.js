@@ -15,10 +15,14 @@ import {
   sendCustomerOrderConfirmationEmail,
   sendCustomerOrderDispatchedEmail,
   sendCustomerOrderDeliveredEmail,
-  subscribeToSupabaseOrders
+  subscribeToSupabaseOrders,
+  getSupabaseArticles,
+  upsertSupabaseArticle,
+  deleteSupabaseArticle
 } from './supabase.js';
+import { BLOG_ARTICLES } from './data/articles.js';
 import { buildProductCopyPrompt, GEMINI_VISION_MODELS, parseGeminiJson } from './aiPrompt.js';
-import { resolveColorHex, isLightColor, formatColorName } from './modules/colorResolver.js';
+import { resolveColorHex, isLightColor, formatColorName, isRecognizedColorName } from './modules/colorResolver.js';
 import { generateLocalProductCopy } from './modules/localCopy.js';
 
 // ================= 1. AUTHENTICATION & SECURITY GATE =================
@@ -1152,7 +1156,8 @@ function renderVariants() {
     const chip = document.createElement('span');
     chip.className = 'tag-chip';
     const borderStyle = isLightColor(hex) ? 'border: 1px solid #cbd5e1;' : 'border: 1px solid rgba(0,0,0,0.15);';
-    const priceDisplay = (v.hasCustomPrice && v.price && !isNaN(v.price) && v.price > 0) ? ` <span style="font-size: 11px; opacity: 0.85; font-weight: 600;">· ₦${Number(v.price).toLocaleString()}</span>` : '';
+    const isColor = isRecognizedColorName(v.name);
+    const priceDisplay = (!isColor && v.hasCustomPrice && v.price && !isNaN(v.price) && v.price > 0) ? ` <span style="font-size: 11px; opacity: 0.85; font-weight: 600;">· ₦${Number(v.price).toLocaleString()}</span>` : '';
     chip.innerHTML = `
       <span style="width: 12px; height: 12px; border-radius: 50%; background: ${hex}; display: inline-block; ${borderStyle} box-shadow: 0 1px 2px rgba(0,0,0,0.1);"></span>
       <strong>${v.name}</strong>${priceDisplay}
@@ -1198,7 +1203,8 @@ function addColorVariant(rawName, explicitColor, explicitPrice) {
       name: cleanName,
       color: resolvedHex
     };
-    if (parsed.price != null && !isNaN(parsed.price) && parsed.price > 0) {
+    const isCol = isRecognizedColorName(cleanName);
+    if (!isCol && parsed.price != null && !isNaN(parsed.price) && parsed.price > 0) {
       variantObj.price = parsed.price;
       variantObj.priceStr = `₦${parsed.price.toLocaleString()}`;
       variantObj.hasCustomPrice = true;
@@ -1450,11 +1456,12 @@ async function handleSaveProduct(shouldRedirectToShop = false) {
         { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
       ],
       variants: currentVariants.length > 0 ? currentVariants.map(v => {
-        const hasCustom = Boolean(v.hasCustomPrice && typeof v.price === 'number' && !isNaN(v.price) && v.price > 0);
+        const isColor = isRecognizedColorName(v.name);
+        const hasCustom = !isColor && Boolean(v.hasCustomPrice && typeof v.price === 'number' && !isNaN(v.price) && v.price > 0);
         const vPrice = hasCustom ? v.price : effectivePrice;
         return {
           name: formatColorName(v.name),
-          price: vPrice,
+          price: isColor ? effectivePrice : vPrice,
           priceStr: hasCustom ? (v.priceStr || `₦${vPrice.toLocaleString()}`) : '',
           hasCustomPrice: hasCustom,
           img: v.img || imgSrc,
@@ -2079,6 +2086,7 @@ function showToast(message, isHtml = false) {
 function initAdmin() {
   checkAdminAuth();
   refreshCatalogData();
+  initArticlesStudio();
 
   const syncStatusText = document.getElementById('sync-status-text');
   if (syncStatusText) {
@@ -2444,12 +2452,23 @@ if (statCardAwaiting) {
   });
 }
 
-// Hook into switchTab to load orders when clicking orders-panel
+const statCardArticles = document.getElementById('stat-card-articles');
+if (statCardArticles) {
+  statCardArticles.addEventListener('click', () => {
+    switchTab('articles-panel');
+  });
+}
+
+// Hook into switchTab to load orders or articles when clicking panels
 const originalSwitchTab = switchTab;
 switchTab = function(tabId) {
   originalSwitchTab(tabId);
   if (tabId === 'orders-panel') {
     loadAndRenderOrders();
+  } else if (tabId === 'articles-panel') {
+    if (typeof loadAndSyncArticles === 'function') {
+      loadAndSyncArticles();
+    }
   }
 };
 
@@ -2668,6 +2687,874 @@ window.addEventListener('storage', (event) => {
 setTimeout(() => {
   loadAndRenderOrders();
 }, 600);
+
+
+// ================= 13. THE PLEASURE JOURNAL ARTICLES STUDIO =================
+const CUSTOM_ARTICLES_KEY = 'thetoysvirago_custom_articles';
+
+function getCustomArticles() {
+  try {
+    const raw = localStorage.getItem(CUSTOM_ARTICLES_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    console.error('Error reading custom articles:', e);
+    return [];
+  }
+}
+
+function saveCustomArticles(articles) {
+  try {
+    localStorage.setItem(CUSTOM_ARTICLES_KEY, JSON.stringify(articles));
+  } catch (e) {
+    console.warn('LocalStorage quota issue for articles:', e);
+  }
+}
+
+function slugifyArticleTitle(text) {
+  return (text || '')
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/[\s_-]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function getArticleCatClass(cat) {
+  const c = (cat || '').toLowerCase().trim();
+  if (c.includes('couple')) return 'cat-couples';
+  if (c.includes('confession')) return 'cat-confessions';
+  if (c.includes('first') || c.includes('beginner')) return 'cat-first-timers';
+  if (c.includes('well') || c.includes('lube')) return 'cat-wellness';
+  if (c.includes('discreet') || c.includes('discretion')) return 'cat-discretion';
+  return 'cat-guides';
+}
+
+let allArticles = [];
+let currentCustomArticles = getCustomArticles();
+let activeArticlesFilter = 'all';
+let userManuallyEditedSlug = false;
+
+function updateArticlesBadges() {
+  const count = allArticles.length;
+  const tabBadge = document.getElementById('tab-articles-count');
+  if (tabBadge) tabBadge.textContent = String(count);
+  const statBadge = document.getElementById('stat-articles-count');
+  if (statBadge) statBadge.textContent = String(count);
+  const invBadge = document.getElementById('articles-count-badge');
+  if (invBadge) invBadge.textContent = String(count);
+}
+
+async function loadAndSyncArticles() {
+  currentCustomArticles = getCustomArticles();
+  const customSlugs = new Set(currentCustomArticles.map(a => a.slug));
+  allArticles = [
+    ...currentCustomArticles.map(a => ({ ...a, isCustom: true })),
+    ...BLOG_ARTICLES.filter(a => !customSlugs.has(a.slug)).map(a => ({ ...a, isCustom: false }))
+  ];
+  updateArticlesBadges();
+  renderArticlesTable();
+
+  if (isSupabaseConfigured) {
+    try {
+      const cloudData = await getSupabaseArticles();
+      if (Array.isArray(cloudData) && cloudData.length > 0) {
+        const formatted = cloudData.map(row => ({
+          slug: row.slug,
+          title: row.title,
+          category: row.category || 'Guides',
+          readTime: row.read_time || row.readTime || '5 min read',
+          date: row.date || '',
+          author: row.author || 'The Pleasure Journal · Real Stories',
+          heroImg: row.hero_img || row.heroImg || '/assets/hero-collection.webp',
+          imgAlt: row.img_alt || row.imgAlt || row.title,
+          excerpt: row.excerpt || '',
+          content: row.content || '',
+          seoTitle: row.seo_title || row.seoTitle || row.title,
+          metaDesc: row.meta_desc || row.metaDesc || row.excerpt,
+          searchPhrase: row.search_phrase || row.searchPhrase || '',
+          relatedProducts: Array.isArray(row.related_products) ? row.related_products : (row.relatedProducts || []),
+          published: row.published !== false,
+          isCustom: true
+        }));
+
+        const cloudSlugs = new Set(formatted.map(a => a.slug));
+        const mergedCustom = [
+          ...formatted,
+          ...currentCustomArticles.filter(a => !cloudSlugs.has(a.slug))
+        ];
+        saveCustomArticles(mergedCustom);
+        currentCustomArticles = mergedCustom;
+
+        const mergedCustomSlugs = new Set(mergedCustom.map(a => a.slug));
+        allArticles = [
+          ...mergedCustom.map(a => ({ ...a, isCustom: true })),
+          ...BLOG_ARTICLES.filter(a => !mergedCustomSlugs.has(a.slug)).map(a => ({ ...a, isCustom: false }))
+        ];
+        updateArticlesBadges();
+        renderArticlesTable();
+      }
+    } catch (err) {
+      console.warn('[Admin Articles] Cloud sync note:', err);
+    }
+  }
+}
+
+function renderArticlesTable() {
+  const tbody = document.getElementById('articles-table-body');
+  if (!tbody) return;
+  const searchInput = document.getElementById('articles-search-input');
+  const searchVal = (searchInput ? searchInput.value : '').trim().toLowerCase();
+
+  const filtered = allArticles.filter(art => {
+    const matchesCat = activeArticlesFilter === 'all'
+      ? true
+      : activeArticlesFilter === 'custom'
+        ? art.isCustom === true
+        : (art.category && art.category.toLowerCase().trim() === activeArticlesFilter.toLowerCase().trim());
+
+    const matchesSearch = !searchVal ||
+      (art.title && art.title.toLowerCase().includes(searchVal)) ||
+      (art.slug && art.slug.toLowerCase().includes(searchVal)) ||
+      (art.category && art.category.toLowerCase().includes(searchVal)) ||
+      (art.author && art.author.toLowerCase().includes(searchVal)) ||
+      (art.excerpt && art.excerpt.toLowerCase().includes(searchVal));
+
+    return matchesCat && matchesSearch;
+  });
+
+  tbody.innerHTML = '';
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6" style="text-align: center; padding: 36px; color: #64748b;">
+          No articles found matching "${escapeHtml(searchVal)}". Click "+ Write New Article" to draft one.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  filtered.forEach(art => {
+    const tr = document.createElement('tr');
+    tr.className = 'article-table-row';
+    tr.innerHTML = `
+      <td class="art-cell-hero">
+        <img src="${art.heroImg || '/assets/hero-collection.webp'}" alt="${escapeHtml(art.title)}" class="admin-prod-thumb" style="width: 54px; height: 38px; object-fit: cover; border-radius: 6px;" onerror="this.src='/assets/hero-collection.webp';" />
+      </td>
+      <td class="art-cell-info">
+        <div class="admin-prod-info">
+          <a href="/blog/${encodeURIComponent(art.slug)}" target="_blank" class="admin-prod-name" style="text-decoration: none; color: #0f172a; font-weight: 700;" title="Read on blog">${escapeHtml(art.title)}</a>
+          <span class="admin-prod-sku">/blog/${escapeHtml(art.slug)}</span>
+          <span style="font-size: 11px; color: #64748b;">${escapeHtml(art.author || 'The Pleasure Journal')}</span>
+        </div>
+      </td>
+      <td class="art-cell-cat">
+        <span class="admin-cat-badge ${getArticleCatClass(art.category)}">${escapeHtml(art.category || 'Guides')}</span>
+      </td>
+      <td class="art-cell-meta">
+        <div style="font-weight: 600; font-size: 12px; color: #1e293b;">${escapeHtml(art.date || 'Recent')}</div>
+        <div style="font-size: 11px; color: #64748b;">${escapeHtml(art.readTime || '5 min read')}</div>
+      </td>
+      <td class="art-cell-source">
+        ${art.isCustom
+          ? '<span class="admin-status-pill" style="padding: 3px 8px; font-size: 11px; background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; border-radius: 8px !important;">☁️ Custom / Cloud</span>'
+          : '<span class="admin-status-pill" style="padding: 3px 8px; font-size: 11px; background: #f8fafc; color: #475569; border: 1px solid #cbd5e1; border-radius: 8px !important;">Built-in</span>'
+        }
+      </td>
+      <td class="art-cell-actions" style="text-align: right;">
+        <div style="display: flex; gap: 6px; justify-content: flex-end; align-items: center; flex-wrap: nowrap;">
+          <button type="button" class="admin-btn admin-btn-outline btn-edit-article" data-slug="${escapeHtml(art.slug)}" style="padding: 5px 10px; font-size: 11.5px; border-radius: 8px !important;" title="Edit this story">✏️ Edit</button>
+          <a href="/blog/${encodeURIComponent(art.slug)}" target="_blank" class="admin-btn admin-btn-outline" style="padding: 5px 10px; font-size: 11.5px; border-radius: 8px !important;" title="View story on blog">↗ View</a>
+          ${art.isCustom ? `<button type="button" class="admin-btn admin-btn-outline btn-delete-article" data-slug="${escapeHtml(art.slug)}" style="padding: 5px 8px; font-size: 11.5px; color: #e11d48; border-color: #fecdd3; border-radius: 8px !important;" title="Delete story">🗑</button>` : ''}
+        </div>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function resetArticleForm() {
+  const form = document.getElementById('article-editor-form');
+  if (form) form.reset();
+  const editSlug = document.getElementById('editing-article-slug');
+  if (editSlug) editSlug.value = '';
+  const banner = document.getElementById('article-editing-banner');
+  if (banner) banner.style.display = 'none';
+  const pubBtnText = document.getElementById('btn-publish-article-text');
+  if (pubBtnText) pubBtnText.textContent = 'Publish to Journal';
+  const mainTitle = document.getElementById('article-editor-main-title');
+  if (mainTitle) mainTitle.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="2" style="vertical-align: -3px; margin-right: 6px;"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Write &amp; Publish Article`;
+
+  const authorInput = document.getElementById('article-author-input');
+  if (authorInput) authorInput.value = 'The Pleasure Journal · Real Stories';
+  const dateInput = document.getElementById('article-date-input');
+  if (dateInput) dateInput.value = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  const readInput = document.getElementById('article-readtime-input');
+  if (readInput) readInput.value = '1 min read';
+  const previewImg = document.getElementById('article-preview-img');
+  if (previewImg) previewImg.src = '/assets/hero-collection.webp';
+  const heroUrl = document.getElementById('article-hero-url');
+  if (heroUrl) heroUrl.value = '';
+  const altInput = document.getElementById('article-img-alt');
+  if (altInput) altInput.value = '';
+  const wordsEl = document.getElementById('article-content-words');
+  if (wordsEl) wordsEl.textContent = '0 words';
+  const timeEstEl = document.getElementById('article-content-time-est');
+  if (timeEstEl) timeEstEl.textContent = '~1 min read';
+  const excerptCount = document.getElementById('article-excerpt-counter');
+  if (excerptCount) excerptCount.textContent = '0 words';
+
+  userManuallyEditedSlug = false;
+}
+
+function calculateReadTimeFromContent(htmlContent) {
+  const rawText = (htmlContent || '').replace(/<[^>]*>/g, ' ').trim();
+  const words = rawText ? rawText.split(/\s+/).filter(Boolean).length : 0;
+  const mins = Math.max(1, Math.ceil(words / 200));
+  return `${mins} min read`;
+}
+
+function updateContentMetrics() {
+  const contentInput = document.getElementById('article-content-input');
+  if (!contentInput) return;
+  const rawText = contentInput.value.replace(/<[^>]*>/g, ' ').trim();
+  const words = rawText ? rawText.split(/\s+/).filter(Boolean).length : 0;
+  const wordsEl = document.getElementById('article-content-words');
+  if (wordsEl) wordsEl.textContent = `${words} words`;
+  const timeStr = calculateReadTimeFromContent(contentInput.value);
+  const timeEstEl = document.getElementById('article-content-time-est');
+  if (timeEstEl) timeEstEl.textContent = `~${timeStr}`;
+
+  const readInput = document.getElementById('article-readtime-input');
+  if (readInput) readInput.value = timeStr;
+}
+
+function insertSnippetIntoContent(before, after = '') {
+  const textarea = document.getElementById('article-content-input');
+  if (!textarea) return;
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const currentVal = textarea.value;
+  const selected = currentVal.substring(start, end);
+  const replacement = before + (selected || '') + after;
+  textarea.value = currentVal.substring(0, start) + replacement + currentVal.substring(end);
+  textarea.focus();
+  textarea.selectionStart = start + before.length;
+  textarea.selectionEnd = start + before.length + (selected || '').length;
+  updateContentMetrics();
+}
+
+function autoWrapParagraphs() {
+  const textarea = document.getElementById('article-content-input');
+  if (!textarea || !textarea.value.trim()) return;
+  const raw = textarea.value;
+  const blocks = raw.split(/\n\s*\n/);
+  const wrapped = blocks.map(b => {
+    const trimmed = b.trim();
+    if (!trimmed) return '';
+    if (trimmed.startsWith('<p') || trimmed.startsWith('<h') || trimmed.startsWith('<blockquote') || trimmed.startsWith('<div')) {
+      return trimmed;
+    }
+    return `<p>${trimmed}</p>`;
+  }).filter(Boolean).join('\n\n');
+  textarea.value = wrapped;
+  updateContentMetrics();
+  showToast('Paragraphs auto-formatted with <p> tags.');
+}
+
+function initArticlesStudio() {
+  // Initial load
+  loadAndSyncArticles();
+
+  // Hero File Upload
+  const heroFileInput = document.getElementById('article-hero-file');
+  const heroUrlInput = document.getElementById('article-hero-url');
+  const previewImg = document.getElementById('article-preview-img');
+
+  if (heroFileInput) {
+    heroFileInput.addEventListener('change', (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (loadEvent) => {
+        const dataUrl = loadEvent.target.result;
+        if (heroUrlInput) heroUrlInput.value = dataUrl;
+        if (previewImg) previewImg.src = dataUrl;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  if (heroUrlInput) {
+    heroUrlInput.addEventListener('input', () => {
+      const val = heroUrlInput.value.trim();
+      if (previewImg) previewImg.src = val || '/assets/hero-collection.webp';
+    });
+  }
+
+  // Title input auto-slug
+  const titleInput = document.getElementById('article-title-input');
+  const slugInput = document.getElementById('article-slug-input');
+  if (titleInput) {
+    titleInput.addEventListener('input', () => {
+      const editSlug = document.getElementById('editing-article-slug')?.value;
+      if (!editSlug && !userManuallyEditedSlug && slugInput) {
+        slugInput.value = slugifyArticleTitle(titleInput.value);
+      }
+    });
+  }
+  if (slugInput) {
+    slugInput.addEventListener('input', () => {
+      userManuallyEditedSlug = true;
+    });
+  }
+
+  // Excerpt word counter
+  const excerptInput = document.getElementById('article-excerpt-input');
+  if (excerptInput) {
+    excerptInput.addEventListener('input', () => {
+      const words = excerptInput.value.trim() ? excerptInput.value.trim().split(/\s+/).filter(Boolean).length : 0;
+      const counter = document.getElementById('article-excerpt-counter');
+      if (counter) counter.textContent = `${words} words`;
+    });
+  }
+
+  // Content live metrics
+  const contentInput = document.getElementById('article-content-input');
+  if (contentInput) {
+    contentInput.addEventListener('input', updateContentMetrics);
+  }
+
+  // Formatting Toolbar buttons
+  document.querySelectorAll('.btn-art-tool').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const action = btn.getAttribute('data-action');
+      if (action === 'lead') {
+        insertSnippetIntoContent('<p class="article-lead">', '</p>');
+      } else if (action === 'h3') {
+        insertSnippetIntoContent('<h3>', '</h3>');
+      } else if (action === 'qa') {
+        insertSnippetIntoContent('<p><strong>The Pleasure Journal:</strong> Question here?</p>\n<p><strong>Speaker:</strong> Answer here.</p>\n');
+      } else if (action === 'quote') {
+        insertSnippetIntoContent('<blockquote class="article-quote">\n  &ldquo;', '&rdquo;\n</blockquote>');
+      } else if (action === 'callout') {
+        insertSnippetIntoContent('<div class="article-callout">\n  <span class="callout-badge">INSIGHT</span>\n  <p>', '</p>\n</div>');
+      } else if (action === 'bold') {
+        insertSnippetIntoContent('<strong>', '</strong>');
+      } else if (action === 'italic') {
+        insertSnippetIntoContent('<em>', '</em>');
+      }
+    });
+  });
+
+  // ================= PRODUCT LINK MODAL WORKFLOW =================
+  let savedSelectionStart = 0;
+  let savedSelectionEnd = 0;
+
+  function populateProductLinkDropdown(filterQuery = '') {
+    const select = document.getElementById('link-product-select');
+    if (!select) return;
+    const q = (filterQuery || '').trim().toLowerCase();
+
+    const seenIds = new Set();
+    const productList = [
+      {
+        id: 'rose-blossom',
+        title: 'The Rose Sucker',
+        priceStr: '₦25,000',
+        url: '/products/rose-blossom.html'
+      }
+    ];
+    seenIds.add('rose-blossom');
+
+    if (Array.isArray(allInventoryProducts) && allInventoryProducts.length > 0) {
+      allInventoryProducts.forEach(p => {
+        if (!p || !p.id || seenIds.has(p.id)) return;
+        seenIds.add(p.id);
+        productList.push({
+          id: p.id,
+          title: p.title || p.id,
+          priceStr: p.priceStr || (p.price ? '₦' + Number(p.price).toLocaleString() : ''),
+          url: `/products/${encodeURIComponent(p.id)}.html`
+        });
+      });
+    }
+
+    const filtered = q
+      ? productList.filter(p => p.title.toLowerCase().includes(q) || p.id.toLowerCase().includes(q))
+      : productList;
+
+    const countEl = document.getElementById('link-product-count');
+    if (countEl) countEl.textContent = `${filtered.length} products`;
+
+    if (filtered.length === 0) {
+      select.innerHTML = '<option value="" disabled selected>No matching products found</option>';
+      return;
+    }
+
+    select.innerHTML = filtered.map(p => `
+      <option value="${escapeHtml(p.id)}" data-url="${escapeHtml(p.url)}" data-title="${escapeHtml(p.title)}">
+        ${p.id === 'rose-blossom' ? '🌹 ' : ''}${escapeHtml(p.title)} ${p.priceStr ? '· ' + escapeHtml(p.priceStr) : ''}
+      </option>
+    `).join('');
+
+    if (select.options.length > 0 && !select.options[0].disabled) {
+      select.selectedIndex = 0;
+      const cur = select.options[0];
+      const urlInput = document.getElementById('link-product-url');
+      if (urlInput) urlInput.value = cur.getAttribute('data-url') || '';
+    }
+  }
+
+  function closeProductLinkModal() {
+    const modal = document.getElementById('product-link-modal');
+    if (modal) modal.style.display = 'none';
+    if (typeof window.unlockBodyScroll === 'function') window.unlockBodyScroll();
+  }
+
+  const btnOpenProductModal = document.getElementById('btn-open-link-product-modal');
+  if (btnOpenProductModal) {
+    btnOpenProductModal.addEventListener('click', () => {
+      const textarea = document.getElementById('article-content-input');
+      savedSelectionStart = textarea ? textarea.selectionStart : 0;
+      savedSelectionEnd = textarea ? textarea.selectionEnd : 0;
+
+      const selectedText = (textarea && savedSelectionEnd > savedSelectionStart)
+        ? textarea.value.substring(savedSelectionStart, savedSelectionEnd).trim()
+        : '';
+
+      const anchorInput = document.getElementById('link-product-anchor-text');
+      if (anchorInput) {
+        anchorInput.value = selectedText || 'Suction Rose';
+      }
+
+      const searchInput = document.getElementById('link-product-search');
+      if (searchInput) searchInput.value = '';
+
+      populateProductLinkDropdown();
+
+      // If user highlighted text like "rose" or a specific product name, select it by default
+      const select = document.getElementById('link-product-select');
+      if (select && selectedText) {
+        const lower = selectedText.toLowerCase();
+        for (let i = 0; i < select.options.length; i++) {
+          const opt = select.options[i];
+          const optTitle = (opt.getAttribute('data-title') || '').toLowerCase();
+          const optId = (opt.value || '').toLowerCase();
+          if (optTitle.includes(lower) || lower.includes(optTitle) || optId.includes(lower)) {
+            select.selectedIndex = i;
+            const urlInput = document.getElementById('link-product-url');
+            if (urlInput) urlInput.value = opt.getAttribute('data-url') || '';
+            break;
+          }
+        }
+      }
+
+      const modal = document.getElementById('product-link-modal');
+      if (modal) modal.style.display = 'flex';
+      if (typeof window.lockBodyScroll === 'function') window.lockBodyScroll();
+
+      if (anchorInput) {
+        anchorInput.focus();
+        anchorInput.select();
+      }
+    });
+  }
+
+  const linkSearch = document.getElementById('link-product-search');
+  if (linkSearch) {
+    linkSearch.addEventListener('input', () => {
+      populateProductLinkDropdown(linkSearch.value);
+    });
+  }
+
+  const linkSelect = document.getElementById('link-product-select');
+  if (linkSelect) {
+    linkSelect.addEventListener('change', () => {
+      const sel = linkSelect.options[linkSelect.selectedIndex];
+      if (!sel || sel.disabled) return;
+      const url = sel.getAttribute('data-url');
+      const title = sel.getAttribute('data-title');
+      const urlInput = document.getElementById('link-product-url');
+      if (urlInput && url) urlInput.value = url;
+
+      const anchorInput = document.getElementById('link-product-anchor-text');
+      if (anchorInput && !anchorInput.value.trim() && title) {
+        anchorInput.value = title;
+      }
+    });
+  }
+
+  const btnApplyLink = document.getElementById('btn-apply-product-link');
+  if (btnApplyLink) {
+    btnApplyLink.addEventListener('click', () => {
+      const anchorText = (document.getElementById('link-product-anchor-text')?.value || '').trim() || 'Product';
+      const productUrl = (document.getElementById('link-product-url')?.value || '/products/rose-blossom.html').trim();
+      const select = document.getElementById('link-product-select');
+      const sel = select?.options[select.selectedIndex];
+      const productTitle = sel?.getAttribute('data-title') || anchorText;
+
+      const linkHtml = `<a href="${productUrl}" class="article-product-link" title="${escapeHtml(productTitle)}">${anchorText}<svg class="link-arrow-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></a>`;
+
+      const textarea = document.getElementById('article-content-input');
+      if (textarea) {
+        const curVal = textarea.value;
+        const before = curVal.substring(0, savedSelectionStart);
+        const after = curVal.substring(savedSelectionEnd);
+        textarea.value = before + linkHtml + after;
+        textarea.focus();
+        textarea.selectionStart = before.length + linkHtml.length;
+        textarea.selectionEnd = before.length + linkHtml.length;
+        updateContentMetrics();
+      }
+
+      closeProductLinkModal();
+      showToast(`✓ Linked "${anchorText}" to product.`);
+    });
+  }
+
+  const btnCloseProductModal = document.getElementById('btn-close-product-link-modal');
+  if (btnCloseProductModal) btnCloseProductModal.addEventListener('click', closeProductLinkModal);
+
+  const btnCancelProductModal = document.getElementById('btn-cancel-product-link');
+  if (btnCancelProductModal) btnCancelProductModal.addEventListener('click', closeProductLinkModal);
+
+  const productLinkModal = document.getElementById('product-link-modal');
+  if (productLinkModal) {
+    productLinkModal.addEventListener('click', (e) => {
+      if (e.target === productLinkModal) closeProductLinkModal();
+    });
+  }
+
+  const btnFormatP = document.getElementById('btn-format-paragraphs');
+  if (btnFormatP) {
+    btnFormatP.addEventListener('click', autoWrapParagraphs);
+  }
+
+  // Accordion Toggles
+  const headerToggle = document.getElementById('article-editor-header-toggle');
+  if (headerToggle) {
+    headerToggle.addEventListener('click', (e) => {
+      if (e.target.closest('#btn-reset-article-form')) return;
+      const form = document.getElementById('article-editor-form');
+      const icon = document.getElementById('article-editor-toggle-icon');
+      if (!form) return;
+      const isHidden = form.style.display === 'none';
+      form.style.display = isHidden ? 'block' : 'none';
+      if (icon) icon.textContent = isHidden ? '▲' : '▼';
+    });
+  }
+
+  const seoToggle = document.getElementById('article-seo-toggle');
+  if (seoToggle) {
+    seoToggle.addEventListener('click', () => {
+      const fields = document.getElementById('article-seo-fields');
+      const icon = document.getElementById('article-seo-toggle-icon');
+      if (!fields) return;
+      const isHidden = fields.style.display === 'none';
+      fields.style.display = isHidden ? 'block' : 'none';
+      if (icon) icon.textContent = isHidden ? '▲' : '▼';
+    });
+  }
+
+  const btnShowWrite = document.getElementById('btn-show-write-article');
+  if (btnShowWrite) {
+    btnShowWrite.addEventListener('click', () => {
+      resetArticleForm();
+      const form = document.getElementById('article-editor-form');
+      if (form) form.style.display = 'block';
+      const icon = document.getElementById('article-editor-toggle-icon');
+      if (icon) icon.textContent = '▲';
+      const card = document.getElementById('article-editor-card');
+      if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const tInput = document.getElementById('article-title-input');
+      if (tInput) tInput.focus();
+    });
+  }
+
+  const btnReset = document.getElementById('btn-reset-article-form');
+  if (btnReset) {
+    btnReset.addEventListener('click', (e) => {
+      e.stopPropagation();
+      resetArticleForm();
+      showToast('Story form reset.');
+    });
+  }
+
+  const btnCancel = document.getElementById('btn-cancel-article-edit');
+  if (btnCancel) {
+    btnCancel.addEventListener('click', () => {
+      resetArticleForm();
+      showToast('Editing cancelled.');
+    });
+  }
+
+  const btnRefresh = document.getElementById('btn-refresh-articles');
+  if (btnRefresh) {
+    btnRefresh.addEventListener('click', async () => {
+      await loadAndSyncArticles();
+      showToast('✓ Articles refreshed from Supabase.');
+    });
+  }
+
+  // Filter Pills & Search
+  const filterPills = document.querySelectorAll('.article-filter-pill');
+  filterPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      filterPills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      activeArticlesFilter = pill.getAttribute('data-filter') || 'all';
+      renderArticlesTable();
+    });
+  });
+
+  const searchInput = document.getElementById('articles-search-input');
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      renderArticlesTable();
+    });
+  }
+
+  // Form Submit
+  const articleForm = document.getElementById('article-editor-form');
+  if (articleForm) {
+    articleForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const title = (document.getElementById('article-title-input')?.value || '').trim();
+      const rawSlug = (document.getElementById('article-slug-input')?.value || '').trim();
+      const slug = slugifyArticleTitle(rawSlug || title);
+      const category = document.getElementById('article-category-input')?.value || 'Guides';
+      const author = (document.getElementById('article-author-input')?.value || 'The Pleasure Journal · Real Stories').trim();
+      const date = (document.getElementById('article-date-input')?.value || new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })).trim();
+      const heroImg = (document.getElementById('article-hero-url')?.value || '/assets/hero-collection.webp').trim();
+      const imgAlt = (document.getElementById('article-img-alt')?.value || title).trim();
+      const excerpt = (document.getElementById('article-excerpt-input')?.value || '').trim();
+      const content = (document.getElementById('article-content-input')?.value || '').trim();
+      const readTime = calculateReadTimeFromContent(content);
+      const seoTitle = (document.getElementById('article-seo-title')?.value || `${title} · The Pleasure Journal | TheToysVirago`).trim();
+      const metaDesc = (document.getElementById('article-meta-desc')?.value || excerpt).trim();
+      const searchPhrase = (document.getElementById('article-search-phrase')?.value || '').trim();
+      const relatedProductsRaw = (document.getElementById('article-related-products')?.value || '').trim();
+      const relatedProducts = relatedProductsRaw ? relatedProductsRaw.split(',').map(s => s.trim()).filter(Boolean) : [];
+
+      if (!slug || !title || !content || !excerpt) {
+        showToast('Please fill in Title, Slug, Excerpt and Article Content.');
+        return;
+      }
+
+      const editingSlug = document.getElementById('editing-article-slug')?.value;
+      const isEditing = Boolean(editingSlug);
+
+      const articleObj = {
+        slug,
+        title,
+        category,
+        author,
+        date,
+        readTime,
+        heroImg,
+        imgAlt,
+        excerpt,
+        content,
+        seoTitle,
+        metaDesc,
+        searchPhrase,
+        relatedProducts,
+        published: true,
+        isCustom: true,
+        updated_at: new Date().toISOString()
+      };
+
+      currentCustomArticles = getCustomArticles();
+      const existingIdx = currentCustomArticles.findIndex(a => a.slug === (isEditing ? editingSlug : slug));
+      if (existingIdx >= 0) {
+        currentCustomArticles[existingIdx] = articleObj;
+      } else {
+        currentCustomArticles.unshift(articleObj);
+      }
+      saveCustomArticles(currentCustomArticles);
+
+      let cloudResult = null;
+      if (isSupabaseConfigured) {
+        try {
+          cloudResult = await upsertSupabaseArticle(articleObj);
+        } catch (err) {
+          console.warn('[Admin] Cloud article upload error:', err);
+        }
+      }
+
+      await loadAndSyncArticles();
+      resetArticleForm();
+
+      if (cloudResult && cloudResult.success) {
+        showToast('✓ Story published & synced to Supabase Cloud!');
+      } else if (isSupabaseConfigured && cloudResult && !cloudResult.success) {
+        showToast(`✓ Story saved locally. (Cloud sync notice: ${cloudResult.error || 'pending'})`);
+      } else {
+        showToast('✓ Story published to The Pleasure Journal!');
+      }
+
+      const invCard = document.getElementById('articles-table-body');
+      if (invCard) {
+        invCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
+  }
+
+  // Row actions delegation: Edit & Delete
+  const tbody = document.getElementById('articles-table-body');
+  if (tbody) {
+    tbody.addEventListener('click', async (e) => {
+      // Edit
+      const editBtn = e.target.closest('.btn-edit-article');
+      if (editBtn) {
+        const slug = editBtn.getAttribute('data-slug');
+        const art = allArticles.find(a => a.slug === slug);
+        if (!art) return;
+
+        const editSlug = document.getElementById('editing-article-slug');
+        if (editSlug) editSlug.value = art.slug;
+
+        const titleInput = document.getElementById('article-title-input');
+        if (titleInput) titleInput.value = art.title || '';
+        const slugInput = document.getElementById('article-slug-input');
+        if (slugInput) slugInput.value = art.slug || '';
+        const catInput = document.getElementById('article-category-input');
+        if (catInput) catInput.value = art.category || 'Guides';
+        const authorInput = document.getElementById('article-author-input');
+        if (authorInput) authorInput.value = art.author || 'The Pleasure Journal · Real Stories';
+        const dateInput = document.getElementById('article-date-input');
+        if (dateInput) dateInput.value = art.date || '';
+        const readInput = document.getElementById('article-readtime-input');
+        if (readInput) readInput.value = calculateReadTimeFromContent(art.content || '');
+        const heroUrlInput = document.getElementById('article-hero-url');
+        if (heroUrlInput) heroUrlInput.value = art.heroImg || '';
+        const previewImg = document.getElementById('article-preview-img');
+        if (previewImg) previewImg.src = art.heroImg || '/assets/hero-collection.webp';
+        const altInput = document.getElementById('article-img-alt');
+        if (altInput) altInput.value = art.imgAlt || '';
+        const excerptInput = document.getElementById('article-excerpt-input');
+        if (excerptInput) {
+          excerptInput.value = art.excerpt || '';
+          const words = art.excerpt ? art.excerpt.split(/\s+/).filter(Boolean).length : 0;
+          const counter = document.getElementById('article-excerpt-counter');
+          if (counter) counter.textContent = `${words} words`;
+        }
+        const contentInput = document.getElementById('article-content-input');
+        if (contentInput) {
+          contentInput.value = art.content || '';
+          updateContentMetrics();
+        }
+        const seoTitleInput = document.getElementById('article-seo-title');
+        if (seoTitleInput) seoTitleInput.value = art.seoTitle || '';
+        const metaDescInput = document.getElementById('article-meta-desc');
+        if (metaDescInput) metaDescInput.value = art.metaDesc || '';
+        const searchPhraseInput = document.getElementById('article-search-phrase');
+        if (searchPhraseInput) searchPhraseInput.value = art.searchPhrase || '';
+        const relInput = document.getElementById('article-related-products');
+        if (relInput) {
+          relInput.value = Array.isArray(art.relatedProducts) ? art.relatedProducts.join(', ') : (art.relatedProducts || '');
+        }
+
+        const banner = document.getElementById('article-editing-banner');
+        if (banner) banner.style.display = 'flex';
+        const editTitle = document.getElementById('article-editing-title');
+        if (editTitle) editTitle.textContent = `Editing: "${art.title}"`;
+        const pubBtnText = document.getElementById('btn-publish-article-text');
+        if (pubBtnText) pubBtnText.textContent = 'Update Published Story';
+
+        const form = document.getElementById('article-editor-form');
+        if (form) form.style.display = 'block';
+        const icon = document.getElementById('article-editor-toggle-icon');
+        if (icon) icon.textContent = '▲';
+
+        const card = document.getElementById('article-editor-card');
+        if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        userManuallyEditedSlug = true;
+        return;
+      }
+
+      // Delete
+      const deleteBtn = e.target.closest('.btn-delete-article');
+      if (deleteBtn) {
+        const slug = deleteBtn.getAttribute('data-slug');
+        const art = allArticles.find(a => a.slug === slug);
+        if (!art) return;
+
+        const confirmed = window.confirm(`Are you sure you want to delete this story: "${art.title}"?`);
+        if (!confirmed) return;
+
+        currentCustomArticles = getCustomArticles().filter(a => a.slug !== slug);
+        saveCustomArticles(currentCustomArticles);
+
+        if (isSupabaseConfigured) {
+          try {
+            await deleteSupabaseArticle(slug);
+          } catch (err) {
+            console.warn('[Admin] Cloud article delete notice:', err);
+          }
+        }
+
+        await loadAndSyncArticles();
+        showToast('✓ Article deleted from Journal.');
+      }
+    });
+  }
+
+  // Copy SQL script
+  const btnCopySql = document.getElementById('btn-copy-articles-sql');
+  if (btnCopySql) {
+    btnCopySql.addEventListener('click', () => {
+      const sql = `-- TheToysVirago Articles Table Setup
+create table if not exists public.articles (
+  id uuid default gen_random_uuid() primary key,
+  slug text unique not null,
+  title text not null,
+  category text default 'Guides',
+  read_time text default '5 min read',
+  date text,
+  author text default 'The Pleasure Journal · Real Stories',
+  hero_img text,
+  img_alt text,
+  excerpt text,
+  content text,
+  seo_title text,
+  meta_desc text,
+  search_phrase text,
+  related_products jsonb default '[]'::jsonb,
+  published boolean default true,
+  created_at timestamp with time zone default timezone('utc'::text, now()),
+  updated_at timestamp with time zone default timezone('utc'::text, now())
+);
+
+alter table public.articles enable row level security;
+create policy "Allow public read of published articles" on public.articles for select using (true);
+create policy "Allow all modifications with anon key" on public.articles for all using (true) with check (true);
+`;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(sql).then(() => {
+          showToast('✓ Articles SQL table script copied to clipboard!');
+        }).catch(() => {
+          window.prompt('Copy Supabase SQL:', sql);
+        });
+      } else {
+        window.prompt('Copy Supabase SQL:', sql);
+      }
+    });
+  }
+}
 
 
 // ================= BULLETPROOF BACKGROUND SCROLL LOCK (PRESERVES SCROLL POSITION) =================

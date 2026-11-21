@@ -1,6 +1,7 @@
 import { initWhatsAppWidget } from './modules/whatsappWidget.js';
 import { initPullToRefresh } from './modules/pullToRefresh.js';
 import { BLOG_ARTICLES } from './data/articles.js';
+import { getSupabaseArticles, isSupabaseConfigured } from './supabase.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   initWhatsAppWidget();
@@ -9,6 +10,31 @@ document.addEventListener('DOMContentLoaded', () => {
   const indexView = document.getElementById('blog-index-view');
   const readerView = document.getElementById('article-reader-view');
   const filterPills = document.querySelectorAll('.blog-filter-pill');
+
+  // Article storage and active list
+  const CUSTOM_ARTICLES_KEY = 'thetoysvirago_custom_articles';
+  let activeArticles = [...BLOG_ARTICLES];
+
+  function getLocalCustomArticles() {
+    try {
+      const raw = localStorage.getItem(CUSTOM_ARTICLES_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function mergeActiveArticles(customList) {
+    if (!Array.isArray(customList) || customList.length === 0) return;
+    const customSlugs = new Set(customList.map(a => a.slug));
+    activeArticles = [
+      ...customList,
+      ...BLOG_ARTICLES.filter(a => !customSlugs.has(a.slug))
+    ];
+  }
+
+  // Pre-load local custom articles immediately
+  mergeActiveArticles(getLocalCustomArticles());
 
   // Reader elements
   const readerCategory = document.getElementById('reader-category');
@@ -93,8 +119,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!cardsGrid) return;
     const cleanFilter = (filter || 'all').toLowerCase().trim();
     const filtered = cleanFilter === 'all'
-      ? BLOG_ARTICLES
-      : BLOG_ARTICLES.filter(a => a.category.toLowerCase().trim() === cleanFilter);
+      ? activeArticles
+      : activeArticles.filter(a => a.category && a.category.toLowerCase().trim() === cleanFilter);
 
     if (filtered.length === 0) {
       cardsGrid.innerHTML = `
@@ -160,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const slug = btn.getAttribute('data-slug');
-        const art = BLOG_ARTICLES.find(a => a.slug === slug);
+        const art = activeArticles.find(a => a.slug === slug);
         if (art) shareArticle(art);
       });
     });
@@ -168,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Open single article
   function openArticle(slug, pushState = true) {
-    const article = BLOG_ARTICLES.find(a => a.slug === slug);
+    const article = activeArticles.find(a => a.slug === slug);
     if (!article) {
       // Friendly, playful 404 article error state
       if (readerView && readerContent) {
@@ -355,6 +381,61 @@ document.addEventListener('DOMContentLoaded', () => {
   const initialPost = getSlugFromCurrentUrl();
   if (initialPost) {
     openArticle(initialPost, false);
+  }
+
+  // Fetch latest articles from Supabase in background and refresh
+  if (isSupabaseConfigured) {
+    (async () => {
+      try {
+        const cloudArticles = await getSupabaseArticles();
+        if (Array.isArray(cloudArticles) && cloudArticles.length > 0) {
+          const formatted = cloudArticles.map(row => ({
+            slug: row.slug,
+            title: row.title,
+            category: row.category || 'Guides',
+            readTime: row.read_time || row.readTime || '5 min read',
+            date: row.date || '',
+            author: row.author || 'The Pleasure Journal · Real Stories',
+            heroImg: row.hero_img || row.heroImg || '/assets/hero-collection.webp',
+            imgAlt: row.img_alt || row.imgAlt || row.title,
+            excerpt: row.excerpt || '',
+            content: row.content || '',
+            seoTitle: row.seo_title || row.seoTitle || row.title,
+            metaDesc: row.meta_desc || row.metaDesc || row.excerpt,
+            searchPhrase: row.search_phrase || row.searchPhrase || '',
+            relatedProducts: Array.isArray(row.related_products) ? row.related_products : (row.relatedProducts || []),
+            published: row.published !== false
+          }));
+
+          mergeActiveArticles(formatted);
+
+          // Update localStorage cache
+          try {
+            const localCustom = getLocalCustomArticles();
+            const cloudSlugs = new Set(formatted.map(a => a.slug));
+            const mergedCache = [
+              ...formatted,
+              ...localCustom.filter(a => !cloudSlugs.has(a.slug))
+            ];
+            localStorage.setItem(CUSTOM_ARTICLES_KEY, JSON.stringify(mergedCache));
+          } catch (e) {}
+
+          // Refresh current view if looking at the article list or current article
+          const activeFilterPill = document.querySelector('.blog-filter-pill.active');
+          const currentCat = activeFilterPill ? (activeFilterPill.getAttribute('data-category') || 'all') : 'all';
+          if (indexView && indexView.style.display !== 'none') {
+            renderArticles(currentCat);
+          } else if (currentArticle) {
+            const refreshed = activeArticles.find(a => a.slug === currentArticle.slug);
+            if (refreshed) {
+              openArticle(refreshed.slug, false);
+            }
+          }
+        }
+      } catch (err) {
+        console.warn('[Blog] Cloud articles fetch note:', err);
+      }
+    })();
   }
 
   // Navigation menu toggle

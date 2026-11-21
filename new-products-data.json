@@ -148,14 +148,10 @@
     "variants": [
       {
         "name": "Crimson Red",
-        "price": 15000,
-        "priceStr": "₦15,000",
         "img": "/assets/IMG_5209.webp"
       },
       {
         "name": "Midnight Noir",
-        "price": 15000,
-        "priceStr": "₦15,000",
         "img": "/assets/IMG_5210.webp"
       }
     ],
@@ -287,26 +283,20 @@
     "title": "Silicone Bone Restraint Gag",
     "category": "bdsm",
     "badge": "PLAYFUL DISCIPLINE",
-    "price": 14000,
-    "priceStr": "₦14,000",
+    "price": 18000,
+    "priceStr": "₦18,000",
     "img": "/assets/IMG_9989.webp",
     "variants": [
       {
         "name": "Crimson Red",
-        "price": 18000,
-        "priceStr": "₦18,000",
         "img": "/assets/IMG_9989.webp"
       },
       {
         "name": "Midnight Black",
-        "price": 18000,
-        "priceStr": "₦18,000",
         "img": "/assets/IMG_9989.webp"
       },
       {
         "name": "Pastel Pink",
-        "price": 18000,
-        "priceStr": "₦18,000",
         "img": "/assets/IMG_9989.webp"
       }
     ],
@@ -659,20 +649,14 @@
     "variants": [
       {
         "name": "Emerald Teal",
-        "price": 22000,
-        "priceStr": "₦22,000",
         "img": "/assets/IMG_0360.webp"
       },
       {
         "name": "Noir Black",
-        "price": 22000,
-        "priceStr": "₦22,000",
         "img": "/assets/IMG_0364.webp"
       },
       {
         "name": "Mocha Bronze",
-        "price": 22000,
-        "priceStr": "₦22,000",
         "img": "/assets/IMG_0364.webp"
       }
     ],
@@ -739,26 +723,18 @@
     "variants": [
       {
         "name": "Matte Noir",
-        "price": 35000,
-        "priceStr": "₦35,000",
         "img": "/assets/IMG_6459.webp"
       },
       {
         "name": "Fuchsia Pink",
-        "price": 35000,
-        "priceStr": "₦35,000",
         "img": "/assets/IMG_6459.webp"
       },
       {
         "name": "Midnight Purple",
-        "price": 35000,
-        "priceStr": "₦35,000",
         "img": "/assets/IMG_6459.webp"
       },
       {
         "name": "Mirror Chrome",
-        "price": 35000,
-        "priceStr": "₦35,000",
         "img": "/assets/IMG_6459.webp"
       }
     ],
@@ -821,14 +797,10 @@
     "variants": [
       {
         "name": "Mirror Gold",
-        "price": 18000,
-        "priceStr": "₦18,000",
         "img": "/assets/IMG_4697.webp"
       },
       {
         "name": "Metallic Violet",
-        "price": 18000,
-        "priceStr": "₦18,000",
         "img": "/assets/IMG_4697.webp"
       }
     ],
@@ -861,14 +833,10 @@
     "variants": [
       {
         "name": "Blush Pink",
-        "price": 32000,
-        "priceStr": "₦32,000",
         "img": "/assets/IMG_6732.webp"
       },
       {
         "name": "Fuchsia Rose",
-        "price": 32000,
-        "priceStr": "₦32,000",
         "img": "/assets/IMG_6732.webp"
       }
     ],
@@ -1135,14 +1103,10 @@
     "variants": [
       {
         "name": "Noir Black",
-        "price": 16000,
-        "priceStr": "₦16,000",
         "img": "/assets/IMG_5141.webp"
       },
       {
         "name": "Fuchsia Pink",
-        "price": 16000,
-        "priceStr": "₦16,000",
         "img": "/assets/IMG_5141.webp"
       }
     ],
@@ -1202,14 +1166,10 @@
     "variants": [
       {
         "name": "Royal Purple",
-        "price": 14000,
-        "priceStr": "₦14,000",
         "img": "/assets/IMG_5568.webp"
       },
       {
         "name": "Blush Pink",
-        "price": 14000,
-        "priceStr": "₦14,000",
         "img": "/assets/IMG_5568.webp"
       }
     ],
@@ -1321,14 +1281,10 @@
     "variants": [
       {
         "name": "Noir Ebony",
-        "price": 20000,
-        "priceStr": "₦20,000",
         "img": "/assets/IMG_1280.webp"
       },
       {
         "name": "Warm Chocolate",
-        "price": 20000,
-        "priceStr": "₦20,000",
         "img": "/assets/IMG_1281.webp"
       }
     ],
@@ -1361,20 +1317,14 @@
     "variants": [
       {
         "name": "Tan Flesh",
-        "price": 22000,
-        "priceStr": "₦22,000",
         "img": "/assets/IMG_3943.webp"
       },
       {
         "name": "Crystal Ice Blue",
-        "price": 22000,
-        "priceStr": "₦22,000",
         "img": "/assets/IMG_3943.webp"
       },
       {
         "name": "Midnight Noir",
-        "price": 22000,
-        "priceStr": "₦22,000",
         "img": "/assets/IMG_3943.webp"
       }
     ],
@@ -1500,14 +1450,10 @@
     "variants": [
       {
         "name": "Tan Flesh",
-        "price": 30000,
-        "priceStr": "₦30,000",
         "img": "/assets/IMG_8745.webp"
       },
       {
         "name": "Noir Ebony",
-        "price": 30000,
-        "priceStr": "₦30,000",
         "img": "/assets/IMG_8745.webp"
       }
     ],
@@ -1736,14 +1682,10 @@
     "variants": [
       {
         "name": "Warm Almond",
-        "price": 150000,
-        "priceStr": "₦150,000",
         "img": "/assets/IMG_7267.webp"
       },
       {
         "name": "Rich Caramel",
-        "price": 150000,
-        "priceStr": "₦150,000",
         "img": "/assets/IMG_7321.webp"
       }
     ],

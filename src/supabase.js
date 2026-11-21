@@ -458,3 +458,91 @@ export function subscribeToSupabaseOrders(onNewOrder) {
     return null;
   }
 }
+
+/**
+ * Fetch articles from Supabase `articles` table if configured, otherwise returns null.
+ */
+export async function getSupabaseArticles() {
+  if (!supabase) return null;
+  try {
+    const { data, error } = await supabase
+      .from('articles')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      // Table may not exist yet in Supabase or be empty
+      return null;
+    }
+    return data;
+  } catch (err) {
+    console.error('[Supabase] Unexpected error fetching articles:', err);
+    return null;
+  }
+}
+
+/**
+ * Upsert (insert or update) an article in Supabase.
+ */
+export async function upsertSupabaseArticle(article) {
+  const client = getSupabaseAdminClient();
+  if (!client) return { success: false, reason: 'unconfigured' };
+  try {
+    const payload = {
+      slug: article.slug,
+      title: article.title,
+      category: article.category || 'Guides',
+      read_time: article.readTime || article.read_time || '5 min read',
+      date: article.date || new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+      author: article.author || 'The Pleasure Journal · Real Stories',
+      hero_img: article.heroImg || article.hero_img || '/assets/hero-collection.webp',
+      img_alt: article.imgAlt || article.img_alt || article.title,
+      excerpt: article.excerpt || '',
+      content: article.content || '',
+      seo_title: article.seoTitle || article.seo_title || article.title,
+      meta_desc: article.metaDesc || article.meta_desc || article.excerpt,
+      search_phrase: article.searchPhrase || article.search_phrase || '',
+      related_products: article.relatedProducts || article.related_products || [],
+      published: article.published !== false,
+      updated_at: new Date().toISOString()
+    };
+
+    const { data, error } = await client
+      .from('articles')
+      .upsert([payload], { onConflict: 'slug' })
+      .select();
+
+    if (error) {
+      console.warn('[Supabase] Error upserting article:', error.message);
+      const isRls = error.message.includes('row-level security') || error.code === '42501';
+      return { success: false, error: error.message, isRlsError: isRls, code: error.code };
+    }
+    return { success: true, data: data?.[0] };
+  } catch (err) {
+    console.error('[Supabase] Unexpected article upsert error:', err);
+    return { success: false, error: err.message };
+  }
+}
+
+/**
+ * Delete an article from Supabase.
+ */
+export async function deleteSupabaseArticle(slug) {
+  const client = getSupabaseAdminClient();
+  if (!client) return { success: false, reason: 'unconfigured' };
+  try {
+    const { error } = await client
+      .from('articles')
+      .delete()
+      .eq('slug', slug);
+
+    if (error) {
+      console.warn('[Supabase] Error deleting article:', error.message);
+      return { success: false, error: error.message };
+    }
+    return { success: true };
+  } catch (err) {
+    console.error('[Supabase] Unexpected article delete error:', err);
+    return { success: false, error: err.message };
+  }
+}
