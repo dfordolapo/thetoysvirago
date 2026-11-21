@@ -4,7 +4,7 @@ export const BLOG_ARTICLES = [
     searchPhrase: 'couples using sex toys interview first time',
     seoTitle: '“I Picked Up The Rose While He Was Inside Me”: A Real Couple on Toys, Kinks, and Intimacy | TheToysVirago',
     metaDesc: 'Meet Tara and Deji: the couple who proved the best bedroom upgrades don’t need a meeting. One spontaneous reach for The Rose became Deji’s best surprise ever.',
-    imgAlt: 'Moody sensual silhouette of couple with dreadlocks and styled wig',
+    imgAlt: 'Moody sensual silhouette of intimate couple in luxury bedroom',
     datePublished: '2026-11-21T14:00:00+01:00',
     dateModified: '2026-11-21T14:00:00+01:00',
     title: '“I Picked Up The Rose While He Was Inside Me”: A Real Couple on Toys, Kinks, and Intimacy',
@@ -13,7 +13,7 @@ export const BLOG_ARTICLES = [
     date: 'November 21, 2026',
     author: 'The Pleasure Journal · Real Stories',
     heroImg: '/assets/blog/article-couples-interview.webp',
-    excerpt: 'Meet Tara and Deji, the couple who proved the best bedroom upgrades don’t need a meeting. Tara reached for The Rose mid-moment, and Deji calls it the best surprise ever. Just curiosity, consent, and a Rose that knows what it’s doing—plus an honest chat about toys, trust, and why they only make intimacy better.',
+    excerpt: 'Meet Tara and Deji, the couple who proved the best bedroom upgrades don’t need a meeting. Tara reached for The Rose mid-moment, and Deji calls it the best surprise ever.',
     content: `
       <p class="article-lead">Forget the awkward bedroom talks, PowerPoint presentations, or nervous negotiations. Sometimes, the best intimate upgrades happen on pure impulse in the heat of the moment. That was exactly the play for Tara and Deji (pseudonyms) - together officially for a year, unofficially for two. One night, right in the thick of things while he was deep inside her, she simply reached over, picked up her suction Rose, and placed it on her sweet spot. His reaction? Pleasantly stunned. Hers? Unadulterated bliss. We caught up with the couple to get the raw, unfiltered truth about bringing toys into a Nigerian relationship, navigating their BDSM dynamic as a self-confessed &quot;pleasure dom&quot; and &quot;good girl,&quot; and why adding a little motorized backup only brought them closer.</p>
 

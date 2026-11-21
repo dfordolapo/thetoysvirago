@@ -942,98 +942,43 @@ export function renderProductPage(product = {}, options = {}) {
       color: #a1a1aa;
     }
 
-    @media (max-width: 860px) {
-      .product-layout {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 28px;
-      }
-      .gallery-col {
-        position: static;
-      }
-      .main-header {
-        top: 12px;
-        width: calc(100% - 24px);
-      }
-      body {
-        padding-top: 88px;
-      }
-      .page-top-bar {
-        padding: 24px 16px 10px;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-      }
-      .product-page-main {
-        padding: 0 16px 56px;
-      }
-      .stealth-esc-hint {
-        display: none !important;
-      }
-      .details-col {
-        padding-top: 0;
-      }
-      .product-title {
-        overflow-wrap: anywhere;
-      }
-      .price-stock-box {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-      }
-      .stock-pill {
-        white-space: normal;
-        text-align: left;
-      }
-      .cta-group {
-        max-width: none;
-      }
-    }
-    @media (max-width: 520px) {
-      .thumbs-strip {
-        grid-template-columns: none;
-        display: flex;
-        overflow-x: auto;
-        gap: 8px;
-        padding-bottom: 4px;
-      }
-      .thumb-btn {
-        flex: 0 0 62px;
-        scroll-snap-align: start;
-      }
-      .spec-row {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 4px;
-      }
-      .btn-order-primary {
-        max-width: 100%;
-      }
-    }
-
     body {
       background: radial-gradient(circle at 12% 4%, #ffffff 0%, #fbfaf8 48%, #f4f0ea 100%);
       color: #26231f;
+      padding-top: 96px;
+      overflow-x: hidden;
     }
     .main-header {
       background: #121216;
-      border-color: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       box-shadow: 0 18px 48px rgba(24, 20, 16, 0.2);
     }
     .page-top-bar {
       max-width: 1240px;
-      padding: 34px 32px 8px;
-      gap: 12px;
+      margin: 0 auto;
+      padding: 24px 32px 12px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-sizing: border-box;
+      width: 100%;
     }
     .btn-back-shop {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       background: #ffffff;
-      border: 1.5px solid #e4ded7;
-      border-radius: 999px !important;
-      padding: 10px 18px;
+      border: 1px solid #e4ded7;
+      border-radius: 8px !important;
+      padding: 9px 16px;
       color: #2b2723;
       font-size: 12px;
       font-weight: 700;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.04em;
       text-transform: uppercase;
       box-shadow: 0 4px 14px rgba(38, 31, 24, 0.04);
+      transition: all 0.2s ease;
+      flex-shrink: 0;
     }
     .btn-back-shop:hover {
       background: #121214;
@@ -1042,91 +987,190 @@ export function renderProductPage(product = {}, options = {}) {
       transform: translateX(-2px);
     }
     .breadcrumbs {
-      font-size: 12px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 12.5px;
       color: #8a827a;
+      min-width: 0;
     }
-    .breadcrumbs a { color: #5b544d; }
-    .crumb-active { color: #2b2723; }
+    .breadcrumbs a {
+      color: #5b544d;
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+    .breadcrumbs a:hover {
+      color: var(--ruby);
+    }
+    .crumb-slash {
+      color: #c4bcb4;
+    }
+    .crumb-active {
+      color: #2b2723;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 380px;
+    }
     .product-page-main {
       max-width: 1240px;
-      padding-bottom: 84px;
+      margin: 0 auto;
+      padding: 0 32px 84px;
+      box-sizing: border-box;
+      width: 100%;
     }
     .product-layout {
+      display: grid;
       grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
-      gap: 68px;
+      gap: 60px;
       align-items: start;
+      width: 100%;
+      box-sizing: border-box;
     }
-    .gallery-col { top: 104px; }
+    .gallery-col {
+      position: sticky;
+      top: 104px;
+      min-width: 0;
+      width: 100%;
+    }
     .main-img-card {
+      position: relative;
+      width: 100%;
       aspect-ratio: 4 / 5;
-      border-radius: 20px;
-      border: 1px solid #e9e4de;
+      border-radius: 16px;
+      border: none !important;
       background: linear-gradient(145deg, #f7f4f0 0%, #eee9e3 100%);
-      box-shadow: 0 24px 64px rgba(38, 31, 24, 0.1);
+      box-shadow: 0 20px 50px rgba(38, 31, 24, 0.08);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .main-img-card img {
-      padding: 34px;
+      width: 100%;
+      height: 100%;
+      padding: 32px;
       object-fit: contain;
+      box-sizing: border-box;
     }
     .product-badge-chip {
-      top: 18px;
-      left: 18px;
+      position: absolute;
+      top: 16px;
+      left: 16px;
       background: #ffffff;
       color: var(--ruby);
-      border: 1px solid #f0d9de;
-      border-radius: 999px;
+      border: none !important;
+      border-radius: 8px !important;
+      padding: 5px 12px;
+      font-size: 11px;
+      font-weight: 800;
       letter-spacing: 0.06em;
-      box-shadow: 0 6px 20px rgba(38, 31, 24, 0.07);
+      text-transform: uppercase;
+      box-shadow: 0 4px 14px rgba(38, 31, 24, 0.08);
+      z-index: 2;
     }
     .thumbs-strip {
+      display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 10px;
       margin-top: 14px;
+      width: 100%;
+      box-sizing: border-box;
     }
     .thumb-btn {
-      border-radius: 12px;
-      border-color: #e4ded7;
+      aspect-ratio: 1 / 1;
+      border-radius: 8px !important;
+      border: 1.5px solid #e4ded7;
       background: #ffffff;
+      padding: 4px;
+      cursor: pointer;
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+    .thumb-btn.is-active,
+    .thumb-btn:hover {
+      border-color: var(--ruby);
+      transform: translateY(-2px);
+    }
+    .thumb-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
     .details-col {
-      padding: 12px 0 0;
+      padding: 8px 0 0;
       min-width: 0;
+      width: 100%;
+      box-sizing: border-box;
     }
     .product-kicker { display: none !important; }
     .product-title {
-      font-size: clamp(38px, 4.6vw, 60px);
-      line-height: 1.06;
-      letter-spacing: -0.025em;
-      margin-bottom: 14px;
+      font-family: var(--serif, 'Cormorant Garamond', Georgia, serif);
+      font-size: clamp(34px, 4.2vw, 54px);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: #171412;
+      margin-bottom: 12px;
+      word-break: break-word;
+      overflow-wrap: anywhere;
     }
     .product-tagline {
-      font-size: 16.5px;
+      font-size: 16px;
       line-height: 1.6;
       color: #5f5851;
-      max-width: 46ch;
-      margin-bottom: 26px;
+      max-width: 52ch;
+      margin-bottom: 24px;
     }
     .price-stock-box {
-      gap: 18px;
-      padding-bottom: 22px;
-      margin-bottom: 28px;
-      border-bottom-color: #e8e2dc;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding-bottom: 20px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid #e8e2dc;
+      flex-wrap: wrap;
+      width: 100%;
+      box-sizing: border-box;
     }
-    .price-wrap { gap: 12px; }
+    .price-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
     .price-amount {
-      font-size: 38px;
+      font-size: 36px;
+      font-weight: 800;
       letter-spacing: -0.02em;
       color: #171412;
     }
+    .price-was {
+      font-size: 18px;
+      color: #9c948c;
+      text-decoration: line-through;
+    }
     .price-save-badge {
       background: #fdf0f2;
-      border-radius: 999px;
-      padding: 5px 10px;
+      color: var(--ruby);
+      font-size: 11px;
+      font-weight: 800;
+      border-radius: 8px !important;
+      padding: 4px 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
     .stock-pill {
-      border-radius: 999px;
-      padding: 6px 13px;
-      font-size: 11.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 8px !important;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 600;
     }
     .stock-pill.in-stock {
       background: #edf6f0;
@@ -1136,169 +1180,709 @@ export function renderProductPage(product = {}, options = {}) {
       background: #fdf0f1;
       color: #9f1239;
     }
-    .variant-block { margin-bottom: 28px; }
+    .stock-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+    .variant-block {
+      margin-bottom: 24px;
+      width: 100%;
+      box-sizing: border-box;
+    }
     .variant-label-title,
     .section-subheading {
       text-transform: none !important;
       letter-spacing: 0 !important;
-      font-size: 13px !important;
+      font-size: 13.5px !important;
       font-weight: 700 !important;
       color: #2b2723 !important;
-      margin-bottom: 12px !important;
+      margin-bottom: 10px !important;
+      display: block;
     }
     .variant-pills-row,
     .sizes-pills-row,
     .color-swatches-row {
+      display: flex;
+      flex-wrap: wrap;
       gap: 9px;
       width: 100%;
+      box-sizing: border-box;
       min-width: 0;
-      flex-wrap: wrap;
-      overflow: visible;
     }
     .variant-option-pill,
     .size-static-pill {
-      border-radius: 999px !important;
-      padding: 9px 17px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px !important;
+      padding: 9px 16px;
       font-size: 13px;
-      border-color: #ddd7d0;
+      font-weight: 600;
+      border: 1px solid #ddd7d0;
       background: #ffffff;
-      min-width: 0;
-      max-width: 100%;
-      white-space: normal;
-      overflow-wrap: anywhere;
+      color: #2b2723;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-sizing: border-box;
+    }
+    .variant-option-pill:hover,
+    .size-static-pill:hover {
+      border-color: #121214;
+      background: #faf7f5;
     }
     .variant-option-pill.is-active {
-      background: var(--ruby);
-      border-color: var(--ruby);
-      color: #ffffff;
+      background: #121214 !important;
+      border-color: #121214 !important;
+      color: #ffffff !important;
     }
     .color-swatch-btn {
-      width: 30px;
-      height: 30px;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px !important;
+      border: 2px solid transparent;
+      outline: 1px solid rgba(0, 0, 0, 0.12);
+      cursor: pointer;
+      transition: transform 0.15s ease, outline-color 0.15s ease;
+      padding: 0;
+      flex-shrink: 0;
+    }
+    .color-swatch-btn.is-active,
+    .color-swatch-btn:hover {
+      transform: scale(1.12);
+      outline: 2px solid var(--ruby);
+      outline-offset: 2px;
     }
     .cta-group {
       display: flex;
       width: 100%;
-      max-width: 420px;
-      margin-bottom: 32px;
+      max-width: 440px;
+      margin-bottom: 28px;
+      box-sizing: border-box;
     }
     .btn-order-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
       width: 100%;
-      max-width: none;
       min-height: 48px;
-      padding: 12px 22px;
-      border-radius: 999px !important;
-      font-size: 12px;
+      padding: 12px 24px;
+      background: var(--ruby);
+      color: #ffffff;
+      font-size: 13px;
       font-weight: 700;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
-      box-shadow: 0 12px 28px rgba(159, 18, 57, 0.2);
+      border: none;
+      border-radius: 8px !important;
+      box-shadow: 0 10px 24px rgba(159, 18, 57, 0.22);
+      transition: all 0.2s ease;
+      cursor: pointer;
+      box-sizing: border-box;
+      text-decoration: none;
     }
     .btn-order-primary:hover {
       background: #121214;
-      border-color: #121214;
-      box-shadow: 0 14px 32px rgba(18, 18, 20, 0.22);
+      box-shadow: 0 12px 28px rgba(18, 18, 20, 0.25);
+      transform: translateY(-1px);
     }
     .trust-strip {
-      background: #ffffff;
-      border: 1px solid #eae5df;
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 32px;
+      background: #f7f4f0 !important;
+      border: none !important;
+      border-radius: 12px !important;
+      padding: 18px 20px;
+      margin-top: 28px;
+      margin-bottom: 8px;
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-      box-shadow: 0 10px 30px rgba(38, 31, 24, 0.04);
+      gap: 16px;
+      width: 100%;
+      box-sizing: border-box;
     }
     .trust-item {
+      display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
       font-size: 12.5px;
-      line-height: 1.55;
+      line-height: 1.5;
       color: #5b544d;
       min-width: 0;
+      box-sizing: border-box;
     }
     .trust-item + .trust-item {
-      border-left: 1px solid #eee9e3;
-      padding-left: 18px;
+      border-left: 1px solid rgba(0, 0, 0, 0.06);
+      padding-left: 16px;
     }
     .trust-item strong {
       font-size: 13px;
       color: #2b2723;
+    }
+    .trust-icon {
+      color: var(--ruby);
+      flex-shrink: 0;
     }
     .product-description-wrap {
       font-size: 15.5px;
       line-height: 1.85;
       color: #4b453f;
       max-width: 64ch;
-      margin-bottom: 34px;
+      margin-bottom: 30px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .product-description-wrap p {
+      margin-bottom: 16px;
     }
     .spec-table-wrap {
-      border-top-color: #e8e2dc;
-      padding-top: 26px;
+      border-top: 1px solid #e8e2dc;
+      padding-top: 24px;
+      width: 100%;
+      box-sizing: border-box;
     }
     .spec-row {
-      grid-template-columns: 150px minmax(0, 1fr);
-      gap: 20px;
-      padding: 14px 0;
-      border-bottom-color: #eee9e3;
-      font-size: 13.5px;
+      display: grid;
+      grid-template-columns: 140px minmax(0, 1fr);
+      gap: 16px;
+      padding: 12px 0;
+      border-bottom: 1px solid #eee9e3;
+      font-size: 13px;
     }
     .spec-row dt { color: #8a827a; }
     .spec-row dd { color: #2b2723; font-weight: 600; }
-    .site-footer {
-      background: #ffffff;
-      border-top-color: #eae5df;
+    /* ── LUXURY SQUIGGLY DIVIDER ── */
+    .luxe-divider-wrap {
+      width: 100%;
+      overflow: hidden;
+      line-height: 0;
+    }
+    .squiggly-svg {
+      width: 100%;
+      height: 38px;
+      display: block;
+    }
+    .squiggly-echo {
+      stroke: rgba(159, 18, 57, 0.14);
+      stroke-width: 3px;
+    }
+    .squiggly-main {
+      stroke: #9f1239;
+      stroke-width: 2px;
     }
 
-    @media (max-width: 860px) {
-      .page-top-bar {
-        padding: 24px 16px 10px;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-      }
-      .product-layout { gap: 28px; }
-      .main-img-card {
-        aspect-ratio: 1 / 1;
-        border-radius: 16px;
-      }
-      .main-img-card img { padding: 18px; }
-      .cta-group { max-width: none; }
-      .trust-strip {
-        grid-template-columns: minmax(0, 1fr);
-        padding: 16px;
-        gap: 14px;
-      }
-      .trust-item + .trust-item {
-        border-left: none;
-        border-top: 1px solid #eee9e3;
-        padding-left: 0;
-        padding-top: 14px;
-      }
+    /* ── MAIN SITE FOOTER ── */
+    .footer {
+      background: #ffffff !important;
+      padding: 64px 0 36px;
+      color: #0c0c0e !important;
+      border-top: none;
+      overflow: hidden;
+      width: 100%;
     }
-    @media (max-width: 520px) {
-      .product-title { font-size: 34px; }
-      .price-amount { font-size: 32px; }
-      .main-img-card img { padding: 12px; }
+    .section-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 32px;
+      box-sizing: border-box;
+      width: 100%;
+    }
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 56px;
+      flex-wrap: wrap;
+      gap: 36px;
+    }
+    .footer-left {
+      max-width: 360px;
+      width: 100%;
+    }
+    .footer-right h5, .footer-left h5 {
+      font-family: var(--serif, 'Cormorant Garamond', Georgia, serif);
+      font-size: 19px;
+      margin-bottom: 14px;
+      color: #0c0c0e;
+      letter-spacing: -0.01em;
+      font-weight: 700;
+    }
+    .footer-bio {
+      font-size: 13.5px;
+      color: #71717a;
+      line-height: 1.6;
+      margin-bottom: 14px;
+      max-width: 320px;
+    }
+    .footer-stealth-hint {
+      font-size: 12px;
+      color: #71717a;
+    }
+    .footer-stealth-hint kbd {
+      background: #f4f4f5;
+      color: #0c0c0e;
+      border: 1px solid #e4e4e7;
+      padding: 2px 7px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 11px;
+    }
+    .footer-right ul {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .footer-right ul a {
+      font-size: 13.5px;
+      color: #71717a;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+    .footer-right ul a:hover {
+      color: var(--ruby);
+    }
+    .footer-massive-logo {
+      font-family: var(--serif, 'Cormorant Garamond', Georgia, serif);
+      font-size: 10.5vw;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: #0c0c0e;
+      text-align: center;
+      margin-bottom: 32px;
+      width: 100%;
+      white-space: nowrap;
+    }
+    .color-illus-wrap {
+      position: absolute;
+      z-index: 0;
+      pointer-events: none;
+      mix-blend-mode: multiply;
+      opacity: 0.8;
+    }
+    .color-illus-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+      mix-blend-mode: multiply;
+    }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #e8e2dc;
+      padding-top: 24px;
+      font-size: 13px;
+      color: #71717a;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+    .footer-legal {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .policy-legal-link {
+      background: none;
+      border: none;
+      padding: 0;
+      font-family: inherit;
+      font-size: 13px;
+      color: #71717a;
+      font-weight: 500;
+      cursor: pointer;
+      transition: color 0.15s ease;
+    }
+    .policy-legal-link:hover {
+      color: var(--ruby);
+    }
+    .legal-dot {
+      color: #cbd5e1;
+      font-size: 11px;
+      user-select: none;
+    }
+    .age-pill {
+      display: inline-block;
+      background: #fff1f2;
+      border: 1px solid #fda4af;
+      color: var(--ruby);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      padding: 4px 10px;
+      border-radius: 8px !important;
+    }
+
+    /* ── STORE POLICIES MODAL ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(18, 18, 20, 0.75);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    .policy-modal-card {
+      background: #ffffff;
+      border-radius: 8px !important;
+      max-width: 660px;
+      width: 100%;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.22);
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+      box-sizing: border-box;
+    }
+    .policy-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 24px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .policy-modal-eyebrow {
+      display: block;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ruby);
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .policy-modal-title {
+      font-family: var(--serif, 'Cormorant Garamond', Georgia, serif);
+      font-size: 24px;
+      color: #0c0c0e;
+      margin: 0;
+      font-weight: 700;
+    }
+    .btn-close-policy {
+      background: #f4f4f5;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #71717a;
+      font-size: 16px;
+      transition: all 0.15s ease;
+    }
+    .btn-close-policy:hover {
+      background: #e4e4e7;
+      color: #0c0c0e;
+    }
+    .policy-tabs {
+      display: flex;
+      border-bottom: 1px solid #f1f5f9;
+      background: #fafafa;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .policy-tab {
+      padding: 12px 18px;
+      border: none;
+      background: none;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      color: #71717a;
+      cursor: pointer;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s ease;
+    }
+    .policy-tab.active {
+      color: var(--ruby);
+      border-bottom-color: var(--ruby);
+      background: #ffffff;
+    }
+    .policy-content-body {
+      padding: 24px;
+      overflow-y: auto;
+      max-height: calc(88vh - 140px);
+      font-size: 13.5px;
+      line-height: 1.65;
+      color: #3f3f46;
+    }
+    .policy-panel {
+      display: none;
+    }
+    .policy-panel.active {
+      display: block;
+    }
+    .policy-panel h4 {
+      font-family: var(--serif, 'Cormorant Garamond', Georgia, serif);
+      font-size: 20px;
+      color: #0c0c0e;
+      margin-bottom: 10px;
+    }
+    .policy-intro {
+      margin-bottom: 18px;
+      color: #52525b;
+    }
+    .policy-item {
+      margin-bottom: 18px;
+    }
+    .policy-item h5 {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #0c0c0e;
+      margin-bottom: 4px;
+    }
+    .policy-item p {
+      color: #52525b;
+      margin: 0;
+    }
+    .policy-modal-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      background: #fafafa;
+      border-top: 1px solid #f1f5f9;
+      font-size: 13px;
+      color: #71717a;
+    }
+    .policy-modal-footer .btn-modal-wa {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #121214;
+      color: #ffffff;
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 8px !important;
+      text-decoration: none;
+      transition: background 0.15s ease;
+    }
+    .policy-modal-footer .btn-modal-wa:hover {
+      background: var(--ruby);
+    }
+
+    /* ── MOBILE RESPONSIVE ALIGNMENT FIXES (TABLET & PHONE) ── */
+    @media (max-width: 860px) {
+      body {
+        padding-top: 82px !important;
+      }
+      .main-header {
+        top: 10px !important;
+        width: calc(100% - 20px) !important;
+      }
+      .header-inner {
+        padding: 6px 14px !important;
+        gap: 10px !important;
+      }
+      .brand-logo-img {
+        height: 36px !important;
+        transform: scale(1.4) !important;
+      }
+      .stealth-esc-hint {
+        display: none !important;
+      }
+      .page-top-bar {
+        padding: 14px 16px 8px !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 8px !important;
+        width: 100% !important;
+      }
+      .btn-back-shop {
+        padding: 8px 14px !important;
+        font-size: 11.5px !important;
+      }
+      .breadcrumbs {
+        font-size: 11.5px !important;
+        line-height: 1.45 !important;
+        gap: 4px 6px !important;
+      }
+      .crumb-active {
+        max-width: 100% !important;
+        white-space: normal !important;
+      }
+      .product-page-main {
+        padding: 0 16px 48px !important;
+        width: 100% !important;
+      }
+      .product-layout {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 20px !important;
+        width: 100% !important;
+      }
+      .gallery-col {
+        position: static !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+      .main-img-card {
+        aspect-ratio: 1 / 1 !important;
+        border-radius: 14px !important;
+        width: 100% !important;
+        box-shadow: 0 10px 30px rgba(38, 31, 24, 0.06) !important;
+      }
+      .main-img-card img {
+        padding: 18px !important;
+      }
       .thumbs-strip {
-        grid-template-columns: none;
-        display: flex;
-        overflow-x: auto;
-        gap: 8px;
-        padding-bottom: 4px;
+        display: flex !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        gap: 8px !important;
+        margin-top: 10px !important;
+        padding-bottom: 4px !important;
+        scrollbar-width: none !important;
+        width: 100% !important;
+      }
+      .thumbs-strip::-webkit-scrollbar {
+        display: none !important;
       }
       .thumb-btn {
-        flex: 0 0 62px;
-        scroll-snap-align: start;
+        flex: 0 0 60px !important;
+        width: 60px !important;
+        height: 60px !important;
       }
-      .spec-row {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 4px;
+      .details-col {
+        padding-top: 0 !important;
+        width: 100% !important;
+      }
+      .product-title {
+        font-size: clamp(26px, 6.8vw, 36px) !important;
+        line-height: 1.15 !important;
+        margin-bottom: 8px !important;
+      }
+      .product-tagline {
+        font-size: 14.5px !important;
+        line-height: 1.55 !important;
+        margin-bottom: 18px !important;
+      }
+      .price-stock-box {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 8px !important;
+        padding-bottom: 16px !important;
+        margin-bottom: 20px !important;
+      }
+      .price-amount {
+        font-size: 30px !important;
+      }
+      .cta-group {
+        max-width: 100% !important;
+        margin-bottom: 22px !important;
       }
       .btn-order-primary {
-        max-width: 100%;
-        min-height: 48px;
+        width: 100% !important;
+        min-height: 48px !important;
+        font-size: 13px !important;
+      }
+      .trust-strip {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 12px !important;
+        padding: 14px 16px !important;
+        margin-top: 24px !important;
+        margin-bottom: 8px !important;
+      }
+      .trust-item {
+        flex-direction: row !important;
+        align-items: flex-start !important;
+        gap: 10px !important;
+      }
+      .trust-item + .trust-item {
+        border-left: none !important;
+        border-top: 1px solid rgba(0, 0, 0, 0.06) !important;
+        padding-left: 0 !important;
+        padding-top: 12px !important;
+      }
+      .product-description-wrap {
+        font-size: 14px !important;
+        line-height: 1.7 !important;
+        margin-bottom: 22px !important;
+      }
+      .spec-table-wrap {
+        padding-top: 18px !important;
+      }
+      .spec-row {
+        grid-template-columns: 110px minmax(0, 1fr) !important;
+        gap: 10px !important;
+        padding: 9px 0 !important;
+        font-size: 12px !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .product-title {
+        font-size: 26px !important;
+      }
+      .price-amount {
+        font-size: 26px !important;
+      }
+      .main-img-card img {
+        padding: 14px !important;
+      }
+      .btn-order-primary {
+        min-height: 46px !important;
+        padding: 11px 16px !important;
+        font-size: 12px !important;
+      }
+      .spec-row {
+        grid-template-columns: 95px minmax(0, 1fr) !important;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .footer {
+        padding: 44px 0 28px !important;
+      }
+      .footer-top {
+        flex-direction: column !important;
+        gap: 28px !important;
+        margin-bottom: 36px !important;
+      }
+      .footer-right h5, .footer-left h5 {
+        font-size: 17px !important;
+        margin-bottom: 10px !important;
+      }
+      .footer-right ul {
+        gap: 9px !important;
+      }
+      .footer-right ul a {
+        font-size: 13px !important;
+      }
+      .footer-bottom {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 12px !important;
+        padding-top: 20px !important;
+      }
+      .footer-legal {
+        gap: 8px 10px !important;
+      }
+      .policy-modal-card {
+        max-height: 92vh !important;
+        width: 100% !important;
+      }
+      .policy-modal-header {
+        padding: 16px 18px !important;
+      }
+      .policy-content-body {
+        padding: 18px !important;
       }
     }
   </style>
@@ -1403,6 +1987,12 @@ export function renderProductPage(product = {}, options = {}) {
           </a>
         </div>
 
+        <div class="product-description-wrap">
+          ${descriptionParagraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join('')}
+        </div>
+
+        ${specsHtml}
+
         <div class="trust-strip">
           <div class="trust-item">
             <svg class="trust-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
@@ -1417,31 +2007,203 @@ export function renderProductPage(product = {}, options = {}) {
             <div><strong>Zero-Drama Confidentiality</strong> - Delivery riders only see your drop-off address and phone number. Your pleasure stays strictly your business.</div>
           </div>
         </div>
-
-        <div class="product-description-wrap">
-          ${descriptionParagraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join('')}
-        </div>
-
-        ${specsHtml}
       </div>
     </div>
   </main>
 
-  <!-- SITE FOOTER -->
-  <footer class="site-footer">
-    <div class="footer-links">
-      <a href="/products.html">Shop All Products</a>
-      <span>·</span>
-      <a href="/blog.html">The Pleasure Journal</a>
-      <span>·</span>
-      <a href="/index.html#discretion">How Discreet?</a>
-      <span>·</span>
-      <a href="/index.html#faq">FAQ</a>
-      <span>·</span>
-      <a href="/">Home</a>
+  <!-- ===== SQUIGGLY DIVIDER ===== -->
+  <div class="luxe-divider-wrap" aria-hidden="true" style="margin-top: 48px; margin-bottom: -1px;">
+    <svg class="squiggly-svg" viewBox="0 0 1440 72" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path class="squiggly-echo" d="M 0 36 C 26.7 48.8, 76.1 23.2, 102.9 36 C 129.6 50.4, 179.0 21.6, 205.7 36 C 232.5 51.8, 281.8 20.2, 308.6 36 C 335.3 53.1, 384.7 18.9, 411.4 36 C 438.2 54.1, 487.5 17.9, 514.3 36 C 541.0 54.8, 590.4 17.2, 617.1 36 C 643.9 55.2, 693.3 16.8, 720.0 36 C 746.7 55.2, 796.1 16.8, 822.9 36 C 849.6 54.8, 899.0 17.2, 925.7 36 C 952.5 54.1, 1001.8 17.9, 1028.6 36 C 1055.3 53.1, 1104.7 18.9, 1131.4 36 C 1158.2 51.8, 1207.5 20.2, 1234.3 36 C 1261.0 50.4, 1310.4 21.6, 1337.1 36 C 1363.9 48.8, 1413.3 23.2, 1440.0 36" />
+      <path class="squiggly-main" d="M 0 36 C 28.8 16.8, 74.1 55.2, 102.9 36 C 131.7 14.4, 176.9 57.6, 205.7 36 C 234.5 12.3, 279.8 59.7, 308.6 36 C 337.4 10.4, 382.6 61.6, 411.4 36 C 440.2 8.9, 485.5 63.1, 514.3 36 C 543.1 7.8, 588.3 64.2, 617.1 36 C 645.9 7.3, 691.2 64.7, 720.0 36 C 748.8 7.3, 794.1 64.7, 822.9 36 C 851.7 7.8, 896.9 64.2, 925.7 36 C 954.5 8.9, 999.8 63.1, 1028.6 36 C 1057.4 10.4, 1102.6 61.6, 1131.4 36 C 1160.2 12.3, 1205.5 59.7, 1234.3 36 C 1263.1 14.4, 1308.3 57.6, 1337.1 36 C 1365.9 16.8, 1411.2 55.2, 1440.0 36" />
+    </svg>
+  </div>
+
+  <!-- ===== MAIN SITE FOOTER ===== -->
+  <footer class="footer" style="background: #ffffff !important; color: #0c0c0e !important;">
+    <div class="section-inner">
+      <div class="footer-top">
+        <div class="footer-left">
+          <h5>TheToysVirago</h5>
+          <p class="footer-bio">Curated intimate wellness pieces for unfiltered pleasure.</p>
+          <div class="footer-stealth-hint">
+            Privacy shield: <kbd id="footer-stealth-trigger">Esc</kbd> or <kbd id="footer-stealth-trigger-tap">double-tap</kbd>
+          </div>
+        </div>
+
+        <div class="footer-right">
+          <h5>Holla At Us</h5>
+          <ul>
+            <li><a href="https://wa.me/2348036514814" target="_blank" rel="noopener">WhatsApp (08036514814)</a></li>
+            <li><a href="https://x.com/thetoysvirago" target="_blank" rel="noopener">X (@thetoysvirago)</a></li>
+            <li><a href="/products.html">Shop All Products</a></li>
+            <li><a href="/blog.html">The Pleasure Journal</a></li>
+            <li><a href="/index.html#faq">FAQ</a></li>
+            <li><a href="/admin.html" style="color: rgba(12, 12, 14, 0.45); font-size: 13px;">Admin Vault</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-massive-logo" style="position: relative;">
+        <div class="color-illus-wrap" style="width: 17vw; left: 8%; top: -75%; transform: rotate(-35deg);"><img src="/assets/illus-1.webp" alt="Wand vibrator" loading="lazy" decoding="async" /></div>
+        <div class="color-illus-wrap" style="width: 15vw; left: 32%; top: -95%; transform: rotate(15deg) scaleX(-1);"><img src="/assets/illus-2.webp" alt="Rabbit vibrator" loading="lazy" decoding="async" /></div>
+        <div class="color-illus-wrap" style="width: 16vw; left: 56%; top: -75%; transform: rotate(-15deg);"><img src="/assets/illus-3.webp" alt="Rose suction toy" loading="lazy" decoding="async" /></div>
+        <div class="color-illus-wrap" style="width: 17vw; right: 8%; top: -70%; transform: rotate(35deg);"><img src="/assets/illus-4.webp" alt="Arc vibrator" loading="lazy" decoding="async" /></div>
+        <span style="position: relative; z-index: 1;">THETOYSVIRAGO.</span>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; ${new Date().getFullYear()} TheToysVirago.</p>
+        <div class="footer-legal">
+          <button type="button" class="policy-legal-link" data-policy="terms">Terms</button>
+          <span class="legal-dot">&bull;</span>
+          <button type="button" class="policy-legal-link" data-policy="shipping">Shipping</button>
+          <span class="legal-dot">&bull;</span>
+          <button type="button" class="policy-legal-link" data-policy="returns">Returns</button>
+          <span class="legal-dot">&bull;</span>
+          <button type="button" class="policy-legal-link" data-policy="refunds">Refunds</button>
+          <span class="age-pill">18+ Only</span>
+        </div>
+      </div>
     </div>
-    <p class="footer-legal">&copy; ${new Date().getFullYear()} TheToysVirago. 18+ only. 100% plain packaging &amp; discreet delivery across Nigeria.</p>
   </footer>
+
+  <!-- ===== STORE POLICIES MODAL ===== -->
+  <div id="policy-modal" class="modal-overlay" hidden style="display: none;">
+    <div class="policy-modal-card" role="dialog" aria-modal="true" aria-labelledby="policy-modal-title">
+      <div class="policy-modal-header">
+        <div>
+          <span class="policy-modal-eyebrow">Customer Care</span>
+          <h3 id="policy-modal-title" class="policy-modal-title">Store Policies</h3>
+        </div>
+        <button type="button" id="btn-close-policy" class="btn-close-policy" aria-label="Close policies modal">&times;</button>
+      </div>
+
+      <!-- Policy Navigation Tabs -->
+      <div class="policy-tabs" role="tablist">
+        <button type="button" class="policy-tab active" data-tab="terms" role="tab" aria-selected="true">Terms &amp; Conditions</button>
+        <button type="button" class="policy-tab" data-tab="shipping" role="tab" aria-selected="false">Shipping Policy</button>
+        <button type="button" class="policy-tab" data-tab="returns" role="tab" aria-selected="false">Returns Policy</button>
+        <button type="button" class="policy-tab" data-tab="refunds" role="tab" aria-selected="false">Refund Policy</button>
+      </div>
+
+      <!-- Policy Content Panels -->
+      <div class="policy-content-body">
+        <!-- Panel 1: Terms & Conditions -->
+        <div id="policy-panel-terms" class="policy-panel active">
+          <h4>Terms &amp; Conditions</h4>
+          <p class="policy-intro">By browsing or placing an order on TheToysVirago, you agree to the following straightforward guidelines.</p>
+          
+          <div class="policy-item">
+            <h5>1. Strict 18+ Age Requirement</h5>
+            <p>You must be at least 18 years of age to purchase from TheToysVirago or access our collection. By placing an order, you verify under Nigerian law that you are of legal adult age.</p>
+          </div>
+
+          <div class="policy-item">
+            <h5>2. Discretion &amp; Customer Privacy</h5>
+            <p>We treat every client with utmost confidentiality. Your name, delivery address, phone number, and order records are used solely to fulfill your order and confirm payment. We do not sell, rent, or broadcast customer details under any circumstances.</p>
+          </div>
+
+          <div class="policy-item">
+            <h5>3. Payment &amp; Order Reservation</h5>
+            <p>Orders are placed via direct transfer to our verified Moniepoint account or instant online payment. Placed items are temporarily reserved for you for up to 24 hours. If transfer confirmation is not received within this window, the reservation is released so other customers can shop the vault.</p>
+          </div>
+
+          <div class="policy-item">
+            <h5>4. Product Specifications &amp; Images</h5>
+            <p>All items are photographed with care to depict colors and textures accurately. Minor shade variations can happen due to screen calibrations and manufacturing batches, but functional specifications and materials remain strictly as described.</p>
+          </div>
+        </div>
+
+        <!-- Panel 2: Shipping Policy -->
+        <div id="policy-panel-shipping" class="policy-panel">
+          <h4>Shipping &amp; Delivery Policy</h4>
+          <p class="policy-intro">We take the stress out of adult shopping with rapid dispatch and guaranteed discreet packaging.</p>
+
+          <div class="policy-item">
+            <h5>1. 100% Plain, Unmarked Packaging</h5>
+            <p>Your package arrives in a thick, completely opaque, tamper-evident courier bag. There are no sex toy mentions, product names, or virago logos visible on the exterior. The courier only sees standard delivery contact details needed to hand you your parcel.</p>
+          </div>
+
+          <div class="policy-item">
+            <h5>2. Delivery Timeframes</h5>
+            <p><strong>Lagos State:</strong> Doorstep delivery on the same day or next business day following payment verification.</p>
+            <p><strong>Interstate (Outside Lagos):</strong> 1 to 5 business days depending on transit distance and regional transport schedules.</p>
+          </div>
+
+          <div class="policy-item">
+            <h5>3. Interstate Delivery Methods</h5>
+            <p><strong>Park / Terminal Pickup:</strong> Fixed fee (₦4,000 for Ibadan, ₦5,500 for Northern hubs, ₦4,500 for all other states). You pick up directly from a major transport park or terminal in your city.</p>
+            <p><strong>Doorstep Courier:</strong> Direct dispatch to your home or office address through regional express couriers (deposit collected at checkout; balance confirmed via WhatsApp).</p>
+          </div>
+
+          <div class="policy-item">
+            <h5>4. Color Substitutions</h5>
+            <p>If the specific shade you chose is temporarily out of stock when our team packs your order, we may send an alternative shade of the exact same toy so your order is not delayed. If your order requires one specific color only, please let our concierge know on WhatsApp right after placing your order.</p>
+          </div>
+        </div>
+
+        <!-- Panel 3: Returns Policy -->
+        <div id="policy-panel-returns" class="policy-panel">
+          <h4>Returns Policy</h4>
+          <p class="policy-intro">We want you to be confident in what you receive, while maintaining non-negotiable hygiene standards for intimate products.</p>
+
+          <div class="policy-item">
+            <h5>1. 24-Hour Reporting Window</h5>
+            <p>If your package arrives damaged in transit or you received an incorrect item, you must lodge a complaint with us within <strong>24 hours of delivery receipt</strong>.</p>
+          </div>
+
+          <div class="policy-item">
+            <h5>2. Unused &amp; Factory-Sealed Condition</h5>
+            <p>Because these are intimate wellness products used on sensitive areas of the body, we can only accept returns for items that are completely unused, unopened, and with all factory seals and hygiene wrapping 100% intact.</p>
+          </div>
+
+          <div class="policy-item">
+            <h5>3. How to Submit a Return Request</h5>
+            <p>Send a direct message to our WhatsApp concierge at <strong>08036514814</strong> with your Order Reference, a short explanation of what went wrong, and clear photos or a short video showing the unopened package and shipping label.</p>
+          </div>
+
+          <div class="policy-item">
+            <h5>4. Return Inspection</h5>
+            <p>Returned parcels are inspected at our hub upon arrival. Items that show signs of opening, broken seals, or missing accessories will not qualify for return or exchange.</p>
+          </div>
+        </div>
+
+        <!-- Panel 4: Refund Policy -->
+        <div id="policy-panel-refunds" class="policy-panel">
+          <h4>Refund Policy</h4>
+          <p class="policy-intro">Our refund terms are designed to be fair, direct, and protective of personal hygiene.</p>
+
+          <div class="policy-item">
+            <h5>1. No Refunds on Used Items</h5>
+            <p>Due to intimate hygiene standards and health safety, <strong>any item that has been unsealed, opened, or used cannot be refunded under any circumstances</strong>. Once the protective seal has been broken, the sale is final.</p>
+          </div>
+
+          <div class="policy-item">
+            <h5>2. When Refunds Are Issued</h5>
+            <p>A full refund for the item amount will be issued if:</p>
+            <p>&bull; An item you paid for is out of stock before dispatch and you choose not to wait for restock or switch to an alternative.</p>
+            <p>&bull; An unused item with intact factory seal is returned within the 24-hour window and approved following inspection.</p>
+          </div>
+
+          <div class="policy-item">
+            <h5>3. Refund Payout Speed</h5>
+            <p>Approved refunds are credited directly to your designated Nigerian bank account within <strong>24 to 48 business hours</strong> after approval.</p>
+          </div>
+
+          <div class="policy-item">
+            <h5>4. Delivery Fees</h5>
+            <p>Delivery charges are paid directly to third-party couriers and transport stations, and are non-refundable once an order has been dispatched from our vault.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="policy-modal-footer">
+        <span>Need help with an order?</span>
+        <a href="https://wa.me/2348036514814" target="_blank" rel="noopener" class="btn-modal-wa">Chat on WhatsApp</a>
+      </div>
+    </div>
+  </div>
 
   <script>
     (function () {
@@ -1515,16 +2277,34 @@ export function renderProductPage(product = {}, options = {}) {
       }
 
       // 3. Stealth Pill & Esc Trigger
-      var stealthBtn = document.getElementById('btn-stealth-nav');
+      var stealthTriggers = ['btn-stealth-nav', 'footer-stealth-trigger', 'footer-stealth-trigger-tap'];
       function triggerStealth() {
         window.location.replace('https://www.google.com');
       }
-      if (stealthBtn) {
-        stealthBtn.addEventListener('click', triggerStealth);
-      }
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') triggerStealth();
+      stealthTriggers.forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) {
+          el.addEventListener('click', function (e) {
+            e.preventDefault();
+            triggerStealth();
+          });
+        }
       });
+
+      // Double tap on mobile privacy shield trigger
+      var lastTap = 0;
+      var tapTrigger = document.getElementById('footer-stealth-trigger-tap');
+      if (tapTrigger) {
+        tapTrigger.addEventListener('touchend', function (e) {
+          var currentTime = new Date().getTime();
+          var tapLength = currentTime - lastTap;
+          if (tapLength < 500 && tapLength > 0) {
+            e.preventDefault();
+            triggerStealth();
+          }
+          lastTap = currentTime;
+        });
+      }
 
       // 4. Cart badge count from localStorage
       try {
@@ -1539,6 +2319,68 @@ export function renderProductPage(product = {}, options = {}) {
           badge.style.display = 'inline-block';
         }
       } catch (err) {}
+
+      // 5. Store Policies Modal Logic
+      var policyModal = document.getElementById('policy-modal');
+      var btnClosePolicy = document.getElementById('btn-close-policy');
+      var policyTabs = Array.prototype.slice.call(document.querySelectorAll('.policy-tab'));
+      var policyPanels = Array.prototype.slice.call(document.querySelectorAll('.policy-panel'));
+      var policyTriggers = Array.prototype.slice.call(document.querySelectorAll('.policy-legal-link'));
+
+      function openPolicy(tabKey) {
+        if (!policyModal) return;
+        var key = tabKey || 'terms';
+        policyTabs.forEach(function (tab) {
+          var isActive = tab.getAttribute('data-tab') === key;
+          tab.classList.toggle('active', isActive);
+          tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        });
+        policyPanels.forEach(function (panel) {
+          panel.classList.toggle('active', panel.id === 'policy-panel-' + key);
+        });
+        policyModal.removeAttribute('hidden');
+        policyModal.style.display = 'flex';
+      }
+
+      function closePolicy() {
+        if (!policyModal) return;
+        policyModal.setAttribute('hidden', '');
+        policyModal.style.display = 'none';
+      }
+
+      policyTriggers.forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+          e.preventDefault();
+          var tab = btn.getAttribute('data-policy') || 'terms';
+          openPolicy(tab);
+        });
+      });
+
+      if (btnClosePolicy) {
+        btnClosePolicy.addEventListener('click', closePolicy);
+      }
+
+      if (policyModal) {
+        policyModal.addEventListener('click', function (e) {
+          if (e.target === policyModal) closePolicy();
+        });
+      }
+
+      policyTabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          openPolicy(tab.getAttribute('data-tab'));
+        });
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+          if (policyModal && !policyModal.hasAttribute('hidden') && policyModal.style.display !== 'none') {
+            closePolicy();
+          } else {
+            triggerStealth();
+          }
+        }
+      });
     })();
   </script>
 </body>
