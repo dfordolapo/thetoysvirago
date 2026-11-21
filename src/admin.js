@@ -960,7 +960,7 @@ export function parseVariantToken(token, fallbackPrice) {
 
   // Match patterns like:
   // "Thrusting 45,000" or "Thrusting - 45000" or "Thrusting: ₦45,000" or "Ordinary 40k" or "Ordinary (40,000)"
-  const priceRegex = /(?:[:\-·|–—]|\s+)\s*(?:₦|NGN\s*)?([0-9]{1,3}(?:,[0-9]{3})+|[0-9]{4,7}|\d+k)\s*\)?$/i;
+  const priceRegex = /(?:[:\-·|\u2013\u2014]|\s+)\s*(?:₦|NGN\s*)?([0-9]{1,3}(?:,[0-9]{3})+|[0-9]{4,7}|\d+k)\s*\)?$/i;
   const match = raw.match(priceRegex);
 
   if (match) {
@@ -974,7 +974,7 @@ export function parseVariantToken(token, fallbackPrice) {
     if (!isNaN(num) && num > 0) {
       parsedPrice = num;
       // Strip matched price portion from name
-      raw = raw.substring(0, match.index).replace(/[\(:–—\-·|]\s*$/, '').trim();
+      raw = raw.substring(0, match.index).replace(/[\(:\u2013\u2014\-·|]\s*$/, '').trim();
     }
   }
 
@@ -1001,7 +1001,7 @@ function renderVariants() {
     const chip = document.createElement('span');
     chip.className = 'tag-chip';
     const borderStyle = isLightColor(hex) ? 'border: 1px solid #cbd5e1;' : 'border: 1px solid rgba(0,0,0,0.15);';
-    const priceDisplay = (v.price && !isNaN(v.price) && v.price > 0) ? ` <span style="font-size: 11px; opacity: 0.85; font-weight: 600;">· ₦${Number(v.price).toLocaleString()}</span>` : '';
+    const priceDisplay = (v.hasCustomPrice && v.price && !isNaN(v.price) && v.price > 0) ? ` <span style="font-size: 11px; opacity: 0.85; font-weight: 600;">· ₦${Number(v.price).toLocaleString()}</span>` : '';
     chip.innerHTML = `
       <span style="width: 12px; height: 12px; border-radius: 50%; background: ${hex}; display: inline-block; ${borderStyle} box-shadow: 0 1px 2px rgba(0,0,0,0.1);"></span>
       <strong>${v.name}</strong>${priceDisplay}
@@ -1050,6 +1050,9 @@ function addColorVariant(rawName, explicitColor, explicitPrice) {
     if (parsed.price != null && !isNaN(parsed.price) && parsed.price > 0) {
       variantObj.price = parsed.price;
       variantObj.priceStr = `₦${parsed.price.toLocaleString()}`;
+      variantObj.hasCustomPrice = true;
+    } else {
+      variantObj.hasCustomPrice = false;
     }
 
     if (existingIdx >= 0) {
@@ -1149,6 +1152,20 @@ const productForm = document.getElementById('product-upload-form');
 const btnResetForm = document.getElementById('btn-reset-form');
 const btnSaveAndView = document.getElementById('btn-save-and-view');
 
+const prodIsAbujaInput = document.getElementById('prod-is-abuja');
+if (prodIsAbujaInput) {
+  prodIsAbujaInput.addEventListener('change', () => {
+    const badgeInput = document.getElementById('prod-badge');
+    if (badgeInput) {
+      if (prodIsAbujaInput.checked && (!badgeInput.value || badgeInput.value === 'NEW ARRIVAL')) {
+        badgeInput.value = 'ABUJA EXCLUSIVE';
+      } else if (!prodIsAbujaInput.checked && badgeInput.value === 'ABUJA EXCLUSIVE') {
+        badgeInput.value = '';
+      }
+    }
+  });
+}
+
 function resetForm() {
   if (productForm) productForm.reset();
   const editingId = document.getElementById('editing-product-id');
@@ -1156,6 +1173,7 @@ function resetForm() {
   if (previewImg) previewImg.src = '';
   if (previewBox) previewBox.style.display = 'none';
   if (paletteWrap) paletteWrap.style.display = 'none';
+  if (prodIsAbujaInput) prodIsAbujaInput.checked = false;
   currentMediaList = [];
   renderMediaGallery();
   currentVariants = [];
@@ -1246,8 +1264,17 @@ async function handleSaveProduct(shouldRedirectToShop = false) {
 
     const sku = `${category.toUpperCase()} · ${String(currentCustomProducts.length + 1).padStart(2, '0')}`;
 
+    const isAbuja = Boolean(prodIsAbujaInput && prodIsAbujaInput.checked);
+    const region = isAbuja ? 'abuja' : 'all';
+    let finalBadge = badge;
+    if (isAbuja && !finalBadge) {
+      finalBadge = 'ABUJA EXCLUSIVE';
+    }
+
     // If variants exist and have specific prices, ensure base price reflects the lowest variant price
-    const variantPrices = currentVariants.map(v => (typeof v.price === 'number' && !isNaN(v.price) && v.price > 0) ? v.price : null).filter(Boolean);
+    const variantPrices = currentVariants
+      .filter(v => v.hasCustomPrice && typeof v.price === 'number' && !isNaN(v.price) && v.price > 0)
+      .map(v => v.price);
     const effectivePrice = (price === 0 && variantPrices.length > 0) ? Math.min(...variantPrices) : price;
     const hasDiffVariantPrices = variantPrices.length > 1 && new Set(variantPrices).size > 1;
     const effectivePriceStr = hasDiffVariantPrices ? `From ₦${effectivePrice.toLocaleString()}` : `₦${effectivePrice.toLocaleString()}`;
@@ -1257,8 +1284,10 @@ async function handleSaveProduct(shouldRedirectToShop = false) {
       title,
       category,
       sku,
-      badge,
+      badge: finalBadge,
       tagline,
+      region,
+      isAbuja,
       price: effectivePrice,
       priceStr: effectivePriceStr,
       originalPrice,
@@ -1270,11 +1299,13 @@ async function handleSaveProduct(shouldRedirectToShop = false) {
         { label: 'Packaging', value: '100% Plain Discreet Courier Bag' }
       ],
       variants: currentVariants.length > 0 ? currentVariants.map(v => {
-        const vPrice = (typeof v.price === 'number' && !isNaN(v.price) && v.price > 0) ? v.price : effectivePrice;
+        const hasCustom = Boolean(v.hasCustomPrice && typeof v.price === 'number' && !isNaN(v.price) && v.price > 0);
+        const vPrice = hasCustom ? v.price : effectivePrice;
         return {
           name: formatColorName(v.name),
           price: vPrice,
-          priceStr: v.priceStr || `₦${vPrice.toLocaleString()}`,
+          priceStr: hasCustom ? (v.priceStr || `₦${vPrice.toLocaleString()}`) : '',
+          hasCustomPrice: hasCustom,
           img: v.img || imgSrc,
           color: resolveColorHex(v.color, v.name)
         };
@@ -1344,11 +1375,14 @@ function renderInventoryTable() {
   const searchVal = (inventorySearchInput ? inventorySearchInput.value : '').trim().toLowerCase();
 
   const filtered = allInventoryProducts.filter(p => {
-    const matchesCat = activeInventoryFilter === 'all' || p.category === activeInventoryFilter;
+    const isAbuja = Boolean(p.region === 'abuja' || p.isAbuja === true || /abuja/i.test(p.badge || '') || /abuja/i.test(p.tagline || ''));
+    const matchesCat = activeInventoryFilter === 'all'
+      || (activeInventoryFilter === 'abuja' ? isAbuja : p.category === activeInventoryFilter);
     const matchesSearch = !searchVal ||
       p.title.toLowerCase().includes(searchVal) ||
       (p.sku && p.sku.toLowerCase().includes(searchVal)) ||
-      (p.category && p.category.toLowerCase().includes(searchVal));
+      (p.category && p.category.toLowerCase().includes(searchVal)) ||
+      (isAbuja && 'abuja'.includes(searchVal));
     return matchesCat && matchesSearch;
   });
 
@@ -1368,6 +1402,7 @@ function renderInventoryTable() {
   filtered.forEach(prod => {
     const tr = document.createElement('tr');
     const isCustom = currentCustomProducts.some(p => p.id === prod.id);
+    const isAbujaProd = Boolean(prod.region === 'abuja' || prod.isAbuja === true || /abuja/i.test(prod.badge || ''));
 
     tr.innerHTML = `
       <td>
@@ -1382,6 +1417,7 @@ function renderInventoryTable() {
       <td>
         <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
           <span class="admin-cat-badge cat-${prod.category || 'toys'}">${prod.category || 'toys'}</span>
+          ${isAbujaProd ? '<span class="admin-cat-badge" style="background: #881337; color: #fff; font-weight: 700;">📍 ABUJA</span>' : ''}
           <span class="admin-prod-sku mobile-only-sku">${prod.sku || prod.id} ${isCustom ? '• <strong style="color: #e11d48;">CUSTOM</strong>' : ''}</span>
         </div>
       </td>
@@ -1496,14 +1532,20 @@ async function loadProductIntoForm(prod) {
     if (prodImgUrlInput) prodImgUrlInput.value = prod.img;
   }
 
+  if (prodIsAbujaInput) {
+    prodIsAbujaInput.checked = Boolean(prod.region === 'abuja' || prod.isAbuja === true || /abuja/i.test(prod.badge || '') || /abuja/i.test(prod.tagline || ''));
+  }
+
   currentVariants = Array.isArray(prod.variants)
     ? prod.variants.map(v => {
-        const vPrice = (typeof v.price === 'number' && !isNaN(v.price) && v.price > 0) ? v.price : (Number(prod.price) || 0);
+        const hasCustom = Boolean(v.hasCustomPrice || (v.price && prod.price && Number(v.price) > 0 && Number(v.price) !== Number(prod.price)));
+        const vPrice = hasCustom ? Number(v.price) : null;
         return {
           ...v,
           name: formatColorName(v.name || ''),
           price: vPrice,
-          priceStr: v.priceStr || (vPrice ? `₦${vPrice.toLocaleString()}` : ''),
+          priceStr: hasCustom ? (v.priceStr || `₦${Number(v.price).toLocaleString()}`) : '',
+          hasCustomPrice: hasCustom,
           color: resolveColorHex(v.color, v.name)
         };
       })

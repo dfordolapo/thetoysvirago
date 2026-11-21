@@ -312,14 +312,18 @@ export async function upsertSupabaseProduct(product) {
       image: product.img || product.image || '',
       description: product.desc || product.description || '',
       specs: Array.isArray(product.specs) ? product.specs.map(s => typeof s === 'string' ? s : `${s.label}: ${s.value}`) : [],
-      variants: Array.isArray(product.variants) ? product.variants.map(v => ({
-        name: v.name,
-        price: Number(v.price) || Number(product.price) || 0,
-        priceStr: v.priceStr || `₦${Number(v.price || product.price).toLocaleString()}`,
-        color: v.color || '',
-        imgIndex: Number.isInteger(v.imgIndex) ? v.imgIndex : null,
-        img: (v.img && !String(v.img).startsWith('data:')) ? v.img : ''
-      })) : [],
+      variants: Array.isArray(product.variants) ? product.variants.map(v => {
+        const hasCustom = Boolean(v.hasCustomPrice && typeof v.price === 'number' && !isNaN(v.price) && v.price > 0);
+        return {
+          name: v.name,
+          price: hasCustom ? Number(v.price) : (Number(product.price) || 0),
+          priceStr: hasCustom ? (v.priceStr || `₦${Number(v.price).toLocaleString()}`) : '',
+          hasCustomPrice: hasCustom,
+          color: v.color || '',
+          imgIndex: Number.isInteger(v.imgIndex) ? v.imgIndex : null,
+          img: (v.img && !String(v.img).startsWith('data:')) ? v.img : ''
+        };
+      }) : [],
       sizes: Array.isArray(product.sizes) ? product.sizes : [],
       media: Array.isArray(product.media) ? product.media : [{ type: 'image', src: product.img || product.image || '', label: product.title }],
       in_stock: product.inStock !== false,

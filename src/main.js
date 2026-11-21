@@ -448,6 +448,18 @@ let currentCatalogPage = 1;
 const CATALOG_PAGE_SIZE = 6;
 let currentMatchingCatalogCards = [];
 
+export function randomizeCatalogGrid() {
+  const grid = document.getElementById('products-grid');
+  if (!grid) return;
+  const cards = Array.from(grid.children).filter(el => el.classList.contains('product-card'));
+  if (cards.length <= 1) return;
+  for (let i = cards.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [cards[i], cards[j]] = [cards[j], cards[i]];
+  }
+  cards.forEach(card => grid.appendChild(card));
+}
+
 function updateCatalogPage(page, smoothScroll = false) {
   const totalCards = currentMatchingCatalogCards.length;
   const totalPages = Math.ceil(totalCards / CATALOG_PAGE_SIZE) || 1;
@@ -500,7 +512,7 @@ function renderPaginationControls(totalPages, totalCards, startIdx, endIdx) {
   const displayedEnd = Math.min(endIdx, totalCards);
   const displayedStart = totalCards > 0 ? startIdx + 1 : 0;
   if (infoEl) {
-    infoEl.textContent = `Showing ${displayedStart}–${displayedEnd} of ${totalCards} products · Page ${currentCatalogPage} of ${totalPages}`;
+    infoEl.textContent = `Showing ${displayedStart} - ${displayedEnd} of ${totalCards} products · Page ${currentCatalogPage} of ${totalPages}`;
   }
 
   if (totalPages <= 1) {
@@ -763,11 +775,14 @@ if (initialFilter) {
   });
 
   if (matchBtn) {
+    randomizeCatalogGrid();
     applyProductFilter(matchBtn.dataset.filter);
   } else {
+    randomizeCatalogGrid();
     filterProducts(true);
   }
 } else {
+  randomizeCatalogGrid();
   filterProducts(true);
 }
 
@@ -8654,31 +8669,31 @@ function createStoreProductCard(prod, idx) {
   });
 
   const variantDotsHtml = (!isOptionPills && hasVariants)
-    ? `<div class="color-row">
+    ? `<div class="color-row" style="display: flex; align-items: center; gap: 8px; margin: 8px 0 12px 0;">
         ${variants.map((v, i) => {
           const hex = resolveColorHex(v.color, v.name);
           const borderStyle = isLightColor(hex) ? 'border: 1px solid #cbd5e1;' : '';
-          const vPrice = Number(v.price) || prod.price;
-          const vPriceStr = v.priceStr || ('₦' + vPrice.toLocaleString());
-          return `<button type="button" class="color-dot ${i === 0 ? 'active' : ''}" data-color="${v.name}" data-img="${v.img || prod.img}" data-price="${vPrice}" data-pricestr="${vPriceStr}" title="${v.name}" style="background: ${hex}; ${borderStyle}"></button>`;
+          return `<button type="button" class="color-dot ${i === 0 ? 'active' : ''}" data-color="${v.name}" data-img="${v.img || prod.img}" title="${v.name}" style="background: ${hex}; ${borderStyle}"></button>`;
         }).join('')}
-        <span class="color-name">${variants[0]?.name || ''}</span>
+        <span class="color-name" style="margin-left: 6px;">${variants[0]?.name || ''}</span>
       </div>`
     : '';
 
   const optionPillsHtml = isOptionPills
-    ? `<div class="size-row variant-options-row" style="display: flex; gap: 6px; margin: 8px 0; flex-wrap: wrap;">
+    ? `<div class="size-row variant-options-row" style="display: flex; gap: 6px; margin: 8px 0 12px 0; flex-wrap: wrap;">
         ${variants.map((v, i) => {
+          const hasExplicitPrice = Boolean(v.hasCustomPrice || (v.price && prod.price && Number(v.price) > 0 && Number(v.price) !== Number(prod.price)));
           const vPrice = Number(v.price) || prod.price;
           const vPriceStr = v.priceStr || ('₦' + vPrice.toLocaleString());
-          const displayLabel = vPrice ? `${v.name} · ₦${Math.round(vPrice / 1000)}k` : v.name;
-          return `<button type="button" class="size-pill ${i === 0 ? 'active' : ''}" data-size="${v.name}" data-price="${vPrice}" data-pricestr="${vPriceStr}" ${v.img ? `data-img="${v.img}"` : ''} style="border-radius: 8px !important;">${displayLabel}</button>`;
+          const displayLabel = hasExplicitPrice ? `${v.name} · ₦${Math.round(vPrice / 1000)}k` : v.name;
+          const priceAttrs = hasExplicitPrice ? `data-price="${vPrice}" data-pricestr="${vPriceStr}"` : '';
+          return `<button type="button" class="size-pill ${i === 0 ? 'active' : ''}" data-size="${v.name}" ${priceAttrs} ${v.img ? `data-img="${v.img}"` : ''} style="border-radius: 8px !important;">${displayLabel}</button>`;
         }).join('')}
       </div>`
     : '';
 
   const sizePillsHtml = (!isOptionPills && prod.sizes && prod.sizes.length > 0)
-    ? `<div class="size-row" style="display: flex; gap: 6px; margin: 8px 0; flex-wrap: wrap;">
+    ? `<div class="size-row" style="display: flex; gap: 6px; margin: 8px 0 12px 0; flex-wrap: wrap;">
         ${prod.sizes.map((s, i) => `<button type="button" class="size-pill ${i === 0 ? 'active' : ''}" data-size="${s}" style="border-radius: 8px !important;">${s}</button>`).join('')}
       </div>`
     : '';
@@ -8830,13 +8845,16 @@ export function initCustomCatalogProducts() {
     arrivalsSection.style.display = 'block';
   }
 
-  // Purge any obsolete cards from the main Lagos grid and fresh store drops
-  const PURGED_OR_ABUJA_EXCLUSIVE_IDS = [
-    'noir-chantilly-teddy', 'scarlet-silk-chemise', 'couples-card-vault',
-    // Purged products completely removed from Lagos:
-    'sweet-hammer-vibe', 'escapade-expert-dildo', 'dual-rose-stem-vibe', 'motorized-dual-cock-ring', 'crystal-dual-dildo', 'crystal-glass-bubble-plugs',
-    // Abuja exclusives (held exclusively in Abuja section, NEVER in main Lagos grid):
-    'twist-nipple-suckers', 'silicone-bone-gag', 'crystal-glass-plugs', 'fantasy-tentacle-dildo',
+  // Purged products completely removed from Lagos
+  const PURGED_PRODUCT_IDS = [
+    'sweet-hammer-vibe', 'escapade-expert-dildo', 'dual-rose-stem-vibe', 'motorized-dual-cock-ring',
+    'crystal-dual-dildo', 'crystal-glass-bubble-plugs', 'crystal-glass-plugs',
+    'noir-chantilly-teddy', 'scarlet-silk-chemise', 'couples-card-vault'
+  ];
+
+  // Abuja exclusives (held exclusively in Abuja section, NEVER in main Lagos grid)
+  const HARDCODED_ABUJA_IDS = [
+    'twist-nipple-suckers', 'silicone-bone-gag', 'fantasy-tentacle-dildo',
     'naughty-wooden-blocks', 'kailin-fruitastic-lube', 'interchangeable-vault-4in1',
     'two-fingers-thrusting-vibe', 'neon-pink-remote-dildo', 'strap-on-harness-briefs'
   ];
@@ -8853,7 +8871,7 @@ export function initCustomCatalogProducts() {
     }
   } catch (_) {}
 
-  const purgedSelector = PURGED_OR_ABUJA_EXCLUSIVE_IDS.map(id => `#products-grid .product-card[data-id="${id}"], #new-arrivals-grid .product-card[data-id="${id}"], .product-card[data-id="${id}"]:not(#abuja-carousel-track .product-card)`).join(', ');
+  const purgedSelector = [...PURGED_PRODUCT_IDS, ...HARDCODED_ABUJA_IDS].map(id => `#products-grid .product-card[data-id="${id}"], #new-arrivals-grid .product-card[data-id="${id}"], .product-card[data-id="${id}"]:not(#abuja-carousel-track .product-card)`).join(', ');
   document.querySelectorAll(purgedSelector).forEach(el => el.remove());
 
   let customProds = [];
@@ -8862,7 +8880,7 @@ export function initCustomCatalogProducts() {
     if (stored) {
       const parsed = JSON.parse(stored);
       if (Array.isArray(parsed)) {
-                customProds = parsed.filter(p => p && !PURGED_OR_ABUJA_EXCLUSIVE_IDS.includes(p.id) && p.id !== 'crystal-glass-plugs');
+        customProds = parsed.filter(p => p && !PURGED_PRODUCT_IDS.includes(p.id));
         if (customProds.length !== parsed.length) {
           localStorage.setItem('thetoysvirago_custom_products', JSON.stringify(customProds));
         }
@@ -8900,16 +8918,42 @@ export function initCustomCatalogProducts() {
       GENERAL_PRODUCT_TERMS[prod.id] = `${prod.title} ${prod.category} ${prod.tagline || ''} ${prod.desc || ''} lingerie underwear boudoir lace bra panties corset`;
     });
 
+    // Helper to determine if a product belongs to Abuja
+    const isAbujaProduct = (p) => Boolean(
+      p && (
+        p.region === 'abuja' ||
+        p.isAbuja === true ||
+        /abuja/i.test(p.badge || '') ||
+        /abuja/i.test(p.tagline || '') ||
+        HARDCODED_ABUJA_IDS.includes(p.id)
+      )
+    );
+
     // Strictly filter out purged items and Abuja exclusives from main Lagos grid
-    const eligibleMain = prods.filter(p => p && !PURGED_OR_ABUJA_EXCLUSIVE_IDS.includes(p.id));
+    const eligibleMain = prods.filter(p => p && !PURGED_PRODUCT_IDS.includes(p.id) && !isAbujaProduct(p));
+    const abujaProds = prods.filter(p => p && isAbujaProduct(p) && !PURGED_PRODUCT_IDS.includes(p.id));
+
+    const abujaTrack = document.getElementById('abuja-carousel-track');
+    if (abujaTrack && abujaProds.length > 0) {
+      abujaProds.forEach((prod, idx) => {
+        if (!abujaTrack.querySelector(`.product-card[data-id="${prod.id}"]`)) {
+          const card = createStoreProductCard(prod, idx);
+          card.dataset.region = 'abuja';
+          abujaTrack.prepend(card);
+        }
+      });
+      const abujaSection = document.getElementById('abuja');
+      if (abujaSection) abujaSection.style.display = 'block';
+    }
 
     if (grid) {
       eligibleMain.forEach((prod, idx) => {
         if (!grid.querySelector(`.product-card[data-id="${prod.id}"]`)) {
           const card = createStoreProductCard(prod, idx);
-          grid.prepend(card);
+          grid.appendChild(card);
         }
       });
+      randomizeCatalogGrid();
       if (typeof filterProducts === 'function') {
         filterProducts();
       }
@@ -8942,18 +8986,21 @@ export function initCustomCatalogProducts() {
   const supabaseImageUrl = (id) => '/product-image/' + encodeURIComponent(id);
   getSupabaseProducts('id, title, category, badge, tagline, price, original_price, description, specs, in_stock, variants, sizes, updated_at').then((remoteProds) => {
     if (remoteProds && Array.isArray(remoteProds) && remoteProds.length > 0) {
-      const cleanRemote = remoteProds.filter(rp => rp && !PURGED_OR_ABUJA_EXCLUSIVE_IDS.includes(rp.id));
+      const cleanRemote = remoteProds.filter(rp => rp && !PURGED_PRODUCT_IDS.includes(rp.id));
       // Prepend newest remote products to front of customProds
       cleanRemote.forEach(rp => {
         const existingIdx = customProds.findIndex(p => p.id === rp.id);
+        const isAbuja = Boolean(rp.region === 'abuja' || rp.isAbuja === true || /abuja/i.test(rp.badge || '') || /abuja/i.test(rp.tagline || ''));
         const mapped = {
           id: rp.id,
           isRemote: true,
           title: rp.title,
           category: rp.category || 'toys',
           sku: rp.category ? `${rp.category.toUpperCase()} · ${rp.id.slice(0, 4)}` : 'VAULT · 01',
-          badge: rp.badge || 'STORE DROP',
+          badge: rp.badge || (isAbuja ? 'ABUJA EXCLUSIVE' : 'STORE DROP'),
           tagline: rp.tagline || '',
+          region: isAbuja ? 'abuja' : (rp.region || 'all'),
+          isAbuja: isAbuja,
           price: Number(rp.price) || 0,
           priceStr: '₦' + Number(rp.price).toLocaleString(),
           originalPrice: rp.original_price ? Number(rp.original_price) : null,
@@ -8963,7 +9010,17 @@ export function initCustomCatalogProducts() {
             const parts = s.split(':');
             return { label: parts[0] ? parts[0].trim() : 'Feature', value: parts[1] ? parts[1].trim() : s };
           }) : [],
-          variants: Array.isArray(rp.variants) ? rp.variants : [],
+          variants: Array.isArray(rp.variants) ? rp.variants.map(v => {
+            const hasCustom = Boolean(v.hasCustomPrice || (typeof v.price === 'number' && v.price > 0 && v.price !== Number(rp.price)));
+            return {
+              name: v.name,
+              price: hasCustom ? Number(v.price) : Number(rp.price),
+              priceStr: hasCustom ? (v.priceStr || `₦${Number(v.price).toLocaleString()}`) : '',
+              hasCustomPrice: hasCustom,
+              color: v.color || '',
+              img: v.img || ''
+            };
+          }) : [],
           sizes: Array.isArray(rp.sizes) ? rp.sizes : (rp.category === 'lingerie' ? ['S', 'M', 'L'] : []),
           media: [{ type: 'image', src: supabaseImageUrl(rp.id), label: rp.title }],
           material: 'Body-Safe Luxury Materials',

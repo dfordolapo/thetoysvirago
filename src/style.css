@@ -967,7 +967,7 @@ body.cart-open .main-header,
 
 .product-pills { display: none !important; }
 
-.color-row { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+.color-row { display: flex; align-items: center; gap: 8px; margin: 8px 0 16px 0; }
 .color-dot {
   width: 14px; height: 14px; border-radius: 50%; border: 1px solid rgba(0,0,0,.15);
   cursor: pointer; padding: 0; transition: transform .15s;
@@ -4492,7 +4492,15 @@ body.cart-open .main-header,
   margin-bottom: 10px !important;
   line-height: 1.4 !important;
 }
-#products-grid .color-row {
+#products-grid .color-row,
+.color-row {
+  margin-top: 8px !important;
+  margin-bottom: 12px !important;
+  gap: 6px !important;
+}
+#products-grid .size-row,
+.size-row {
+  margin-top: 8px !important;
   margin-bottom: 12px !important;
   gap: 6px !important;
 }
@@ -4537,8 +4545,16 @@ body.cart-open .main-header,
     min-height: 26px !important;
     margin-bottom: 6px !important;
   }
-  #products-grid .color-row {
+  #products-grid .color-row,
+  .color-row {
     gap: 4px !important;
+    margin-top: 8px !important;
+    margin-bottom: 8px !important;
+  }
+  #products-grid .size-row,
+  .size-row {
+    gap: 4px !important;
+    margin-top: 8px !important;
     margin-bottom: 8px !important;
   }
   #products-grid .color-dot {

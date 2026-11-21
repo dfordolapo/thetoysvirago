@@ -307,7 +307,7 @@ export default async function handler(req, res) {
 
         const result = await sendResendEmail(
           customerEmail,
-          `🚚 Discreet Parcel Dispatched [${orderRef}] — TheToysVirago`,
+          `🚚 Discreet Parcel Dispatched [${orderRef}] · TheToysVirago`,
           customerDispatchedHtml
         );
 
@@ -414,7 +414,7 @@ export default async function handler(req, res) {
 
         const result = await sendResendEmail(
           customerEmail,
-          `🎁 Your Order Has Arrived [${orderRef}] — Share Your Experience`,
+          `🎁 Your Order Has Arrived [${orderRef}] · Share Your Experience`,
           customerDeliveredHtml
         );
 
@@ -615,7 +615,7 @@ export default async function handler(req, res) {
 Your order is confirmed. We've got the details, and we'll take it from here.
 
 YOUR ORDER
-${items.map(it => `- ${it.title || 'Item'}${it.variant || it.finish ? ' (' + (it.variant || it.finish) + ')' : ''} × ${it.qty || 1} — ${formatMoney(Number(it.price || 0) * Number(it.qty || 1))}`).join('\n')}
+${items.map(it => `- ${it.title || 'Item'}${it.variant || it.finish ? ' (' + (it.variant || it.finish) + ')' : ''} × ${it.qty || 1} · ${formatMoney(Number(it.price || 0) * Number(it.qty || 1))}`).join('\n')}
 
 Subtotal: ${formatMoney(subtotalAmount)}
 Delivery: ${deliveryFee > 0 ? formatMoney(deliveryFee) : 'Free'}
