@@ -45,6 +45,9 @@ xml += '  </url>\n\n';
 
 // 4. Blog Articles
 const blogArticles = [
+  { slug: 'first-time-using-toys-couples-interview', title: '“I Picked Up The Rose While He Was Inside Me”: A Real Couple on Toys, Kinks, and Intimacy' },
+  { slug: 'confessions-good-christian-girl-first-toy-at-27', title: 'Confessions of a Good Christian Girl Who Bought Her First Toy at 27' },
+  { slug: 'sexual-health-myths-nigerian-culture-retire', title: 'Sexual Health Myths Nigerian Culture Needs to Retire' },
   { slug: 'how-discreet-delivery-works-nigeria', title: 'Nobody Go Find Out: What Actually Happens to Your Package in Transit' },
   { slug: 'first-vibrator-buyers-guide-nigeria', title: 'Overwhelmed by Choice? The Honest First-Timer Guide to Pleasure Pieces' },
   { slug: 'water-based-lube-guide-nigeria', title: 'Stop Using Coconut Oil and Vaseline: Why Water-Based Lube Is Non-Negotiable' },

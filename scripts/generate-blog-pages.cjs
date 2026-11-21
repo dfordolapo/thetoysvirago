@@ -24,7 +24,8 @@ async function generateBlogPages() {
     const pageUrl = `${BASE_URL}/blog/${slug}`;
     const imgUrl = `${BASE_URL}${article.heroImg}`;
     const cleanTitle = article.title.replace(/[\u2018\u2019]/g, "'").replace(/"/g, '&quot;');
-    const seoTitle = (article.seoTitle || `${cleanTitle} · The Pleasure Journal`).replace(/"/g, '&quot;');
+    const rawSeoTitle = (article.seoTitle || `${cleanTitle} · The Pleasure Journal`).replace(/"/g, '&quot;');
+    const seoTitle = rawSeoTitle.replace(/\s*\|\s*TheToysVirago$/i, '');
     const fullTitle = `${seoTitle} | TheToysVirago`;
     const cleanExcerpt = (article.metaDesc || article.excerpt).replace(/[\u2018\u2019]/g, "'").replace(/"/g, '&quot;');
     const imgAlt = (article.imgAlt || article.title).replace(/"/g, '&quot;');
