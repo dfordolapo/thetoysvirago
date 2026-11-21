@@ -15,14 +15,14 @@ export const BLOG_ARTICLES = [
     heroImg: '/assets/blog/article-couples-interview.webp',
     excerpt: 'Meet Tara and Deji, the couple who proved the best bedroom upgrades don’t need a meeting. Tara reached for The Rose mid-moment, and Deji calls it the best surprise ever.',
     content: `
-      <p class="article-lead">Sometimes, the best intimate upgrades happen on pure impulse in the heat of the moment. That was exactly the play for Tara and Deji (pseudonyms) - together officially for a year, unofficially for two. One night, right in the thick of things while he was deep inside her, she simply reached over, picked up her suction Rose, and placed it on her sweet spot. We caught up with the couple to get the raw, unfiltered truth about bringing toys into a Nigerian relationship, navigating their BDSM dynamic as a self-confessed &quot;pleasure dom&quot; and &quot;good girl,&quot; and why adding a little motorized backup only brought them closer.</p>
+      <p class="article-lead">Sometimes, the best intimate upgrades happen on pure impulse in the heat of the moment. That was exactly the play for Tara and Deji (pseudonyms) - together officially for a year, unofficially for two. One night, right in the thick of things while he was deep inside her, she simply reached over, picked up her <a href="/products/rose-blossom.html" class="article-product-link" title="The Rose Sucker">Suction Rose<svg class="link-arrow-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></a>, and placed it on her sweet spot. We caught up with the couple to get the raw, unfiltered truth about bringing toys into a Nigerian relationship, navigating their BDSM dynamic as a self-confessed &quot;pleasure dom&quot; and &quot;good girl,&quot; and why adding a little motorized backup only brought them closer.</p>
 
       <h3>Part 1: So, How Did We Get Here?</h3>
       <p><strong>The Pleasure Journal:</strong> How long have you been together, and how would you describe your relationship?</p>
       <p><strong>Tara &amp; Deji:</strong> We have officially been together for a year, two years unofficially. Our relationship is quite spontaneous, fun, and very romantic.</p>
 
       <p><strong>The Pleasure Journal:</strong> Who first suggested introducing a sex toy into your bedroom? Tell us how that conversation happened.</p>
-      <p><strong>Tara:</strong> No one really! I just randomly picked up my rose toy one day and used it while he was thrusting in and out of me.</p>
+      <p><strong>Tara:</strong> No one really! I just randomly picked up my <a href="/products/rose-blossom.html" class="article-product-link" title="The Rose Sucker">rose toy<svg class="link-arrow-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></a> one day and used it while he was thrusting in and out of me.</p>
 
       <blockquote class="article-quote">
         &ldquo;No one really suggested it. I just randomly picked up my rose toy one day and used it while he was thrusting in and out of me. It was ecstatic, and he was pleasantly surprised.&rdquo;
@@ -44,7 +44,7 @@ export const BLOG_ARTICLES = [
 
       <h3>Part 2: The Toys Have Entered the Chat</h3>
       <p><strong>The Pleasure Journal:</strong> What was the first toy you tried together, and why did you choose it?</p>
-      <p><strong>Tara:</strong> My rose toy, for wildly obvious reasons.</p>
+      <p><strong>Tara:</strong> My <a href="/products/rose-blossom.html" class="article-product-link" title="The Rose Sucker">rose toy<svg class="link-arrow-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></a>, for wildly obvious reasons.</p>
 
       <p><strong>The Pleasure Journal:</strong> Did you shop for it together or did one person take the initiative?</p>
       <p><strong>Tara:</strong> We shopped for it together actually. We got it from your store.</p>
@@ -60,7 +60,7 @@ export const BLOG_ARTICLES = [
 
       <div class="article-callout">
         <span class="callout-badge">THE ROSE EFFECT</span>
-        <p>There is a reason women treat The Rose like an essential life hack. While penetrative friction is handling business on the inside, targeted air-pulse suction is firing off all 8,000 nerve endings on the outside. It isn't a competition with your man; it is a cheat code that lets both of you win at the exact same time.</p>
+        <p>There is a reason women treat <a href="/products/rose-blossom.html" class="article-product-link" title="The Rose Sucker">The Rose<svg class="link-arrow-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></a> like an essential life hack. While penetrative friction is handling business on the inside, targeted air-pulse suction is firing off all 8,000 nerve endings on the outside. It isn't a competition with your man; it is a cheat code that lets both of you win at the exact same time.</p>
       </div>
 
       <h3>Part 3: Let's Talk About the Relationship</h3>
@@ -126,9 +126,9 @@ export const BLOG_ARTICLES = [
       <p><strong>The Pleasure Journal:</strong> If another couple is reading this and considering introducing toys into their relationship, what would you tell them?</p>
       <p><strong>Tara &amp; Deji:</strong> Absolutely go for it.</p>
 
-      <p>Curious to try clitoral suction or couples play in your own bedroom? Explore our clitoral collection with <a href="/products.html?product=satisfyer-pro-suction">Air-Pulse Suction Pieces</a>, or view our playful <a href="/products.html?cat=couples">Couples &amp; Games Vault</a>.</p>
+      <p>Curious to try clitoral suction or couples play in your own bedroom? Explore our clitoral collection with <a href="/products/rose-blossom.html" class="article-product-link" title="The Rose Sucker">The Rose Sucker<svg class="link-arrow-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></a>, or view our playful <a href="/products.html?cat=couples">Couples &amp; Games Vault</a>.</p>
     `,
-    relatedProducts: ['satisfyer-pro-suction', 'love-is-a-gamble-kit']
+    relatedProducts: ['rose-blossom', 'love-is-a-gamble-kit']
   },
   {
     slug: 'confessions-good-christian-girl-first-toy-at-27',

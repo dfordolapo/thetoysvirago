@@ -710,6 +710,44 @@
       opacity: 0.9;
     }
 
+    /* Distinctive Inline Product Pill (Instant Visual Affordance Without Extra Words) */
+    .article-body .article-product-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: #fb7185 !important;
+      background: rgba(244, 63, 94, 0.14);
+      padding: 2px 8px 2px 9px;
+      border-radius: 8px !important;
+      border: none !important;
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      vertical-align: baseline;
+      line-height: 1.35;
+      margin: 0 2px;
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+    .article-body .article-product-link:hover {
+      background: rgba(244, 63, 94, 0.28);
+      color: #ffffff !important;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(244, 63, 94, 0.25);
+    }
+    .article-body .article-product-link .link-arrow-icon {
+      width: 12px;
+      height: 12px;
+      stroke-width: 2.5;
+      flex-shrink: 0;
+      transition: transform 0.18s ease;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .article-body .article-product-link:hover .link-arrow-icon {
+      transform: translate(1px, -1px);
+    }
+
     /* STRICT NO OUTSIDE STROKES: Callouts, quotes, and spotlights rely solely on soft background fills */
     .article-callout {
       background: #ffffff !important;
@@ -1276,6 +1314,16 @@
     }
     body.blog-light-mode .article-body a:hover {
       color: #9f1239 !important;
+    }
+    body.blog-light-mode .article-body .article-product-link {
+      color: #9f1239 !important;
+      background: rgba(159, 18, 57, 0.08);
+      box-shadow: 0 1px 2px rgba(159, 18, 57, 0.06);
+    }
+    body.blog-light-mode .article-body .article-product-link:hover {
+      background: rgba(159, 18, 57, 0.16);
+      color: #881337 !important;
+      box-shadow: 0 4px 10px rgba(159, 18, 57, 0.15);
     }
     body.blog-light-mode .article-body em {
       background: #ffe4e6 !important;
