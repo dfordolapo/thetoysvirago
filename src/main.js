@@ -6999,6 +6999,10 @@ if (cartDrawerOverlay) {
   });
 }
 
+if (new URLSearchParams(window.location.search).get('cart') === 'open') {
+  setTimeout(openCartDrawer, 250);
+}
+
 // Collapsible Cart Details Toggle
 const btnToggleCartDetails = document.getElementById('btn-toggle-cart-details');
 const cartCollapsibleDetails = document.getElementById('cart-collapsible-details');
@@ -7928,6 +7932,12 @@ if (btnCheckout) {
       if (checkoutSuccess) checkoutSuccess.hidden = true;
     }
   });
+}
+
+if (new URLSearchParams(window.location.search).get('checkout') === 'open' && btnCheckout) {
+  setTimeout(function () {
+    if (cart.length > 0) btnCheckout.click();
+  }, 350);
 }
 
 // Close Checkout Modal
