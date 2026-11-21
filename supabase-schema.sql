@@ -1,5 +1,5 @@
 -- ==============================================================================
--- THE TOYS VIRAGO / ROUGE NOIR — Supabase Database Schema
+-- THE TOYS VIRAGO / ROUGE NOIR  -  Supabase Database Schema
 -- Run this in your Supabase Project: SQL Editor -> New Query -> Run
 -- ==============================================================================
 
@@ -69,9 +69,15 @@ create table if not exists public.products (
   variants jsonb default '[]'::jsonb,
   sizes text[] default '{}',
   media jsonb default '[]'::jsonb,
+  region text default 'all',
+  is_abuja boolean default false,
   in_stock boolean default true,
   updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
+
+-- Safe migration for existing databases
+alter table public.products add column if not exists region text default 'all';
+alter table public.products add column if not exists is_abuja boolean default false;
 
 -- Quick 1-Click Fix if product uploads are blocked by RLS:
 -- Run: alter table public.products disable row level security;

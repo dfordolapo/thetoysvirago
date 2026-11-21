@@ -45,6 +45,7 @@ export default async function handler(req, res) {
   const category = String(body.category || 'toys');
   const mood = String(body.mood || 'seductive');
   const title = String(body.title || '');
+  const details = body.details && typeof body.details === 'object' ? body.details : {};
   const clientKey = String(body.apiKey || '').trim();
 
   if (!imageBase64) {
@@ -61,7 +62,7 @@ export default async function handler(req, res) {
     });
   }
 
-  const prompt = buildProductCopyPrompt(category, mood, title);
+  const prompt = buildProductCopyPrompt(category, mood, title, details);
   let lastError = '';
 
   for (const model of GEMINI_VISION_MODELS) {

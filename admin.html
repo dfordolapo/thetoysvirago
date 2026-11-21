@@ -851,13 +851,22 @@
       border: 1px solid rgba(255, 255, 255, 0.15);
       color: #ffffff;
       padding: 14px 22px;
-      border-radius: 12px;
+      border-radius: 999px;
       font-size: 13px;
       font-weight: 600;
+      line-height: 1.2;
+      white-space: nowrap !important;
+      width: max-content;
+      min-width: 0;
+      max-width: min(92vw, 760px);
+      box-sizing: border-box;
       box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
       display: flex;
       align-items: center;
+      flex-wrap: nowrap;
       gap: 10px;
+      overflow: hidden;
+      text-overflow: ellipsis;
       z-index: 9999999;
       transform: translateY(40px);
       opacity: 0;
@@ -868,6 +877,14 @@
       transform: translateY(0);
       opacity: 1;
       pointer-events: auto;
+    }
+    #toast-text {
+      display: inline-block;
+      min-width: 0;
+      max-width: min(78vw, 680px);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap !important;
     }
     .admin-toast a {
       color: #38bdf8;
@@ -1963,6 +1980,13 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </button>
       </form>
+      <div style="margin-top: 14px;">
+        <button type="button" id="btn-admin-passkey" class="admin-btn admin-btn-outline" style="width: 100%; justify-content: center; padding: 12px; border-radius: 8px !important; font-weight: 700;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 11a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/><path d="M12 3a7 7 0 0 0-7 7v2"/><path d="M19 10V10a7 7 0 0 0-7-7"/></svg>
+          <span id="admin-passkey-label">Enable Face ID</span>
+        </button>
+        <p id="admin-passkey-hint" style="margin: 8px 0 0; font-size: 11px; color: #64748b; line-height: 1.5;"></p>
+      </div>
     </div>
   </div>
 
@@ -2451,6 +2475,13 @@
         </div>
       </div>
 
+      <div class="form-group">
+        <label class="form-label">Biometric Unlock</label>
+        <button type="button" id="btn-reset-passkey" class="admin-btn admin-btn-outline" style="justify-content: center;">Reset Face ID on this device</button>
+        <div style="font-size: 11px; color: #64748b; margin-top: 4px;">
+          Removes the saved passkey so you can enrol a new one from the unlock screen.
+        </div>
+      </div>
 
 
       <div style="display: flex; gap: 12px; margin-top: 20px;">

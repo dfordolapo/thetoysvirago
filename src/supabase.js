@@ -326,6 +326,8 @@ export async function upsertSupabaseProduct(product) {
       }) : [],
       sizes: Array.isArray(product.sizes) ? product.sizes : [],
       media: Array.isArray(product.media) ? product.media : [{ type: 'image', src: product.img || product.image || '', label: product.title }],
+      region: product.region || (product.isAbuja ? 'abuja' : 'all'),
+      is_abuja: Boolean(product.isAbuja || product.region === 'abuja'),
       in_stock: product.inStock !== false,
       updated_at: new Date().toISOString()
     };
@@ -336,10 +338,12 @@ export async function upsertSupabaseProduct(product) {
       .select();
 
     // If remote table lacks media or sizes columns, gracefully strip and retry
-    if (error && (error.message.includes('column "media"') || error.message.includes('column "sizes"'))) {
-      console.warn('[Supabase] Missing optional columns (media/sizes). Retrying with core schema...');
+    if (error && (error.message.includes('column "media"') || error.message.includes('column "sizes"') || error.message.includes('column "region"') || error.message.includes('column "is_abuja"'))) {
+      console.warn('[Supabase] Missing optional columns. Retrying with core schema...');
       delete payload.media;
       delete payload.sizes;
+      delete payload.region;
+      delete payload.is_abuja;
       const retry = await client
         .from('products')
         .upsert([payload], { onConflict: 'id' })

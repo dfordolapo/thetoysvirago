@@ -24,7 +24,149 @@ import { generateLocalProductCopy } from './modules/localCopy.js';
 // ================= 1. AUTHENTICATION & SECURITY GATE =================
 const ADMIN_PIN_KEY = 'thetoysvirago_admin_pin';
 const ADMIN_AUTH_KEY = 'thetoysvirago_admin_unlocked';
+const ADMIN_PASSKEY_KEY = 'thetoysvirago_admin_passkey_id';
+const ADMIN_PASSKEY_CHALLENGE_KEY = 'thetoysvirago_admin_passkey_challenge';
 const DEFAULT_PIN = 'virago2026';
+
+function bufferToBase64url(buffer) {
+  const bytes = buffer instanceof Uint8Array ? buffer : new Uint8Array(buffer);
+  let binary = '';
+  bytes.forEach(byte => { binary += String.fromCharCode(byte); });
+  return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+function base64urlToBuffer(value) {
+  const normalized = String(value).replace(/-/g, '+').replace(/_/g, '/');
+  const padded = normalized + '='.repeat((4 - normalized.length % 4) % 4);
+  const binary = atob(padded);
+  return Uint8Array.from(binary, char => char.charCodeAt(0));
+}
+
+function passkeyAvailable() {
+  return Boolean(window.PublicKeyCredential && window.isSecureContext && navigator.credentials && navigator.credentials.create);
+}
+
+function getAdminPasskeyId() {
+  return localStorage.getItem(ADMIN_PASSKEY_KEY);
+}
+
+function updatePasskeyUi() {
+  const btn = document.getElementById('btn-admin-passkey');
+  const label = document.getElementById('admin-passkey-label');
+  const hint = document.getElementById('admin-passkey-hint');
+  if (!btn) return;
+
+  if (!passkeyAvailable()) {
+    btn.style.display = 'none';
+    if (hint) hint.textContent = 'Face ID needs HTTPS (or localhost) and a supported browser.';
+    return;
+  }
+
+  const enrolled = Boolean(getAdminPasskeyId());
+  if (label) label.textContent = enrolled ? 'Unlock with Face ID' : 'Enable Face ID';
+  if (hint) {
+    hint.textContent = enrolled
+      ? 'Uses your device biometrics. Your PIN still works as a backup.'
+      : 'One-time setup on this device using Face ID, Touch ID, or Windows Hello.';
+  }
+}
+
+function unlockAdmin(message) {
+  sessionStorage.setItem(ADMIN_AUTH_KEY, 'true');
+  checkAdminAuth();
+  showToast(message);
+}
+
+async function registerAdminPasskey() {
+  const challenge = crypto.getRandomValues(new Uint8Array(32));
+  sessionStorage.setItem(ADMIN_PASSKEY_CHALLENGE_KEY, bufferToBase64url(challenge));
+
+  const credential = await navigator.credentials.create({
+    publicKey: {
+      challenge,
+      rp: { name: 'TheToysVirago Admin' },
+      user: {
+        id: crypto.getRandomValues(new Uint8Array(16)),
+        name: 'admin@thetoysvirago.local',
+        displayName: 'Vault Admin'
+      },
+      pubKeyCredParams: [
+        { type: 'public-key', alg: -7 },
+        { type: 'public-key', alg: -257 }
+      ],
+      authenticatorSelection: {
+        authenticatorAttachment: 'platform',
+        userVerification: 'required',
+        residentKey: 'preferred'
+      },
+      timeout: 60000,
+      attestation: 'none'
+    }
+  });
+
+  if (!credential) throw new Error('No passkey was created.');
+  localStorage.setItem(ADMIN_PASSKEY_KEY, bufferToBase64url(credential.rawId));
+  sessionStorage.removeItem(ADMIN_PASSKEY_CHALLENGE_KEY);
+  updatePasskeyUi();
+  unlockAdmin('Face ID is set. Vault unlocked.');
+}
+
+async function unlockAdminWithPasskey() {
+  const storedId = getAdminPasskeyId();
+  if (!storedId) {
+    await registerAdminPasskey();
+    return;
+  }
+
+  const challenge = crypto.getRandomValues(new Uint8Array(32));
+  const expectedChallenge = bufferToBase64url(challenge);
+  sessionStorage.setItem(ADMIN_PASSKEY_CHALLENGE_KEY, expectedChallenge);
+
+  const assertion = await navigator.credentials.get({
+    publicKey: {
+      challenge,
+      allowCredentials: [{ type: 'public-key', id: base64urlToBuffer(storedId) }],
+      userVerification: 'required',
+      timeout: 60000
+    }
+  });
+
+  if (!assertion) throw new Error('Biometric verification was cancelled.');
+
+  const clientData = JSON.parse(new TextDecoder().decode(assertion.response.clientDataJSON));
+  if (clientData.challenge !== expectedChallenge || bufferToBase64url(assertion.rawId) !== storedId) {
+    throw new Error('Biometric verification did not match.');
+  }
+
+  sessionStorage.removeItem(ADMIN_PASSKEY_CHALLENGE_KEY);
+  unlockAdmin('Vault unlocked with biometrics.');
+}
+
+const btnAdminPasskey = document.getElementById('btn-admin-passkey');
+if (btnAdminPasskey) {
+  btnAdminPasskey.addEventListener('click', async () => {
+    btnAdminPasskey.disabled = true;
+    try {
+      await unlockAdminWithPasskey();
+    } catch (error) {
+      console.warn('[Admin] Passkey unlock failed:', error);
+      showToast(error && error.message ? error.message : 'Face ID unlock failed. Use your PIN instead.');
+    } finally {
+      btnAdminPasskey.disabled = false;
+    }
+  });
+}
+updatePasskeyUi();
+
+const btnResetPasskey = document.getElementById('btn-reset-passkey');
+if (btnResetPasskey) {
+  btnResetPasskey.addEventListener('click', () => {
+    localStorage.removeItem(ADMIN_PASSKEY_KEY);
+    sessionStorage.removeItem(ADMIN_PASSKEY_CHALLENGE_KEY);
+    updatePasskeyUi();
+    showToast('Face ID removed. You can enable it again from the unlock screen.');
+  });
+}
 
 function getStoredPin() {
   return localStorage.getItem(ADMIN_PIN_KEY) || DEFAULT_PIN;
@@ -757,6 +899,13 @@ async function autoGenerateProductDescription() {
   const category = categorySelect ? categorySelect.value : 'lingerie';
   const mood = moodSelect ? moodSelect.value : 'seductive';
   const currentTitle = titleInput ? titleInput.value.trim() : '';
+  const currentDetails = {
+    tagline: taglineInput ? taglineInput.value.trim() : '',
+    badge: badgeInput ? badgeInput.value.trim() : '',
+    material: materialInput ? materialInput.value.trim() : '',
+    acoustics: acousticsInput ? acousticsInput.value.trim() : '',
+    description: descInput ? descInput.value.trim() : ''
+  };
 
   const currentImgSrc = getPrimaryProductImageSrc();
   if (!currentImgSrc) {
@@ -794,7 +943,7 @@ async function autoGenerateProductDescription() {
     const geminiApiKey = localStorage.getItem('thetoysvirago_gemini_key') || '';
 
     if (geminiApiKey && inlineImage) {
-      generatedResult = await callGeminiVisionAI(geminiApiKey, inlineImage, category, mood, currentTitle);
+      generatedResult = await callGeminiVisionAI(geminiApiKey, inlineImage, category, mood, currentTitle, currentDetails);
     } else if (inlineImage) {
       if (aiStatusText) aiStatusText.textContent = 'Analysing your photo with the secure copy service...';
       const response = await fetch('/api/generate-copy', {
@@ -805,7 +954,8 @@ async function autoGenerateProductDescription() {
           mimeType: inlineImage.mimeType,
           category,
           mood,
-          title: currentTitle
+          title: currentTitle,
+          details: currentDetails
         })
       });
       const payload = await response.json().catch(() => ({}));
@@ -829,7 +979,8 @@ async function autoGenerateProductDescription() {
       category,
       mood,
       title: currentTitle,
-      colorNames
+      colorNames,
+      details: currentDetails
     });
     usedLocalWriter = Boolean(generatedResult && generatedResult.desc);
   }
@@ -875,8 +1026,8 @@ async function autoGenerateProductDescription() {
   showToast(usedLocalWriter ? 'Copy drafted and applied to the product form!' : 'Photo-accurate copy applied to the product form!');
 }
 
-async function callGeminiVisionAI(apiKey, inlineImage, category, mood, currentTitle) {
-  const prompt = buildProductCopyPrompt(category, mood, currentTitle);
+async function callGeminiVisionAI(apiKey, inlineImage, category, mood, currentTitle, details = {}) {
+  const prompt = buildProductCopyPrompt(category, mood, currentTitle, details);
   let lastError = '';
 
   for (const model of GEMINI_VISION_MODELS) {
@@ -1375,7 +1526,7 @@ function renderInventoryTable() {
   const searchVal = (inventorySearchInput ? inventorySearchInput.value : '').trim().toLowerCase();
 
   const filtered = allInventoryProducts.filter(p => {
-    const isAbuja = Boolean(p.region === 'abuja' || p.isAbuja === true || /abuja/i.test(p.badge || '') || /abuja/i.test(p.tagline || ''));
+    const isAbuja = Boolean(p.region === 'abuja' || p.isAbuja === true || p.is_abuja === true || /abuja/i.test(p.badge || '') || /abuja/i.test(p.tagline || ''));
     const matchesCat = activeInventoryFilter === 'all'
       || (activeInventoryFilter === 'abuja' ? isAbuja : p.category === activeInventoryFilter);
     const matchesSearch = !searchVal ||
@@ -1402,7 +1553,7 @@ function renderInventoryTable() {
   filtered.forEach(prod => {
     const tr = document.createElement('tr');
     const isCustom = currentCustomProducts.some(p => p.id === prod.id);
-    const isAbujaProd = Boolean(prod.region === 'abuja' || prod.isAbuja === true || /abuja/i.test(prod.badge || ''));
+    const isAbujaProd = Boolean(prod.region === 'abuja' || prod.isAbuja === true || prod.is_abuja === true || /abuja/i.test(prod.badge || ''));
 
     tr.innerHTML = `
       <td>
@@ -1642,8 +1793,10 @@ async function refreshCatalogData() {
   // Sync with Supabase cloud if connected (LIGHTWEIGHT QUERY - skips heavy media payloads)
   if (isSupabaseConfigured) {
     try {
-      const summaryColumns = 'id, title, category, badge, tagline, price, original_price, image, description, in_stock, variants, sizes, updated_at';
-      const remote = await getSupabaseProducts(summaryColumns);
+      const summaryColumns = 'id, title, category, badge, tagline, price, original_price, image, description, in_stock, variants, sizes, region, is_abuja, updated_at';
+      const legacySummaryColumns = 'id, title, category, badge, tagline, price, original_price, image, description, in_stock, variants, sizes, updated_at';
+      let remote = await getSupabaseProducts(summaryColumns);
+      if (!Array.isArray(remote)) remote = await getSupabaseProducts(legacySummaryColumns);
       if (remote && Array.isArray(remote)) {
         remote.forEach(rp => {
           const mapped = {
@@ -1653,6 +1806,8 @@ async function refreshCatalogData() {
             sku: rp.category ? `${rp.category.toUpperCase()} · ${rp.id.slice(0, 4)}` : 'VAULT · 01',
             badge: rp.badge || '',
             tagline: rp.tagline || '',
+            region: rp.region || (rp.is_abuja ? 'abuja' : 'all'),
+            isAbuja: rp.is_abuja === true || rp.region === 'abuja' || /abuja/i.test(rp.badge || ''),
             price: Number(rp.price) || 0,
             priceStr: `₦${Number(rp.price).toLocaleString()}`,
             img: rp.image || '/assets/category-lingerie.webp',

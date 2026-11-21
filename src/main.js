@@ -458,6 +458,12 @@ export function randomizeCatalogGrid() {
     [cards[i], cards[j]] = [cards[j], cards[i]];
   }
   cards.forEach(card => grid.appendChild(card));
+
+  if (currentMatchingCatalogCards.length) {
+    const matching = new Set(currentMatchingCatalogCards);
+    currentMatchingCatalogCards = cards.filter(card => matching.has(card));
+    updateCatalogPage(currentCatalogPage, false);
+  }
 }
 
 function updateCatalogPage(page, smoothScroll = false) {
@@ -6294,10 +6300,11 @@ function showShareToast(message) {
   if (!toast) {
     toast = document.createElement('div');
     toast.id = 'ttv-toast';
-    toast.style.cssText = 'position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(18,18,22,0.96);color:#fff;padding:12px 24px;border-radius:999px;font-size:13px;font-weight:600;box-shadow:0 12px 36px rgba(0,0,0,0.45);border:1px solid rgba(255,255,255,0.15);z-index:999999;opacity:0;transition:all 0.3s cubic-bezier(0.16,1,0.3,1);pointer-events:none;display:flex;align-items:center;gap:8px;';
+    toast.style.cssText = 'position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(18,18,22,0.96);color:#fff;padding:12px 24px;border-radius:999px;font-size:13px;font-weight:600;box-shadow:0 12px 36px rgba(0,0,0,0.45);border:1px solid rgba(255,255,255,0.15);z-index:999999;opacity:0;transition:all 0.3s cubic-bezier(0.16,1,0.3,1);pointer-events:none;display:flex;align-items:center;flex-wrap:nowrap;gap:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;';
     document.body.appendChild(toast);
   }
-  toast.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> ${message}`;
+  toast.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg><span class="share-toast-text"></span>`;
+  toast.querySelector('.share-toast-text').textContent = message;
   toast.style.opacity = '1';
   toast.style.transform = 'translateX(-50%) translateY(0)';
   clearTimeout(toast._timeout);
@@ -6546,10 +6553,11 @@ function openQuickviewForProduct(prodKey, card = null) {
 
       if (selectedIdx >= 0) {
         const def = variantsList[selectedIdx];
+        const defaultPriceStr = def.priceStr || prod.priceStr || (Number(def.price) > 0 ? '₦' + Number(def.price).toLocaleString() : '');
         currentQvProduct.selectedVariant = def.name;
         currentQvProduct.selectedPrice = def.price;
         currentQvProduct.selectedImg = def.img;
-        if (qvPrice) qvPrice.textContent = def.priceStr;
+        if (qvPrice) qvPrice.textContent = defaultPriceStr;
       } else {
         delete currentQvProduct.selectedVariant;
         delete currentQvProduct.selectedPrice;
@@ -6571,7 +6579,7 @@ function openQuickviewForProduct(prodKey, card = null) {
           vBtn.textContent = v.name;
         }
         vBtn.dataset.price = v.price;
-        vBtn.dataset.pricestr = v.priceStr;
+        vBtn.dataset.pricestr = v.priceStr || prod.priceStr || '';
 
         const explicitVariantImg = (v.img && !/^data:/i.test(String(v.img))) ? String(v.img) : '';
         let variantImage = explicitVariantImg;
@@ -6593,7 +6601,7 @@ function openQuickviewForProduct(prodKey, card = null) {
           currentQvProduct.selectedPrice = v.price;
           currentQvProduct.selectedImg = variantImage || v.img;
 
-          if (qvPrice) qvPrice.textContent = v.priceStr;
+          if (qvPrice) qvPrice.textContent = v.priceStr || prod.priceStr || (Number(v.price) > 0 ? '₦' + Number(v.price).toLocaleString() : '');
 
           if (variantImage && qvImg) {
             if (qvVideo) qvVideo.style.display = 'none';
@@ -8662,39 +8670,40 @@ function createStoreProductCard(prod, idx) {
 
   const variants = Array.isArray(prod.variants) ? prod.variants : [];
   const hasVariants = variants.length > 0;
-  const isOptionPills = hasVariants && variants.some(v => {
-    const hasDiffPrice = v.price && Number(v.price) > 0 && Number(v.price) !== Number(prod.price);
-    const notColor = !isRecognizedColorName(v.name);
-    return hasDiffPrice || notColor;
-  });
+  const variantHasExplicitPrice = (v) => Boolean(
+    v && (v.hasCustomPrice || v.priceStr) && Number(v.price) > 0
+  );
+  const isOptionPills = hasVariants && variants.some(v =>
+    variantHasExplicitPrice(v) || !isRecognizedColorName(v.name)
+  );
 
   const variantDotsHtml = (!isOptionPills && hasVariants)
-    ? `<div class="color-row" style="display: flex; align-items: center; gap: 8px; margin: 8px 0 12px 0;">
+    ? `<div class="color-row" style="display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin: 8px 0 12px 0; max-width: 100%; box-sizing: border-box;">
         ${variants.map((v, i) => {
           const hex = resolveColorHex(v.color, v.name);
           const borderStyle = isLightColor(hex) ? 'border: 1px solid #cbd5e1;' : '';
-          return `<button type="button" class="color-dot ${i === 0 ? 'active' : ''}" data-color="${v.name}" data-img="${v.img || prod.img}" title="${v.name}" style="background: ${hex}; ${borderStyle}"></button>`;
+          return `<button type="button" class="color-dot ${i === 0 ? 'active' : ''}" data-color="${v.name}" data-img="${v.img || prod.img}" title="${v.name}" style="background: ${hex}; ${borderStyle} flex-shrink: 0;"></button>`;
         }).join('')}
-        <span class="color-name" style="margin-left: 6px;">${variants[0]?.name || ''}</span>
+        <span class="color-name" style="margin-left: 4px; font-size: 11px; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${variants[0]?.name || ''}</span>
       </div>`
     : '';
 
   const optionPillsHtml = isOptionPills
-    ? `<div class="size-row variant-options-row" style="display: flex; gap: 6px; margin: 8px 0 12px 0; flex-wrap: wrap;">
+    ? `<div class="size-row variant-options-row" style="display: flex; gap: 6px; margin: 8px 0 12px 0; flex-wrap: wrap; max-width: 100%; box-sizing: border-box;">
         ${variants.map((v, i) => {
-          const hasExplicitPrice = Boolean(v.hasCustomPrice || (v.price && prod.price && Number(v.price) > 0 && Number(v.price) !== Number(prod.price)));
+          const hasExplicitPrice = variantHasExplicitPrice(v);
           const vPrice = Number(v.price) || prod.price;
           const vPriceStr = v.priceStr || ('₦' + vPrice.toLocaleString());
           const displayLabel = hasExplicitPrice ? `${v.name} · ₦${Math.round(vPrice / 1000)}k` : v.name;
           const priceAttrs = hasExplicitPrice ? `data-price="${vPrice}" data-pricestr="${vPriceStr}"` : '';
-          return `<button type="button" class="size-pill ${i === 0 ? 'active' : ''}" data-size="${v.name}" ${priceAttrs} ${v.img ? `data-img="${v.img}"` : ''} style="border-radius: 8px !important;">${displayLabel}</button>`;
+          return `<button type="button" class="size-pill ${i === 0 ? 'active' : ''}" data-size="${v.name}" ${priceAttrs} ${v.img ? `data-img="${v.img}"` : ''} style="border-radius: 8px !important; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${displayLabel}</button>`;
         }).join('')}
       </div>`
     : '';
 
   const sizePillsHtml = (!isOptionPills && prod.sizes && prod.sizes.length > 0)
-    ? `<div class="size-row" style="display: flex; gap: 6px; margin: 8px 0 12px 0; flex-wrap: wrap;">
-        ${prod.sizes.map((s, i) => `<button type="button" class="size-pill ${i === 0 ? 'active' : ''}" data-size="${s}" style="border-radius: 8px !important;">${s}</button>`).join('')}
+    ? `<div class="size-row" style="display: flex; gap: 6px; margin: 8px 0 12px 0; flex-wrap: wrap; max-width: 100%; box-sizing: border-box;">
+        ${prod.sizes.map((s, i) => `<button type="button" class="size-pill ${i === 0 ? 'active' : ''}" data-size="${s}" style="border-radius: 8px !important; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${s}</button>`).join('')}
       </div>`
     : '';
 
@@ -8923,6 +8932,7 @@ export function initCustomCatalogProducts() {
       p && (
         p.region === 'abuja' ||
         p.isAbuja === true ||
+        p.is_abuja === true ||
         /abuja/i.test(p.badge || '') ||
         /abuja/i.test(p.tagline || '') ||
         HARDCODED_ABUJA_IDS.includes(p.id)
@@ -8984,13 +8994,17 @@ export function initCustomCatalogProducts() {
   // Use a lightweight column list (never bulk-select image/media data URLs) and serve product
   // images through the on-demand /product-image endpoint instead.
   const supabaseImageUrl = (id) => '/product-image/' + encodeURIComponent(id);
-  getSupabaseProducts('id, title, category, badge, tagline, price, original_price, description, specs, in_stock, variants, sizes, updated_at').then((remoteProds) => {
+  const catalogColumns = 'id, title, category, badge, tagline, price, original_price, description, specs, in_stock, variants, sizes, region, is_abuja, updated_at';
+  const legacyCatalogColumns = 'id, title, category, badge, tagline, price, original_price, description, specs, in_stock, variants, sizes, updated_at';
+  getSupabaseProducts(catalogColumns)
+    .then(rows => rows === null ? getSupabaseProducts(legacyCatalogColumns) : rows)
+    .then((remoteProds) => {
     if (remoteProds && Array.isArray(remoteProds) && remoteProds.length > 0) {
       const cleanRemote = remoteProds.filter(rp => rp && !PURGED_PRODUCT_IDS.includes(rp.id));
       // Prepend newest remote products to front of customProds
       cleanRemote.forEach(rp => {
         const existingIdx = customProds.findIndex(p => p.id === rp.id);
-        const isAbuja = Boolean(rp.region === 'abuja' || rp.isAbuja === true || /abuja/i.test(rp.badge || '') || /abuja/i.test(rp.tagline || ''));
+        const isAbuja = Boolean(rp.region === 'abuja' || rp.isAbuja === true || rp.is_abuja === true || /abuja/i.test(rp.badge || '') || /abuja/i.test(rp.tagline || ''));
         const mapped = {
           id: rp.id,
           isRemote: true,
