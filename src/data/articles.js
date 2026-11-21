@@ -4,7 +4,7 @@ export const BLOG_ARTICLES = [
     searchPhrase: 'couples using sex toys interview first time',
     seoTitle: '“I Picked Up The Rose While He Was Inside Me”: A Real Couple on Toys, Kinks, and Intimacy | TheToysVirago',
     metaDesc: 'Meet Tara and Deji: the couple who proved the best bedroom upgrades don’t need a meeting. One spontaneous reach for The Rose became Deji’s best surprise ever.',
-    imgAlt: 'Moody sensual silhouette of intimate couple in luxury bedroom',
+    imgAlt: 'Warm sensual silhouette of intimate couple in luxury bedroom with dreadlocks and styled hair',
     datePublished: '2026-11-21T14:00:00+01:00',
     dateModified: '2026-11-21T14:00:00+01:00',
     title: '“I Picked Up The Rose While He Was Inside Me”: A Real Couple on Toys, Kinks, and Intimacy',
