@@ -280,10 +280,6 @@ export function renderProductPage(product = {}, options = {}) {
         </div>
       </div>` : '';
 
-  const whatsappMessage = encodeURIComponent(
-    `Hello TheToysVirago Concierge,\n\nI would like to order "${title}" (${priceStr || ''}).\nSKU: ${sku}\nProduct: ${pageUrl}`
-  );
-
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -818,50 +814,36 @@ export function renderProductPage(product = {}, options = {}) {
       margin-bottom: 28px;
     }
     .btn-order-primary {
-      display: flex;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      gap: 8px;
       width: 100%;
       max-width: 440px;
-      height: 50px;
-      background: var(--black);
+      min-height: 46px;
+      padding: 12px 22px;
+      background: var(--ruby);
       color: #ffffff;
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: 0.03em;
-      border-radius: 8px !important;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border: 1.5px solid var(--ruby);
+      border-radius: 999px !important;
       text-decoration: none;
-      border: 1px solid var(--black);
       transition: all 0.2s ease;
       cursor: pointer;
+      box-sizing: border-box;
     }
     .btn-order-primary:hover {
-      background: var(--ruby);
-      border-color: var(--ruby);
+      background: #121214;
+      border-color: #121214;
       transform: translateY(-1px);
-      box-shadow: 0 10px 24px rgba(159, 18, 57, 0.22);
+      box-shadow: 0 10px 24px rgba(18, 18, 20, 0.22);
     }
-    .btn-order-whatsapp {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 9px;
-      width: 100%;
-      max-width: 440px;
-      height: 44px;
-      background: #ffffff;
-      color: var(--ink);
-      font-size: 13px;
-      font-weight: 600;
-      border-radius: 8px !important;
-      text-decoration: none;
-      border: 1px solid var(--border);
-      transition: all 0.2s ease;
-    }
-    .btn-order-whatsapp:hover {
-      background: #f4f4f5;
-      border-color: #d4d4d8;
+    .btn-order-primary svg {
+      flex-shrink: 0;
     }
 
     /* ── DISCREET DELIVERY TRUST CALLOUT (STRICTLY NO OUTSIDE STROKES) ── */
@@ -962,8 +944,8 @@ export function renderProductPage(product = {}, options = {}) {
 
     @media (max-width: 860px) {
       .product-layout {
-        grid-template-columns: 1fr;
-        gap: 32px;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 28px;
       }
       .gallery-col {
         position: static;
@@ -973,10 +955,13 @@ export function renderProductPage(product = {}, options = {}) {
         width: calc(100% - 24px);
       }
       body {
-        padding-top: 90px;
+        padding-top: 88px;
       }
       .page-top-bar {
-        padding: 8px 16px 16px;
+        padding: 24px 16px 10px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
       }
       .product-page-main {
         padding: 0 16px 56px;
@@ -984,17 +969,42 @@ export function renderProductPage(product = {}, options = {}) {
       .stealth-esc-hint {
         display: none !important;
       }
+      .details-col {
+        padding-top: 0;
+      }
+      .product-title {
+        overflow-wrap: anywhere;
+      }
+      .price-stock-box {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .stock-pill {
+        white-space: normal;
+        text-align: left;
+      }
+      .cta-group {
+        max-width: none;
+      }
     }
     @media (max-width: 520px) {
       .thumbs-strip {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: none;
+        display: flex;
+        overflow-x: auto;
+        gap: 8px;
+        padding-bottom: 4px;
+      }
+      .thumb-btn {
+        flex: 0 0 62px;
+        scroll-snap-align: start;
       }
       .spec-row {
-        grid-template-columns: 110px 1fr;
-        gap: 10px;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 4px;
       }
-      .btn-order-primary,
-      .btn-order-whatsapp {
+      .btn-order-primary {
         max-width: 100%;
       }
     }
@@ -1014,21 +1024,22 @@ export function renderProductPage(product = {}, options = {}) {
       gap: 12px;
     }
     .btn-back-shop {
-      background: transparent;
-      border: none;
-      border-radius: 0 !important;
-      padding: 0 0 3px;
+      background: #ffffff;
+      border: 1.5px solid #e4ded7;
+      border-radius: 999px !important;
+      padding: 10px 18px;
       color: #2b2723;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
-      border-bottom: 1px solid #cfc8c0;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      box-shadow: 0 4px 14px rgba(38, 31, 24, 0.04);
     }
     .btn-back-shop:hover {
-      background: transparent;
-      color: var(--ruby);
-      border-color: var(--ruby);
-      border-bottom-color: var(--ruby);
-      transform: translateX(-3px);
+      background: #121214;
+      color: #ffffff;
+      border-color: #121214;
+      transform: translateX(-2px);
     }
     .breadcrumbs {
       font-size: 12px;
@@ -1141,7 +1152,8 @@ export function renderProductPage(product = {}, options = {}) {
       gap: 9px;
       width: 100%;
       min-width: 0;
-      overflow: hidden;
+      flex-wrap: wrap;
+      overflow: visible;
     }
     .variant-option-pill,
     .size-static-pill {
@@ -1152,9 +1164,8 @@ export function renderProductPage(product = {}, options = {}) {
       background: #ffffff;
       min-width: 0;
       max-width: 100%;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      white-space: normal;
+      overflow-wrap: anywhere;
     }
     .variant-option-pill.is-active {
       background: var(--ruby);
@@ -1166,38 +1177,27 @@ export function renderProductPage(product = {}, options = {}) {
       height: 30px;
     }
     .cta-group {
-      display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-      gap: 12px;
+      display: flex;
+      width: 100%;
+      max-width: 420px;
       margin-bottom: 32px;
     }
-    .btn-order-primary,
-    .btn-order-whatsapp {
+    .btn-order-primary {
       width: 100%;
       max-width: none;
-      height: 54px;
+      min-height: 48px;
+      padding: 12px 22px;
       border-radius: 999px !important;
-      font-size: 13px;
-      padding: 0 18px;
-    }
-    .btn-order-primary {
-      background: var(--ruby);
-      border-color: var(--ruby);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
       box-shadow: 0 12px 28px rgba(159, 18, 57, 0.2);
     }
     .btn-order-primary:hover {
       background: #121214;
       border-color: #121214;
       box-shadow: 0 14px 32px rgba(18, 18, 20, 0.22);
-    }
-    .btn-order-whatsapp {
-      background: #ffffff;
-      border-color: #ded8d1;
-      color: #2b2723;
-    }
-    .btn-order-whatsapp:hover {
-      background: #f6f2ee;
-      border-color: #cfc8c0;
     }
     .trust-strip {
       background: #ffffff;
@@ -1252,25 +1252,54 @@ export function renderProductPage(product = {}, options = {}) {
     }
 
     @media (max-width: 860px) {
-      .page-top-bar { padding: 24px 16px 8px; }
-      .product-layout { gap: 36px; }
-      .main-img-card { aspect-ratio: 1 / 1; }
-      .main-img-card img { padding: 22px; }
-      .cta-group { grid-template-columns: 1fr; }
-      .trust-strip { grid-template-columns: 1fr; }
+      .page-top-bar {
+        padding: 24px 16px 10px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .product-layout { gap: 28px; }
+      .main-img-card {
+        aspect-ratio: 1 / 1;
+        border-radius: 16px;
+      }
+      .main-img-card img { padding: 18px; }
+      .cta-group { max-width: none; }
+      .trust-strip {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 16px;
+        gap: 14px;
+      }
       .trust-item + .trust-item {
         border-left: none;
         border-top: 1px solid #eee9e3;
         padding-left: 0;
-        padding-top: 16px;
+        padding-top: 14px;
       }
     }
     @media (max-width: 520px) {
-      .product-title { font-size: 38px; }
-      .price-amount { font-size: 34px; }
-      .main-img-card img { padding: 16px; }
-      .thumbs-strip { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-      .spec-row { grid-template-columns: 120px minmax(0, 1fr); gap: 12px; }
+      .product-title { font-size: 34px; }
+      .price-amount { font-size: 32px; }
+      .main-img-card img { padding: 12px; }
+      .thumbs-strip {
+        grid-template-columns: none;
+        display: flex;
+        overflow-x: auto;
+        gap: 8px;
+        padding-bottom: 4px;
+      }
+      .thumb-btn {
+        flex: 0 0 62px;
+        scroll-snap-align: start;
+      }
+      .spec-row {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 4px;
+      }
+      .btn-order-primary {
+        max-width: 100%;
+        min-height: 48px;
+      }
     }
   </style>
 </head>
@@ -1370,14 +1399,7 @@ export function renderProductPage(product = {}, options = {}) {
               <line x1="3" y1="6" x2="21" y2="6"/>
               <path d="M16 10a4 4 0 0 1-8 0"/>
             </svg>
-            <span id="btn-primary-text">Add to Bag · ${escapeHtml(priceStr || 'Order')}</span>
-          </a>
-          <a class="btn-order-whatsapp" href="https://wa.me/2348036514814?text=${whatsappMessage}" target="_blank" rel="noopener">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M17.472 14.382c-.301-.15-1.78-.878-2.056-.978-.276-.1-.477-.15-.678.15-.2.301-.778.978-.954 1.179-.176.2-.352.226-.653.075-1.398-.702-2.316-1.25-3.23-2.828-.244-.42.244-.39.7-.1.301-.4.402-.678.603-.979.2-.301.1-.564-.05-.865-.15-.301-.678-1.631-.93-2.233-.245-.586-.494-.506-.678-.515-.176-.008-.377-.01-.578-.01-.2 0-.528.075-.804.376-.276.301-1.055 1.03-1.055 2.511s1.08 2.912 1.231 3.113c.15.2 2.126 3.247 5.15 4.555.719.311 1.281.497 1.719.636.723.23 1.381.198 1.901.12.579-.087 1.78-.727 2.031-1.43.251-.703.251-1.305.176-1.43-.075-.125-.276-.201-.577-.351z"/>
-              <path d="M12 2C6.477 2 2 6.477 2 12c0 1.892.525 3.662 1.438 5.176L2 22l4.966-1.394A9.957 9.957 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18.17a8.136 8.136 0 0 1-4.148-1.134l-.297-.176-3.085.866.866-3.008-.193-.312A8.14 8.14 0 0 1 3.83 12c0-4.505 3.665-8.17 8.17-8.17 4.505 0 8.17 3.665 8.17 8.17 0 4.505-3.665 8.17-8.17 8.17z"/>
-            </svg>
-            <span>Order via WhatsApp Concierge</span>
+            <span id="btn-primary-text">Add to Bag</span>
           </a>
         </div>
 
@@ -1429,7 +1451,6 @@ export function renderProductPage(product = {}, options = {}) {
       var dots = Array.prototype.slice.call(document.querySelectorAll('.color-swatch-btn'));
       var optionPills = Array.prototype.slice.call(document.querySelectorAll('.variant-option-pill'));
       var priceVal = document.getElementById('product-price-val');
-      var btnText = document.getElementById('btn-primary-text');
       var activeColorLabel = document.getElementById('active-color-name');
 
       function showImage(src) {
@@ -1464,7 +1485,6 @@ export function renderProductPage(product = {}, options = {}) {
           var priceStr = pill.getAttribute('data-pricestr');
           if (priceStr && priceVal) {
             priceVal.textContent = priceStr;
-            if (btnText) btnText.textContent = 'Add to Bag · ' + priceStr;
           }
           var img = pill.getAttribute('data-img');
           if (img) showImage(img);
