@@ -3425,19 +3425,22 @@ body.cart-open .main-header,
   color: var(--ink) !important;
   font-size: clamp(28px, 4vw, 42px);
 }
-/* ── 5 CATEGORY FILTER PILLS (Lingerie, Toys, Lubes, BDSM, Games) ── */
+/* ── HOUSE OF NINA STYLE CATEGORY FILTER PILLS (All Pieces, Lingerie, Toys, Lubes, BDSM, Games) ── */
 .collection.collection-page-white .filter-row,
 .filter-row {
-  background: #f4f4f7 !important;
-  border: 1px solid #e2e2e8 !important;
-  padding: 4px !important;
-  border-radius: 8px !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 2px 0 6px 0 !important;
+  border-radius: 0 !important;
   display: flex !important;
   align-items: center !important;
-  gap: 4px !important;
+  gap: 8px !important;
   width: 100% !important;
-  max-width: 520px !important;
-  margin: 0 auto 10px auto !important;
+  max-width: 100% !important;
+  margin: 0 0 12px 0 !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  scrollbar-width: none !important;
 }
 .collection.collection-page-white .filter-row::-webkit-scrollbar,
 .filter-row::-webkit-scrollbar {
@@ -3445,44 +3448,48 @@ body.cart-open .main-header,
 }
 .collection.collection-page-white .filter-btn,
 .filter-btn {
-  flex: 1 !important;
-  text-align: center !important;
+  flex: 0 0 auto !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  padding: 8px 12px !important;
-  font-size: 13px !important;
-  font-weight: 600 !important;
-  border-radius: 6px !important;
-  border: none !important;
-  background: transparent !important;
-  color: var(--ink-2) !important;
+  padding: 8px 18px !important;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+  border-radius: 9999px !important;
+  border: 1px solid #e5e5e7 !important;
+  background: #ffffff !important;
+  color: #111111 !important;
   cursor: pointer !important;
   transition: all 0.15s ease !important;
   white-space: nowrap !important;
+  user-select: none !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03) !important;
 }
 .collection.collection-page-white .filter-btn:hover,
 .filter-btn:hover {
-  color: var(--ink) !important;
+  background: #f9fafb !important;
+  border-color: #d1d5db !important;
+  color: #000000 !important;
 }
 .collection.collection-page-white .filter-btn.active,
 .filter-btn.active {
-  background: var(--ruby) !important;
+  background: #111111 !important;
   color: #ffffff !important;
+  border-color: #111111 !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
 }
 @media (max-width: 520px) {
   .collection.collection-page-white .filter-row,
   .filter-row {
-    gap: 2px !important;
-    padding: 3px !important;
-    width: 100% !important;
-    margin-bottom: 8px !important;
+    gap: 6px !important;
+    padding: 2px 0 4px 0 !important;
+    margin-bottom: 10px !important;
   }
   .collection.collection-page-white .filter-btn,
   .filter-btn {
-    padding: 7px 4px !important;
-    font-size: 11.5px !important;
-    letter-spacing: -0.01em !important;
+    padding: 7px 14px !important;
+    font-size: 12.5px !important;
   }
 }
 
@@ -3542,7 +3549,7 @@ body.cart-open .main-header,
   font-weight: 500 !important;
 }
 .filter-active-count {
-  display: inline-flex !important;
+  display: none;
   align-items: center !important;
   justify-content: center !important;
   background: #9f1239 !important;
@@ -3553,6 +3560,10 @@ body.cart-open .main-header,
   height: 17px !important;
   border-radius: 50% !important;
   padding: 0 4px !important;
+  line-height: 1 !important;
+}
+.filter-active-count.is-visible {
+  display: inline-flex !important;
 }
 .btn-clear-filters {
   background: #fef2f2 !important;
@@ -3587,6 +3598,9 @@ body.cart-open .main-header,
 .toolbar-dropdown {
   position: relative !important;
 }
+.toolbar-dropdown.is-open {
+  z-index: 99999 !important;
+}
 .toolbar-dropdown-menu {
   position: absolute !important;
   top: calc(100% + 5px) !important;
@@ -3594,10 +3608,11 @@ body.cart-open .main-header,
   background: #ffffff !important;
   border: 1px solid #e5e7eb !important;
   border-radius: 12px !important;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
   padding: 6px !important;
   min-width: 175px !important;
-  z-index: 100 !important;
+  max-width: calc(100vw - 32px) !important;
+  z-index: 99999 !important;
   display: flex !important;
   flex-direction: column !important;
   gap: 2px !important;
@@ -3634,13 +3649,31 @@ body.cart-open .main-header,
   font-weight: 700 !important;
 }
 
-/* Desktop: Show filter dropdown group inline with [ ☷ Filters ] */
+/* Desktop: Show filter dropdown group inline between Filters and Sort By */
 @media (min-width: 769px) {
+  .toolbar-left {
+    order: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+  .toolbar-dropdown-group {
+    order: 2 !important;
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
   .toolbar-dropdown-group.is-collapsed {
     display: flex !important;
   }
   .toolbar-dropdown-group.desktop-hidden {
     display: none !important;
+  }
+  .toolbar-right {
+    order: 3 !important;
+    margin-left: auto !important;
+    display: flex !important;
+    align-items: center !important;
   }
 }
 
@@ -3679,21 +3712,26 @@ body.cart-open .main-header,
   .toolbar-dropdown-group {
     order: 3 !important;
     width: 100% !important;
+    flex-basis: 100% !important;
     display: flex !important;
     align-items: center !important;
-    gap: 6px !important;
-    overflow-x: auto !important;
-    white-space: nowrap !important;
-    padding: 6px 0 2px 0 !important;
-    margin-top: 4px !important;
-    -webkit-overflow-scrolling: touch !important;
-    scrollbar-width: none !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    overflow: visible !important;
+    white-space: normal !important;
+    padding: 6px 0 4px 0 !important;
+    margin-top: 6px !important;
   }
   .toolbar-dropdown-group::-webkit-scrollbar {
     display: none !important;
   }
   .toolbar-dropdown-group.is-collapsed {
     display: none !important;
+  }
+  #dropdown-price .toolbar-dropdown-menu,
+  #dropdown-color .toolbar-dropdown-menu {
+    left: auto !important;
+    right: 0 !important;
   }
   .toolbar-btn {
     padding: 6.5px 13px !important;

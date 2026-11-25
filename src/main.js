@@ -847,6 +847,9 @@ function applyProductFilter(category) {
   allBtns.forEach((b) => {
     b.classList.toggle('active', b.dataset.filter === category);
   });
+  if (typeof updateFilterBadgeAndClear === 'function') {
+    updateFilterBadgeAndClear();
+  }
   filterProducts(true);
 }
 
@@ -899,6 +902,9 @@ function initCollectionToolbar() {
     toolbar.querySelectorAll('.toolbar-dropdown-trigger, .toolbar-sort-trigger').forEach((btn) => {
       btn.setAttribute('aria-expanded', 'false');
     });
+    toolbar.querySelectorAll('.toolbar-dropdown').forEach((d) => {
+      d.classList.remove('is-open');
+    });
   }
 
   // Toggle dropdown menus on trigger click
@@ -914,6 +920,7 @@ function initCollectionToolbar() {
       if (isHidden) {
         menu.removeAttribute('hidden');
         trigger.setAttribute('aria-expanded', 'true');
+        dropdown.classList.add('is-open');
       }
     });
   });
@@ -928,17 +935,27 @@ function initCollectionToolbar() {
   // Helper to update active filters count badge & clear button
   function updateFilterBadgeAndClear() {
     let count = 0;
-    if (currentFilters.type !== 'all') count++;
-    if (currentFilters.color !== 'all') count++;
-    if (currentFilters.price !== 'all') count++;
+    const activeCatBtn = document.querySelector('.filter-btn.active');
+    if (activeCatBtn && activeCatBtn.dataset.filter && activeCatBtn.dataset.filter !== 'all') {
+      count++;
+    }
+    if (currentFilters.type && currentFilters.type !== 'all') count++;
+    if (currentFilters.color && currentFilters.color !== 'all') count++;
+    if (currentFilters.price && currentFilters.price !== 'all') count++;
 
     if (activeCountBadge) {
       if (count > 0) {
         activeCountBadge.textContent = count;
+        activeCountBadge.classList.add('is-visible');
         activeCountBadge.style.display = 'inline-flex';
       } else {
+        activeCountBadge.textContent = '0';
+        activeCountBadge.classList.remove('is-visible');
         activeCountBadge.style.display = 'none';
       }
+    }
+    if (btnToggle) {
+      btnToggle.classList.toggle('has-filter', count > 0);
     }
     if (btnClear) {
       btnClear.style.display = count > 0 ? 'inline-flex' : 'none';
@@ -1026,6 +1043,10 @@ function initCollectionToolbar() {
           item.classList.toggle('active', (item.dataset[dataAttr] || 'all') === 'all');
         });
       });
+
+      // Clear any active category button as well
+      const allBtns = document.querySelectorAll('.filter-btn');
+      allBtns.forEach(b => b.classList.remove('active'));
 
       closeAllDropdowns();
       updateFilterBadgeAndClear();
@@ -5515,9 +5536,13 @@ const PRODUCT_DATABASE = {
     "id": "wearable-panty-vibe",
     "title": "Fly Panty Vibe",
     "badge": "WIRELESS REMOTE",
-    "price": 0,
-    "priceStr": "",
+    "price": 30000,
+    "priceStr": "₦30,000",
     "img": "/assets/IMG_3791.webp",
+    "variants": [
+      { "name": "Pink", "img": "/assets/IMG_3791.webp" },
+      { "name": "Purple", "img": "/assets/IMG_3791.webp" }
+    ],
     "desc": "Ultra-thin, ergonomic butterfly wings designed to rest comfortably against the vulva inside any panty. Sync with the wireless remote or smartphone app for heart-racing secret stimulation at the dinner table, movies, or wherever you dare.",
     "specs": [
         {

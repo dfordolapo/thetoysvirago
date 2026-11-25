@@ -185,61 +185,6 @@
                 <span>Filters</span>
                 <span class="filter-active-count" id="filter-active-count" style="display: none;">0</span>
               </button>
-
-              <div class="toolbar-dropdown-group is-collapsed" id="toolbar-dropdown-group">
-                <!-- Type Filter Dropdown -->
-                <div class="toolbar-dropdown" id="dropdown-type">
-                  <button type="button" class="toolbar-btn toolbar-dropdown-trigger" data-dropdown="type">
-                    <span class="trigger-label">Type</span>
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
-                  </button>
-                  <div class="toolbar-dropdown-menu" hidden>
-                    <button type="button" class="dropdown-item active" data-type="all">Any Type</button>
-                    <button type="button" class="dropdown-item" data-type="suction">Suction &amp; Air-Pulse</button>
-                    <button type="button" class="dropdown-item" data-type="thrusting">Thrusting &amp; Wands</button>
-                    <button type="button" class="dropdown-item" data-type="bullet">Bullets &amp; Eggs</button>
-                    <button type="button" class="dropdown-item" data-type="dildo">Dildos &amp; Shafts</button>
-                    <button type="button" class="dropdown-item" data-type="bondage">Bondage &amp; Cuffs</button>
-                    <button type="button" class="dropdown-item" data-type="lube">Lubes &amp; Oils</button>
-                  </div>
-                </div>
-
-                <!-- Colour Filter Dropdown -->
-                <div class="toolbar-dropdown" id="dropdown-color">
-                  <button type="button" class="toolbar-btn toolbar-dropdown-trigger" data-dropdown="color">
-                    <span class="trigger-label">Colour</span>
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
-                  </button>
-                  <div class="toolbar-dropdown-menu" hidden>
-                    <button type="button" class="dropdown-item active" data-color="all">Any Colour</button>
-                    <button type="button" class="dropdown-item" data-color="black">Black</button>
-                    <button type="button" class="dropdown-item" data-color="pink">Pink</button>
-                    <button type="button" class="dropdown-item" data-color="purple">Purple</button>
-                    <button type="button" class="dropdown-item" data-color="red">Red</button>
-                    <button type="button" class="dropdown-item" data-color="tan">Tan</button>
-                  </div>
-                </div>
-
-                <!-- Price Filter Dropdown -->
-                <div class="toolbar-dropdown" id="dropdown-price">
-                  <button type="button" class="toolbar-btn toolbar-dropdown-trigger" data-dropdown="price">
-                    <span class="trigger-label">Price</span>
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
-                  </button>
-                  <div class="toolbar-dropdown-menu" hidden>
-                    <button type="button" class="dropdown-item active" data-price="all">Any Price</button>
-                    <button type="button" class="dropdown-item" data-price="under-20k">Under ₦20,000</button>
-                    <button type="button" class="dropdown-item" data-price="20k-35k">₦20,000 - ₦35,000</button>
-                    <button type="button" class="dropdown-item" data-price="35k-50k">₦35,000 - ₦50,000</button>
-                    <button type="button" class="dropdown-item" data-price="above-50k">₦50,000 &amp; Above</button>
-                  </div>
-                </div>
-
-                <!-- Clear Active Filters Button -->
-                <button type="button" class="toolbar-btn btn-clear-filters" id="btn-clear-filters" style="display: none;">
-                  ✕ Clear
-                </button>
-              </div>
             </div>
 
             <div class="toolbar-right">
@@ -260,7 +205,62 @@
                 </div>
               </div>
             </div>
-          </div>
+
+            <div class="toolbar-dropdown-group is-collapsed" id="toolbar-dropdown-group">
+              <!-- Type Filter Dropdown -->
+              <div class="toolbar-dropdown" id="dropdown-type">
+                <button type="button" class="toolbar-btn toolbar-dropdown-trigger" data-dropdown="type">
+                  <span class="trigger-label">Type</span>
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+                <div class="toolbar-dropdown-menu" hidden>
+                  <button type="button" class="dropdown-item active" data-type="all">Any Type</button>
+                  <button type="button" class="dropdown-item" data-type="suction">Suction &amp; Air-Pulse</button>
+                  <button type="button" class="dropdown-item" data-type="thrusting">Thrusting &amp; Wands</button>
+                  <button type="button" class="dropdown-item" data-type="bullet">Bullets &amp; Eggs</button>
+                  <button type="button" class="dropdown-item" data-type="dildo">Dildos &amp; Shafts</button>
+                  <button type="button" class="dropdown-item" data-type="bondage">Bondage &amp; Cuffs</button>
+                  <button type="button" class="dropdown-item" data-type="lube">Lubes &amp; Oils</button>
+                </div>
+              </div>
+
+              <!-- Colour Filter Dropdown -->
+              <div class="toolbar-dropdown" id="dropdown-color">
+                <button type="button" class="toolbar-btn toolbar-dropdown-trigger" data-dropdown="color">
+                  <span class="trigger-label">Colour</span>
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+                <div class="toolbar-dropdown-menu" hidden>
+                  <button type="button" class="dropdown-item active" data-color="all">Any Colour</button>
+                  <button type="button" class="dropdown-item" data-color="black">Black</button>
+                  <button type="button" class="dropdown-item" data-color="pink">Pink</button>
+                  <button type="button" class="dropdown-item" data-color="purple">Purple</button>
+                  <button type="button" class="dropdown-item" data-color="red">Red</button>
+                  <button type="button" class="dropdown-item" data-color="tan">Tan</button>
+                </div>
+              </div>
+
+              <!-- Price Filter Dropdown -->
+              <div class="toolbar-dropdown" id="dropdown-price">
+                <button type="button" class="toolbar-btn toolbar-dropdown-trigger" data-dropdown="price">
+                  <span class="trigger-label">Price</span>
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+                <div class="toolbar-dropdown-menu" hidden>
+                  <button type="button" class="dropdown-item active" data-price="all">Any Price</button>
+                  <button type="button" class="dropdown-item" data-price="under-20k">Under ₦20,000</button>
+                  <button type="button" class="dropdown-item" data-price="20k-35k">₦20,000 - ₦35,000</button>
+                  <button type="button" class="dropdown-item" data-price="35k-50k">₦35,000 - ₦50,000</button>
+                  <button type="button" class="dropdown-item" data-price="above-50k">₦50,000 &amp; Above</button>
+                </div>
+              </div>
+
+              <!-- Clear Active Filters Button -->
+              <button type="button" class="toolbar-btn btn-clear-filters" id="btn-clear-filters" style="display: none;">
+                ✕ Clear
+              </button>
+            </div>
+          </div></div>
         </div>
 
         <div class="search-meta-row" id="search-meta-row">
@@ -1328,13 +1328,12 @@
               <div class="product-top">
                 <span class="product-price">₦35,000</span>
               </div>
-              <div class="color-row">
+              <div class="size-row">
                 <button class="size-pill" data-size="Sucker" data-img="/assets/rose-sucker-variant.webp">Sucker</button>
                 <button class="size-pill" data-size="Licker" data-img="/assets/rose-licker-variant.webp">Licker</button>
-                <span class="color-name"></span>
               </div>
               <button class="btn btn-black btn-block btn-add-cart"
-                data-id="pulsating-rose" data-title="Pulsating Rose (Sucker)"
+                data-id="pulsating-rose" data-title="Pulsating Rose"
                 data-price="35000" data-img="/assets/rose-sucker-variant.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
                 Add to Cart
@@ -1726,9 +1725,8 @@
               <div class="product-top">
                 <span class="product-price">₦27,000</span>
               </div>
-              <div class="color-row">
+              <div class="size-row">
                 <button class="size-pill" data-size="500ml">500ml</button>
-                <span class="color-name"></span>
               </div>
               <button class="btn btn-black btn-block btn-add-cart"
                 data-id="african-brute" data-title="African Brute Tonic"
@@ -1754,8 +1752,8 @@
                 <span class="product-price">From ₦40,000</span>
               </div>
               <div class="color-row" style="margin-bottom:8px;">
-                <button class="size-pill" data-size="Without Suitcase" data-price="40000" data-pricestr="₦40,000">Without Case</button>
-                <button class="size-pill" data-size="With Suitcase" data-price="55000" data-pricestr="₦55,000">With Case</button>
+                <button class="size-pill" data-size="No Case" data-price="40000" data-pricestr="₦40,000">Without Case</button>
+                <button class="size-pill" data-size="Case" data-price="55000" data-pricestr="₦55,000">With Case</button>
               </div>
                             <button class="btn btn-black btn-block btn-add-cart"
                 data-id="emerald-snakeskin-bdsm-trunk" data-title="Emerald Bondage Trunk"
@@ -1781,8 +1779,8 @@
                 <span class="product-price">From ₦40,000</span>
               </div>
               <div class="color-row" style="margin-bottom:8px;">
-                <button class="size-pill" data-size="Without Suitcase" data-price="40000" data-pricestr="₦40,000">Without Case</button>
-                <button class="size-pill" data-size="With Suitcase" data-price="55000" data-pricestr="₦55,000">With Case</button>
+                <button class="size-pill" data-size="No Case" data-price="40000" data-pricestr="₦40,000">Without Case</button>
+                <button class="size-pill" data-size="Case" data-price="55000" data-pricestr="₦55,000">With Case</button>
               </div>
                             <button class="btn btn-black btn-block btn-add-cart"
                 data-id="leather-bondage-chest" data-title="Noir Boudoir Chest"
@@ -1831,10 +1829,10 @@
                 <span class="product-price">₦12,000</span>
               </div>
               <div class="color-row">
-                <button class="size-pill" data-size="Scarlet" data-price="12000" data-pricestr="₦12,000" data-img="/assets/IMG_0283.webp">Scarlet</button>
-                <button class="size-pill " data-size="Noir" data-price="12000" data-pricestr="₦12,000" data-img="/assets/IMG_0284.webp">Noir</button>
-                <button class="size-pill " data-size="Violet" data-price="12000" data-pricestr="₦12,000" data-img="/assets/IMG_0286.webp">Violet</button>
-                <button class="size-pill " data-size="Blush" data-price="12000" data-pricestr="₦12,000" data-img="/assets/IMG_0288.webp">Blush</button>
+                <button type="button" class="color-dot" style="background: #dc2626;" data-color="Scarlet" title="Scarlet" data-img="/assets/IMG_0283.webp"></button>
+                <button type="button" class="color-dot" style="background: #121214;" data-color="Noir" title="Noir" data-img="/assets/IMG_0284.webp"></button>
+                <button type="button" class="color-dot" style="background: #8b5cf6;" data-color="Violet" title="Violet" data-img="/assets/IMG_0286.webp"></button>
+                <button type="button" class="color-dot" style="background: #f472b6;" data-color="Blush" title="Blush" data-img="/assets/IMG_0288.webp"></button>
                 <span class="color-name"></span>
               </div>
               <button class="btn btn-black btn-block btn-add-cart"
@@ -1864,8 +1862,8 @@
                 <span class="product-price">From ₦8,500</span>
               </div>
               <div class="color-row">
-                <button class="size-pill" data-size="Crimson" data-price="Small: ₦8,500" data-pricestr="₦8,500" data-img="/assets/IMG_5209.webp">Small</button>
-                <button class="size-pill " data-size="Midnight" data-price="" data-pricestr="" data-img="/assets/IMG_5210.webp">Large</button>
+                <button type="button" class="color-dot" style="background: #dc2626;" data-color="Crimson" title="Crimson" data-img="/assets/IMG_5209.webp"></button>
+                <button type="button" class="color-dot" style="background: #121214;" data-color="Midnight" title="Midnight" data-img="/assets/IMG_5210.webp"></button>
                 <span class="color-name"></span>
               </div>
               <button class="btn btn-black btn-block btn-add-cart"
@@ -2144,9 +2142,9 @@
                 <span class="product-price">₦25,000</span>
               </div>
               <div class="color-row">
-                <button class="size-pill" data-size="Emerald" data-price="" data-pricestr="" data-img="/assets/IMG_0360.webp">Emerald</button>
-                <button class="size-pill " data-size="Noir" data-price="" data-pricestr="" data-img="/assets/IMG_0364.webp">Noir</button>
-                <button class="size-pill " data-size="Bronze" data-price="" data-pricestr="" data-img="/assets/IMG_0364.webp">Bronze</button>
+                <button type="button" class="color-dot" style="background: #059669;" data-color="Emerald" title="Emerald" data-img="/assets/IMG_0360.webp"></button>
+                <button type="button" class="color-dot" style="background: #121214;" data-color="Noir" title="Noir" data-img="/assets/IMG_0364.webp"></button>
+                <button type="button" class="color-dot" style="background: #cd7f32;" data-color="Bronze" title="Bronze" data-img="/assets/IMG_0364.webp"></button>
                 <span class="color-name"></span>
               </div>
               <button class="btn btn-black btn-block btn-add-cart"
@@ -2200,10 +2198,10 @@
                 <span class="product-price">₦35,000</span>
               </div>
               <div class="color-row">
-                <button class="size-pill" data-size="Matte" data-price="" data-pricestr="" data-img="/assets/IMG_6459.webp">Matte</button>
-                <button class="size-pill " data-size="Fuchsia" data-price="" data-pricestr="" data-img="/assets/IMG_6459.webp">Fuchsia</button>
-                <button class="size-pill " data-size="Purple" data-price="" data-pricestr="" data-img="/assets/IMG_6459.webp">Purple</button>
-                <button class="size-pill " data-size="Chrome" data-price="" data-pricestr="" data-img="/assets/IMG_6459.webp">Chrome</button>
+                <button type="button" class="color-dot" style="background: #121214;" data-color="Matte" title="Matte" data-img="/assets/IMG_6459.webp"></button>
+                <button type="button" class="color-dot" style="background: #d946ef;" data-color="Fuchsia" title="Fuchsia" data-img="/assets/IMG_6459.webp"></button>
+                <button type="button" class="color-dot" style="background: #7c3aed;" data-color="Purple" title="Purple" data-img="/assets/IMG_6459.webp"></button>
+                <button type="button" class="color-dot" style="background: #94a3b8;" data-color="Chrome" title="Chrome" data-img="/assets/IMG_6459.webp"></button>
                 <span class="color-name"></span>
               </div>
               <button class="btn btn-black btn-block btn-add-cart"
@@ -2253,8 +2251,8 @@
                 <span class="product-price">₦18,000</span>
               </div>
               <div class="color-row">
-                <button class="size-pill" data-size="Gold" data-price="" data-pricestr="" data-img="/assets/IMG_4697.webp">Gold</button>
-                <button class="size-pill " data-size="Violet" data-price="" data-pricestr="" data-img="/assets/IMG_4697.webp">Violet</button>
+                <button type="button" class="color-dot" style="background: #eab308;" data-color="Gold" title="Gold" data-img="/assets/IMG_4697.webp"></button>
+                <button type="button" class="color-dot" style="background: #8b5cf6;" data-color="Violet" title="Violet" data-img="/assets/IMG_4697.webp"></button>
                 <span class="color-name"></span>
               </div>
               <button class="btn btn-black btn-block btn-add-cart"
@@ -2281,8 +2279,8 @@
                 <span class="product-price">₦35,000</span>
               </div>
               <div class="color-row">
-                <button class="size-pill" data-size="Blush" data-price="" data-pricestr="" data-img="/assets/IMG_6732.webp">Blush</button>
-                <button class="size-pill " data-size="Rose" data-price="" data-pricestr="" data-img="/assets/IMG_6732.webp">Rose</button>
+                <button type="button" class="color-dot" style="background: #f472b6;" data-color="Blush" title="Blush" data-img="/assets/IMG_6732.webp"></button>
+                <button type="button" class="color-dot" style="background: #e11d48;" data-color="Rose" title="Rose" data-img="/assets/IMG_6732.webp"></button>
                 <span class="color-name"></span>
               </div>
               <button class="btn btn-black btn-block btn-add-cart"
@@ -2318,7 +2316,7 @@
           </article>
 
           <!-- 48. TOYS: Fly Panty Vibe -->
-          <article class="product-card" data-category="toys" data-id="wearable-panty-vibe" data-keywords="fly panty vibe toys wireless remote concealed curved wearable butterfly wings bluetooth smartphone app + ergonomic remote ipx7 waterproof & submersible">
+          <article class="product-card" data-category="toys" data-id="wearable-panty-vibe" data-keywords="fly panty vibe toys wireless remote concealed curved wearable butterfly wings bluetooth smartphone app + ergonomic remote ipx7 waterproof & submersible pink purple">
             <div class="product-img-wrap">
               <span class="product-badge ruby-badge">REMOTE</span>
               <img src="/assets/IMG_3791.webp" alt="Fly Panty Vibe" class="product-img" loading="lazy" decoding="async" />
@@ -2329,11 +2327,16 @@
             <div class="product-body">
               <h3 class="product-name">Fly Panty Vibe</h3>
               <div class="product-top">
-                <span class="product-price">From ₦25,000</span>
+                <span class="product-price">₦30,000</span>
+              </div>
+              <div class="color-row">
+                <button type="button" class="color-dot" data-color="Pink" data-img="/assets/IMG_3791.webp" title="Pink" style="background: #f472b6;"></button>
+                <button type="button" class="color-dot" data-color="Purple" data-img="/assets/IMG_3791.webp" title="Purple" style="background: #7c3aed;"></button>
+                <span class="color-name"></span>
               </div>
               <button class="btn btn-black btn-block btn-add-cart"
                 data-id="wearable-panty-vibe" data-title="Fly Panty Vibe"
-                data-price="25000" data-img="/assets/IMG_3791.webp">
+                data-price="30000" data-img="/assets/IMG_3791.webp">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
                 Add to Cart
               </button>
@@ -2622,8 +2625,8 @@
                 <span class="product-price"></span>
               </div>
               <div class="color-row">
-                <button class="size-pill" data-size="Ebony" data-price="" data-pricestr="" data-img="/assets/IMG_1280.webp">Ebony</button>
-                <button class="size-pill " data-size="Chocolate" data-price="" data-pricestr="" data-img="/assets/IMG_1281.webp">Chocolate</button>
+                <button type="button" class="color-dot" style="background: #121214;" data-color="Ebony" title="Ebony" data-img="/assets/IMG_1280.webp"></button>
+                <button type="button" class="color-dot" style="background: #5c3a21;" data-color="Chocolate" title="Chocolate" data-img="/assets/IMG_1281.webp"></button>
                 <span class="color-name"></span>
               </div>
               <button class="btn btn-black btn-block btn-add-cart"
@@ -2636,7 +2639,7 @@
           </article>
 
           <!-- 65. TOYS: Spiral Swirl Shaft -->
-          <article class="product-card" data-category="toys" data-id="spiral-swirl-dildo" data-keywords="spiral swirl shaft toys spiral ribs continuous 360° corkscrew spiral ridges wide vacuum suction base 7.2 inches (183mm)">
+          <article class="product-card" data-category="toys" data-id="spiral-swirl-dildo" data-keywords="spiral swirl shaft toys spiral ribs continuous 360° corkscrew spiral ridges wide vacuum suction base 7.2 inches (183mm) black sky blue tan">
             <div class="product-img-wrap">
               <span class="product-badge ruby-badge">SPIRAL RIBS</span>
               <img src="/assets/IMG_3943.webp" alt="Spiral Swirl Shaft" class="product-img" loading="lazy" decoding="async" />
@@ -2650,9 +2653,9 @@
                 <span class="product-price">₦24,000</span>
               </div>
               <div class="color-row">
-                <button class="size-pill" data-size="Tan" data-price="" data-pricestr="" data-img="/assets/IMG_3943.webp">Tan</button>
-                <button class="size-pill " data-size="Crystal" data-price="" data-pricestr="" data-img="/assets/IMG_3943.webp">Crystal</button>
-                <button class="size-pill " data-size="Midnight" data-price="" data-pricestr="" data-img="/assets/IMG_3943.webp">Midnight</button>
+                <button type="button" class="color-dot" style="background: #121214;" data-color="Black" title="Black" data-img="/assets/IMG_3943.webp"></button>
+                <button type="button" class="color-dot" style="background: #38bdf8;" data-color="Sky Blue" title="Sky Blue" data-img="/assets/IMG_3943.webp"></button>
+                <button type="button" class="color-dot" style="background: #c89d7c;" data-color="Tan" title="Tan" data-img="/assets/IMG_3943.webp"></button>
                 <span class="color-name"></span>
               </div>
               <button class="btn btn-black btn-block btn-add-cart"
@@ -2705,8 +2708,8 @@
                 <span class="product-price">₦50,000</span>
               </div>
               <div class="color-row">
-                <button class="size-pill" data-size="Tan" data-price="" data-pricestr="" data-img="/assets/IMG_8745.webp">Tan</button>
-                <button class="size-pill " data-size="Ebony" data-price="" data-pricestr="" data-img="/assets/IMG_8745.webp">Ebony</button>
+                <button type="button" class="color-dot" style="background: #c89d7c;" data-color="Tan" title="Tan" data-img="/assets/IMG_8745.webp"></button>
+                <button type="button" class="color-dot" style="background: #121214;" data-color="Ebony" title="Ebony" data-img="/assets/IMG_8745.webp"></button>
                 <span class="color-name"></span>
               </div>
               <button class="btn btn-black btn-block btn-add-cart"
@@ -2893,8 +2896,8 @@
                 <span class="product-price">₦75,000</span>
               </div>
               <div class="color-row">
-                <button class="size-pill" data-size="Almond" data-price="" data-pricestr="" data-img="/assets/IMG_7267.webp">Almond</button>
-                <button class="size-pill " data-size="Caramel" data-price="" data-pricestr="" data-img="/assets/IMG_7321.webp">Caramel</button>
+                <button type="button" class="color-dot" style="background: #e0ac69;" data-color="Almond" title="Almond" data-img="/assets/IMG_7267.webp"></button>
+                <button type="button" class="color-dot" style="background: #c68642;" data-color="Caramel" title="Caramel" data-img="/assets/IMG_7321.webp"></button>
                 <span class="color-name"></span>
               </div>
               <button class="btn btn-black btn-block btn-add-cart btn-unavailable" disabled>Unavailable</button>
@@ -3026,9 +3029,9 @@
                 <span class="product-price">₦14,000</span>
               </div>
               <div class="color-row">
-                <button class="size-pill" data-size="Crimson" data-price="" data-pricestr="" data-img="/assets/IMG_9989.webp">Crimson</button>
-                <button class="size-pill " data-size="Black" data-price="" data-pricestr="" data-img="/assets/IMG_9989.webp">Black</button>
-                <button class="size-pill " data-size="Pastel" data-price="" data-pricestr="" data-img="/assets/IMG_9989.webp">Pastel</button>
+                <button type="button" class="color-dot" style="background: #dc2626;" data-color="Crimson" title="Crimson" data-img="/assets/IMG_9989.webp"></button>
+                <button type="button" class="color-dot" style="background: #121214;" data-color="Black" title="Black" data-img="/assets/IMG_9989.webp"></button>
+                <button type="button" class="color-dot" style="background: #f472b6;" data-color="Pastel" title="Pastel" data-img="/assets/IMG_9989.webp"></button>
                 <span class="color-name"></span>
               </div>
               <button class="btn btn-black btn-block btn-add-cart"
@@ -3127,10 +3130,9 @@
               <div class="product-top">
                 <span class="product-price">₦4,500</span>
               </div>
-              <div class="color-row">
+              <div class="size-row">
                 <button class="size-pill" data-size="Single Piece" data-price="4500" data-pricestr="₦4,500" data-img="/assets/IMG_5001.webp">Single Piece</button>
                 <button class="size-pill" data-size="Pack of 5" data-price="17000" data-pricestr="₦17,000" data-img="/assets/IMG_5001.webp">Pack of 5</button>
-                <span class="color-name"></span>
               </div>
               <button class="btn btn-black btn-block btn-add-cart"
                 data-id="kailin-fruitastic-lube" data-title="Fruitastic Lube Set"

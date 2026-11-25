@@ -889,8 +889,8 @@
     "title": "As They Fly: Wireless App & Remote Panty Vibrator",
     "category": "toys",
     "badge": "APP + REMOTE • DISCREET WEAR",
-    "price": 28000,
-    "priceStr": "₦28,000",
+    "price": 30000,
+    "priceStr": "₦30,000",
     "img": "/assets/IMG_3791.webp",
     "desc": "Ultra-thin, ergonomic butterfly wings designed to rest comfortably against the vulva inside any panty. Sync with the wireless remote or smartphone app for heart-racing secret stimulation at the dinner table, movies, or wherever you dare.",
     "specs": [
@@ -908,7 +908,17 @@
       }
     ],
     "material": "Liquid Silicone & Whisper Silent High-Torque Motor",
-    "acoustics": "< 25 dB (Total Public Discretion)"
+    "acoustics": "< 25 dB (Total Public Discretion)",
+    "variants": [
+      {
+        "name": "Pink",
+        "img": "/assets/IMG_3791.webp"
+      },
+      {
+        "name": "Purple",
+        "img": "/assets/IMG_3791.webp"
+      }
+    ]
   },
   {
     "id": "c-shape-sucking-vibe",
@@ -1320,15 +1330,15 @@
     "img": "/assets/IMG_3943.webp",
     "variants": [
       {
-        "name": "Tan Flesh",
-        "img": "/assets/IMG_3943.webp"
-      },
-      {
-        "name": "Crystal Ice Blue",
-        "img": "/assets/IMG_3943.webp"
-      },
-      {
         "name": "Black",
+        "img": "/assets/IMG_3943.webp"
+      },
+      {
+        "name": "Sky Blue",
+        "img": "/assets/IMG_3943.webp"
+      },
+      {
+        "name": "Tan",
         "img": "/assets/IMG_3943.webp"
       }
     ],

@@ -4925,8 +4925,8 @@
     "id": "wearable-panty-vibe",
     "title": "Fly Panty Vibe",
     "badge": "WIRELESS REMOTE",
-    "price": 28000,
-    "priceStr": "₦28,000",
+    "price": 30000,
+    "priceStr": "₦30,000",
     "img": "/assets/IMG_3791.webp",
     "desc": "Ultra-thin, ergonomic butterfly wings designed to rest comfortably against the vulva inside any panty. Sync with the wireless remote or smartphone app for heart-racing secret stimulation at the dinner table, movies, or wherever you dare.",
     "specs": [
@@ -4952,6 +4952,16 @@
         "type": "image",
         "src": "/assets/IMG_3791.webp",
         "label": "Fly Panty Vibe"
+      }
+    ],
+    "variants": [
+      {
+        "name": "Pink",
+        "img": "/assets/IMG_3791.webp"
+      },
+      {
+        "name": "Purple",
+        "img": "/assets/IMG_3791.webp"
       }
     ]
   },
@@ -5493,15 +5503,15 @@
     "pattern": "luxe",
     "variants": [
       {
+        "name": "Black",
+        "img": "/assets/IMG_3943.webp"
+      },
+      {
+        "name": "Sky Blue",
+        "img": "/assets/IMG_3943.webp"
+      },
+      {
         "name": "Tan",
-        "img": "/assets/IMG_3943.webp"
-      },
-      {
-        "name": "Crystal",
-        "img": "/assets/IMG_3943.webp"
-      },
-      {
-        "name": "Midnight",
         "img": "/assets/IMG_3943.webp"
       }
     ],
