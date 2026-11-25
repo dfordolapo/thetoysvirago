@@ -2774,7 +2774,7 @@ async function loadAndSyncArticles() {
           category: row.category || 'Guides',
           readTime: row.read_time || row.readTime || '5 min read',
           date: row.date || '',
-          author: row.author || 'The Pleasure Journal · Real Stories',
+          author: row.author || 'Real stories',
           heroImg: row.hero_img || row.heroImg || '/assets/hero-collection.webp',
           imgAlt: row.img_alt || row.imgAlt || row.title,
           excerpt: row.excerpt || '',
@@ -2897,7 +2897,7 @@ function resetArticleForm() {
   if (mainTitle) mainTitle.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="2" style="vertical-align: -3px; margin-right: 6px;"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Write &amp; Publish Article`;
 
   const authorInput = document.getElementById('article-author-input');
-  if (authorInput) authorInput.value = 'The Pleasure Journal · Real Stories';
+  if (authorInput) authorInput.value = 'Real stories';
   const dateInput = document.getElementById('article-date-input');
   if (dateInput) dateInput.value = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   const readInput = document.getElementById('article-readtime-input');
@@ -3335,7 +3335,7 @@ function initArticlesStudio() {
       const rawSlug = (document.getElementById('article-slug-input')?.value || '').trim();
       const slug = slugifyArticleTitle(rawSlug || title);
       const category = document.getElementById('article-category-input')?.value || 'Guides';
-      const author = (document.getElementById('article-author-input')?.value || 'The Pleasure Journal · Real Stories').trim();
+      const author = (document.getElementById('article-author-input')?.value || 'Real stories').trim();
       const date = (document.getElementById('article-date-input')?.value || new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })).trim();
       const heroImg = (document.getElementById('article-hero-url')?.value || '/assets/hero-collection.webp').trim();
       const imgAlt = (document.getElementById('article-img-alt')?.value || title).trim();
@@ -3433,7 +3433,7 @@ function initArticlesStudio() {
         const catInput = document.getElementById('article-category-input');
         if (catInput) catInput.value = art.category || 'Guides';
         const authorInput = document.getElementById('article-author-input');
-        if (authorInput) authorInput.value = art.author || 'The Pleasure Journal · Real Stories';
+        if (authorInput) authorInput.value = art.author || 'Real stories';
         const dateInput = document.getElementById('article-date-input');
         if (dateInput) dateInput.value = art.date || '';
         const readInput = document.getElementById('article-readtime-input');
@@ -3525,7 +3525,7 @@ create table if not exists public.articles (
   category text default 'Guides',
   read_time text default '5 min read',
   date text,
-  author text default 'The Pleasure Journal · Real Stories',
+  author text default 'Real stories',
   hero_img text,
   img_alt text,
   excerpt text,

@@ -238,16 +238,16 @@ export function renderProductPage(product = {}, options = {}) {
   const variantPrices = rawVariants.map((v) => Number(v.price) || 0).filter((p) => p > 0);
   const hasDiffVariantPrices = new Set(variantPrices).size > 1;
 
-  const isOptionVariants = !allVariantsAreColors && rawVariants.some((v) => !isColorVariant(v) || hasDiffVariantPrices);
+  const isOptionVariants = !allVariantsAreColors && rawVariants.some((v) => !isColorVariant(v));
 
   const variants = rawVariants.filter((v) => v && v.name).map((v, i) => {
     const explicit = (v.img && !/^data:/i.test(String(v.img))) ? String(v.img) : '';
     const index = Number.isInteger(v.imgIndex) ? v.imgIndex : i;
     const mapped = explicit || galleryImages[index] || galleryImages[0] || '';
     const isCol = isColorVariant(v);
-    const showPrice = !isCol && hasDiffVariantPrices && Number(v.price) > 0;
-    const vPrice = showPrice ? Number(v.price) : 0;
-    const vPriceStr = showPrice ? (v.priceStr || `₦${vPrice.toLocaleString()}`) : '';
+    const hasSpecificPrice = !isCol && Number(v.price) > 0;
+    const vPrice = hasSpecificPrice ? Number(v.price) : 0;
+    const vPriceStr = hasSpecificPrice ? (v.priceStr || `₦${vPrice.toLocaleString()}`) : '';
     return {
       name: formatColorName(v.name),
       isColor: isCol,
@@ -263,21 +263,20 @@ export function renderProductPage(product = {}, options = {}) {
       <div class="variant-block" aria-label="Available editions and options">
         <div class="variant-label-title">Edition</div>
         <div class="variant-pills-row">
-          ${variants.map((v, i) => {
-            const priceTag = v.priceStr ? ` · ${v.priceStr}` : '';
+          ${variants.map((v) => {
             const explicitAttr = v.price ? ` data-price="${v.price}" data-pricestr="${v.priceStr}"` : '';
             const imgAttr = v.image ? ` data-img="${escapeHtml(v.image)}"` : '';
-            return `<button type="button" class="variant-option-pill${i === 0 ? ' is-active' : ''}" data-name="${escapeHtml(v.name)}"${explicitAttr}${imgAttr}>${escapeHtml(v.name + priceTag)}</button>`;
+            return `<button type="button" class="variant-option-pill" data-name="${escapeHtml(v.name)}"${explicitAttr}${imgAttr}>${escapeHtml(v.name)}</button>`;
           }).join('')}
         </div>
       </div>` : `
       <div class="variant-block" aria-label="Available colors">
-        <div class="variant-label-title">Color: <span id="active-color-name">${escapeHtml(variants[0]?.name || '')}</span></div>
+        <div class="variant-label-title">Color: <span id="active-color-name"></span></div>
         <div class="color-swatches-row">
-          ${variants.map((v, i) => {
+          ${variants.map((v) => {
             const hex = resolveColorHex(v.color, v.name);
             const border = isLightColor(hex) ? 'border: 1px solid #cbd5e1;' : 'border: 1px solid rgba(0,0,0,0.15);';
-            return `<button type="button" class="color-swatch-btn${i === 0 ? ' is-active' : ''}" data-color="${escapeHtml(v.name)}"${v.image ? ` data-img="${escapeHtml(v.image)}"` : ''} title="${escapeHtml(v.name)}" aria-label="Select ${escapeHtml(v.name)}" style="background: ${hex}; ${border}"></button>`;
+            return `<button type="button" class="color-swatch-btn" data-color="${escapeHtml(v.name)}"${v.image ? ` data-img="${escapeHtml(v.image)}"` : ''} title="${escapeHtml(v.name)}" aria-label="Select ${escapeHtml(v.name)}" style="background: ${hex}; ${border}"></button>`;
           }).join('')}
         </div>
       </div>`

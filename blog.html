@@ -140,7 +140,7 @@
     /* Cinematic Editorial Blog Hero with Full-Bleed Blurred Background (NO Black Box) */
     .blog-hero {
       position: relative;
-      overflow: hidden;
+      overflow: visible !important;
       min-height: 480px;
       padding: 110px 0 50px;
       display: flex;
@@ -149,12 +149,20 @@
       text-align: center;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       background-color: #09090e;
+      z-index: 50 !important;
     }
     @media (max-width: 640px) {
       .blog-hero {
         padding: 95px 0 35px;
         min-height: 400px;
       }
+    }
+    .blog-hero-bg-wrap {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
     }
     .blog-hero-bg {
       position: absolute;
@@ -174,6 +182,7 @@
     .blog-hero-content {
       position: relative;
       z-index: 2;
+      overflow: visible !important;
       max-width: 760px;
       margin: 0 auto;
       text-align: center;
@@ -238,20 +247,155 @@
     .blog-filter-bar {
       display: flex;
       justify-content: center;
-      gap: 8px;
+      align-items: center;
+      gap: 18px;
       flex-wrap: wrap;
-      padding: 20px 0 6px;
+      padding: 16px 0 6px;
+      position: relative !important;
+      z-index: 100 !important;
+      overflow: visible !important;
     }
-    .blog-filter-pill {
-      background: #15151e !important;
-      border: 1px solid rgba(255, 255, 255, 0.18) !important;
-      color: #e2e8f0 !important;
-      padding: 7px 15px;
-      border-radius: 8px !important;
-      font-size: 12px;
+    .blog-topic-dropdown-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      position: relative !important;
+      z-index: 110 !important;
+      overflow: visible !important;
+    }
+    .blog-topic-label {
+      font-size: 12.5px;
       font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
+      color: rgba(255, 255, 255, 0.85);
+      letter-spacing: 0.02em;
+    }
+    body.blog-light-mode .blog-topic-label {
+      color: #334155 !important;
+    }
+    /* Custom Journal Topic Dropdown (Styled identical to Store Sort By Dropdown) */
+    .blog-custom-dropdown {
+      position: relative !important;
+      z-index: 120 !important;
+      overflow: visible !important;
+    }
+    .blog-dropdown-trigger {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      gap: 8px !important;
+      background: #15151e !important;
+      border: 1px solid rgba(255, 255, 255, 0.22) !important;
+      color: #ffffff !important;
+      padding: 6px 12px !important;
+      border-radius: 8px !important;
+      font-size: 12px !important;
+      font-weight: 600 !important;
+      min-height: 32px !important;
+      min-width: 110px !important;
+      max-width: 140px !important;
+      cursor: pointer !important;
+      outline: none !important;
+      transition: all 0.2s ease !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+      white-space: nowrap !important;
+      user-select: none !important;
+      font-family: inherit !important;
+    }
+    .blog-dropdown-trigger:hover,
+    .blog-dropdown-trigger:focus,
+    .blog-dropdown-trigger[aria-expanded="true"] {
+      border-color: rgba(255, 255, 255, 0.45) !important;
+      background: #1e1e2b !important;
+    }
+    .blog-dropdown-trigger #active-topic-label {
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      white-space: nowrap !important;
+    }
+    .blog-dropdown-trigger .blog-chevron-icon {
+      flex-shrink: 0 !important;
+      transition: transform 0.2s ease !important;
+      color: rgba(255, 255, 255, 0.7) !important;
+    }
+    .blog-dropdown-trigger[aria-expanded="true"] .blog-chevron-icon {
+      transform: rotate(180deg) !important;
+    }
+    body.blog-light-mode .blog-dropdown-trigger {
+      background: #ffffff !important;
+      border: 1px solid #cbd5e1 !important;
+      color: #0c0c0e !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+    }
+    body.blog-light-mode .blog-dropdown-trigger:hover,
+    body.blog-light-mode .blog-dropdown-trigger:focus,
+    body.blog-light-mode .blog-dropdown-trigger[aria-expanded="true"] {
+      border-color: #0c0c0e !important;
+      background: #f8fafc !important;
+    }
+    body.blog-light-mode .blog-dropdown-trigger .blog-chevron-icon {
+      color: #4b5563 !important;
+    }
+
+    .blog-dropdown-menu {
+      position: absolute !important;
+      top: calc(100% + 5px) !important;
+      left: 0 !important;
+      background: #14141e !important;
+      border: 1px solid rgba(255, 255, 255, 0.16) !important;
+      border-radius: 8px !important;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.45), 0 8px 10px -6px rgba(0, 0, 0, 0.3) !important;
+      padding: 5px !important;
+      min-width: 165px !important;
+      z-index: 99999 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 2px !important;
+    }
+    .blog-dropdown-menu[hidden] {
+      display: none !important;
+    }
+    body.blog-light-mode .blog-dropdown-menu {
+      background: #ffffff !important;
+      border: 1px solid #e5e7eb !important;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    .blog-dropdown-menu .dropdown-item {
+      width: 100% !important;
+      text-align: left !important;
+      background: transparent !important;
+      border: none !important;
+      border-radius: 8px !important;
+      padding: 8px 12px !important;
+      font-size: 12.5px !important;
+      font-weight: 500 !important;
+      color: #cbd5e1 !important;
+      cursor: pointer !important;
+      transition: all 0.15s ease !important;
+      white-space: nowrap !important;
+      box-sizing: border-box !important;
+      font-family: inherit !important;
+    }
+    .blog-dropdown-menu .dropdown-item:hover {
+      background: #232332 !important;
+      color: #ffffff !important;
+    }
+    .blog-dropdown-menu .dropdown-item.active {
+      background: #28283a !important;
+      color: #ffffff !important;
+      font-weight: 700 !important;
+    }
+    body.blog-light-mode .blog-dropdown-menu .dropdown-item {
+      color: #374151 !important;
+    }
+    body.blog-light-mode .blog-dropdown-menu .dropdown-item:hover {
+      background: #f3f4f6 !important;
+      color: #0c0c0e !important;
+    }
+    body.blog-light-mode .blog-dropdown-menu .dropdown-item.active {
+      background: #f3f4f6 !important;
+      color: #0c0c0e !important;
+      font-weight: 700 !important;
     }
     .blog-filter-pill:hover {
       background: #20202c !important;
@@ -266,6 +410,10 @@
     }
 
     /* Blog Grid */
+    .blog-section {
+      position: relative !important;
+      z-index: 1 !important;
+    }
     .blog-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -1466,9 +1614,9 @@
       background: rgba(255, 255, 255, 0.08) !important;
       border: 1px solid rgba(255, 255, 255, 0.18) !important;
       color: #f1f5f9 !important;
-      border-radius: 9999px !important;
-      padding: 5px 12px !important;
-      font-size: 11px !important;
+      border-radius: 8px !important;
+      padding: 6px 14px !important;
+      font-size: 11.5px !important;
       font-weight: 600 !important;
       cursor: pointer !important;
       transition: all 0.2s ease !important;
@@ -1476,6 +1624,7 @@
       line-height: 1 !important;
       flex-shrink: 0 !important;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+      min-height: 32px !important;
     }
     .blog-theme-toggle:hover {
       background: rgba(255, 255, 255, 0.16) !important;
@@ -1530,8 +1679,10 @@
     <main id="main-content">
       <!-- ===== THE PLEASURE JOURNAL HERO (FULL-BLEED BLURRED IMAGE, NO BLACK BOX) ===== -->
       <section class="blog-hero" id="blog-hero-section">
-        <div class="blog-hero-bg" aria-hidden="true"></div>
-        <div class="blog-hero-scrim" aria-hidden="true"></div>
+        <div class="blog-hero-bg-wrap" aria-hidden="true">
+          <div class="blog-hero-bg"></div>
+          <div class="blog-hero-scrim"></div>
+        </div>
         <div class="section-inner blog-hero-content">
           <span class="blog-hero-tag">The Pleasure Journal</span>
           <h1 class="blog-hero-title">
@@ -1541,14 +1692,26 @@
             Honest guides on zero-bullshit bedroom talk.
           </p>
 
-          <!-- Category Filter Pills & Theme Switcher -->
+          <!-- Topic Filter Dropdown & Theme Switcher -->
           <div class="blog-filter-bar" id="blog-filter-bar">
-            <button class="blog-filter-pill active" data-category="all">All Stories</button>
-            <button class="blog-filter-pill" data-category="Confessions">Confessions</button>
-            <button class="blog-filter-pill" data-category="Discretion">Discretion</button>
-            <button class="blog-filter-pill" data-category="First-Timers">First-Timers</button>
-            <button class="blog-filter-pill" data-category="Wellness & Lube">Wellness &amp; Lube</button>
-            <button class="blog-filter-pill" data-category="Couples">Couples</button>
+            <div class="blog-topic-dropdown-wrap">
+              <span class="blog-topic-label">Topic:</span>
+              <div class="blog-custom-dropdown" id="dropdown-blog-topic">
+                <button type="button" class="blog-dropdown-trigger" id="blog-topic-trigger" aria-expanded="false" aria-haspopup="true">
+                  <span id="active-topic-label">All Stories</span>
+                  <svg class="blog-chevron-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+                <div class="blog-dropdown-menu" id="blog-topic-menu" hidden>
+                  <button type="button" class="dropdown-item active" data-category="all">All Stories</button>
+                  <button type="button" class="dropdown-item" data-category="Confessions">Confessions</button>
+                  <button type="button" class="dropdown-item" data-category="Discretion">Discretion</button>
+                  <button type="button" class="dropdown-item" data-category="First-Timers">First-Timers</button>
+                  <button type="button" class="dropdown-item" data-category="Wellness & Lube">Wellness &amp; Lube</button>
+                  <button type="button" class="dropdown-item" data-category="Couples">Couples</button>
+                </div>
+              </div>
+            </div>
+
             <button type="button" class="blog-theme-toggle" id="btn-blog-theme-toggle" aria-label="Toggle theme mode" title="Switch between Light and Dark mode">
               <svg class="theme-icon-sun" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
               <svg class="theme-icon-moon" style="display: none;" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>

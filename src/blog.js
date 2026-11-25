@@ -136,6 +136,16 @@ document.addEventListener('DOMContentLoaded', () => {
       const btnReset = document.getElementById('btn-reset-filter');
       if (btnReset) {
         btnReset.addEventListener('click', () => {
+          const activeTopicLabel = document.getElementById('active-topic-label');
+          if (activeTopicLabel) activeTopicLabel.textContent = 'All Stories';
+          const topicMenu = document.getElementById('blog-topic-menu');
+          if (topicMenu) {
+            topicMenu.querySelectorAll('.dropdown-item').forEach(i => {
+              i.classList.toggle('active', i.dataset.category === 'all');
+            });
+          }
+          const selectEl = document.getElementById('blog-category-select');
+          if (selectEl) selectEl.value = 'all';
           const allPill = document.querySelector('.blog-filter-pill[data-category="all"]');
           if (allPill) allPill.click();
           else renderArticles('all');
@@ -303,12 +313,92 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Filter pills
+  // Custom Topic Dropdown (Styled and behaving identically to Store Sort By Dropdown)
+  const topicDropdown = document.getElementById('dropdown-blog-topic');
+  const topicTrigger = document.getElementById('blog-topic-trigger');
+  const topicMenu = document.getElementById('blog-topic-menu');
+  const activeTopicLabel = document.getElementById('active-topic-label');
+
+  if (topicDropdown && topicTrigger && topicMenu) {
+    // Toggle dropdown
+    topicTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isHidden = topicMenu.hasAttribute('hidden');
+      if (isHidden) {
+        topicMenu.removeAttribute('hidden');
+        topicTrigger.setAttribute('aria-expanded', 'true');
+      } else {
+        topicMenu.setAttribute('hidden', '');
+        topicTrigger.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#dropdown-blog-topic')) {
+        topicMenu.setAttribute('hidden', '');
+        topicTrigger.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Handle topic item selection
+    topicMenu.querySelectorAll('.dropdown-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const cat = item.dataset.category || 'all';
+
+        // Update active class on items
+        topicMenu.querySelectorAll('.dropdown-item').forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+
+        // Update trigger label
+        if (activeTopicLabel) {
+          activeTopicLabel.textContent = item.textContent.trim();
+        }
+
+        // Close menu
+        topicMenu.setAttribute('hidden', '');
+        topicTrigger.setAttribute('aria-expanded', 'false');
+
+        // If reading an article, close reader and return to grid
+        if (readerView && readerView.style.display !== 'none') {
+          closeArticle(true);
+        }
+
+        renderArticles(cat);
+
+        // Scroll smoothly to grid
+        if (cardsGrid) {
+          const gridTop = cardsGrid.getBoundingClientRect().top + window.pageYOffset - 80;
+          window.scrollTo({ top: gridTop, behavior: 'smooth' });
+        }
+      });
+    });
+  }
+
+  // Blog Category Select Dropdown (fallback)
+  const blogCategorySelect = document.getElementById('blog-category-select');
+  if (blogCategorySelect) {
+    blogCategorySelect.addEventListener('change', (e) => {
+      const cat = e.target.value || 'all';
+      if (readerView && readerView.style.display !== 'none') {
+        closeArticle(true);
+      }
+      renderArticles(cat);
+      if (cardsGrid) {
+        const gridTop = cardsGrid.getBoundingClientRect().top + window.pageYOffset - 80;
+        window.scrollTo({ top: gridTop, behavior: 'smooth' });
+      }
+    });
+  }
+
+  // Filter pills (if present)
   filterPills.forEach(pill => {
     pill.addEventListener('click', () => {
       filterPills.forEach(p => p.classList.remove('active'));
       pill.classList.add('active');
       const cat = pill.getAttribute('data-category') || 'all';
+      if (blogCategorySelect) blogCategorySelect.value = cat;
 
       // If user was reading an article, close reader and return to list
       if (readerView && readerView.style.display !== 'none') {
@@ -395,7 +485,7 @@ document.addEventListener('DOMContentLoaded', () => {
             category: row.category || 'Guides',
             readTime: row.read_time || row.readTime || '5 min read',
             date: row.date || '',
-            author: row.author || 'The Pleasure Journal · Real Stories',
+            author: row.author || 'Real stories',
             heroImg: row.hero_img || row.heroImg || '/assets/hero-collection.webp',
             imgAlt: row.img_alt || row.imgAlt || row.title,
             excerpt: row.excerpt || '',

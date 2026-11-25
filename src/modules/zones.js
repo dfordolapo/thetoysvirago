@@ -27,14 +27,23 @@ export const DELIVERY_ZONES = {
     fee: 6500,
     keywords: ['awoyaya', 'lakowe', 'bogije', 'eleko', 'epe', 'ibeju lekki', 'ibeju-lekki']
   },
+  // Lagos Magodo / Omole / Shangisha Axis
+  lagos_magodo: {
+    id: 'lagos_magodo',
+    name: 'Magodo / Omole / Shangisha Axis',
+    shortName: 'Magodo / Omole / Shangisha',
+    type: 'lagos',
+    fee: 4500,
+    keywords: ['magodo', 'magodo phase 1', 'magodo phase 2', 'magodo brooks', 'omole', 'omole phase 1', 'omole phase 2', 'shangisha', 'cmd road']
+  },
   // Lagos Mainland Central / Ikeja Axis
   lagos_mainland_central: {
     id: 'lagos_mainland_central',
-    name: 'Lagos Mainland Central / Ikeja (Ikeja GRA, Maryland, Magodo, Gbagada)',
+    name: 'Lagos Mainland Central / Ikeja (Ikeja GRA, Maryland, Gbagada)',
     shortName: 'Lagos Mainland Central / Ikeja',
     type: 'lagos',
     fee: 4000,
-    keywords: ['ikeja', 'maryland', 'opebi', 'allen', 'ilupeju', 'anthony', 'ogudu', 'magodo', 'omole', 'gbagada', 'shonibare', 'alausa']
+    keywords: ['ikeja', 'maryland', 'opebi', 'allen', 'ilupeju', 'anthony', 'ogudu', 'gbagada', 'shonibare', 'alausa']
   },
   // Lagos Mainland Near
   lagos_mainland_near: {

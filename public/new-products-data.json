@@ -147,11 +147,11 @@
     "img": "/assets/IMG_5209.webp",
     "variants": [
       {
-        "name": "Crimson Red",
+        "name": "Red",
         "img": "/assets/IMG_5209.webp"
       },
       {
-        "name": "Midnight Noir",
+        "name": "Black",
         "img": "/assets/IMG_5210.webp"
       }
     ],
@@ -288,15 +288,15 @@
     "img": "/assets/IMG_9989.webp",
     "variants": [
       {
-        "name": "Crimson Red",
+        "name": "Red",
         "img": "/assets/IMG_9989.webp"
       },
       {
-        "name": "Midnight Black",
+        "name": "Black",
         "img": "/assets/IMG_9989.webp"
       },
       {
-        "name": "Pastel Pink",
+        "name": "Pink",
         "img": "/assets/IMG_9989.webp"
       }
     ],
@@ -648,15 +648,15 @@
     "img": "/assets/IMG_0360.webp",
     "variants": [
       {
-        "name": "Emerald Teal",
+        "name": "Emerald",
         "img": "/assets/IMG_0360.webp"
       },
       {
-        "name": "Noir Black",
+        "name": "Black",
         "img": "/assets/IMG_0364.webp"
       },
       {
-        "name": "Mocha Bronze",
+        "name": "Bronze",
         "img": "/assets/IMG_0364.webp"
       }
     ],
@@ -726,7 +726,7 @@
         "img": "/assets/IMG_6459.webp"
       },
       {
-        "name": "Fuchsia Pink",
+        "name": "Fuchsia",
         "img": "/assets/IMG_6459.webp"
       },
       {
@@ -832,11 +832,11 @@
     "img": "/assets/IMG_6732.webp",
     "variants": [
       {
-        "name": "Blush Pink",
+        "name": "Pink",
         "img": "/assets/IMG_6732.webp"
       },
       {
-        "name": "Fuchsia Rose",
+        "name": "Fuchsia",
         "img": "/assets/IMG_6732.webp"
       }
     ],
@@ -1102,11 +1102,11 @@
     "img": "/assets/IMG_5141.webp",
     "variants": [
       {
-        "name": "Noir Black",
+        "name": "Black",
         "img": "/assets/IMG_5141.webp"
       },
       {
-        "name": "Fuchsia Pink",
+        "name": "Fuchsia",
         "img": "/assets/IMG_5141.webp"
       }
     ],
@@ -1165,11 +1165,15 @@
     "img": "/assets/IMG_5568.webp",
     "variants": [
       {
-        "name": "Royal Purple",
+        "name": "Black",
         "img": "/assets/IMG_5568.webp"
       },
       {
-        "name": "Blush Pink",
+        "name": "Purple",
+        "img": "/assets/IMG_5568.webp"
+      },
+      {
+        "name": "Pink",
         "img": "/assets/IMG_5568.webp"
       }
     ],
@@ -1324,7 +1328,7 @@
         "img": "/assets/IMG_3943.webp"
       },
       {
-        "name": "Midnight Noir",
+        "name": "Black",
         "img": "/assets/IMG_3943.webp"
       }
     ],

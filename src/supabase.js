@@ -494,7 +494,7 @@ export async function upsertSupabaseArticle(article) {
       category: article.category || 'Guides',
       read_time: article.readTime || article.read_time || '5 min read',
       date: article.date || new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
-      author: article.author || 'The Pleasure Journal · Real Stories',
+      author: article.author || 'Real stories',
       hero_img: article.heroImg || article.hero_img || '/assets/hero-collection.webp',
       img_alt: article.imgAlt || article.img_alt || article.title,
       excerpt: article.excerpt || '',

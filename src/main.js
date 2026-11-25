@@ -618,6 +618,93 @@ function initAbujaCarousel() {
   }
 }
 
+// ── HOUSE OF NINA STYLE SECONDARY FILTERS & SORTING ENGINE ──
+const currentFilters = {
+  type: 'all',
+  color: 'all',
+  price: 'all',
+  sort: 'featured'
+};
+
+function getCardPrice(card) {
+  const addBtn = card.querySelector('.btn-add-cart');
+  if (addBtn && addBtn.dataset.price) {
+    const val = parseFloat(addBtn.dataset.price);
+    if (!isNaN(val) && val > 0) return val;
+  }
+  const priceDisplay = card.querySelector('.product-price');
+  if (priceDisplay) {
+    const val = parseFloat(priceDisplay.textContent.replace(/[^0-9.]/g, ''));
+    if (!isNaN(val) && val > 0) return val;
+  }
+  return 0;
+}
+
+function checkCardColor(card, colorKey, allSearchable) {
+  if (!colorKey || colorKey === 'all') return true;
+  const dots = Array.from(card.querySelectorAll('.color-dot')).map(d => (d.dataset.color || '').toLowerCase()).join(' ');
+  const sizePills = Array.from(card.querySelectorAll('.size-pill')).map(p => (p.dataset.size || p.textContent || '').toLowerCase()).join(' ');
+  const hay = `${dots} ${sizePills} ${allSearchable}`.toLowerCase();
+  if (colorKey === 'black') return /\b(black|noir|midnight|ebony|onyx|dark)\b/i.test(hay);
+  if (colorKey === 'pink') return /\b(pink|blush|rose|coral|pastel)\b/i.test(hay);
+  if (colorKey === 'purple') return /\b(purple|violet|fuchsia|magenta)\b/i.test(hay);
+  if (colorKey === 'red') return /\b(red|crimson|ruby|scarlet)\b/i.test(hay);
+  if (colorKey === 'tan') return /\b(tan|bronze|brown|flesh|nude|chocolate|almond|caramel)\b/i.test(hay);
+  return hay.includes(colorKey);
+}
+
+function checkCardType(card, typeKey, allSearchable) {
+  if (!typeKey || typeKey === 'all') return true;
+  const cardCat = (card.dataset.category || '').toLowerCase();
+  const hay = `${allSearchable} ${cardCat}`.toLowerCase();
+  if (typeKey === 'suction') return /suction|air-pulse|air pulse|sucker|licking|mouth|rose|clitoral/i.test(hay);
+  if (typeKey === 'thrusting') return /thrust|thrusting|wand|hammer|reciprocating/i.test(hay);
+  if (typeKey === 'bullet') return /bullet|egg|kegel|stealth|finger|ring|wearable/i.test(hay);
+  if (typeKey === 'dildo') return /dildo|dong|shaft|jelly|glass|strap-on|harness/i.test(hay);
+  if (typeKey === 'bondage') return /bdsm|bondage|harness|restraint|cuff|gag|rope|shibari|blindfold|collar|whip/i.test(hay);
+  if (typeKey === 'lube') return /lube|oil|water-based|massage|tonic|chocolate|douche|wellness/i.test(hay);
+  return hay.includes(typeKey);
+}
+
+function sortCards(cards, sortKey) {
+  if (sortKey === 'price-low-high') {
+    cards.sort((a, b) => getCardPrice(a) - getCardPrice(b));
+  } else if (sortKey === 'price-high-low') {
+    cards.sort((a, b) => getCardPrice(b) - getCardPrice(a));
+  } else if (sortKey === 'newest') {
+    cards.sort((a, b) => {
+      // 1. Remote / custom products added via admin are the newest
+      const aRemote = a.dataset.isRemote === 'true';
+      const bRemote = b.dataset.isRemote === 'true';
+      if (aRemote && !bRemote) return -1;
+      if (!aRemote && bRemote) return 1;
+
+      // 2. STORE DROP badge or DROP in sku/badge
+      const aBadge = (a.querySelector('.product-badge')?.textContent || '').toLowerCase();
+      const bBadge = (b.querySelector('.product-badge')?.textContent || '').toLowerCase();
+      const aSku = (a.dataset.sku || a.querySelector('.product-sku')?.textContent || '').toLowerCase();
+      const bSku = (b.dataset.sku || b.querySelector('.product-sku')?.textContent || '').toLowerCase();
+      const aIsDrop = aBadge.includes('drop') || aSku.includes('drop');
+      const bIsDrop = bBadge.includes('drop') || bSku.includes('drop');
+      if (aIsDrop && !bIsDrop) return -1;
+      if (!aIsDrop && bIsDrop) return 1;
+
+      // 3. Extract numerical SKU if available (e.g. TOYS · 78, LINGERIE · 40)
+      const aNum = parseInt(aSku.match(/\d+/)?.[0] || '0', 10);
+      const bNum = parseInt(bSku.match(/\d+/)?.[0] || '0', 10);
+      if (aNum !== bNum && aNum > 0 && bNum > 0) {
+        return bNum - aNum; // Higher SKU number was added later
+      }
+
+      // 4. Reverse original index (later additions come first)
+      return (Number(b.dataset.origIdx) || 0) - (Number(a.dataset.origIdx) || 0);
+    });
+  } else {
+    // featured: natural curated order
+    cards.sort((a, b) => (Number(a.dataset.origIdx) || 0) - (Number(b.dataset.origIdx) || 0));
+  }
+}
+
 function filterProducts(resetPage = true) {
   const query = (searchInput ? searchInput.value : '').trim().toLowerCase();
   const activeBtn = document.querySelector('.filter-btn.active');
@@ -629,6 +716,11 @@ function filterProducts(resetPage = true) {
 
   const catalogCards = document.querySelectorAll('#products-grid .product-card');
   const abujaCards = document.querySelectorAll('#abuja-carousel-track .product-card');
+
+  // Tag original card indices for Featured sort stability
+  catalogCards.forEach((card, idx) => {
+    if (!card.dataset.origIdx) card.dataset.origIdx = idx;
+  });
 
   currentMatchingCatalogCards = [];
   let visibleAbujaCount = 0;
@@ -643,20 +735,41 @@ function filterProducts(resetPage = true) {
     const generalTerms = (GENERAL_PRODUCT_TERMS[cardId] || '').toLowerCase();
     const cardKeywords = (card.dataset.keywords || '').toLowerCase();
     const name = (card.querySelector('.product-name')?.textContent || '').toLowerCase();
-    const sku = (card.querySelector('.product-sku')?.textContent || '').toLowerCase();
+    const sku = (card.dataset.sku || card.querySelector('.product-sku')?.textContent || '').toLowerCase();
     const line = (card.querySelector('.product-line')?.textContent || '').toLowerCase();
     const colors = Array.from(card.querySelectorAll('.color-dot')).map(d => (d.dataset.color || '').toLowerCase()).join(' ');
 
     const allSearchable = `${name} ${sku} ${line} ${cardKeywords} ${generalTerms} ${colors} ${cardCat}`;
     const matchesSearch = !query || allSearchable.includes(query);
-    const matchesCat = (activeCategory === 'all' || !activeCategory || cardCat === activeCategory || (query && matchesSearch));
+    const matchesCat = (
+      activeCategory === 'all' || !activeCategory ||
+      cardCat === activeCategory ||
+      (activeCategory === 'abuja' && (card.dataset.region === 'abuja' || (card.dataset.keywords || '').includes('abuja'))) ||
+      (activeCategory === 'games' && (cardCat === 'games' || cardCat === 'couples')) ||
+      (query && matchesSearch)
+    );
 
-    if (matchesSearch && matchesCat) {
+    const cardPrice = getCardPrice(card);
+    const matchesPrice = (
+      currentFilters.price === 'all' ||
+      (currentFilters.price === 'under-20k' && cardPrice < 20000) ||
+      (currentFilters.price === '20k-35k' && cardPrice >= 20000 && cardPrice <= 35000) ||
+      (currentFilters.price === '35k-50k' && cardPrice > 35000 && cardPrice <= 50000) ||
+      (currentFilters.price === 'above-50k' && cardPrice > 50000)
+    );
+
+    const matchesColor = checkCardColor(card, currentFilters.color, allSearchable);
+    const matchesType = checkCardType(card, currentFilters.type, allSearchable);
+
+    if (matchesSearch && matchesCat && matchesPrice && matchesColor && matchesType) {
       currentMatchingCatalogCards.push(card);
     } else {
       card.style.display = 'none';
     }
   });
+
+  // Sort matching cards
+  sortCards(currentMatchingCatalogCards, currentFilters.sort);
 
   // Filter cards in Abuja carousel track
   abujaCards.forEach((card) => {
@@ -665,11 +778,17 @@ function filterProducts(resetPage = true) {
     const generalTerms = (GENERAL_PRODUCT_TERMS[cardId] || '').toLowerCase();
     const cardKeywords = (card.dataset.keywords || '').toLowerCase();
     const name = (card.querySelector('.product-name')?.textContent || '').toLowerCase();
-    const sku = (card.querySelector('.product-sku')?.textContent || '').toLowerCase();
+    const sku = (card.dataset.sku || card.querySelector('.product-sku')?.textContent || '').toLowerCase();
 
     const allSearchable = `${name} ${sku} ${cardKeywords} ${generalTerms} ${cardCat}`;
     const matchesSearch = !query || allSearchable.includes(query);
-    const matchesCat = (activeCategory === 'all' || !activeCategory || cardCat === activeCategory || (query && matchesSearch));
+    const matchesCat = (
+      activeCategory === 'all' || !activeCategory ||
+      activeCategory === 'abuja' ||
+      cardCat === activeCategory ||
+      (activeCategory === 'games' && (cardCat === 'games' || cardCat === 'couples')) ||
+      (query && matchesSearch)
+    );
 
     if (matchesSearch && matchesCat) {
       card.style.display = 'flex';
@@ -734,9 +853,8 @@ function applyProductFilter(category) {
 document.querySelectorAll('.filter-btn').forEach((btn) => {
   btn.addEventListener('click', () => {
     const isAlreadyActive = btn.classList.contains('active');
-    if (isAlreadyActive) {
-      btn.classList.remove('active');
-      filterProducts(true);
+    if (isAlreadyActive && btn.dataset.filter !== 'all') {
+      applyProductFilter('all');
     } else {
       applyProductFilter(btn.dataset.filter);
     }
@@ -745,6 +863,176 @@ document.querySelectorAll('.filter-btn').forEach((btn) => {
 
 initCatalogTouchSwipe();
 initAbujaCarousel();
+initCollectionToolbar();
+
+function initCollectionToolbar() {
+  const toolbar = document.getElementById('collection-toolbar');
+  if (!toolbar) return;
+
+  const btnToggle = document.getElementById('btn-filters-toggle');
+  const group = document.getElementById('toolbar-dropdown-group');
+  const activeCountBadge = document.getElementById('filter-active-count');
+  const btnClear = document.getElementById('btn-clear-filters');
+  const sortLabel = document.getElementById('active-sort-label');
+
+  // Toggle dropdown group (especially on mobile)
+  if (btnToggle && group) {
+    btnToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (window.innerWidth <= 768) {
+        const isCollapsed = group.classList.toggle('is-collapsed');
+        btnToggle.classList.toggle('active', !isCollapsed);
+        btnToggle.setAttribute('aria-expanded', (!isCollapsed).toString());
+      } else {
+        const isHidden = group.classList.toggle('desktop-hidden');
+        btnToggle.classList.toggle('active', !isHidden);
+        btnToggle.setAttribute('aria-expanded', (!isHidden).toString());
+      }
+    });
+  }
+
+  // Close all open dropdown menus in toolbar
+  function closeAllDropdowns() {
+    toolbar.querySelectorAll('.toolbar-dropdown-menu').forEach((menu) => {
+      menu.setAttribute('hidden', '');
+    });
+    toolbar.querySelectorAll('.toolbar-dropdown-trigger, .toolbar-sort-trigger').forEach((btn) => {
+      btn.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  // Toggle dropdown menus on trigger click
+  toolbar.querySelectorAll('.toolbar-dropdown-trigger, .toolbar-sort-trigger').forEach((trigger) => {
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const dropdown = trigger.closest('.toolbar-dropdown');
+      const menu = dropdown ? dropdown.querySelector('.toolbar-dropdown-menu') : null;
+      if (!menu) return;
+
+      const isHidden = menu.hasAttribute('hidden');
+      closeAllDropdowns();
+      if (isHidden) {
+        menu.removeAttribute('hidden');
+        trigger.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  // Close menus on outside click
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.toolbar-dropdown')) {
+      closeAllDropdowns();
+    }
+  });
+
+  // Helper to update active filters count badge & clear button
+  function updateFilterBadgeAndClear() {
+    let count = 0;
+    if (currentFilters.type !== 'all') count++;
+    if (currentFilters.color !== 'all') count++;
+    if (currentFilters.price !== 'all') count++;
+
+    if (activeCountBadge) {
+      if (count > 0) {
+        activeCountBadge.textContent = count;
+        activeCountBadge.style.display = 'inline-flex';
+      } else {
+        activeCountBadge.style.display = 'none';
+      }
+    }
+    if (btnClear) {
+      btnClear.style.display = count > 0 ? 'inline-flex' : 'none';
+    }
+  }
+
+  // Secondary Filter Dropdowns (Type, Color, Price)
+  const filterConfigs = [
+    { id: 'dropdown-type', key: 'type', defaultLabel: 'Type', dataAttr: 'type' },
+    { id: 'dropdown-color', key: 'color', defaultLabel: 'Colour', dataAttr: 'color' },
+    { id: 'dropdown-price', key: 'price', defaultLabel: 'Price', dataAttr: 'price' }
+  ];
+
+  filterConfigs.forEach(({ id, key, defaultLabel, dataAttr }) => {
+    const dd = document.getElementById(id);
+    if (!dd) return;
+    const trigger = dd.querySelector('.toolbar-dropdown-trigger');
+    const labelSpan = trigger?.querySelector('.trigger-label');
+    const items = dd.querySelectorAll('.dropdown-item');
+
+    items.forEach((item) => {
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const val = item.dataset[dataAttr] || 'all';
+        currentFilters[key] = val;
+
+        items.forEach((i) => i.classList.remove('active'));
+        item.classList.add('active');
+
+        if (labelSpan) {
+          labelSpan.textContent = val === 'all' ? defaultLabel : item.textContent.trim();
+        }
+        if (trigger) {
+          trigger.classList.toggle('has-filter', val !== 'all');
+        }
+
+        closeAllDropdowns();
+        updateFilterBadgeAndClear();
+        filterProducts(true);
+      });
+    });
+  });
+
+  // Sort Dropdown
+  const sortDd = document.getElementById('dropdown-sort');
+  if (sortDd) {
+    const sortItems = sortDd.querySelectorAll('.dropdown-item');
+    sortItems.forEach((item) => {
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const sortVal = item.dataset.sort || 'featured';
+        currentFilters.sort = sortVal;
+
+        sortItems.forEach((i) => i.classList.remove('active'));
+        item.classList.add('active');
+
+        if (sortLabel) {
+          sortLabel.textContent = item.textContent.trim();
+        }
+
+        closeAllDropdowns();
+        filterProducts(false);
+      });
+    });
+  }
+
+  // Clear Filters Button
+  if (btnClear) {
+    btnClear.addEventListener('click', (e) => {
+      e.stopPropagation();
+      currentFilters.type = 'all';
+      currentFilters.color = 'all';
+      currentFilters.price = 'all';
+
+      filterConfigs.forEach(({ id, defaultLabel, dataAttr }) => {
+        const dd = document.getElementById(id);
+        if (!dd) return;
+        const trigger = dd.querySelector('.toolbar-dropdown-trigger');
+        const labelSpan = trigger?.querySelector('.trigger-label');
+        if (labelSpan) labelSpan.textContent = defaultLabel;
+        if (trigger) trigger.classList.remove('has-filter');
+
+        const items = dd.querySelectorAll('.dropdown-item');
+        items.forEach((item) => {
+          item.classList.toggle('active', (item.dataset[dataAttr] || 'all') === 'all');
+        });
+      });
+
+      closeAllDropdowns();
+      updateFilterBadgeAndClear();
+      filterProducts(true);
+    });
+  }
+}
 
 if (searchInput) {
   searchInput.addEventListener('input', filterProducts);
@@ -759,7 +1047,12 @@ if (btnResetSearch) {
   btnResetSearch.addEventListener('click', () => {
     if (searchInput) searchInput.value = '';
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    filterProducts();
+    const clearFiltersBtn = document.getElementById('btn-clear-filters');
+    if (clearFiltersBtn && clearFiltersBtn.style.display !== 'none') {
+      clearFiltersBtn.click();
+    } else {
+      filterProducts();
+    }
   });
 }
 
@@ -785,11 +1078,11 @@ if (initialFilter) {
     applyProductFilter(matchBtn.dataset.filter);
   } else {
     randomizeCatalogGrid();
-    filterProducts(true);
+    applyProductFilter('all');
   }
 } else {
   randomizeCatalogGrid();
-  filterProducts(true);
+  applyProductFilter('all');
 }
 
 // Interactive Finish / Color Dots
@@ -863,12 +1156,13 @@ document.querySelectorAll('.product-card').forEach((card) => {
       // If size pill has a specific price (like dildo 6" vs 7" or plugs S vs M vs L)
       if (pill.dataset.price) {
         const newPrice = parseInt(pill.dataset.price, 10);
-        const newPriceStr = pill.dataset.pricestr;
-        if (priceDisplay && newPriceStr) {
+        const newPriceStr = pill.dataset.pricestr || ('₦' + newPrice.toLocaleString());
+        if (priceDisplay) {
           priceDisplay.textContent = newPriceStr;
         }
         if (addBtn) {
           addBtn.dataset.price = newPrice;
+          addBtn.dataset.pricestr = newPriceStr;
           addBtn.dataset.selectedSize = chosenSize;
           if (activeColor) {
             addBtn.dataset.title = `${baseTitle} (${chosenSize} ${activeColor})`;
@@ -3984,7 +4278,7 @@ const PRODUCT_DATABASE = {
     ],
     inStock: true,
     variants: [
-      { name: 'Noir Black', price: 22000, priceStr: '₦22,000', img: '/assets/10pc-bdsm-1.jpg' }
+      { name: 'Black', price: 22000, priceStr: '₦22,000', img: '/assets/10pc-bdsm-1.jpg' }
     ]
   },
   'leather-bondage-chest': {
@@ -4212,7 +4506,7 @@ const PRODUCT_DATABASE = {
     "specs": [
         {
             "label": "Color",
-            "value": "Noir Black"
+            "value": "Black"
         },
         {
             "label": "Hardware",
@@ -4353,8 +4647,8 @@ const PRODUCT_DATABASE = {
     "id": "silicone-bone-gag",
     "title": "Silicone Bone Gag",
     "badge": "ABUJA EXCLUSIVE",
-    "price": 14000,
-    "priceStr": "₦14,000",
+    "price": 18000,
+    "priceStr": "₦18,000",
     "img": "/assets/IMG_9989.webp",
     "desc": "Novelty dog bone silhouette crafted from seamless, medical-grade velvety silicone mounted to an adjustable vegan leather strap with red top-stitching and secure chrome roller buckle.",
     "specs": [
@@ -4377,21 +4671,15 @@ const PRODUCT_DATABASE = {
     "pattern": "luxe",
     "variants": [
         {
-            "name": "Crimson",
-            "price": 18000,
-            "priceStr": "₦18,000",
+            "name": "Red",
             "img": "/assets/IMG_9989.webp"
         },
         {
             "name": "Black",
-            "price": 18000,
-            "priceStr": "₦18,000",
             "img": "/assets/IMG_9989.webp"
         },
         {
-            "name": "Pastel",
-            "price": 18000,
-            "priceStr": "₦18,000",
+            "name": "Pink",
             "img": "/assets/IMG_9989.webp"
         }
     ],
@@ -5499,8 +5787,8 @@ const PRODUCT_DATABASE = {
     "id": "curved-gspot-bullet",
     "title": "Curved G-Spot Bullet",
     "badge": "RETRIEVAL TAIL",
-    "price": 0,
-    "priceStr": "",
+    "price": 16000,
+    "priceStr": "₦16,000",
     "img": "/assets/IMG_5141.webp",
     "desc": "Anatomically curved bullet vibrator featuring an angled head designed to hit the G-spot directly, balanced by an ergonomic retrieval tail that allows precise positioning and safe wear.",
     "specs": [
@@ -5523,15 +5811,11 @@ const PRODUCT_DATABASE = {
     "pattern": "luxe",
     "variants": [
         {
-            "name": "Noir",
-            "price": 16000,
-            "priceStr": "₦16,000",
+            "name": "Black",
             "img": "/assets/IMG_5141.webp"
         },
         {
             "name": "Fuchsia",
-            "price": 16000,
-            "priceStr": "₦16,000",
             "img": "/assets/IMG_5141.webp"
         }
     ],
@@ -5581,8 +5865,8 @@ const PRODUCT_DATABASE = {
     "id": "finger-vibe-ring",
     "title": "Sensual Ring Vibe",
     "badge": "FINGER WEARABLE",
-    "price": 0,
-    "priceStr": "",
+    "price": 14000,
+    "priceStr": "₦14,000",
     "img": "/assets/IMG_5568.webp",
     "desc": "An elastic silicone ring that slips onto any finger, transforming your hand into a precision vibrating instrument for sensual massage, nipple play, and clitoral teasing.",
     "specs": [
@@ -5605,15 +5889,15 @@ const PRODUCT_DATABASE = {
     "pattern": "luxe",
     "variants": [
         {
-            "name": "Purple",
-            "price": 14000,
-            "priceStr": "₦14,000",
+            "name": "Black",
             "img": "/assets/IMG_5568.webp"
         },
         {
-            "name": "Blush",
-            "price": 14000,
-            "priceStr": "₦14,000",
+            "name": "Purple",
+            "img": "/assets/IMG_5568.webp"
+        },
+        {
+            "name": "Pink",
             "img": "/assets/IMG_5568.webp"
         }
     ],
@@ -8696,39 +8980,38 @@ function createStoreProductCard(prod, idx) {
 
   const variantDotsHtml = (!isOptionPills && hasVariants)
     ? `<div class="color-row" style="display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin: 8px 0 12px 0; max-width: 100%; box-sizing: border-box;">
-        ${variants.map((v, i) => {
+        ${variants.map((v) => {
           const hex = resolveColorHex(v.color, v.name);
           const borderStyle = isLightColor(hex) ? 'border: 1px solid #cbd5e1;' : '';
-          return `<button type="button" class="color-dot ${i === 0 ? 'active' : ''}" data-color="${v.name}" data-img="${v.img || prod.img}" title="${v.name}" style="background: ${hex}; ${borderStyle} flex-shrink: 0;"></button>`;
+          return `<button type="button" class="color-dot" data-color="${v.name}" data-img="${v.img || prod.img}" title="${v.name}" style="background: ${hex}; ${borderStyle} flex-shrink: 0;"></button>`;
         }).join('')}
-        <span class="color-name" style="margin-left: 4px; font-size: 11px; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${variants[0]?.name || ''}</span>
+        <span class="color-name" style="margin-left: 4px; font-size: 11px; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></span>
       </div>`
     : '';
 
   const optionPillsHtml = isOptionPills
     ? `<div class="size-row variant-options-row" style="display: flex; gap: 6px; margin: 8px 0 12px 0; flex-wrap: wrap; max-width: 100%; box-sizing: border-box;">
-        ${variants.map((v, i) => {
+        ${variants.map((v) => {
           const isCol = isColorVariant(v);
-          const showPrice = !isCol && hasDiffVariantPrices && Number(v.price) > 0;
-          const vPrice = showPrice ? (Number(v.price) || prod.price) : prod.price;
-          const vPriceStr = showPrice ? (v.priceStr || ('₦' + vPrice.toLocaleString())) : '';
-          const displayLabel = showPrice ? `${v.name} · ₦${Math.round(vPrice / 1000)}k` : v.name;
-          const priceAttrs = showPrice ? `data-price="${vPrice}" data-pricestr="${vPriceStr}"` : '';
-          return `<button type="button" class="size-pill ${i === 0 ? 'active' : ''}" data-size="${v.name}" ${priceAttrs} ${v.img ? `data-img="${v.img}"` : ''} style="border-radius: 8px !important; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${displayLabel}</button>`;
+          const hasSpecificPrice = !isCol && Number(v.price) > 0;
+          const vPrice = hasSpecificPrice ? Number(v.price) : prod.price;
+          const vPriceStr = hasSpecificPrice ? (v.priceStr || ('₦' + vPrice.toLocaleString())) : '';
+          const displayLabel = v.name;
+          const priceAttrs = hasSpecificPrice ? `data-price="${vPrice}" data-pricestr="${vPriceStr}"` : '';
+          return `<button type="button" class="size-pill" data-size="${v.name}" ${priceAttrs} ${v.img ? `data-img="${v.img}"` : ''} style="border-radius: 8px !important; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${displayLabel}</button>`;
         }).join('')}
       </div>`
     : '';
 
   const sizePillsHtml = (!isOptionPills && prod.sizes && prod.sizes.length > 0)
     ? `<div class="size-row" style="display: flex; gap: 6px; margin: 8px 0 12px 0; flex-wrap: wrap; max-width: 100%; box-sizing: border-box;">
-        ${prod.sizes.map((s, i) => `<button type="button" class="size-pill ${i === 0 ? 'active' : ''}" data-size="${s}" style="border-radius: 8px !important; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${s}</button>`).join('')}
+        ${prod.sizes.map((s) => `<button type="button" class="size-pill" data-size="${s}" style="border-radius: 8px !important; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${s}</button>`).join('')}
       </div>`
     : '';
 
-  const initialVariant = isOptionPills && variants[0] ? variants[0] : null;
-  const initialPrice = initialVariant ? (Number(initialVariant.price) || prod.price) : prod.price;
-  const initialPriceStr = initialVariant ? (initialVariant.priceStr || ('₦' + initialPrice.toLocaleString())) : (prod.priceStr || ('₦' + Number(prod.price).toLocaleString()));
-  const initialTitle = initialVariant ? `${prod.title} (${initialVariant.name})` : prod.title;
+  const initialPrice = Number(prod.price) || 0;
+  const initialPriceStr = prod.priceStr || ('₦' + initialPrice.toLocaleString());
+  const initialTitle = prod.title;
 
   card.innerHTML = `
     <div class="product-img-wrap">
@@ -8739,11 +9022,10 @@ function createStoreProductCard(prod, idx) {
       </div>
     </div>
     <div class="product-body">
+      <h3 class="product-name">${prod.title}</h3>
       <div class="product-top">
-        <span class="product-sku">${prod.sku || (prod.category.toUpperCase() + ' · ' + String(idx + 1).padStart(2, '0'))}</span>
         <span class="product-price">${initialPriceStr}</span>
       </div>
-      <h3 class="product-name">${prod.title}</h3>
       ${optionPillsHtml}
       ${variantDotsHtml}
       ${sizePillsHtml}
@@ -9382,11 +9664,10 @@ function initToyFinder() {
             </div>
           </div>
           <div class="product-body" style="padding: 16px; display: flex; flex-direction: column; flex-grow: 1;">
-            <div class="product-top" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-              <span class="product-sku" style="font-size: 10.5px; font-weight: 700; color: rgba(255,255,255,0.45); letter-spacing: 0.05em;">${p.sku}</span>
+            <h3 class="product-name" style="font-size: 16px; font-weight: 700; color: #ffffff; margin: 0 0 4px;">${p.title}</h3>
+            <div class="product-top" style="display: flex; justify-content: flex-start; align-items: center; margin-bottom: 8px;">
               <span class="product-price" style="font-weight: 800; font-size: 15px; color: #ffffff;">${p.priceStr}</span>
             </div>
-            <h3 class="product-name" style="font-size: 16px; font-weight: 700; color: #ffffff; margin: 0 0 6px;">${p.title}</h3>
             <p class="product-line" style="font-size: 12px; color: rgba(255,255,255,0.65); line-height: 1.45; margin: 0 0 16px; flex-grow: 1;">${p.desc}</p>
             <button class="btn btn-black btn-block btn-add-cart"
               style="border-radius: 8px !important; background: #ffffff !important; color: #0c0c0e !important; border: 1px solid rgba(255,255,255,0.2) !important; font-weight: 700; padding: 9px 14px; font-size: 12px; min-height: 38px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;"
@@ -9725,13 +10006,57 @@ document.addEventListener('error', (e) => {
   }
 }, true);
 
-// ================= 13. HOMEPAGE PLEASURE JOURNAL (ALWAYS 3 LATEST) =================
-function renderHomepagePleasureJournal() {
+// ================= 13. HOMEPAGE PLEASURE JOURNAL (DYNAMIC FILTERING) =================
+function renderHomepagePleasureJournal(activeCategory = 'all') {
   const container = document.getElementById('homepage-blog-grid');
   if (!container || !Array.isArray(BLOG_ARTICLES) || BLOG_ARTICLES.length === 0) return;
 
-  const top3 = BLOG_ARTICLES.slice(0, 3);
-  container.innerHTML = top3.map((art, idx) => {
+  // Gather articles including local custom articles
+  let allArticles = [...BLOG_ARTICLES];
+  try {
+    const rawLocal = localStorage.getItem('thetoysvirago_custom_articles');
+    if (rawLocal) {
+      const customArticles = JSON.parse(rawLocal);
+      if (Array.isArray(customArticles) && customArticles.length > 0) {
+        const customSlugs = new Set(customArticles.map(a => a.slug));
+        allArticles = [...customArticles, ...allArticles.filter(a => !customSlugs.has(a.slug))];
+      }
+    }
+  } catch (_) {}
+
+  const catNorm = (activeCategory || 'all').toLowerCase().trim();
+  const filtered = catNorm === 'all'
+    ? allArticles.slice(0, 3)
+    : allArticles.filter(art => {
+        const c = (art.category || '').toLowerCase().trim();
+        return c === catNorm || c.includes(catNorm) || catNorm.includes(c);
+      }).slice(0, 3);
+
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align: center; padding: 40px 20px; background: #f9fafb; border-radius: 12px; border: 1px dashed #d1d5db;">
+        <p style="color: #6b7280; font-size: 0.95rem; margin: 0 0 12px;">No stories in this category yet. New confessions and guides drop weekly.</p>
+        <button type="button" id="btn-reset-journal-filter" class="btn btn-black" style="border-radius: 8px !important; padding: 7px 16px; font-size: 12px;">View All Stories</button>
+      </div>
+    `;
+    const resetBtn = document.getElementById('btn-reset-journal-filter');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        const allPill = document.querySelector('.journal-pill[data-category="all"]');
+        if (allPill) {
+          allPill.click();
+        } else {
+          document.querySelectorAll('.journal-pill').forEach(p => p.classList.toggle('active', p.dataset.category === 'all'));
+          const countEl = document.getElementById('journal-story-count');
+          if (countEl) countEl.textContent = 'Showing 3 latest stories';
+          renderHomepagePleasureJournal('all');
+        }
+      });
+    }
+    return;
+  }
+
+  container.innerHTML = filtered.map((art, idx) => {
     const cleanTitle = (art.title || '').replace(/[\u2018\u2019]/g, "'").replace(/"/g, '&quot;');
     const cleanExcerpt = (art.excerpt || art.metaDesc || '').replace(/[\u2018\u2019]/g, "'").replace(/"/g, '&quot;');
     const cat = art.category || 'Journal';
@@ -9768,6 +10093,25 @@ function renderHomepagePleasureJournal() {
       </a>
     `;
   }).join('');
+}
+
+// Wire homepage journal topic filter pills
+const journalPills = document.querySelectorAll('.journal-pill');
+if (journalPills.length > 0) {
+  journalPills.forEach((pill) => {
+    pill.addEventListener('click', (e) => {
+      e.preventDefault();
+      const isAlreadyActive = pill.classList.contains('active');
+      const cat = isAlreadyActive && pill.dataset.category !== 'all' ? 'all' : (pill.dataset.category || 'all');
+
+      journalPills.forEach(p => p.classList.toggle('active', p.dataset.category === cat));
+      renderHomepagePleasureJournal(cat);
+      const countEl = document.getElementById('journal-story-count');
+      if (countEl) {
+        countEl.textContent = cat === 'all' ? 'Showing 3 latest stories' : `Topic: ${cat}`;
+      }
+    });
+  });
 }
 
 renderHomepagePleasureJournal();
