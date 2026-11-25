@@ -337,13 +337,16 @@ export async function upsertSupabaseProduct(product) {
       .upsert([payload], { onConflict: 'id' })
       .select();
 
-    // If remote table lacks media or sizes columns, gracefully strip and retry
-    if (error && (error.message.includes('column "media"') || error.message.includes('column "sizes"') || error.message.includes('column "region"') || error.message.includes('column "is_abuja"'))) {
-      console.warn('[Supabase] Missing optional columns. Retrying with core schema...');
-      delete payload.media;
-      delete payload.sizes;
-      delete payload.region;
-      delete payload.is_abuja;
+    const optionalColumns = ['media', 'sizes', 'region', 'is_abuja'];
+    const missingColumnPattern = /Could not find the '([^']+)' column|column "([^"]+)" does not exist/;
+
+    for (const _ of optionalColumns) {
+      if (!error) break;
+      const match = String(error.message || '').match(missingColumnPattern);
+      const missing = match?.[1] || match?.[2];
+      if (!missing || !optionalColumns.includes(missing) || !(missing in payload)) break;
+      console.warn(`[Supabase] Missing optional column "${missing}". Retrying without it...`);
+      delete payload[missing];
       const retry = await client
         .from('products')
         .upsert([payload], { onConflict: 'id' })

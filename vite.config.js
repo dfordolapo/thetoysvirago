@@ -81,6 +81,7 @@ function createMockResponse(res) {
 function devApiPlugin() {
   const routes = {
     '/api/send-confirmation': () => import('./api/send-confirmation.js'),
+    '/api/gemini-status': () => import('./api/gemini-status.js'),
     '/api/generate-copy': () => import('./api/generate-copy.js'),
     '/api/product-page': () => import('./api/product-page.js'),
     '/api/product-image': () => import('./api/product-image.js'),
