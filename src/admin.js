@@ -1332,8 +1332,13 @@ async function handleSaveProduct(shouldRedirectToShop = false) {
     const hasDiffVariantPrices = variantPrices.length > 1 && new Set(variantPrices).size > 1;
     const effectivePriceStr = hasDiffVariantPrices ? `From ₦${effectivePrice.toLocaleString()}` : `₦${effectivePrice.toLocaleString()}`;
 
+    const existingProduct = currentCustomProducts.find(p => p.id === id);
+    const nowIso = new Date().toISOString();
+
     const productData = {
       id,
+      createdAt: existingProduct?.createdAt || existingProduct?.created_at || nowIso,
+      updatedAt: nowIso,
       title,
       category,
       sku,

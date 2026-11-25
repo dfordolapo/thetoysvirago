@@ -626,6 +626,9 @@ const currentFilters = {
   sort: 'featured'
 };
 
+const productActivity = Object.create(null);
+let soldActivityPromise = null;
+
 function getCardPrice(card) {
   const addBtn = card.querySelector('.btn-add-cart');
   if (addBtn && addBtn.dataset.price) {
@@ -666,43 +669,113 @@ function checkCardType(card, typeKey, allSearchable) {
   return hay.includes(typeKey);
 }
 
+function getBaseProductId(value) {
+  return String(value || '').split('__')[0].trim();
+}
+
+function getCardId(card) {
+  return getBaseProductId(card.dataset.id);
+}
+
+function getCardSoldAt(card) {
+  const id = getCardId(card);
+  const value = card.dataset.soldAt || productActivity[id]?.soldAt || 0;
+  const time = Date.parse(value);
+  return Number.isFinite(time) ? time : 0;
+}
+
+function getCardUploadedAt(card) {
+  const id = getCardId(card);
+  const value = card.dataset.updatedAt || card.dataset.createdAt || productActivity[id]?.updatedAt || 0;
+  const time = Date.parse(value);
+  return Number.isFinite(time) ? time : 0;
+}
+
+function getCardDropRank(card) {
+  const badge = (card.querySelector('.product-badge')?.textContent || '').toLowerCase();
+  const sku = (card.dataset.sku || card.querySelector('.product-sku')?.textContent || '').toLowerCase();
+  if (badge.includes('drop') || sku.includes('drop')) return 2;
+  if (card.dataset.isRemote === 'true') return 1;
+  const skuNumber = parseInt(sku.match(/\d+/)?.[0] || '0', 10);
+  return skuNumber > 0 ? skuNumber : 0;
+}
+
 function sortCards(cards, sortKey) {
+  const originalIndex = (card) => Number(card.dataset.origIdx) || 0;
+
   if (sortKey === 'price-low-high') {
-    cards.sort((a, b) => getCardPrice(a) - getCardPrice(b));
+    cards.sort((a, b) => (getCardPrice(a) - getCardPrice(b)) || (originalIndex(a) - originalIndex(b)));
   } else if (sortKey === 'price-high-low') {
-    cards.sort((a, b) => getCardPrice(b) - getCardPrice(a));
+    cards.sort((a, b) => (getCardPrice(b) - getCardPrice(a)) || (originalIndex(a) - originalIndex(b)));
   } else if (sortKey === 'newest') {
     cards.sort((a, b) => {
-      // 1. Remote / custom products added via admin are the newest
-      const aRemote = a.dataset.isRemote === 'true';
-      const bRemote = b.dataset.isRemote === 'true';
-      if (aRemote && !bRemote) return -1;
-      if (!aRemote && bRemote) return 1;
-
-      // 2. STORE DROP badge or DROP in sku/badge
-      const aBadge = (a.querySelector('.product-badge')?.textContent || '').toLowerCase();
-      const bBadge = (b.querySelector('.product-badge')?.textContent || '').toLowerCase();
-      const aSku = (a.dataset.sku || a.querySelector('.product-sku')?.textContent || '').toLowerCase();
-      const bSku = (b.dataset.sku || b.querySelector('.product-sku')?.textContent || '').toLowerCase();
-      const aIsDrop = aBadge.includes('drop') || aSku.includes('drop');
-      const bIsDrop = bBadge.includes('drop') || bSku.includes('drop');
-      if (aIsDrop && !bIsDrop) return -1;
-      if (!aIsDrop && bIsDrop) return 1;
-
-      // 3. Extract numerical SKU if available (e.g. TOYS · 78, LINGERIE · 40)
-      const aNum = parseInt(aSku.match(/\d+/)?.[0] || '0', 10);
-      const bNum = parseInt(bSku.match(/\d+/)?.[0] || '0', 10);
-      if (aNum !== bNum && aNum > 0 && bNum > 0) {
-        return bNum - aNum; // Higher SKU number was added later
-      }
-
-      // 4. Reverse original index (later additions come first)
-      return (Number(b.dataset.origIdx) || 0) - (Number(a.dataset.origIdx) || 0);
+      const uploadedDiff = getCardUploadedAt(b) - getCardUploadedAt(a);
+      if (uploadedDiff !== 0) return uploadedDiff;
+      const dropDiff = getCardDropRank(b) - getCardDropRank(a);
+      if (dropDiff !== 0) return dropDiff;
+      return originalIndex(b) - originalIndex(a);
     });
   } else {
-    // featured: natural curated order
-    cards.sort((a, b) => (Number(a.dataset.origIdx) || 0) - (Number(b.dataset.origIdx) || 0));
+    cards.sort((a, b) => {
+      const soldDiff = getCardSoldAt(b) - getCardSoldAt(a);
+      if (soldDiff !== 0) return soldDiff;
+      const uploadedDiff = getCardUploadedAt(b) - getCardUploadedAt(a);
+      if (uploadedDiff !== 0) return uploadedDiff;
+      return originalIndex(a) - originalIndex(b);
+    });
   }
+}
+
+function applySoldActivityToCards() {
+  document.querySelectorAll('#products-grid .product-card, #abuja-carousel-track .product-card').forEach((card) => {
+    const id = getCardId(card);
+    const title = (card.querySelector('.product-name')?.textContent || '').replace(/\([^)]*\)/g, '').trim().toLowerCase();
+    const soldAt = productActivity[id]?.soldAt || productActivity[`title:${title}`]?.soldAt;
+    if (soldAt) card.dataset.soldAt = soldAt;
+  });
+}
+
+async function loadProductSoldActivity() {
+  if (!soldActivityPromise) {
+    soldActivityPromise = (async () => {
+      let orders = [];
+      try {
+        const res = await getSupabaseOrders();
+        orders = Array.isArray(res?.data) ? res.data : [];
+      } catch (err) {
+        console.info('[Catalog] Could not load sold activity:', err.message);
+      }
+
+      orders.forEach((order) => {
+        const parsedSoldAt = Date.parse(order.created_at || order.createdAt || order.updated_at || 0);
+        if (!Number.isFinite(parsedSoldAt)) return;
+        const soldAt = new Date(parsedSoldAt).toISOString();
+        const items = Array.isArray(order.items) ? order.items : [];
+
+        items.forEach((item) => {
+          if (!item || typeof item !== 'object') return;
+          const id = item.id || item.product_id || item.productId;
+          if (id) {
+            const key = getBaseProductId(id);
+            if (!productActivity[key] || Date.parse(productActivity[key].soldAt || 0) < parsedSoldAt) {
+              productActivity[key] = { ...(productActivity[key] || {}), soldAt };
+            }
+          }
+          const title = String(item.title || item.name || '').replace(/\([^)]*\)/g, '').trim().toLowerCase();
+          if (title) {
+            const titleKey = `title:${title}`;
+            if (!productActivity[titleKey] || Date.parse(productActivity[titleKey].soldAt || 0) < parsedSoldAt) {
+              productActivity[titleKey] = { ...(productActivity[titleKey] || {}), soldAt };
+            }
+          }
+        });
+      });
+    })();
+  }
+
+  await soldActivityPromise;
+  applySoldActivityToCards();
+  if (currentMatchingCatalogCards.length) filterProducts(false);
 }
 
 function filterProducts(resetPage = true) {
@@ -1095,16 +1168,15 @@ if (initialFilter) {
   });
 
   if (matchBtn) {
-    randomizeCatalogGrid();
     applyProductFilter(matchBtn.dataset.filter);
   } else {
-    randomizeCatalogGrid();
     applyProductFilter('all');
   }
 } else {
-  randomizeCatalogGrid();
   applyProductFilter('all');
 }
+
+loadProductSoldActivity();
 
 // Interactive Finish / Color Dots
 document.querySelectorAll('.color-selector, .color-row').forEach((selector) => {
@@ -5890,8 +5962,8 @@ const PRODUCT_DATABASE = {
     "id": "finger-vibe-ring",
     "title": "Sensual Ring Vibe",
     "badge": "FINGER WEARABLE",
-    "price": 14000,
-    "priceStr": "₦14,000",
+    "price": 20000,
+    "priceStr": "₦20,000",
     "img": "/assets/IMG_5568.webp",
     "desc": "An elastic silicone ring that slips onto any finger, transforming your hand into a precision vibrating instrument for sensual massage, nipple play, and clitoral teasing.",
     "specs": [
@@ -8986,6 +9058,10 @@ function createStoreProductCard(prod, idx) {
   card.dataset.category = prod.category || 'lingerie';
   card.dataset.id = prod.id;
   card.dataset.keywords = `${prod.title} ${prod.category} ${prod.badge || ''} lingerie lace sensual boudoir`;
+  if (prod.isRemote === true) card.dataset.isRemote = 'true';
+  const uploadedAt = prod.updatedAt || prod.updated_at || prod.createdAt || prod.created_at || '';
+  const parsedUploadedAt = Date.parse(uploadedAt);
+  if (Number.isFinite(parsedUploadedAt)) card.dataset.updatedAt = new Date(parsedUploadedAt).toISOString();
 
   const variants = Array.isArray(prod.variants) ? prod.variants : [];
   const hasVariants = variants.length > 0;
@@ -9231,6 +9307,8 @@ export function initCustomCatalogProducts() {
       PRODUCT_DATABASE[prod.id] = {
         id: prod.id,
         isRemote: prod.isRemote === true,
+        updatedAt: prod.updatedAt || prod.updated_at || prod.createdAt || prod.created_at || '',
+        createdAt: prod.createdAt || prod.created_at || '',
         title: prod.title,
         badge: prod.badge || 'LUXE BOUDOIR',
         price: Number(prod.price) || 0,
@@ -9288,10 +9366,10 @@ export function initCustomCatalogProducts() {
           grid.appendChild(card);
         }
       });
-      randomizeCatalogGrid();
       if (typeof filterProducts === 'function') {
         filterProducts();
       }
+      loadProductSoldActivity();
     }
 
     if (arrivalsGrid) {
@@ -9333,6 +9411,7 @@ export function initCustomCatalogProducts() {
         const mapped = {
           id: rp.id,
           isRemote: true,
+          updatedAt: rp.updated_at || '',
           title: rp.title,
           category: rp.category || 'toys',
           sku: rp.category ? `${rp.category.toUpperCase()} · ${rp.id.slice(0, 4)}` : 'VAULT · 01',
