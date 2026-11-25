@@ -278,25 +278,25 @@ markUnavailable('rhino-choco-vip');
 markUnavailable('hygiene-anal-douche');
 
 // --- BDSM ---
-// Emerald Bondage Trunk — without suitcase ₦40,000 / with suitcase ₦55,000
+// Emerald Bondage Trunk — no case ₦40,000 / case ₦55,000
 setPrice('emerald-snakeskin-bdsm-trunk', 'From ₦40,000', 40000);
 setBadge('emerald-snakeskin-bdsm-trunk', '10-PIECE · W/CASE ₦55K');
 html = html.replace(
   /(<article[^>]*data-id="emerald-snakeskin-bdsm-trunk"[\s\S]*?<div class="product-body">[\s\S]*?<h3 class="product-name">Emerald Bondage Trunk<\/h3>\s*)(              <button class="btn btn-black btn-block btn-add-cart")/,
   `$1              <div class="color-row" style="margin-bottom:8px;">
-                <button class="size-pill active" data-size="Without Suitcase" data-price="40000" data-pricestr="₦40,000">Without Case</button>
-                <button class="size-pill" data-size="With Suitcase" data-price="55000" data-pricestr="₦55,000">With Case</button>
+                <button class="size-pill active" data-size="No Case" data-price="40000" data-pricestr="₦40,000">No Case</button>
+                <button class="size-pill" data-size="Case" data-price="55000" data-pricestr="₦55,000">Case</button>
               </div>\n              $2`
 );
 
-// Noir Boudoir Chest — without suitcase ₦40,000 / with suitcase ₦55,000
+// Noir Boudoir Chest — no case ₦40,000 / case ₦55,000
 setPrice('leather-bondage-chest', 'From ₦40,000', 40000);
 setBadge('leather-bondage-chest', 'LUXURY VAULT · W/CASE ₦55K');
 html = html.replace(
   /(<article[^>]*data-id="leather-bondage-chest"[\s\S]*?<div class="product-body">[\s\S]*?<h3 class="product-name">Noir Boudoir Chest<\/h3>\s*)(              <button class="btn btn-black btn-block btn-add-cart")/,
   `$1              <div class="color-row" style="margin-bottom:8px;">
-                <button class="size-pill active" data-size="Without Suitcase" data-price="40000" data-pricestr="₦40,000">Without Case</button>
-                <button class="size-pill" data-size="With Suitcase" data-price="55000" data-pricestr="₦55,000">With Case</button>
+                <button class="size-pill active" data-size="No Case" data-price="40000" data-pricestr="₦40,000">No Case</button>
+                <button class="size-pill" data-size="Case" data-price="55000" data-pricestr="₦55,000">Case</button>
               </div>\n              $2`
 );
 
