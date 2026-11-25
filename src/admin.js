@@ -305,60 +305,6 @@ const mediaGalleryGrid = document.getElementById('media-gallery-grid');
 const mediaCountEl = document.getElementById('media-count');
 const btnAddMoreMedia = document.getElementById('btn-add-more-media');
 
-const supabaseFixBanner = document.getElementById('supabase-fix-banner');
-const btnCopySupabaseFix = document.getElementById('btn-copy-supabase-fix');
-const supabaseErrorModal = document.getElementById('supabase-error-modal');
-const btnModalCopySql = document.getElementById('btn-modal-copy-sql');
-const btnModalCloseSql = document.getElementById('btn-modal-close-sql');
-
-const SUPABASE_FIX_SQL = `-- TheToysVirago: Enable instant product uploads & auto-create required columns
-alter table public.products disable row level security;
-alter table public.products add column if not exists media jsonb default '[]'::jsonb;
-alter table public.products add column if not exists sizes text[] default '{}';`;
-
-function copySupabaseSqlFix() {
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(SUPABASE_FIX_SQL).then(() => {
-      showToast('✓ SQL Fix copied to clipboard! Paste in Supabase SQL editor.');
-    }).catch(() => fallbackCopy(SUPABASE_FIX_SQL));
-  } else {
-    fallbackCopy(SUPABASE_FIX_SQL);
-  }
-}
-
-function fallbackCopy(text) {
-  const ta = document.createElement('textarea');
-  ta.value = text;
-  document.body.appendChild(ta);
-  ta.select();
-  document.execCommand('copy');
-  document.body.removeChild(ta);
-  showToast('✓ SQL Fix copied to clipboard!');
-}
-
-if (btnCopySupabaseFix) {
-  btnCopySupabaseFix.addEventListener('click', copySupabaseSqlFix);
-}
-if (btnModalCopySql) {
-  btnModalCopySql.addEventListener('click', () => {
-    copySupabaseSqlFix();
-    if (supabaseErrorModal) supabaseErrorModal.style.display = 'none';
-  });
-}
-if (btnModalCloseSql) {
-  btnModalCloseSql.addEventListener('click', () => {
-    if (supabaseErrorModal) supabaseErrorModal.style.display = 'none';
-  });
-}
-
-function openSupabaseFixModal(errDetail = '') {
-  if (supabaseErrorModal) {
-    supabaseErrorModal.style.display = 'flex';
-  } else {
-    alert(`Supabase Row-Level Security blocked this upload.\n\nTo fix, copy this SQL and run in your Supabase SQL Editor:\n\n${SUPABASE_FIX_SQL}`);
-  }
-}
-
 if (dropzone && fileInput) {
   dropzone.addEventListener('click', () => fileInput.click());
 
@@ -957,7 +903,7 @@ async function autoGenerateProductDescription() {
     }
 
     if (geminiApiKey && inlineImage) {
-      if (aiStatusText) aiStatusText.textContent = 'Analysing actual photo with Gemini Vision AI...';
+      if (aiStatusText) aiStatusText.textContent = 'Analysing your photo...';
       generatedResult = await callGeminiVisionAI(geminiApiKey, inlineImage, category, mood, currentTitle, currentDetails);
     } else if (inlineImage) {
       if (aiStatusText) aiStatusText.textContent = 'Analysing your photo with the secure copy service...';
@@ -1036,10 +982,10 @@ async function autoGenerateProductDescription() {
   if (aiStatusText) {
     aiStatusText.style.display = 'block';
     aiStatusText.textContent = usedLocalWriter
-      ? `⚠️ Offline template used (Gemini Key missing). Enter your Gemini API key above to analyze the actual image with Vision AI.`
-      : `✨ Photo-accurate copy written from the actual uploaded photo with Gemini Vision in ${mood} tone.`;
+      ? '⚠️ Offline template used. Check the Gemini server key and redeploy.'
+      : `✨ Copy written from the uploaded photo in ${mood} tone.`;
   }
-  showToast(usedLocalWriter ? 'Offline template copy applied (Add Gemini Key for Vision AI)' : 'Photo-accurate copy applied to the product form!');
+  showToast(usedLocalWriter ? 'Offline template copy applied.' : 'Photo-accurate copy applied to the product form!');
 }
 
 async function callGeminiVisionAI(apiKey, inlineImage, category, mood, currentTitle, details = {}) {
@@ -1508,11 +1454,7 @@ async function handleSaveProduct(shouldRedirectToShop = false) {
           showToast(`✓ "${title}" is now LIVE! <a href="/products/${encodeURIComponent(id)}" target="_blank" rel="noopener">View Product &rarr;</a>`, true);
         } else {
           console.warn('[Supabase] Sync notice:', res.error);
-          if (res.isRlsError || (res.error && (res.error.includes('row-level security') || res.error.includes('42501')))) {
-            openSupabaseFixModal(res.error);
-          } else {
-            showToast(`Saved locally. Supabase: ${res.error || 'Check connection'}`);
-          }
+          showToast(`Saved locally. Supabase: ${res.error || 'Check connection'}`);
         }
       } catch (err) {
         console.error('[Supabase] Unexpected upload error:', err);
@@ -2131,7 +2073,6 @@ async function checkServerGeminiKey() {
 function updateAiVisionKeyUI() {
   const localKey = localStorage.getItem('thetoysvirago_gemini_key') || '';
   const visionActive = Boolean(localKey) || serverGeminiConfigured;
-  const activeBadge = document.getElementById('ai-vision-active-badge');
   const keyNeededBox = document.getElementById('ai-vision-key-needed');
   const quickKeyInput = document.getElementById('ai-quick-gemini-key');
   const settingsKeyInput = document.getElementById('gemini-api-key');
@@ -2139,18 +2080,12 @@ function updateAiVisionKeyUI() {
   const serverKeyNote = document.getElementById('gemini-server-key-note');
 
   if (visionActive) {
-    if (activeBadge) activeBadge.style.display = 'flex';
     if (keyNeededBox) keyNeededBox.style.display = 'none';
     if (quickKeyInput) quickKeyInput.value = localKey;
     if (settingsKeyInput) settingsKeyInput.value = localKey;
     if (settingsGroup) settingsGroup.style.display = serverGeminiConfigured && !localKey ? 'none' : 'block';
     if (serverKeyNote) serverKeyNote.style.display = serverGeminiConfigured && !localKey ? 'block' : 'none';
-    if (activeBadge && serverGeminiConfigured && !localKey) {
-      const label = activeBadge.querySelector('span:last-child');
-      if (label) label.innerHTML = '<strong>Gemini Vision Active:</strong> Server key configured - AI reads your uploaded photo.';
-    }
   } else {
-    if (activeBadge) activeBadge.style.display = 'none';
     if (keyNeededBox) keyNeededBox.style.display = 'block';
     if (quickKeyInput) quickKeyInput.value = '';
     if (settingsKeyInput) settingsKeyInput.value = '';
@@ -2167,7 +2102,7 @@ if (btnSaveQuickGeminiKey) {
     if (val) {
       localStorage.setItem('thetoysvirago_gemini_key', val);
       updateAiVisionKeyUI();
-      showToast('Gemini API Key saved! Vision AI is now active.');
+      showToast('Gemini API Key saved.');
     } else {
       localStorage.removeItem('thetoysvirago_gemini_key');
       updateAiVisionKeyUI();
