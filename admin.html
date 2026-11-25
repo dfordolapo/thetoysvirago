@@ -3136,12 +3136,15 @@
         <button id="btn-close-settings" class="admin-preview-remove" style="position: static;">&times;</button>
       </div>
 
-      <div class="form-group">
+      <div class="form-group" id="gemini-key-setting-group">
         <label class="form-label">Google Gemini API Key (Vision AI)</label>
         <input type="password" id="gemini-api-key" class="form-input" placeholder="AIzaSy... (optional for live Vision AI)" />
         <div style="font-size: 11px; color: #64748b; margin-top: 4px;">
           Optional. With a Gemini key (paste it here, or set GEMINI_API_KEY on Vercel) the AI reads the actual uploaded product photo and writes grounded, accurate copy. Without a key the admin still drafts copy from your uploaded photo and product details. A photo is required before copy can be generated.
         </div>
+      </div>
+      <div id="gemini-server-key-note" style="display: none; font-size: 11px; color: #166534; margin: -6px 0 18px;">
+        Gemini Vision is configured on the server. No key needed here.
       </div>
 
       <div class="form-group">

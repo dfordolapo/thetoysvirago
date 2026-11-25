@@ -3434,6 +3434,8 @@ body.cart-open .main-header,
   border-radius: 0 !important;
   display: flex !important;
   align-items: center !important;
+  justify-content: center !important;
+  justify-content: safe center !important;
   gap: 6px !important;
   width: 100% !important;
   max-width: 100% !important;
@@ -3482,7 +3484,7 @@ body.cart-open .main-header,
 @media (max-width: 520px) {
   .collection.collection-page-white .filter-row,
   .filter-row {
-    gap: 3px !important;
+    gap: 5px !important;
     padding: 2px 0 4px 0 !important;
     margin-bottom: 10px !important;
   }
@@ -3495,7 +3497,7 @@ body.cart-open .main-header,
 @media (max-width: 380px) {
   .collection.collection-page-white .filter-row,
   .filter-row {
-    gap: 2px !important;
+    gap: 4px !important;
   }
   .collection.collection-page-white .filter-btn,
   .filter-btn {

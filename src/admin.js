@@ -25,6 +25,8 @@ import { buildProductCopyPrompt, GEMINI_VISION_MODELS, parseGeminiJson } from '.
 import { resolveColorHex, isLightColor, formatColorName, isRecognizedColorName } from './modules/colorResolver.js';
 import { generateLocalProductCopy } from './modules/localCopy.js';
 
+let serverGeminiConfigured = false;
+
 // ================= 1. AUTHENTICATION & SECURITY GATE =================
 const ADMIN_PIN_KEY = 'thetoysvirago_admin_pin';
 const ADMIN_AUTH_KEY = 'thetoysvirago_admin_unlocked';
@@ -2099,6 +2101,7 @@ function initAdmin() {
   refreshCatalogData();
   initArticlesStudio();
   updateAiVisionKeyUI();
+  checkServerGeminiKey();
 
   const syncStatusText = document.getElementById('sync-status-text');
   if (syncStatusText) {
@@ -2112,23 +2115,47 @@ function initAdmin() {
 
 
 // ================= GEMINI VISION KEY UI CONTROLLER =================
+async function checkServerGeminiKey() {
+  try {
+    const response = await fetch('/api/gemini-status', { cache: 'no-store' });
+    if (response.ok) {
+      const payload = await response.json().catch(() => ({}));
+      serverGeminiConfigured = payload.configured === true;
+    }
+  } catch (_) {
+    serverGeminiConfigured = false;
+  }
+  updateAiVisionKeyUI();
+}
+
 function updateAiVisionKeyUI() {
-  const key = localStorage.getItem('thetoysvirago_gemini_key') || '';
+  const localKey = localStorage.getItem('thetoysvirago_gemini_key') || '';
+  const visionActive = Boolean(localKey) || serverGeminiConfigured;
   const activeBadge = document.getElementById('ai-vision-active-badge');
   const keyNeededBox = document.getElementById('ai-vision-key-needed');
   const quickKeyInput = document.getElementById('ai-quick-gemini-key');
   const settingsKeyInput = document.getElementById('gemini-api-key');
+  const settingsGroup = document.getElementById('gemini-key-setting-group');
+  const serverKeyNote = document.getElementById('gemini-server-key-note');
 
-  if (key) {
+  if (visionActive) {
     if (activeBadge) activeBadge.style.display = 'flex';
     if (keyNeededBox) keyNeededBox.style.display = 'none';
-    if (quickKeyInput) quickKeyInput.value = key;
-    if (settingsKeyInput) settingsKeyInput.value = key;
+    if (quickKeyInput) quickKeyInput.value = localKey;
+    if (settingsKeyInput) settingsKeyInput.value = localKey;
+    if (settingsGroup) settingsGroup.style.display = serverGeminiConfigured && !localKey ? 'none' : 'block';
+    if (serverKeyNote) serverKeyNote.style.display = serverGeminiConfigured && !localKey ? 'block' : 'none';
+    if (activeBadge && serverGeminiConfigured && !localKey) {
+      const label = activeBadge.querySelector('span:last-child');
+      if (label) label.innerHTML = '<strong>Gemini Vision Active:</strong> Server key configured - AI reads your uploaded photo.';
+    }
   } else {
     if (activeBadge) activeBadge.style.display = 'none';
     if (keyNeededBox) keyNeededBox.style.display = 'block';
     if (quickKeyInput) quickKeyInput.value = '';
     if (settingsKeyInput) settingsKeyInput.value = '';
+    if (settingsGroup) settingsGroup.style.display = 'block';
+    if (serverKeyNote) serverKeyNote.style.display = 'none';
   }
 }
 
