@@ -21,7 +21,6 @@ import {
   deleteSupabaseArticle
 } from './supabase.js';
 import { BLOG_ARTICLES } from './data/articles.js';
-import { buildProductCopyPrompt, GEMINI_VISION_MODELS, parseGeminiJson } from './aiPrompt.js';
 import { resolveColorHex, isLightColor, formatColorName, isRecognizedColorName } from './modules/colorResolver.js';
 import { generateLocalProductCopy } from './modules/localCopy.js';
 
@@ -892,26 +891,12 @@ async function autoGenerateProductDescription() {
       console.warn('Could not load the product photo for analysis:', imageErr);
     }
 
-    let geminiApiKey = localStorage.getItem('thetoysvirago_gemini_key') || '';
-    if (!geminiApiKey) {
-      const quickKeyInput = document.getElementById('ai-quick-gemini-key');
-      if (quickKeyInput && quickKeyInput.value.trim()) {
-        geminiApiKey = quickKeyInput.value.trim();
-        localStorage.setItem('thetoysvirago_gemini_key', geminiApiKey);
-        updateAiVisionKeyUI();
-      }
-    }
-
-    if (geminiApiKey && inlineImage) {
+    if (inlineImage) {
       if (aiStatusText) aiStatusText.textContent = 'Analysing your photo...';
-      generatedResult = await callGeminiVisionAI(geminiApiKey, inlineImage, category, mood, currentTitle, currentDetails);
-    } else if (inlineImage) {
-      if (aiStatusText) aiStatusText.textContent = 'Analysing your photo with the secure copy service...';
       const response = await fetch('/api/generate-copy', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          apiKey: geminiApiKey,
           imageBase64: inlineImage.data,
           mimeType: inlineImage.mimeType,
           category,
@@ -986,53 +971,6 @@ async function autoGenerateProductDescription() {
       : `✨ Copy written from the uploaded photo in ${mood} tone.`;
   }
   showToast(usedLocalWriter ? 'Offline template copy applied.' : 'Photo-accurate copy applied to the product form!');
-}
-
-async function callGeminiVisionAI(apiKey, inlineImage, category, mood, currentTitle, details = {}) {
-  const prompt = buildProductCopyPrompt(category, mood, currentTitle, details);
-  let lastError = '';
-
-  for (const model of GEMINI_VISION_MODELS) {
-    try {
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [
-              {
-                parts: [
-                  { text: prompt },
-                  { inlineData: { mimeType: inlineImage.mimeType, data: inlineImage.data } }
-                ]
-              }
-            ],
-            generationConfig: {
-              temperature: 0.7,
-              maxOutputTokens: 1024,
-              responseMimeType: 'application/json'
-            }
-          })
-        }
-      );
-
-      if (!response.ok) {
-        lastError = `${model}: HTTP ${response.status}`;
-        continue;
-      }
-
-      const json = await response.json();
-      const text = (json.candidates?.[0]?.content?.parts || [])
-        .map((part) => part.text || '')
-        .join('');
-      return parseGeminiJson(text);
-    } catch (err) {
-      lastError = `${model}: ${err.message}`;
-    }
-  }
-
-  throw new Error(lastError || 'Gemini could not analyse the photo.');
 }
 
 if (btnAutoGenerateAi) {
@@ -2063,6 +2001,7 @@ async function checkServerGeminiKey() {
     if (response.ok) {
       const payload = await response.json().catch(() => ({}));
       serverGeminiConfigured = payload.configured === true;
+      if (serverGeminiConfigured) localStorage.removeItem('thetoysvirago_gemini_key');
     }
   } catch (_) {
     serverGeminiConfigured = false;
