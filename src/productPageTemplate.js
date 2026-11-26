@@ -2569,7 +2569,19 @@ export function renderProductPage(product = {}, options = {}) {
     </aside>
   </div>
 
-  <!-- ===== STORE POLICIES MODAL ===== -->
+    <!-- Cookie Consent Banner -->
+  <div id="cookie-consent-banner" class="cookie-consent-banner" hidden role="dialog" aria-live="polite" aria-label="Cookie consent">
+    <div class="cookie-consent-copy">
+      <strong class="cookie-consent-title">Cookies &amp; Privacy</strong>
+      <p class="cookie-consent-text">We use cookies and local storage to keep your bag, preferences, and browsing experience smooth and private. You can accept or decline non-essential cookies.</p>
+    </div>
+    <div class="cookie-consent-actions">
+      <button type="button" id="btn-cookie-decline" class="btn-cookie-choice btn-cookie-decline">Decline</button>
+      <button type="button" id="btn-cookie-accept" class="btn-cookie-choice btn-cookie-accept">Accept</button>
+    </div>
+  </div>
+
+<!-- ===== STORE POLICIES MODAL ===== -->
   <div id="policy-modal" class="modal-overlay" hidden style="display: none;">
     <div class="policy-modal-card" role="dialog" aria-modal="true" aria-labelledby="policy-modal-title">
       <div class="policy-modal-header">
@@ -3266,7 +3278,23 @@ export function renderProductPage(product = {}, options = {}) {
         });
       });
 
-      document.addEventListener('keydown', function (e) {
+      // Cookie consent
+      (function initCookieConsent(){
+        var key='ttv_cookie_consent';
+        var banner=document.getElementById('cookie-consent-banner');
+        if(!banner) return;
+        var accept=document.getElementById('btn-cookie-accept');
+        var decline=document.getElementById('btn-cookie-decline');
+        var current='';
+        try{ current=localStorage.getItem(key)||''; }catch(e){}
+        if(current){ document.documentElement.dataset.cookieConsent=current; banner.hidden=true; banner.style.display='none'; return; }
+        setTimeout(function(){ banner.hidden=false; banner.style.display='flex'; },900);
+        function close(v){ try{ localStorage.setItem(key,v); }catch(e){} document.documentElement.dataset.cookieConsent=v; banner.hidden=true; banner.style.display='none'; }
+        if(accept) accept.addEventListener('click', function(){ close('accepted'); });
+        if(decline) decline.addEventListener('click', function(){ close('declined'); });
+      })();
+
+      document.addEventListener('keydown', function (e) {      document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
           if (cartDrawerOverlay && !cartDrawerOverlay.hasAttribute('hidden') && cartDrawerOverlay.style.display !== 'none') {
             closeCartDrawer();

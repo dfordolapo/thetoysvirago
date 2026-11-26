@@ -3,7 +3,18 @@ import { initPullToRefresh } from './modules/pullToRefresh.js';
 import { BLOG_ARTICLES } from './data/articles.js';
 import { getSupabaseArticles, isSupabaseConfigured } from './supabase.js';
 
+function initCookieConsentBanner(){
+  const key='ttv_cookie_consent'; const banner=document.getElementById('cookie-consent-banner');
+  if(!banner) return; const accept=document.getElementById('btn-cookie-accept'); const decline=document.getElementById('btn-cookie-decline');
+  let current=''; try{ current=localStorage.getItem(key)||''; }catch(e){}
+  if(current){ document.documentElement.dataset.cookieConsent=current; banner.hidden=true; banner.style.display='none'; return; }
+  setTimeout(()=>{ banner.hidden=false; banner.style.display='flex'; },900);
+  const close=(v)=>{ try{ localStorage.setItem(key,v); }catch(e){} document.documentElement.dataset.cookieConsent=v; banner.hidden=true; banner.style.display='none'; };
+  if(accept) accept.addEventListener('click',()=>close('accepted'));
+  if(decline) decline.addEventListener('click',()=>close('declined'));
+}
 document.addEventListener('DOMContentLoaded', () => {
+  initCookieConsentBanner();
   initWhatsAppWidget();
   initPullToRefresh();
   const cardsGrid = document.getElementById('blog-cards-grid');

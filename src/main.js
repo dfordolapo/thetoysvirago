@@ -117,6 +117,24 @@ if (btnDismissPwa) {
 }
 
 // General triggers (dropdown menu & footer)
+// ================= COOKIE CONSENT =================
+const COOKIE_CONSENT_KEY = 'ttv_cookie_consent';
+function getCookieConsent() { try { return localStorage.getItem(COOKIE_CONSENT_KEY) || ''; } catch (e) { return ''; } }
+function setCookieConsent(value) { try { localStorage.setItem(COOKIE_CONSENT_KEY, value); } catch (e) {} document.documentElement.dataset.cookieConsent = value; }
+function initCookieConsentBanner() {
+  const banner = document.getElementById('cookie-consent-banner');
+  if (!banner) return;
+  const accept = document.getElementById('btn-cookie-accept');
+  const decline = document.getElementById('btn-cookie-decline');
+  const current = getCookieConsent();
+  if (current) { document.documentElement.dataset.cookieConsent = current; banner.hidden = true; banner.style.display = 'none'; return; }
+  setTimeout(() => { banner.hidden = false; banner.style.display = 'flex'; }, 900);
+  const close = (value) => { setCookieConsent(value); banner.hidden = true; banner.style.display = 'none'; };
+  if (accept) accept.addEventListener('click', () => close('accepted'));
+  if (decline) decline.addEventListener('click', () => close('declined'));
+}
+initCookieConsentBanner();
+
 document.querySelectorAll('.btn-install-trigger').forEach((btn) => {
   btn.addEventListener('click', async (e) => {
     e.preventDefault();
