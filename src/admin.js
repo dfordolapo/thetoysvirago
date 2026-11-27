@@ -945,6 +945,13 @@ async function autoGenerateProductDescription() {
     return;
   }
 
+  const allowedCats = ['lingerie', 'toys', 'lubes', 'bdsm', 'games'];
+  const detectedCat = String(generatedResult.category || '').toLowerCase().trim();
+  if (categorySelect && allowedCats.includes(detectedCat)) {
+    categorySelect.value = detectedCat;
+    categorySelect.dispatchEvent(new Event('change'));
+  }
+
   const canApplyTitle = titleInput && (!titleInput.value.trim() || titleInput.dataset.autofilled === 'true');
   if (canApplyTitle) {
     titleInput.value = generatedResult.title || titleInput.value;

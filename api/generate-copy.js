@@ -66,43 +66,45 @@ export default async function handler(req, res) {
   let lastError = '';
 
   for (const model of GEMINI_VISION_MODELS) {
-    try {
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [
-              {
-                parts: [
-                  { text: prompt },
-                  { inlineData: { mimeType, data: imageBase64 } }
-                ]
-              }
-            ],
-            generationConfig: {
-              temperature: 0.7,
-              maxOutputTokens: 1024,
-              responseMimeType: 'application/json'
-            }
-          })
-        }
-      );
-
-      if (!response.ok) {
-        lastError = `${model}: HTTP ${response.status} ${(await response.text()).slice(0, 300)}`;
-        continue;
+    // Attempt 1: With Google Search grounding so Gemini researches the exact product in the image
+    // Attempt 2: Fallback without Google Search if the model rejects search tooling
+    const attempts = [
+      {
+        contents: [{ parts: [{ text: prompt }, { inlineData: { mimeType, data: imageBase64 } }] }],
+        tools: [{ google_search: {} }],
+        generationConfig: { temperature: 0.65, maxOutputTokens: 1200 }
+      },
+      {
+        contents: [{ parts: [{ text: prompt }, { inlineData: { mimeType, data: imageBase64 } }] }],
+        generationConfig: { temperature: 0.7, maxOutputTokens: 1024, responseMimeType: 'application/json' }
       }
+    ];
 
-      const json = await response.json();
-      const text = (json.candidates && json.candidates[0] && json.candidates[0].content && json.candidates[0].content.parts || [])
-        .map((part) => part.text || '')
-        .join('');
-      const parsed = parseGeminiJson(text);
-      return res.status(200).json(parsed);
-    } catch (error) {
-      lastError = `${model}: ${error.message}`;
+    for (const payload of attempts) {
+      try {
+        const response = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          }
+        );
+
+        if (!response.ok) {
+          lastError = `${model}: HTTP ${response.status} ${(await response.text()).slice(0, 300)}`;
+          continue;
+        }
+
+        const json = await response.json();
+        const text = (json.candidates && json.candidates[0] && json.candidates[0].content && json.candidates[0].content.parts || [])
+          .map((part) => part.text || '')
+          .join('');
+        const parsed = parseGeminiJson(text);
+        return res.status(200).json(parsed);
+      } catch (error) {
+        lastError = `${model}: ${error.message}`;
+      }
     }
   }
 
