@@ -2913,7 +2913,7 @@ export function renderProductPage(product = {}, options = {}) {
     <div id="nav-dropdown" class="nav-dropdown" hidden style="display: none;">
       <a href="/" class="dropdown-link nav-closer">Home</a>
       <a href="/products.html" class="dropdown-link nav-closer">Shop All Pieces</a>
-      <a href="/blog.html" class="dropdown-link nav-closer">The Pleasure Journal (Blog)</a>
+      <a href="/blog" class="dropdown-link nav-closer">The Pleasure Journal (Blog)</a>
       <a href="/index.html#faq" class="dropdown-link nav-closer">FAQ</a>
       <a href="/products.html#abuja" class="dropdown-link nav-closer">📍 Abuja Exclusives</a>
       <button id="btn-install-dropdown" class="dropdown-link btn-install-trigger nav-closer">
@@ -3042,7 +3042,7 @@ export function renderProductPage(product = {}, options = {}) {
             <li><a href="https://wa.me/2348036514814" target="_blank" rel="noopener">WhatsApp (08036514814)</a></li>
             <li><a href="https://x.com/thetoysvirago" target="_blank" rel="noopener">X (@thetoysvirago)</a></li>
             <li><a href="/products.html">Shop All Products</a></li>
-            <li><a href="/blog.html">The Pleasure Journal</a></li>
+            <li><a href="/blog">The Pleasure Journal</a></li>
             <li><a href="/index.html#faq">FAQ</a></li>
             <li><a href="/admin.html" style="color: rgba(12, 12, 14, 0.45); font-size: 13px;">Admin Vault</a></li>
           </ul>

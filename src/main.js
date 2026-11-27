@@ -10475,7 +10475,7 @@ function renderHomepagePleasureJournal(activeCategory = 'all') {
 
     if (isDark) {
       return `
-        <a href="/blog.html?post=${art.slug}" class="blog-card-black" style="text-decoration: none; color: inherit; background: #0c0c0e !important; border: 1px solid rgba(255, 255, 255, 0.12) !important; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s ease, border-color 0.2s ease; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);">
+        <a href="/blog/${art.slug}" class="blog-card-black" style="text-decoration: none; color: inherit; background: #0c0c0e !important; border: 1px solid rgba(255, 255, 255, 0.12) !important; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s ease, border-color 0.2s ease; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);">
           <div style="aspect-ratio: 16/9; overflow: hidden; background: #18181b;">
             <img src="${art.heroImg}" alt="${cleanTitle}" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy" decoding="async" />
           </div>
@@ -10490,7 +10490,7 @@ function renderHomepagePleasureJournal(activeCategory = 'all') {
     }
 
     return `
-      <a href="/blog.html?post=${art.slug}" class="blog-card-white" style="text-decoration: none; color: inherit; background: #ffffff !important; border: 1px solid #e2e8f0 !important; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s ease, border-color 0.2s ease; box-shadow: var(--sh-sm);">
+      <a href="/blog/${art.slug}" class="blog-card-white" style="text-decoration: none; color: inherit; background: #ffffff !important; border: 1px solid #e2e8f0 !important; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s ease, border-color 0.2s ease; box-shadow: var(--sh-sm);">
         <div style="aspect-ratio: 16/9; overflow: hidden; background: #f1f5f9;">
           <img src="${art.heroImg}" alt="${cleanTitle}" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy" decoding="async" />
         </div>
