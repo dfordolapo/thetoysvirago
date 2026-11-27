@@ -6894,19 +6894,63 @@ function openQuickviewForProduct(prodKey, card = null) {
     qvDelivAbuja.style.display = isAbujaExclusive ? 'block' : 'none';
   }
 
-  // Populate Category-Specific Specs
+  // Populate Category-Specific Specs (normalized & deduplicated)
   if (qvSpecs) {
     qvSpecs.innerHTML = '';
     if (Array.isArray(prod.specs)) {
-      prod.specs.forEach((s) => {
+      const seenLabels = new Set();
+      const seenValues = new Set();
+      prod.specs.forEach((raw) => {
+        if (!raw) return;
+        let label = '';
+        let value = '';
+        if (typeof raw === 'string') {
+          const idx = raw.indexOf(':');
+          if (idx !== -1 && idx <= 40) {
+            label = raw.slice(0, idx).trim();
+            value = raw.slice(idx + 1).trim();
+          } else {
+            label = 'Feature';
+            value = raw.trim();
+          }
+        } else {
+          label = String(raw.label || '').trim().replace(/:+$/, '').trim();
+          value = String(raw.value || '').trim();
+          if (!label && value.includes(':')) {
+            const idx = value.indexOf(':');
+            if (idx > 0 && idx <= 40) {
+              label = value.slice(0, idx).trim();
+              value = value.slice(idx + 1).trim();
+            }
+          }
+        }
+        if (label) {
+          const lowLbl = label.toLowerCase();
+          while (true) {
+            const cIdx = value.indexOf(':');
+            if (cIdx === -1 || value.slice(0, cIdx).trim().toLowerCase() !== lowLbl) break;
+            value = value.slice(cIdx + 1).trim();
+          }
+        }
+        if (!value) return;
+        const normLabel = label.toLowerCase();
+        const normVal = value.toLowerCase();
+        if ((normLabel && seenLabels.has(normLabel)) || seenValues.has(normVal)) return;
+        if (normLabel) seenLabels.add(normLabel);
+        seenValues.add(normVal);
+
         const row = document.createElement('div');
         row.className = 'spec-row';
-        row.innerHTML = `<span>${s.label}</span><span>${s.value}</span>`;
+        const lblSpan = document.createElement('span');
+        lblSpan.textContent = label || 'Feature';
+        const valSpan = document.createElement('span');
+        valSpan.textContent = value;
+        row.appendChild(lblSpan);
+        row.appendChild(valSpan);
         qvSpecs.appendChild(row);
       });
     }
   }
-
   // Populate Variants if available
   const qvVariantsWrap = document.getElementById('qv-variants-wrap');
   const qvVariants = document.getElementById('qv-variants');
@@ -9459,9 +9503,27 @@ export function initCustomCatalogProducts() {
           img: supabaseImageUrl(rp.id),
           desc: rp.description || '',
           specs: Array.isArray(rp.specs) ? rp.specs.map(s => {
-            const parts = s.split(':');
-            return { label: parts[0] ? parts[0].trim() : 'Feature', value: parts[1] ? parts[1].trim() : s };
-          }) : [],
+            let lbl = '';
+            let val = '';
+            if (s && typeof s === 'object') {
+              lbl = String(s.label || 'Feature').trim().replace(/:+$/, '').trim();
+              val = String(s.value || '').trim();
+            } else {
+              const str = String(s || '').trim();
+              const colonIdx = str.indexOf(':');
+              lbl = colonIdx !== -1 ? str.slice(0, colonIdx).trim().replace(/:+$/, '').trim() : 'Feature';
+              val = colonIdx !== -1 ? str.slice(colonIdx + 1).trim() : str;
+            }
+            if (lbl) {
+              const lowLbl = lbl.toLowerCase();
+              while (true) {
+                const cIdx = val.indexOf(':');
+                if (cIdx === -1 || val.slice(0, cIdx).trim().toLowerCase() !== lowLbl) break;
+                val = val.slice(cIdx + 1).trim();
+              }
+            }
+            return { label: lbl || 'Feature', value: val };
+          }).filter(x => x.value) : [],
           variants: Array.isArray(rp.variants) ? rp.variants.map(v => {
             const hasCustom = Boolean(v.hasCustomPrice || (typeof v.price === 'number' && v.price > 0 && v.price !== Number(rp.price)));
             return {

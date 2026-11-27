@@ -311,7 +311,20 @@ export async function upsertSupabaseProduct(product) {
       badge: product.badge || '',
       image: product.img || product.image || '',
       description: product.desc || product.description || '',
-      specs: Array.isArray(product.specs) ? product.specs.map(s => typeof s === 'string' ? s : `${s.label}: ${s.value}`) : [],
+      specs: Array.isArray(product.specs) ? product.specs.map(s => {
+        if (typeof s === 'string') return s.trim();
+        const label = String(s?.label || '').trim().replace(/:+$/, '').trim();
+        let value = String(s?.value || '').trim();
+        if (label) {
+          const lowLbl = label.toLowerCase();
+          while (true) {
+            const cIdx = value.indexOf(':');
+            if (cIdx === -1 || value.slice(0, cIdx).trim().toLowerCase() !== lowLbl) break;
+            value = value.slice(cIdx + 1).trim();
+          }
+        }
+        return label ? `${label}: ${value}` : value;
+      }).filter(Boolean) : [],
       variants: Array.isArray(product.variants) ? product.variants.map(v => {
         const hasCustom = Boolean(v.hasCustomPrice && typeof v.price === 'number' && !isNaN(v.price) && v.price > 0);
         return {

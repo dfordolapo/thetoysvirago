@@ -381,6 +381,27 @@ function formatNaira(amount) {
   return `\u20a6${Number(amount || 0).toLocaleString('en-NG')}`;
 }
 
+function cleanSpecPair(rawLabel, rawValue) {
+  let label = String(rawLabel || '').trim().replace(/:+$/, '').trim();
+  let value = String(rawValue || '').trim();
+  if (!label && value.includes(':')) {
+    const idx = value.indexOf(':');
+    const candidate = value.slice(0, idx).trim();
+    if (candidate && candidate.length <= 40) {
+      label = candidate;
+      value = value.slice(idx + 1).trim();
+    }
+  }
+  if (label) {
+    const lowLbl = label.toLowerCase();
+    while (true) {
+      const cIdx = value.indexOf(':');
+      if (cIdx === -1 || value.slice(0, cIdx).trim().toLowerCase() !== lowLbl) break;
+      value = value.slice(cIdx + 1).trim();
+    }
+  }
+  return { label, value };
+}
 function normalizeSpecs(specs) {
   if (!specs) return [];
   if (typeof specs === 'string') {
@@ -397,26 +418,27 @@ function normalizeSpecs(specs) {
       .split(/[;\n]/)
       .map((part) => part.trim())
       .filter(Boolean)
-      .map((value) => ({ label: '', value }));
+      .map((part) => cleanSpecPair('', part))
+      .filter((item) => item.value);
   }
   if (Array.isArray(specs)) {
     return specs
       .map((item) => {
         if (!item) return null;
-        if (typeof item === 'string') return { label: '', value: item };
-        return {
-          label: item.label || item.name || item.key || '',
-          value: item.value || item.detail || item.text || ''
-        };
+        if (typeof item === 'string') return cleanSpecPair('', item);
+        return cleanSpecPair(
+          item.label || item.name || item.key || '',
+          item.value || item.detail || item.text || ''
+        );
       })
       .filter((item) => item && item.value);
   }
   if (typeof specs === 'object') {
     return Object.entries(specs)
-      .map(([label, value]) => ({ label, value: value == null ? '' : String(value) }))
+      .map(([label, value]) => cleanSpecPair(label, value == null ? '' : String(value)))
       .filter((item) => item.value);
   }
-  return [{ label: 'Details', value: String(specs) }];
+  return [cleanSpecPair('Details', String(specs))];
 }
 
 function normalizeSizes(sizes) {
@@ -436,11 +458,16 @@ function normalizeSizes(sizes) {
 }
 
 function dedupeSpecs(items) {
-  const seen = new Set();
+  const seenLabels = new Set();
+  const seenValues = new Set();
   return items.filter((item) => {
-    const key = `${(item.label || '').toLowerCase()}|${String(item.value).toLowerCase()}`;
-    if (seen.has(key)) return false;
-    seen.add(key);
+    if (!item || !item.value) return false;
+    const normLabel = (item.label || '').toLowerCase().replace(/:+$/, '').trim();
+    const normVal = String(item.value).toLowerCase().trim();
+    if (normLabel && seenLabels.has(normLabel)) return false;
+    if (seenValues.has(normVal)) return false;
+    if (normLabel) seenLabels.add(normLabel);
+    seenValues.add(normVal);
     return true;
   });
 }
@@ -490,9 +517,9 @@ export function renderProductPage(product = {}, options = {}) {
     .filter(Boolean);
 
   const specs = dedupeSpecs([
+    ...normalizeSpecs(product.specs),
     ...(product.material ? [{ label: 'Material', value: String(product.material) }] : []),
-    ...(product.acoustics ? [{ label: 'Sensation', value: String(product.acoustics) }] : []),
-    ...normalizeSpecs(product.specs)
+    ...(product.acoustics ? [{ label: 'Sensation', value: String(product.acoustics) }] : [])
   ]);
   const sizes = normalizeSizes(product.sizes);
 
