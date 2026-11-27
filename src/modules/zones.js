@@ -73,95 +73,115 @@ export const DELIVERY_ZONES = {
     keywords: ['ikorodu', 'ojo', 'satellite town', 'lasu', 'trade fair', 'badagry', 'agbara', 'alaba']
   },
 
-  // Interstate: Abuja Central
+  // Zone 6: Abuja Central
   abuja_central: {
     id: 'abuja_central',
-    name: 'Abuja Central (Maitama, Wuse, Garki, Asokoro, Guzape, Jabi)',
-    shortName: 'Abuja Central',
+    name: 'Zone 6: Abuja Central (Maitama, Wuse, Garki, Asokoro, Guzape, Jabi)',
+    shortName: 'Abuja Central (Zone 6)',
     type: 'interstate',
+    pickupAvailable: true,
     parkFee: 4500,
     doorstepFee: 6000,
     keywords: ['maitama', 'wuse', 'wuse 2', 'wuse ii', 'garki', 'asokoro', 'guzape', 'jabi', 'utako', 'mabushi', 'central area', 'cbd abuja']
   },
-  // Interstate: Abuja Outer / Satellite
+  // Zone 6: Abuja Outer / Satellite
   abuja_outer: {
     id: 'abuja_outer',
-    name: 'Abuja Outer / Satellite (Gwarinpa, Apo, Lokogoma, Kubwa, Lugbe)',
-    shortName: 'Abuja Outer / Satellite',
+    name: 'Zone 6: Abuja Outer / Satellite (Gwarinpa, Apo, Lokogoma, Kubwa, Lugbe)',
+    shortName: 'Abuja Outer / Satellite (Zone 6)',
     type: 'interstate',
+    pickupAvailable: true,
     parkFee: 4500,
     doorstepFee: 6000,
     keywords: ['abuja', 'fct', 'gwarinpa', 'life camp', 'apo', 'lokogoma', 'dawaki', 'kubwa', 'lugbe', 'airport road', 'karu', 'nyanya', 'bwari', 'mararaba', 'mpape', 'katampe']
   },
-  // Interstate: Oyo / Ibadan
-  ibadan: {
-    id: 'ibadan',
-    name: 'Oyo / Ibadan (Bodija, Oluyole, Jericho, Ring Road, Akobo)',
-    shortName: 'Oyo / Ibadan',
+  // Zone 2: South-West (Ibadan, Abeokuta, Ijebu Ode, Osogbo, Akure, Ado Ekiti)
+  zone_2_southwest: {
+    id: 'zone_2_southwest',
+    name: 'Zone 2: South-West (Ibadan, Abeokuta, Ijebu Ode, Osogbo, Akure, Ado Ekiti)',
+    shortName: 'Zone 2 (South-West)',
     type: 'interstate',
-    parkFee: 4000,
-    doorstepFee: 6000,
-    keywords: ['ibadan', 'oyo', 'bodija', 'oluyole', 'jericho', 'ring road', 'akobo', 'samonda', 'university of ibadan', 'dugbe', 'iyaganku', 'agodi', 'ogbomoso']
+    pickupAvailable: true,
+    parkFee: 3500,
+    doorstepFee: 5000,
+    keywords: ['ibadan', 'oyo', 'bodija', 'oluyole', 'jericho', 'ring road', 'akobo', 'samonda', 'university of ibadan', 'dugbe', 'iyaganku', 'agodi', 'ogbomoso', 'abeokuta', 'ijebu ode', 'ijebu-ode', 'ijebu', 'osogbo', 'oshogbo', 'osun', 'akure', 'ondo', 'ado ekiti', 'ado-ekiti', 'ekiti']
   },
-  // Interstate: Ogun State
-  ogun: {
-    id: 'ogun',
-    name: 'Ogun (Magboro, Arepo, Ibafo, Mowe, Ota, Abeokuta)',
-    shortName: 'Ogun State',
+  // Ogun Border Towns (Lagos-Ogun border corridor)
+  ogun_border: {
+    id: 'ogun_border',
+    name: 'Ogun Border Towns (Magboro, Arepo, Ibafo, Mowe, Ota, Sagamu)',
+    shortName: 'Ogun Border Towns',
     type: 'interstate',
+    pickupAvailable: true,
     parkFee: 4500,
     doorstepFee: 6000,
-    keywords: ['ogun', 'magboro', 'arepo', 'ibafo', 'mowe', 'ota', 'sagamu', 'shagamu', 'abeokuta', 'ijebu', 'ijebu ode']
+    keywords: ['ogun', 'magboro', 'arepo', 'ibafo', 'mowe', 'ota', 'sagamu', 'shagamu']
   },
-  // Interstate: Rivers / Port Harcourt
-  ph: {
-    id: 'ph',
-    name: 'Rivers / Port Harcourt (Old/New GRA, Peter Odili, Woji, D/Line)',
-    shortName: 'Rivers / Port Harcourt',
+  // Zone 3: Enugu, Abakaliki, Calabar
+  zone_3_east_south: {
+    id: 'zone_3_east_south',
+    name: 'Zone 3: Enugu, Abakaliki, Calabar',
+    shortName: 'Zone 3 (Enugu / Abakaliki / Calabar)',
     type: 'interstate',
+    pickupAvailable: true,
     parkFee: 4500,
     doorstepFee: 6000,
-    keywords: ['port harcourt', 'portharcourt', 'rivers', 'peter odili', 'woji', 'd/line', 'trans-amadi', 'ada george', 'rumuokoro', 'rumuola', 'diobu', 'choba']
+    keywords: ['enugu', 'abakaliki', 'ebonyi', 'calabar', 'cross river']
   },
-  // Interstate: Edo & Delta
-  edo_delta: {
-    id: 'edo_delta',
-    name: 'Edo & Delta (Benin City, Asaba, Warri)',
-    shortName: 'Edo & Delta',
+  // Zone 4: Port Harcourt, Owerri, Aba, Yenagoa, Uyo
+  zone_4_south_south: {
+    id: 'zone_4_south_south',
+    name: 'Zone 4: Port Harcourt, Owerri, Aba, Yenagoa, Uyo',
+    shortName: 'Zone 4 (PH / Owerri / Aba / Yenagoa / Uyo)',
     type: 'interstate',
+    pickupAvailable: true,
     parkFee: 4500,
     doorstepFee: 6000,
-    keywords: ['benin', 'benin city', 'edo', 'asaba', 'warri', 'delta', 'effurun', 'ughelli', 'sapele']
+    keywords: ['port harcourt', 'portharcourt', 'rivers', 'peter odili', 'woji', 'd/line', 'trans-amadi', 'ada george', 'rumuokoro', 'rumuola', 'diobu', 'choba', 'owerri', 'imo', 'aba', 'abia', 'umuahia', 'yenagoa', 'bayelsa', 'uyo', 'akwa ibom']
   },
-  // Interstate: South-East Hubs
-  southeast: {
-    id: 'southeast',
-    name: 'South-East Hubs (Enugu, Owerri, Awka, Onitsha, Aba)',
-    shortName: 'South-East Hubs',
+  // Zone 5: Benin, Asaba, Warri, Onitsha
+  zone_5_edo_delta_anambra: {
+    id: 'zone_5_edo_delta_anambra',
+    name: 'Zone 5: Benin, Asaba, Warri, Onitsha',
+    shortName: 'Zone 5 (Benin / Asaba / Warri / Onitsha)',
     type: 'interstate',
+    pickupAvailable: true,
     parkFee: 4500,
     doorstepFee: 6000,
-    keywords: ['enugu', 'owerri', 'imo', 'awka', 'onitsha', 'anambra', 'aba', 'umuahia', 'abia', 'abakaliki', 'ebonyi', 'nnewi']
+    keywords: ['benin', 'benin city', 'edo', 'asaba', 'warri', 'delta', 'effurun', 'ughelli', 'sapele', 'onitsha', 'awka', 'anambra', 'nnewi']
   },
-  // Interstate: Northern Hubs
-  northern_hubs: {
-    id: 'northern_hubs',
-    name: 'Northern Hubs (Kano, Kaduna, Jos, Ilorin)',
-    shortName: 'Northern Hubs',
+  // Zone 6: Ilorin, Lafia, Lokoja
+  zone_6_north_central: {
+    id: 'zone_6_north_central',
+    name: 'Zone 6: Ilorin, Lafia, Lokoja',
+    shortName: 'Zone 6 (Ilorin / Lafia / Lokoja)',
     type: 'interstate',
-    parkFee: 5500,
-    doorstepFee: 7000,
-    keywords: ['kano', 'kaduna', 'jos', 'plateau', 'ilorin', 'kwara', 'zaria', 'katsina', 'sokoto']
-  },
-  // Interstate: All Other States Nationwide
-  nationwide_other: {
-    id: 'nationwide_other',
-    name: 'Other States Nationwide (Uyo, Calabar, Bayelsa, etc.)',
-    shortName: 'Other States Nationwide',
-    type: 'interstate',
+    pickupAvailable: true,
     parkFee: 4500,
     doorstepFee: 6000,
-    keywords: ['uyo', 'akwa ibom', 'calabar', 'cross river', 'yenagoa', 'bayelsa', 'osogbo', 'osun', 'akure', 'ondo', 'ado-ekiti', 'ekiti', 'makurdi', 'benue', 'lokoja', 'kogi', 'minna', 'niger', 'lafia', 'nasarawa', 'bauchi', 'gombe', 'taraba', 'yobe', 'adamawa']
+    keywords: ['ilorin', 'kwara', 'lafia', 'nasarawa', 'lokoja', 'kogi']
+  },
+  // Zone 7 (Pickup Available): Kaduna, Kano
+  zone_7_pickup: {
+    id: 'zone_7_pickup',
+    name: 'Zone 7: Kaduna, Kano (Office Pickup & Doorstep)',
+    shortName: 'Zone 7 (Kaduna / Kano)',
+    type: 'interstate',
+    pickupAvailable: true,
+    parkFee: 8500,
+    doorstepFee: 10000,
+    keywords: ['kaduna', 'kano']
+  },
+  // Zone 7 (Doorstep Only): Northern & Remote Hubs
+  zone_7_doorstep: {
+    id: 'zone_7_doorstep',
+    name: 'Zone 7 Doorstep Only (Jos, Minna, Makurdi, Sokoto, Bauchi, Yola, Zaria, Nsukka, etc.)',
+    shortName: 'Zone 7 (Doorstep Only)',
+    type: 'interstate',
+    pickupAvailable: false,
+    parkFee: null,
+    doorstepFee: 10000,
+    keywords: ['bauchi', 'birnin kebbi', 'kebbi', 'bonny', 'damaturu', 'yobe', 'dutse', 'jigawa', 'gombe', 'gusau', 'zamfara', 'jalingo', 'taraba', 'jos', 'plateau', 'katsina', 'makurdi', 'benue', 'maiduguri', 'borno', 'minna', 'niger', 'nsukka', 'sokoto', 'suleja', 'yola', 'adamawa', 'zaria']
   }
 };
 
@@ -170,7 +190,11 @@ export function autoDetectDeliveryZoneFromAddress(addressStr, cityStr) {
   for (const key of Object.keys(DELIVERY_ZONES)) {
     const zone = DELIVERY_ZONES[key];
     for (const kw of zone.keywords) {
-      if (fullText.includes(kw)) {
+      const trimmedKw = kw.trim();
+      if (!trimmedKw) continue;
+      const escaped = trimmedKw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const re = new RegExp(`(?:^|[^a-z0-9])${escaped}(?:$|[^a-z0-9])`, 'i');
+      if (re.test(fullText)) {
         return zone.id;
       }
     }
@@ -179,7 +203,7 @@ export function autoDetectDeliveryZoneFromAddress(addressStr, cityStr) {
     return 'lagos_mainland_central';
   }
   if (cityStr && !cityStr.toLowerCase().includes('lagos') && cityStr.trim().length > 2) {
-    return 'nationwide_other';
+    return 'zone_7_doorstep';
   }
   return null;
 }

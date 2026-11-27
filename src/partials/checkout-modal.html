@@ -3,10 +3,23 @@
       <div class="co-card">
         <button id="btn-close-checkout" class="btn-close-modal" aria-label="Close checkout">✕</button>
         <div class="co-head">
-          <h2 class="sh2">Almost there...</h2>
+          <h2 class="sh2" id="co-modal-title">Almost there...</h2>
+          <div class="co-stepper" id="co-stepper" aria-label="Checkout progress">
+            <button type="button" class="co-step-pill is-active" data-co-step="1" id="co-step-ind-1">
+              <span class="co-step-num">1</span>
+              <span>Delivery</span>
+            </button>
+            <span class="co-step-sep" aria-hidden="true"></span>
+            <button type="button" class="co-step-pill" data-co-step="2" id="co-step-ind-2">
+              <span class="co-step-num">2</span>
+              <span>Review &amp; Pay</span>
+            </button>
+          </div>
         </div>
 
         <form id="checkout-form" class="co-form">
+          <!-- PHASE 1: Delivery Address & Shipping Method -->
+          <div id="co-step-1" class="co-step-panel">
           <!-- Delivery Address (House of Nina Architecture) -->
           <div class="co-section">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
@@ -129,15 +142,16 @@
                 <option value="lagos_mainland_far" data-type="lagos" data-fee="5000">Lagos Mainland Outskirts (Ikorodu, Ojo, LASU, Badagry) - ₦5,000</option>
               </optgroup>
               <optgroup label="Interstate (Outside Lagos)">
-                <option value="abuja_central" data-type="interstate" data-park="4500" data-door="6000">Abuja Central (Maitama, Wuse, Garki, Asokoro, Guzape, Jabi) - ₦4,500</option>
-                <option value="abuja_outer" data-type="interstate" data-park="4500" data-door="6000">Abuja Outer / Satellite (Gwarinpa, Apo, Lokogoma, Kubwa, Lugbe) - ₦4,500</option>
-                <option value="ibadan" data-type="interstate" data-park="4000" data-door="6000">Oyo / Ibadan (Bodija, Oluyole, Jericho, Ring Road, Akobo) - ₦4,000</option>
-                <option value="ogun" data-type="interstate" data-park="4500" data-door="6000">Ogun State (Magboro, Arepo, Ibafo, Mowe, Ota, Abeokuta) - ₦4,500</option>
-                <option value="ph" data-type="interstate" data-park="4500" data-door="6000">Rivers / Port Harcourt (Old/New GRA, Peter Odili, Woji, D/Line) - ₦4,500</option>
-                <option value="edo_delta" data-type="interstate" data-park="4500" data-door="6000">Edo &amp; Delta (Benin City, Asaba, Warri) - ₦4,500</option>
-                <option value="southeast" data-type="interstate" data-park="4500" data-door="6000">South-East Hubs (Enugu, Owerri, Awka, Onitsha, Aba) - ₦4,500</option>
-                <option value="northern_hubs" data-type="interstate" data-park="5500" data-door="7000">Northern Hubs (Kano, Kaduna, Jos, Ilorin) - ₦5,500</option>
-                <option value="nationwide_other" data-type="interstate" data-park="4500" data-door="6000">Other States Nationwide (Uyo, Calabar, Bayelsa, etc.) - ₦4,500</option>
+                <option value="zone_2_southwest" data-type="interstate" data-park="3500" data-door="5000">Zone 2: Ibadan, Abeokuta, Ijebu Ode, Osogbo, Akure, Ado Ekiti - ₦3,500</option>
+                <option value="ogun_border" data-type="interstate" data-park="4500" data-door="6000">Ogun Border Towns (Magboro, Arepo, Ibafo, Mowe, Ota) - ₦4,500</option>
+                <option value="zone_3_east_south" data-type="interstate" data-park="4500" data-door="6000">Zone 3: Enugu, Abakaliki, Calabar - ₦4,500</option>
+                <option value="zone_4_south_south" data-type="interstate" data-park="4500" data-door="6000">Zone 4: Port Harcourt, Owerri, Aba, Yenagoa, Uyo - ₦4,500</option>
+                <option value="zone_5_edo_delta_anambra" data-type="interstate" data-park="4500" data-door="6000">Zone 5: Benin, Asaba, Warri, Onitsha - ₦4,500</option>
+                <option value="abuja_central" data-type="interstate" data-park="4500" data-door="6000">Zone 6: Abuja Central (Maitama, Wuse, Garki, Asokoro, Guzape, Jabi) - ₦4,500</option>
+                <option value="abuja_outer" data-type="interstate" data-park="4500" data-door="6000">Zone 6: Abuja Outer / Satellite (Gwarinpa, Apo, Lokogoma, Kubwa, Lugbe) - ₦4,500</option>
+                <option value="zone_6_north_central" data-type="interstate" data-park="4500" data-door="6000">Zone 6: Ilorin, Lafia, Lokoja - ₦4,500</option>
+                <option value="zone_7_pickup" data-type="interstate" data-park="8500" data-door="10000">Zone 7: Kaduna, Kano (Office Pickup &amp; Doorstep) - ₦8,500</option>
+                <option value="zone_7_doorstep" data-type="interstate" data-door="10000">Zone 7 Doorstep Only (Jos, Minna, Makurdi, Sokoto, Bauchi, Yola, Zaria, Nsukka, etc.) - ₦10,000</option>
               </optgroup>
             </select>
 
@@ -146,8 +160,8 @@
               <div class="delivery-option-card active" data-method="park" id="opt-park-delivery">
                 <div class="deliv-opt-radio"></div>
                 <div class="deliv-opt-info">
-                  <div class="deliv-opt-title">🏢 Park / Terminal Pickup</div>
-                  <div class="deliv-opt-desc">Collect at central transport station</div>
+                  <div class="deliv-opt-title">🏢 Office Pickup</div>
+                  <div class="deliv-opt-desc">Collect at courier office</div>
                 </div>
                 <div class="deliv-opt-price" id="park-fee-label">₦4,500</div>
               </div>
@@ -156,9 +170,9 @@
                 <div class="deliv-opt-radio"></div>
                 <div class="deliv-opt-info">
                   <div class="deliv-opt-title">🚪 Doorstep Courier</div>
-                  <div class="deliv-opt-desc">Direct to your door (balance verified on WA)</div>
+                  <div class="deliv-opt-desc">Direct to your door</div>
                 </div>
-                <div class="deliv-opt-price" id="doorstep-fee-label">from ₦6,000</div>
+                <div class="deliv-opt-price" id="doorstep-fee-label">₦6,000</div>
               </div>
             </div>
           </div>
@@ -174,6 +188,44 @@
               <span class="deliv-line-val">1 - 5 business days</span>
             </div>
           </div>
+
+          <div class="co-step1-actions">
+            <button type="button" id="btn-co-next-step" class="btn btn-black btn-block btn-lg" style="border-radius: 8px !important;">
+              Continue to Review &amp; Pay
+            </button>
+          </div>
+          </div><!-- /#co-step-1 -->
+
+          <!-- PHASE 2: Review Items, Totals & Bank Payment -->
+          <div id="co-step-2" class="co-step-panel" hidden style="display: none;">
+            <!-- Compact Delivery Recap Strip (Soft fill, no border) -->
+            <div class="co-recap-card" id="co-step2-recap">
+              <div class="co-recap-info">
+                <div class="co-recap-label">Delivering to</div>
+                <div class="co-recap-primary" id="co-recap-address">Recipient · Address</div>
+                <div class="co-recap-meta" id="co-recap-zone">Zone &amp; Method</div>
+              </div>
+              <button type="button" id="btn-co-edit-delivery" class="btn-edit-addr" style="border-radius: 8px !important;">Edit</button>
+            </div>
+
+            <!-- Collapsible Order Items & Totals -->
+            <div class="co-review-block">
+              <div class="co-items-preview-wrap">
+                <button type="button" id="btn-toggle-co-items" class="co-toggle-items-btn" aria-expanded="false" style="border-radius: 8px !important;">
+                  <span id="co-items-toggle-title">Review Items in Bag (0)</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="co-chevron-icon"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div id="co-items-dropdown" class="co-items-dropdown" style="display: none;">
+                  <!-- Populated dynamically from cart -->
+                </div>
+              </div>
+
+              <div class="co-summary">
+                <div class="cart-line"><span>Subtotal</span><span id="co-subtotal">₦0</span></div>
+                <div class="cart-line"><span>Discreet Packaging &amp; Delivery</span><span id="co-delivery-fee" class="ruby-txt">₦4,500</span></div>
+                <div class="cart-line total-line"><span>Total Due</span><span id="co-total" class="ruby-txt">₦0</span></div>
+              </div>
+            </div>
 
           <!-- Direct Bank Payment Section -->
           <div class="co-section" id="co-payment-section">
@@ -208,39 +260,25 @@
             </div>
           </div>
 
-          <!-- Sticky Checkout Footer (Pinned to bottom of modal) -->
-          <div class="co-sticky-footer">
-            <!-- Collapsible Order Items Preview -->
-            <div class="co-items-preview-wrap">
-              <button type="button" id="btn-toggle-co-items" class="co-toggle-items-btn" aria-expanded="false">
-                <span id="co-items-toggle-title">Review Items in Bag (0)</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="co-chevron-icon"><polyline points="6 9 12 15 18 9"/></svg>
-              </button>
-              <div id="co-items-dropdown" class="co-items-dropdown" style="display: none;">
-                <!-- Populated dynamically from cart -->
-              </div>
-            </div>
-
-            <div class="co-summary">
-              <div class="cart-line"><span>Subtotal</span><span id="co-subtotal">₦0</span></div>
-              <div class="cart-line"><span>Discreet Packaging &amp; Delivery</span><span id="co-delivery-fee" class="ruby-txt">₦4,500</span></div>
-              <div class="cart-line total-line"><span>Total Due</span><span id="co-total" class="ruby-txt">₦0</span></div>
-            </div>
-
-            <button type="submit" id="btn-submit-order" class="btn btn-black btn-block btn-lg">
+          <div class="co-step2-actions">
+            <button type="button" id="btn-co-prev-step" class="btn btn-outline btn-lg co-btn-back" style="border-radius: 8px !important;">
+              Back
+            </button>
+            <button type="submit" id="btn-submit-order" class="btn btn-black btn-lg co-btn-place" style="border-radius: 8px !important;">
               Place Order
             </button>
+          </div>
 
-            <!-- Inline Checkout Error State (Zero glassmorphism, flat tint, 8px radius) -->
-            <div id="co-error-state" class="co-error-box" hidden>
-              <div class="co-error-icon">⚠️</div>
-              <div class="co-error-body">
-                <div class="co-error-title" id="co-error-title">Payment or Network Hiccup</div>
-                <div class="co-error-msg" id="co-error-msg">Network did not respond in time. Don't worry, your bag is safe. Tap retry to try again.</div>
-                <button type="button" id="btn-co-error-retry" class="co-error-btn-retry">Retry Order</button>
-              </div>
+          <!-- Inline Checkout Error State (Zero glassmorphism, flat tint, 8px radius) -->
+          <div id="co-error-state" class="co-error-box" hidden>
+            <div class="co-error-icon">⚠️</div>
+            <div class="co-error-body">
+              <div class="co-error-title" id="co-error-title">Payment or Network Hiccup</div>
+              <div class="co-error-msg" id="co-error-msg">Network did not respond in time. Don't worry, your bag is safe. Tap retry to try again.</div>
+              <button type="button" id="btn-co-error-retry" class="co-error-btn-retry">Retry Order</button>
             </div>
           </div>
+          </div><!-- /#co-step-2 -->
         </form>
 
         <!-- Order Success State -->

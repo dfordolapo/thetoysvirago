@@ -7857,6 +7857,8 @@ function getCalculatedDeliveryFee() {
   if (isFreeDeliveryPromoActive && hasQualifyingFreeDeliveryProduct()) return 0;
   if (zone.type === 'lagos') {
     return zone.fee;
+  } else if (zone.pickupAvailable === false) {
+    return zone.doorstepFee;
   } else {
     return currentDeliveryMethod === 'park' ? zone.parkFee : zone.doorstepFee;
   }
@@ -7900,17 +7902,25 @@ function updateCheckoutTotalsDisplay() {
     if (coFreeBanner) coFreeBanner.style.display = 'none';
   }
 
-  // Handle Interstate UI (Park vs Doorstep)
+  // Handle Interstate UI (Office Pickup vs Doorstep)
   if (zone && zone.type === 'interstate') {
-    if (coInterstateOptions) coInterstateOptions.style.display = 'grid';
-    if (parkFeeLabel) parkFeeLabel.textContent = `₦${zone.parkFee.toLocaleString()}`;
-    if (doorstepFeeLabel) doorstepFeeLabel.textContent = `from ₦${zone.doorstepFee.toLocaleString()}`;
+    const canPickup = zone.pickupAvailable !== false && Number(zone.parkFee) > 0;
+    if (!canPickup) {
+      currentDeliveryMethod = 'doorstep';
+    }
+    if (coInterstateOptions) {
+      coInterstateOptions.style.display = 'grid';
+      coInterstateOptions.style.gridTemplateColumns = canPickup ? '' : '1fr';
+    }
+    if (parkFeeLabel && canPickup) parkFeeLabel.textContent = `₦${zone.parkFee.toLocaleString()}`;
+    if (doorstepFeeLabel) doorstepFeeLabel.textContent = `₦${zone.doorstepFee.toLocaleString()}`;
 
     const optPark = document.getElementById('opt-park-delivery');
     const optDoor = document.getElementById('opt-doorstep-delivery');
+    if (optPark) optPark.style.display = canPickup ? 'flex' : 'none';
     if (optPark && optDoor) {
-      optPark.classList.toggle('active', currentDeliveryMethod === 'park');
-      optDoor.classList.toggle('active', currentDeliveryMethod === 'doorstep');
+      optPark.classList.toggle('active', canPickup && currentDeliveryMethod === 'park');
+      optDoor.classList.toggle('active', !canPickup || currentDeliveryMethod === 'doorstep');
     }
   } else {
     if (coInterstateOptions) coInterstateOptions.style.display = 'none';
@@ -7939,7 +7949,7 @@ function onAddressOrCityInput() {
       }
       const zone = DELIVERY_ZONES[currentDeliveryZoneId];
       if (zone && zone.type === 'interstate') {
-        currentDeliveryMethod = 'park';
+        currentDeliveryMethod = zone.pickupAvailable === false ? 'doorstep' : 'park';
       }
       updateCheckoutTotalsDisplay();
     }
@@ -7966,7 +7976,7 @@ function setupDeliveryZoneListeners() {
       }
       const zone = DELIVERY_ZONES[currentDeliveryZoneId];
       if (zone && zone.type === 'interstate') {
-        currentDeliveryMethod = 'park';
+        currentDeliveryMethod = zone.pickupAvailable === false ? 'doorstep' : 'park';
       }
       updateCheckoutTotalsDisplay();
     });
@@ -8146,7 +8156,7 @@ function syncFormWithAddress(addr) {
       }
       const zone = DELIVERY_ZONES[currentDeliveryZoneId];
       if (zone && zone.type === 'interstate') {
-        currentDeliveryMethod = 'park';
+        currentDeliveryMethod = zone.pickupAvailable === false ? 'doorstep' : 'park';
       }
     }
   }
@@ -8329,6 +8339,127 @@ if (storeBankNameEl) storeBankNameEl.textContent = STORE_BANK_NAME;
 if (storeBankAccEl) storeBankAccEl.textContent = STORE_BANK_ACC;
 if (storeBankOwnerEl) storeBankOwnerEl.textContent = STORE_BANK_OWNER;
 
+// 2-Phase Progressive Checkout Stepper
+let currentCheckoutStep = 1;
+
+function validateCheckoutStep1() {
+  const fields = [
+    { el: inputFirstName, label: 'First Name' },
+    { el: inputLastName, label: 'Last Name' },
+    { el: inputEmail, label: 'Email address' },
+    { el: inputPhone, label: 'Phone number' },
+    { el: inputAddress, label: 'Street address' },
+    { el: inputCity, label: 'City / Area' }
+  ];
+  for (const f of fields) {
+    if (!f.el || !f.el.value.trim()) {
+      // Ensure address inputs are visible if user had a collapsed saved card
+      const addrSection = document.getElementById('address-input-section');
+      const selectedCard = document.getElementById('selected-address-card');
+      if (addrSection) addrSection.style.display = 'flex';
+      if (selectedCard) selectedCard.style.display = 'none';
+      showToast(`Please enter your ${f.label.toLowerCase()}.`);
+      if (f.el) f.el.focus();
+      return false;
+    }
+  }
+  if (inputEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inputEmail.value.trim())) {
+    showToast('Please enter a valid email address.');
+    inputEmail.focus();
+    return false;
+  }
+  if (!currentDeliveryZoneId || !DELIVERY_ZONES[currentDeliveryZoneId]) {
+    showToast('Please select your delivery zone to continue.');
+    const selectEl = document.getElementById('co-delivery-zone-select');
+    if (selectEl) selectEl.focus();
+    return false;
+  }
+  return true;
+}
+
+function updateCheckoutRecap() {
+  const recapAddr = document.getElementById('co-recap-address');
+  const recapZone = document.getElementById('co-recap-zone');
+  const fullName = `${(inputFirstName?.value || '').trim()} ${(inputLastName?.value || '').trim()}`.trim();
+  const street = (inputAddress?.value || '').trim();
+  const city = (inputCity?.value || '').trim();
+  if (recapAddr) {
+    recapAddr.textContent = [fullName, [street, city].filter(Boolean).join(', ')].filter(Boolean).join(' · ');
+  }
+  const zone = currentDeliveryZoneId ? DELIVERY_ZONES[currentDeliveryZoneId] : null;
+  if (recapZone && zone) {
+    const methodLabel = zone.type === 'lagos'
+      ? 'Doorstep Dispatch'
+      : (zone.pickupAvailable !== false && currentDeliveryMethod === 'park' ? 'Office Pickup' : 'Doorstep Courier');
+    const fee = getCalculatedDeliveryFee();
+    const feeText = (isFreeDeliveryPromoActive && hasQualifyingFreeDeliveryProduct()) ? 'Free' : `₦${fee.toLocaleString()}`;
+    recapZone.textContent = `${zone.shortName} · ${methodLabel} · ${feeText}`;
+  }
+}
+
+function setCheckoutStep(step) {
+  currentCheckoutStep = step === 2 ? 2 : 1;
+  const step1El = document.getElementById('co-step-1');
+  const step2El = document.getElementById('co-step-2');
+  const ind1 = document.getElementById('co-step-ind-1');
+  const ind2 = document.getElementById('co-step-ind-2');
+  const titleEl = document.getElementById('co-modal-title');
+  const stepperEl = document.getElementById('co-stepper');
+
+  if (stepperEl) stepperEl.style.display = 'flex';
+  if (titleEl) {
+    titleEl.style.display = '';
+    titleEl.textContent = currentCheckoutStep === 1 ? 'Almost there...' : 'Review & Pay';
+  }
+
+  if (step1El) {
+    if (currentCheckoutStep === 1) {
+      step1El.removeAttribute('hidden');
+      step1El.style.display = 'flex';
+    } else {
+      step1El.setAttribute('hidden', '');
+      step1El.style.display = 'none';
+    }
+  }
+  if (step2El) {
+    if (currentCheckoutStep === 2) {
+      step2El.removeAttribute('hidden');
+      step2El.style.display = 'flex';
+      updateCheckoutRecap();
+      updateCheckoutTotalsDisplay();
+    } else {
+      step2El.setAttribute('hidden', '');
+      step2El.style.display = 'none';
+    }
+  }
+
+  if (ind1) {
+    ind1.classList.toggle('is-active', currentCheckoutStep === 1);
+    ind1.classList.toggle('is-done', currentCheckoutStep === 2);
+  }
+  if (ind2) {
+    ind2.classList.toggle('is-active', currentCheckoutStep === 2);
+    ind2.classList.remove('is-done');
+  }
+
+  const coCard = document.querySelector('#checkout-modal .co-card');
+  if (coCard) coCard.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.getElementById('btn-co-next-step')?.addEventListener('click', () => {
+  if (validateCheckoutStep1()) {
+    setCheckoutStep(2);
+  }
+});
+document.getElementById('btn-co-prev-step')?.addEventListener('click', () => setCheckoutStep(1));
+document.getElementById('btn-co-edit-delivery')?.addEventListener('click', () => setCheckoutStep(1));
+document.getElementById('co-step-ind-1')?.addEventListener('click', () => setCheckoutStep(1));
+document.getElementById('co-step-ind-2')?.addEventListener('click', () => {
+  if (currentCheckoutStep === 1 && validateCheckoutStep1()) {
+    setCheckoutStep(2);
+  }
+});
+
 // Open Checkout Modal
 if (btnCheckout) {
   btnCheckout.addEventListener('click', () => {
@@ -8368,7 +8499,7 @@ if (btnCheckout) {
         }
         const zone = DELIVERY_ZONES[currentDeliveryZoneId];
         if (zone && zone.type === 'interstate') {
-          currentDeliveryMethod = 'park';
+          currentDeliveryMethod = zone.pickupAvailable === false ? 'doorstep' : 'park';
         }
       } else {
         currentDeliveryZoneId = null;
@@ -8388,6 +8519,7 @@ if (btnCheckout) {
       checkoutModal.style.display = 'flex';
       if (checkoutForm) checkoutForm.hidden = false;
       if (checkoutSuccess) checkoutSuccess.hidden = true;
+      setCheckoutStep(1);
     }
   });
 }
@@ -8415,6 +8547,10 @@ if (btnCloseCheckout && checkoutModal) {
 // Render Order Success UI
 function displayOrderSuccess(orderPayload, waUrl) {
   if (checkoutForm) checkoutForm.hidden = true;
+  const stepperEl = document.getElementById('co-stepper');
+  const titleEl = document.getElementById('co-modal-title');
+  if (stepperEl) stepperEl.style.display = 'none';
+  if (titleEl) titleEl.style.display = 'none';
   if (checkoutSuccess) {
     checkoutSuccess.hidden = false;
     checkoutSuccess.removeAttribute('hidden');
@@ -8478,6 +8614,11 @@ if (checkoutForm) {
   checkoutForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
+    if (currentCheckoutStep === 1) {
+      if (validateCheckoutStep1()) setCheckoutStep(2);
+      return;
+    }
+
     const firstName = (inputFirstName?.value || '').trim();
     const lastName = (inputLastName?.value || '').trim();
     const email = (inputEmail?.value || '').trim();
@@ -8524,7 +8665,7 @@ if (checkoutForm) {
     const effectiveDeliveryFee = isFreeDeliveryPromoActive ? 0 : deliveryFee;
     const deliveryMethodStr = activeZone.type === 'lagos' 
       ? 'Doorstep Dispatch' 
-      : (currentDeliveryMethod === 'park' ? 'Park / Terminal Pickup' : 'Doorstep Courier');
+      : (currentDeliveryMethod === 'park' ? 'Office Pickup' : 'Doorstep Courier');
 
     const orderPayload = {
       reference: orderRef,
