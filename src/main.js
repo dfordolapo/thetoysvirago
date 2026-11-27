@@ -6867,7 +6867,17 @@ function openQuickviewForProduct(prodKey, card = null) {
   }
   if (qvBadge) qvBadge.textContent = prod.badge;
   if (qvTitle) qvTitle.textContent = prod.title;
-  if (qvPrice) { qvPrice.textContent = prod.priceStr || ''; qvPrice.style.display = prod.priceStr ? 'block' : 'none'; }
+  if (qvPrice) {
+    const origP = Number(prod.originalPrice || prod.original_price) || 0;
+    const curP = Number(prod.price) || 0;
+    if (origP > curP && curP > 0 && prod.priceStr) {
+      qvPrice.innerHTML = `<span>${prod.priceStr}</span><span style="text-decoration:line-through;opacity:0.5;font-size:15px;margin-left:10px;font-weight:500;">₦${origP.toLocaleString()}</span>`;
+      qvPrice.style.display = 'block';
+    } else {
+      qvPrice.textContent = prod.priceStr || '';
+      qvPrice.style.display = prod.priceStr ? 'block' : 'none';
+    }
+  }
   if (qvDesc) qvDesc.textContent = prod.desc;
   if (qvMaterial) qvMaterial.textContent = prod.material || '';
   if (qvAcoustics) qvAcoustics.textContent = prod.acoustics || '';
@@ -9371,7 +9381,7 @@ function createStoreProductCard(prod, idx) {
     <div class="product-body">
       <h3 class="product-name">${prod.title}</h3>
       <div class="product-top">
-        <span class="product-price">${initialPriceStr}</span>
+        <span class="product-price">${initialPriceStr}</span>${Number(prod.originalPrice || prod.original_price) > initialPrice && initialPrice > 0 ? `<span class="price-was-inline" style="text-decoration:line-through;opacity:0.55;font-size:13px;margin-left:8px;font-weight:500;">₦${Number(prod.originalPrice || prod.original_price).toLocaleString()}</span>` : ''}
       </div>
       ${optionPillsHtml}
       ${variantDotsHtml}
@@ -9603,6 +9613,7 @@ export function initCustomCatalogProducts() {
         title: prod.title,
         badge: prod.badge || 'LUXE BOUDOIR',
         price: Number(prod.price) || 0,
+        originalPrice: prod.originalPrice ? Number(prod.originalPrice) : (prod.original_price ? Number(prod.original_price) : null),
         priceStr: prod.priceStr || ('₦' + Number(prod.price).toLocaleString()),
         img: prod.img || '/assets/category-lingerie.webp',
         desc: prod.desc || prod.tagline || '',
