@@ -1427,7 +1427,11 @@ async function handleSaveProduct(shouldRedirectToShop = false) {
     }
 
     // Refresh UI tables and stats with live cloud products
-    await refreshCatalogData();
+    if (inventorySearchInput) inventorySearchInput.value = '';
+    activeInventoryFilter = 'all';
+    inventoryCategoryPills.forEach(p => p.classList.toggle('active', p.dataset.cat === 'all'));
+    if (inventoryCategorySelect) inventoryCategorySelect.value = 'all';
+    await refreshCatalogData(productData);
 
     resetForm();
     switchTab('inventory-panel');
@@ -1719,12 +1723,23 @@ inventoryCategoryPills.forEach(pill => {
 });
 
 // ================= 8. CATALOG AGGREGATION & METRICS =================
-async function refreshCatalogData() {
-  currentCustomProducts = getCustomProducts();
+async function refreshCatalogData(pinnedProduct = null) {
+  const storedProducts = getCustomProducts();
+  if (storedProducts.length > 0 || !currentCustomProducts.length) {
+    currentCustomProducts = storedProducts;
+  }
+  if (pinnedProduct && pinnedProduct.id) {
+    const idx = currentCustomProducts.findIndex(p => p.id === pinnedProduct.id);
+    if (idx >= 0) currentCustomProducts[idx] = pinnedProduct;
+    else currentCustomProducts.unshift(pinnedProduct);
+  }
 
   const mergedMap = new Map();
-  // Add local custom products first for instant rendering
-  currentCustomProducts.forEach(p => mergedMap.set(p.id, p));
+  // Add pinned/local custom products first for instant rendering
+  if (pinnedProduct && pinnedProduct.id) mergedMap.set(pinnedProduct.id, pinnedProduct);
+  currentCustomProducts.forEach(p => {
+    if (!mergedMap.has(p.id)) mergedMap.set(p.id, p);
+  });
 
   // Render immediately if we already have local custom products
   if (mergedMap.size > 0 && !allInventoryProducts.length) {
@@ -1796,9 +1811,28 @@ async function refreshCatalogData() {
   }
 
   allInventoryProducts = Array.from(mergedMap.values());
+  if (pinnedProduct && pinnedProduct.id && !allInventoryProducts.some(p => p.id === pinnedProduct.id)) {
+    allInventoryProducts.unshift(pinnedProduct);
+  }
   updateStats();
   renderInventoryTable();
   renderExportCode();
+}
+
+const btnRefreshInventory = document.getElementById('btn-refresh-inventory');
+if (btnRefreshInventory) {
+  btnRefreshInventory.addEventListener('click', async () => {
+    const orig = btnRefreshInventory.textContent;
+    btnRefreshInventory.disabled = true;
+    btnRefreshInventory.textContent = 'Refreshing...';
+    try {
+      await refreshCatalogData();
+      showToast('Inventory refreshed.');
+    } finally {
+      btnRefreshInventory.disabled = false;
+      btnRefreshInventory.textContent = orig;
+    }
+  });
 }
 
 function updateStats() {
