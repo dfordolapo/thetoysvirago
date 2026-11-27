@@ -9814,6 +9814,18 @@ export function initCustomCatalogProducts() {
         } catch (_) {}
       }
       const cleanRemote = remoteProds.filter(rp => rp && !PURGED_PRODUCT_IDS.includes(rp.id) && !deletedRemoteIds.has(rp.id));
+      const liveRemoteIds = new Set(cleanRemote.map(rp => rp.id));
+      // Prune stale localStorage items that were hard-deleted from Supabase
+      const staleLocal = customProds.filter(p => p && !liveRemoteIds.has(p.id));
+      if (staleLocal.length > 0) {
+        staleLocal.forEach((p) => {
+          document.querySelectorAll(`.product-card[data-id="${p.id}"]`).forEach(el => el.remove());
+        });
+        customProds = customProds.filter(p => p && liveRemoteIds.has(p.id));
+        try {
+          localStorage.setItem('thetoysvirago_custom_products', JSON.stringify(customProds));
+        } catch (_) {}
+      }
       // Prepend newest remote products to front of customProds
       cleanRemote.forEach(rp => {
         const existingIdx = customProds.findIndex(p => p.id === rp.id);
