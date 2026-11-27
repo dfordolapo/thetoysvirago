@@ -891,6 +891,7 @@ async function autoGenerateProductDescription() {
       inlineImage = await imageSourceToInlineData(currentImgSrc);
     } catch (imageErr) {
       console.warn('Could not load the product photo for analysis:', imageErr);
+      failureMessage = imageErr && imageErr.message ? imageErr.message : 'Could not read product photo.';
     }
 
     if (inlineImage) {
@@ -911,7 +912,8 @@ async function autoGenerateProductDescription() {
       });
       const payload = await response.json().catch(() => ({}));
       if (!response.ok) {
-        throw new Error(payload.error || `Copy service failed (HTTP ${response.status})`);
+        const detailSnippet = payload.detail ? ` (${String(payload.detail).slice(0, 160)})` : '';
+        throw new Error((payload.error || `Copy service failed (HTTP ${response.status})`) + detailSnippet);
       }
       generatedResult = payload;
     }
@@ -978,7 +980,7 @@ async function autoGenerateProductDescription() {
   if (aiStatusText) {
     aiStatusText.style.display = 'block';
     aiStatusText.textContent = usedLocalWriter
-      ? '⚠️ Offline template used. Check the Gemini server key and redeploy.'
+      ? `⚠️ Offline template used${failureMessage ? `: ${failureMessage}` : '. Check the Gemini server key and redeploy.'}`
       : `✨ Copy written from the uploaded photo in ${mood} tone.`;
   }
   showToast(usedLocalWriter ? 'Offline template copy applied.' : 'Photo-accurate copy applied to the product form!');
@@ -2058,7 +2060,7 @@ function updateAiVisionKeyUI() {
     if (keyNeededBox) keyNeededBox.style.display = 'none';
     if (quickKeyInput) quickKeyInput.value = localKey;
     if (settingsKeyInput) settingsKeyInput.value = localKey;
-    if (settingsGroup) settingsGroup.style.display = serverGeminiConfigured && !localKey ? 'none' : 'block';
+    if (settingsGroup) settingsGroup.style.display = 'block';
     if (serverKeyNote) serverKeyNote.style.display = serverGeminiConfigured && !localKey ? 'block' : 'none';
   } else {
     if (keyNeededBox) keyNeededBox.style.display = 'block';

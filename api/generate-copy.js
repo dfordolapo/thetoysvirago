@@ -63,7 +63,7 @@ export default async function handler(req, res) {
   }
 
   const prompt = buildProductCopyPrompt(category, mood, title, details);
-  let lastError = '';
+  const errors = [];
 
   for (const model of GEMINI_VISION_MODELS) {
     // Attempt 1: With Google Search grounding so Gemini researches the exact product in the image
@@ -92,7 +92,7 @@ export default async function handler(req, res) {
         );
 
         if (!response.ok) {
-          lastError = `${model}: HTTP ${response.status} ${(await response.text()).slice(0, 300)}`;
+          errors.push(`${model}: HTTP ${response.status} ${(await response.text()).slice(0, 180)}`);
           continue;
         }
 
@@ -103,10 +103,10 @@ export default async function handler(req, res) {
         const parsed = parseGeminiJson(text);
         return res.status(200).json(parsed);
       } catch (error) {
-        lastError = `${model}: ${error.message}`;
+        errors.push(`${model}: ${error.message}`);
       }
     }
   }
 
-  return res.status(502).json({ error: 'Gemini could not analyse the image.', detail: lastError });
+  return res.status(502).json({ error: 'Gemini could not analyse the image.', detail: errors.join(' | ').slice(0, 600) });
 }
