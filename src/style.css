@@ -3036,6 +3036,35 @@ body.cart-open .main-header,
 .toast .toast-icon,
 .toast svg {
   flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.toast--success {
+  border: 1px solid rgba(34, 197, 94, 0.4);
+}
+.toast--success .toast-icon {
+  color: #22c55e;
+}
+.toast--warning {
+  background: #1c1408;
+  border: 1px solid rgba(245, 158, 11, 0.55);
+}
+.toast--warning .toast-icon {
+  color: #f59e0b;
+}
+.toast--error {
+  background: #1f0c10;
+  border: 1px solid rgba(239, 68, 68, 0.55);
+}
+.toast--error .toast-icon {
+  color: #f87171;
+}
+.toast--info {
+  border: 1px solid rgba(56, 189, 248, 0.45);
+}
+.toast--info .toast-icon {
+  color: #38bdf8;
 }
 .toast #toast-message,
 .toast .share-toast-text {

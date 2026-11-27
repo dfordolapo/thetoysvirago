@@ -26,6 +26,7 @@ import {
 } from './supabase.js';
 import { BLOG_ARTICLES } from './data/articles.js';
 import { enhanceCustomSelect } from './modules/customSelect.js';
+import { resolveToastType, getToastIconSvg } from './modules/toastHelper.js';
 import { resolveColorHex, isLightColor, formatColorName, isRecognizedColorName } from './modules/colorResolver.js';
 import { generateLocalProductCopy } from './modules/localCopy.js';
 
@@ -2120,10 +2121,16 @@ if (btnSwitchToUpload) {
 
 // ================= 12. TOAST HELPER =================
 let toastTimeout = null;
-function showToast(message, isHtml = false) {
+function showToast(message, isHtml = false, type = null) {
   const toast = document.getElementById('admin-toast');
   const text = document.getElementById('toast-text');
+  const icon = document.getElementById('admin-toast-icon');
   if (!toast || !text) return;
+
+  const toastType = resolveToastType(message, type);
+  toast.classList.remove('admin-toast--success', 'admin-toast--warning', 'admin-toast--error', 'admin-toast--info');
+  toast.classList.add(`admin-toast--${toastType}`);
+  if (icon) icon.innerHTML = getToastIconSvg(toastType);
 
   if (isHtml) {
     text.innerHTML = message;

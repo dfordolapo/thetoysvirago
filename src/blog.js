@@ -2,6 +2,7 @@ import { initWhatsAppWidget } from './modules/whatsappWidget.js';
 import { initPullToRefresh } from './modules/pullToRefresh.js';
 import { BLOG_ARTICLES } from './data/articles.js';
 import { getSupabaseArticles, isSupabaseConfigured } from './supabase.js';
+import { resolveToastType, getToastIconSvg } from './modules/toastHelper.js';
 
 function initCookieConsentBanner(){
   const key='ttv_cookie_consent'; const banner=document.getElementById('cookie-consent-banner');
@@ -70,10 +71,15 @@ document.addEventListener('DOMContentLoaded', () => {
   let toastTimer = null;
 
   // Single-line toast notification for feedback
-  function showToast(msg) {
+  function showToast(msg, type = null) {
     const toast = document.getElementById('toast');
     const toastMsg = document.getElementById('toast-message');
     if (!toast || !toastMsg) return;
+    const toastType = resolveToastType(msg, type);
+    toast.classList.remove('toast--success', 'toast--warning', 'toast--error', 'toast--info');
+    toast.classList.add(`toast--${toastType}`);
+    const iconEl = toast.querySelector('.toast-icon');
+    if (iconEl) iconEl.innerHTML = getToastIconSvg(toastType);
     toastMsg.textContent = msg;
     toast.hidden = false;
     if (toastTimer) clearTimeout(toastTimer);

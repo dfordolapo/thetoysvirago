@@ -6,6 +6,7 @@ import { DELIVERY_ZONES, autoDetectDeliveryZoneFromAddress } from './modules/zon
 import { openPaystackInline, isPaystackConfigured, PAYSTACK_PUBLIC_KEY } from './modules/paystack.js';
 import { resolveColorHex, isLightColor, formatColorName, isRecognizedColorName } from './modules/colorResolver.js';
 import { enhanceCustomSelect } from './modules/customSelect.js';
+import { resolveToastType, getToastIconSvg } from './modules/toastHelper.js';
 
 /**
  * ROUGE NOIR - Haute Intimité & Sensual Wellness
@@ -8962,8 +8963,14 @@ let toastTimeout = null;
 const toast = document.getElementById('toast');
 const toastMessage = document.getElementById('toast-message');
 
-function showToast(msg) {
+function showToast(msg, type = null) {
   if (!toast || !toastMessage) return;
+  const toastType = resolveToastType(msg, type);
+  toast.classList.remove('toast--success', 'toast--warning', 'toast--error', 'toast--info');
+  toast.classList.add(`toast--${toastType}`);
+  const iconEl = toast.querySelector('.toast-icon');
+  if (iconEl) iconEl.innerHTML = getToastIconSvg(toastType);
+
   toastMessage.textContent = msg;
   toast.hidden = false;
 
