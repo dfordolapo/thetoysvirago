@@ -2522,11 +2522,11 @@ body.cart-open .main-header,
   color: #0f766e;
 }
 
-/* Prevent iOS Safari auto-zoom when tapping form fields while keeping pinch-zoom */
+/* Prevent iOS Safari auto-zoom when tapping storefront form fields while keeping pinch-zoom */
 @media (max-width: 768px) {
-  input:not([type="checkbox"]):not([type="radio"]),
-  select,
-  textarea {
+  body:not(.admin-body) input:not([type="checkbox"]):not([type="radio"]),
+  body:not(.admin-body) select,
+  body:not(.admin-body) textarea {
     font-size: 16px !important;
   }
 }
