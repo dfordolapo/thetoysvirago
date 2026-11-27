@@ -1588,7 +1588,7 @@ export function renderProductPage(product = {}, options = {}) {
       border-radius: 8px;
       border: 1px solid #cbd5e1;
       background: #ffffff;
-      font-size: 13px;
+      font-size: 16px;
       font-family: inherit;
     }
     .pdp-restock-btn {
@@ -2405,7 +2405,15 @@ export function renderProductPage(product = {}, options = {}) {
       border-bottom: 1px solid #f1f5f9;
       background: #fafafa;
       overflow-x: auto;
+      overflow-y: hidden;
+      touch-action: pan-x;
+      overscroll-behavior-x: contain;
+      flex-shrink: 0;
+      scrollbar-width: none;
       -webkit-overflow-scrolling: touch;
+    }
+    .policy-tabs::-webkit-scrollbar {
+      display: none;
     }
     .policy-tab {
       padding: 12px 18px;

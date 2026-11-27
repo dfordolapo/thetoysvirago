@@ -895,6 +895,7 @@ async function autoGenerateProductDescription() {
 
     if (inlineImage) {
       if (aiStatusText) aiStatusText.textContent = 'Analysing your photo...';
+      const localGeminiKey = localStorage.getItem('thetoysvirago_gemini_key') || '';
       const response = await fetch('/api/generate-copy', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -904,7 +905,8 @@ async function autoGenerateProductDescription() {
           category,
           mood,
           title: currentTitle,
-          details: currentDetails
+          details: currentDetails,
+          apiKey: localGeminiKey || undefined
         })
       });
       const payload = await response.json().catch(() => ({}));
@@ -2036,7 +2038,6 @@ async function checkServerGeminiKey() {
     if (response.ok) {
       const payload = await response.json().catch(() => ({}));
       serverGeminiConfigured = payload.configured === true;
-      if (serverGeminiConfigured) localStorage.removeItem('thetoysvirago_gemini_key');
     }
   } catch (_) {
     serverGeminiConfigured = false;
