@@ -5,6 +5,7 @@ import { getSupabaseProducts, getSupabaseProductGallery, recordSupabaseConfessio
 import { DELIVERY_ZONES, autoDetectDeliveryZoneFromAddress } from './modules/zones.js';
 import { openPaystackInline, isPaystackConfigured, PAYSTACK_PUBLIC_KEY } from './modules/paystack.js';
 import { resolveColorHex, isLightColor, formatColorName, isRecognizedColorName } from './modules/colorResolver.js';
+import { enhanceCustomSelect } from './modules/customSelect.js';
 
 /**
  * ROUGE NOIR - Haute Intimité & Sensual Wellness
@@ -8061,6 +8062,7 @@ function onAddressOrCityInput() {
 
 // Wire Delivery Zone UI Listeners
 function setupDeliveryZoneListeners() {
+  document.querySelectorAll('select:not([size])').forEach((el) => enhanceCustomSelect(el));
   const selectEl = document.getElementById('co-delivery-zone-select');
   if (selectEl) {
     selectEl.addEventListener('change', (e) => {

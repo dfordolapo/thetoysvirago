@@ -23,6 +23,7 @@ import {
   deleteSupabaseArticle
 } from './supabase.js';
 import { BLOG_ARTICLES } from './data/articles.js';
+import { enhanceCustomSelect } from './modules/customSelect.js';
 import { resolveColorHex, isLightColor, formatColorName, isRecognizedColorName } from './modules/colorResolver.js';
 import { generateLocalProductCopy } from './modules/localCopy.js';
 
@@ -1233,7 +1234,10 @@ if (prodIsAbujaInput) {
 }
 
 function resetForm() {
-  if (productForm) productForm.reset();
+  if (productForm) {
+    productForm.reset();
+    productForm.querySelectorAll('select').forEach(s => s.dispatchEvent(new Event('change')));
+  }
   const editingId = document.getElementById('editing-product-id');
   if (editingId) editingId.value = '';
   if (previewImg) previewImg.src = '';
@@ -1516,7 +1520,7 @@ function renderInventoryTable() {
       <td style="text-align: right; white-space: nowrap;">
         <a href="/products/${encodeURIComponent(prod.id)}" target="_blank" rel="noopener" class="admin-btn admin-btn-outline" style="padding: 6px 10px; font-size: 12px; text-decoration: none;" title="View on Live Shop">↗ Shop</a>
         <button class="admin-btn admin-btn-outline btn-edit-prod" data-id="${prod.id}" style="padding: 6px 12px; font-size: 12px;">Edit</button>
-        ${isCustom ? `<button class="admin-btn admin-btn-outline btn-del-prod" data-id="${prod.id}" style="padding: 6px 10px; font-size: 12px; color: #f43f5e;" title="Delete product">&times;</button>` : ''}
+        <button type="button" class="admin-btn admin-btn-outline btn-del-prod" data-id="${prod.id}" style="padding: 6px 9px; font-size: 12px; color: #e11d48; border-color: rgba(225,29,72,0.28);" title="Delete product completely" aria-label="Delete ${prod.title}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button>
       </td>
     `;
 
@@ -1592,7 +1596,10 @@ async function loadProductIntoForm(prod) {
 
   if (editingIdInput) editingIdInput.value = prod.id;
   if (titleInput) titleInput.value = prod.title || '';
-  if (catInput) catInput.value = prod.category || 'lingerie';
+  if (catInput) {
+    catInput.value = prod.category || 'lingerie';
+    catInput.dispatchEvent(new Event('change'));
+  }
   if (priceInput) priceInput.value = prod.price || 0;
   if (origPriceInput) origPriceInput.value = prod.originalPrice || '';
   if (badgeInput) badgeInput.value = prod.badge || '';
@@ -1675,21 +1682,36 @@ async function loadProductIntoForm(prod) {
 }
 
 async function deleteCustomProductItem(id) {
-  if (!confirm(`Are you sure you want to remove this product from your store?`)) return;
+  const prod = allInventoryProducts.find(p => p.id === id);
+  const label = prod ? prod.title : id;
+  if (!confirm(`Delete "${label}" completely from your store and database? This cannot be undone.`)) return;
 
   currentCustomProducts = currentCustomProducts.filter(p => p.id !== id);
+  allInventoryProducts = allInventoryProducts.filter(p => p.id !== id);
   saveCustomProducts(currentCustomProducts);
 
+  let remoteOk = true;
+  let remoteError = '';
   if (isSupabaseConfigured) {
     try {
-      await deleteSupabaseProduct(id);
+      const res = await deleteSupabaseProduct(id);
+      if (res && res.success === false) {
+        remoteOk = false;
+        remoteError = res.error || res.reason || 'Unknown Supabase error';
+      }
     } catch (e) {
+      remoteOk = false;
+      remoteError = e && e.message ? e.message : 'Network error';
       console.warn('[Admin] Delete remote error:', e);
     }
   }
 
   await refreshCatalogData();
-  showToast('Product removed from catalog.');
+  if (!remoteOk) {
+    showToast(`Removed locally, but Supabase delete failed: ${remoteError}`);
+  } else {
+    showToast(`"${label}" deleted completely from the site.`);
+  }
 }
 
 if (inventorySearchInput) {
@@ -2054,7 +2076,14 @@ function showToast(message, isHtml = false) {
   }, isHtml ? 6500 : 3400);
 }
 
+function initCustomAdminSelects() {
+  document.querySelectorAll('select:not([size])').forEach((select) => {
+    enhanceCustomSelect(select);
+  });
+}
+
 function initAdmin() {
+  initCustomAdminSelects();
   checkAdminAuth();
   refreshCatalogData();
   initArticlesStudio();
