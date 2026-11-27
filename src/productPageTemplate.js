@@ -1559,6 +1559,15 @@ export function renderProductPage(product = {}, options = {}) {
       gap: 10px;
       margin-bottom: 28px;
     }
+    .btn-order-primary[disabled] {
+      opacity: 0.6 !important;
+      cursor: not-allowed !important;
+      pointer-events: none !important;
+      background: #e2e8f0 !important;
+      color: #94a3b8 !important;
+      border-color: #e2e8f0 !important;
+      box-shadow: none !important;
+    }
     .btn-order-primary {
       display: inline-flex;
       align-items: center;
@@ -2967,6 +2976,7 @@ export function renderProductPage(product = {}, options = {}) {
 
         <div class="cta-group">
           <button type="button" class="btn-order-primary" id="btn-order-primary"
+            ${!inStock ? 'disabled aria-disabled="true"' : ''}
             data-id="${escapeHtml(id)}"
             data-base-id="${escapeHtml(id)}"
             data-title="${escapeHtml(title)}"
@@ -2978,7 +2988,7 @@ export function renderProductPage(product = {}, options = {}) {
               <line x1="3" y1="6" x2="21" y2="6"/>
               <path d="M16 10a4 4 0 0 1-8 0"/>
             </svg>
-            <span id="btn-primary-text">Add to Bag</span>
+            <span id="btn-primary-text">${inStock ? 'Add to Bag' : 'Unavailable'}</span>
           </button>
         </div>
 

@@ -381,6 +381,27 @@ export async function upsertSupabaseProduct(product) {
 }
 
 /**
+ * Update only the in_stock status for a product in Supabase.
+ */
+export async function updateSupabaseProductStock(id, inStock) {
+  const client = getSupabaseAdminClient();
+  if (!client || !id) return { success: false, reason: 'unconfigured' };
+  try {
+    const { error } = await client
+      .from('products')
+      .update({ in_stock: Boolean(inStock), updated_at: new Date().toISOString() })
+      .eq('id', id);
+    if (error) {
+      console.warn('[Supabase] updateSupabaseProductStock failed:', error.message);
+      return { success: false, reason: error.message };
+    }
+    return { success: true };
+  } catch (err) {
+    return { success: false, reason: err.message };
+  }
+}
+
+/**
  * Delete a product from Supabase.
  */
 export async function deleteSupabaseProduct(id) {

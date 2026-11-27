@@ -6856,6 +6856,15 @@ function openQuickviewForProduct(prodKey, card = null) {
     });
   }
 
+  if (qvBtnAdd) {
+    const qvInStock = prod.inStock !== false && prod.in_stock !== false && (!card || card.dataset.inStock !== 'false');
+    qvBtnAdd.disabled = !qvInStock;
+    qvBtnAdd.classList.toggle('btn-unavailable', !qvInStock);
+    qvBtnAdd.textContent = qvInStock ? 'Add to Cart' : 'Unavailable';
+    qvBtnAdd.style.opacity = qvInStock ? '' : '0.6';
+    qvBtnAdd.style.cursor = qvInStock ? '' : 'not-allowed';
+    qvBtnAdd.style.pointerEvents = qvInStock ? '' : 'none';
+  }
   if (qvBadge) qvBadge.textContent = prod.badge;
   if (qvTitle) qvTitle.textContent = prod.title;
   if (qvPrice) { qvPrice.textContent = prod.priceStr || ''; qvPrice.style.display = prod.priceStr ? 'block' : 'none'; }
@@ -9389,6 +9398,25 @@ function createStoreProductCard(prod, idx) {
     });
   }
 
+  // Apply stock state on dynamic card
+  if (prod.inStock === false || prod.in_stock === false) {
+    card.dataset.inStock = 'false';
+    const b = card.querySelector('.btn-add-cart');
+    if (b) {
+      b.disabled = true;
+      b.classList.add('btn-unavailable');
+      b.style.opacity = '0.6';
+      b.style.cursor = 'not-allowed';
+      b.style.pointerEvents = 'none';
+      b.textContent = 'Unavailable';
+    }
+    const bg = card.querySelector('.product-badge');
+    if (bg) {
+      bg.dataset.origBadge = bg.textContent;
+      bg.textContent = 'UNAVAILABLE';
+    }
+  }
+
   // Wire add to bag button
   const addBtn = card.querySelector('.btn-add-cart');
   if (addBtn) {
@@ -9540,6 +9568,30 @@ export function initCustomCatalogProducts() {
 
   if (!customProds) { customProds = []; }
 
+  function applyStockStateToDomCard(card, inStock) {
+    if (!card) return;
+    const available = inStock !== false;
+    card.dataset.inStock = available ? 'true' : 'false';
+    const addBtn = card.querySelector('.btn-add-cart');
+    if (addBtn) {
+      addBtn.disabled = !available;
+      addBtn.classList.toggle('btn-unavailable', !available);
+      addBtn.style.opacity = available ? '' : '0.6';
+      addBtn.style.cursor = available ? '' : 'not-allowed';
+      addBtn.style.pointerEvents = available ? '' : 'none';
+      if (!available) {
+        addBtn.textContent = 'Unavailable';
+      } else {
+        addBtn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span>Add to Cart</span>';
+      }
+    }
+    const badge = card.querySelector('.product-badge');
+    if (badge) {
+      if (!badge.dataset.origBadge) badge.dataset.origBadge = badge.textContent;
+      badge.textContent = available ? badge.dataset.origBadge : 'UNAVAILABLE';
+    }
+  }
+
   function applyProducts(prods) {
     prods.forEach((prod) => {
       PRODUCT_DATABASE[prod.id] = {
@@ -9560,10 +9612,16 @@ export function initCustomCatalogProducts() {
         acoustics: prod.acoustics || 'Sensual Touch',
         freq: 0,
         pattern: prod.category || 'lingerie',
+        inStock: prod.inStock !== false && prod.in_stock !== false,
         media: (prod.media && Array.isArray(prod.media) && prod.media.length > 0)
           ? prod.media
           : [{ type: 'image', src: prod.img, label: prod.title }]
       };
+
+      // Sync live stock state onto any already-rendered static cards on the page
+      document.querySelectorAll(`.product-card[data-id="${prod.id}"]`).forEach(existingCard => {
+        applyStockStateToDomCard(existingCard, prod.inStock !== false && prod.in_stock !== false);
+      });
 
       GENERAL_PRODUCT_TERMS[prod.id] = `${prod.title} ${prod.category} ${prod.tagline || ''} ${prod.desc || ''} lingerie underwear boudoir lace bra panties corset`;
     });

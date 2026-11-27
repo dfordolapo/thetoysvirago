@@ -9,6 +9,7 @@ import {
   getSupabaseProducts,
   getSupabaseProductById,
   upsertSupabaseProduct,
+  updateSupabaseProductStock,
   deleteSupabaseProduct,
   getSupabaseOrders,
   updateSupabaseOrderStatus,
@@ -1520,7 +1521,7 @@ function renderInventoryTable() {
   });
 }
 
-function toggleProductStock(id, inStock) {
+async function toggleProductStock(id, inStock) {
   const prod = allInventoryProducts.find(p => p.id === id);
   if (prod) {
     prod.inStock = inStock;
@@ -1530,8 +1531,17 @@ function toggleProductStock(id, inStock) {
     customProd.inStock = inStock;
     saveCustomProducts(currentCustomProducts);
   }
-  showToast(`Stock status updated for ${prod ? prod.title : id}.`);
   updateStats();
+  if (isSupabaseConfigured) {
+    const res = await updateSupabaseProductStock(id, inStock);
+    if (res.success) {
+      showToast(`${prod ? prod.title : id} marked ${inStock ? 'In Stock' : 'Unavailable'} on live store.`);
+    } else {
+      showToast(`Updated locally (Supabase sync failed: ${res.reason || 'unknown'}).`);
+    }
+  } else {
+    showToast(`Stock status updated for ${prod ? prod.title : id}.`);
+  }
 }
 
 async function loadProductIntoForm(prod) {

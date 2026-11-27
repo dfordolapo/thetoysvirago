@@ -2443,6 +2443,15 @@ body.cart-open .main-header,
   gap: 8px;
   margin-top: 2px;
 }
+
+/* Keep all primary & card action buttons strictly on one line */
+.btn,
+.btn-add-cart,
+.btn-unavailable,
+.btn-quick-view,
+#qv-btn-add {
+  white-space: nowrap !important;
+}
 .delivery-option-card {
   display: flex;
   align-items: center;
