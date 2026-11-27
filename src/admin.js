@@ -1463,10 +1463,15 @@ function renderInventoryTable() {
   inventoryTableBody.innerHTML = '';
 
   if (filtered.length === 0) {
+    const safeSearch = searchVal
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
     inventoryTableBody.innerHTML = `
-      <tr>
-        <td colspan="6" style="text-align: center; padding: 36px; color: #64748b;">
-          No products found matching "${searchVal}". Click "+ Add New Product" to create one.
+      <tr class="admin-empty-row">
+        <td colspan="6" class="admin-empty-cell" style="text-align: center; padding: 36px; color: #64748b;">
+          No products found matching "${safeSearch}". Click "+ Add New Product" to create one.
         </td>
       </tr>
     `;

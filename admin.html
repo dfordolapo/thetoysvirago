@@ -485,7 +485,7 @@
       border: 1px solid #cbd5e1;
       border-radius: 8px;
       padding: 7px 12px;
-      font-size: 12px;
+      font-size: 16px;
       font-weight: 600;
       outline: none;
       font-family: inherit;
@@ -547,7 +547,7 @@
       padding: 11px 14px;
       color: #0f172a;
       font-family: inherit;
-      font-size: 14px;
+      font-size: 16px;
       box-sizing: border-box;
       outline: none;
       transition: all 0.2s;
@@ -626,7 +626,7 @@
       padding: 10px 16px;
       color: #0f172a;
       font-family: inherit;
-      font-size: 14px;
+      font-size: 16px;
       outline: none;
     }
 
@@ -661,7 +661,7 @@
       padding: 10px 38px 10px 14px;
       color: #0f172a;
       font-family: inherit;
-      font-size: 13.5px;
+      font-size: 16px;
       font-weight: 600;
       outline: none;
       cursor: pointer;
@@ -1201,7 +1201,7 @@
         min-width: 0 !important;
         height: 44px !important;
         padding: 10px 14px !important;
-        font-size: 13.5px !important;
+        font-size: 16px !important;
         border-radius: 10px !important;
         white-space: nowrap !important;
       }
@@ -1218,7 +1218,7 @@
         box-sizing: border-box !important;
         height: 44px !important;
         padding: 10px 38px 10px 14px !important;
-        font-size: 13.5px !important;
+        font-size: 16px !important;
         font-weight: 600 !important;
         border-radius: 10px !important;
       }
@@ -1244,6 +1244,19 @@
         grid-template-columns: 56px minmax(0, 1fr) auto;
         grid-gap: 6px 12px;
         align-items: center;
+      }
+      #inventory-panel .admin-table tr.admin-empty-row {
+        display: block !important;
+        width: 100% !important;
+        padding: 28px 18px !important;
+        text-align: center !important;
+      }
+      #inventory-panel .admin-table tr.admin-empty-row td.admin-empty-cell {
+        display: block !important;
+        width: 100% !important;
+        text-align: center !important;
+        padding: 0 !important;
+        line-height: 1.55 !important;
       }
       #inventory-panel .admin-table td {
         padding: 0 !important;
@@ -1775,14 +1788,14 @@
       input[type="email"],
       select,
       textarea {
-        font-size: 12px !important;
+        font-size: 16px !important;
         padding: 7px 10px !important;
         min-height: 34px !important;
         border-radius: 8px !important;
       }
       .form-textarea, textarea {
         min-height: 60px !important;
-        font-size: 12px !important;
+        font-size: 16px !important;
       }
       .form-row-2, .form-row-3 {
         grid-template-columns: 1fr !important;
@@ -1823,7 +1836,7 @@
         padding-left: 38px !important;
         width: 100% !important;
         box-sizing: border-box !important;
-        font-size: 12.5px !important;
+        font-size: 16px !important;
         height: 38px !important;
       }
       .orders-filter-scroll-wrapper {
@@ -2328,6 +2341,12 @@
       background: #e2e8f0 !important;
       color: #0f172a !important;
     }
+
+    body.admin-body input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):not([type="submit"]):not([type="button"]):not([type="image"]):not([type="hidden"]),
+    body.admin-body select,
+    body.admin-body textarea {
+      font-size: 16px !important;
+    }
 </style>
 </head>
 <body class="admin-body">
@@ -2342,7 +2361,7 @@
       <p class="admin-gate-desc">This vault is reserved for store curators to manage orders and inventory.</p>
       <form id="admin-gate-form">
         <div class="form-group" style="margin-bottom: 14px;">
-          <input type="password" id="admin-passcode-input" class="form-input" placeholder="Enter Access PIN" required autocomplete="current-password" style="text-align: center; letter-spacing: 2px; font-size: 15px; border-radius: 8px !important;" />
+          <input type="password" id="admin-passcode-input" class="form-input" placeholder="Enter Access PIN" required autocomplete="current-password" style="text-align: center; letter-spacing: 2px; font-size: 16px; border-radius: 8px !important;" />
         </div>
         <button type="submit" class="admin-btn admin-btn-ruby" style="width: 100%; justify-content: center; padding: 12px; border-radius: 8px !important; font-weight: 700;">
           Unlock Vault
@@ -2554,7 +2573,7 @@
                         To have AI inspect your photo and write grounded copy, paste your free Gemini API key below:
                       </p>
                       <div style="display: flex; gap: 6px;">
-                        <input type="password" id="ai-quick-gemini-key" class="form-input" placeholder="AIzaSy... (paste Gemini key here)" style="font-size: 11.5px; padding: 6px 9px; height: auto; background: #fff;" />
+                        <input type="password" id="ai-quick-gemini-key" class="form-input" placeholder="AIzaSy... (paste Gemini key here)" style="font-size: 16px; padding: 6px 9px; height: auto; background: #fff;" />
                         <button type="button" id="btn-save-quick-gemini-key" class="admin-btn admin-btn-black" style="padding: 6px 12px; font-size: 11px; border-radius: 8px !important; white-space: nowrap;">Save Key</button>
                       </div>
                     </div>
@@ -2794,7 +2813,7 @@
         <div class="orders-toolbar-row">
           <div class="orders-search-wrapper" style="position: relative; width: 100%;">
             <svg class="orders-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; pointer-events: none; z-index: 5;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input type="text" id="orders-search-input" class="form-input" placeholder="Search by reference, customer or phone..." style="padding-left: 38px !important; width: 100% !important; box-sizing: border-box !important; border-radius: 8px !important; font-size: 12.5px !important; height: 38px !important;" />
+            <input type="text" id="orders-search-input" class="form-input" placeholder="Search by reference, customer or phone..." style="padding-left: 38px !important; width: 100% !important; box-sizing: border-box !important; border-radius: 8px !important; font-size: 16px !important; height: 38px !important;" />
           </div>
           <div class="orders-filter-scroll-wrapper">
             <button type="button" class="order-filter-pill active" data-filter="all">All Orders</button>
@@ -2983,7 +3002,7 @@
               <button type="button" id="btn-format-paragraphs" class="btn-art-tool admin-btn admin-btn-outline" style="color: #0284c7; border-color: #bae6fd; background: #f0f9ff;" title="Wrap raw double-spaced text into <p> tags">⚡ Auto &lt;p&gt;</button>
             </div>
 
-            <textarea id="article-content-input" class="form-textarea" rows="14" placeholder="Write or paste your article HTML here. Use the toolbar buttons above for styled elements like leads, subheadings, pull quotes, and product links..." style="border-radius: 0 0 8px 8px !important; font-family: 'Consolas', 'Monaco', monospace; font-size: 13px; line-height: 1.6; min-height: 280px;" required></textarea>
+            <textarea id="article-content-input" class="form-textarea" rows="14" placeholder="Write or paste your article HTML here. Use the toolbar buttons above for styled elements like leads, subheadings, pull quotes, and product links..." style="border-radius: 0 0 8px 8px !important; font-family: 'Consolas', 'Monaco', monospace; font-size: 16px; line-height: 1.6; min-height: 280px;" required></textarea>
           </div>
 
           <!-- Row 6: SEO & Meta Details (Accordion / Collapsible) -->
@@ -3039,7 +3058,7 @@
         <div class="orders-toolbar-row" style="margin-top: 14px;">
           <div class="orders-search-wrapper" style="position: relative; width: 100%;">
             <svg class="orders-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; pointer-events: none; z-index: 5;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input type="text" id="articles-search-input" class="form-input" placeholder="Search articles by title, category, author or slug..." style="padding-left: 38px !important; width: 100% !important; box-sizing: border-box !important; border-radius: 8px !important; font-size: 12.5px !important; height: 38px !important;" />
+            <input type="text" id="articles-search-input" class="form-input" placeholder="Search articles by title, category, author or slug..." style="padding-left: 38px !important; width: 100% !important; box-sizing: border-box !important; border-radius: 8px !important; font-size: 16px !important; height: 38px !important;" />
           </div>
           <div class="orders-filter-scroll-wrapper" id="articles-filter-pills-bar">
             <button type="button" class="article-filter-pill active" data-filter="all" style="border-radius: 8px !important;">All Stories</button>
@@ -3162,17 +3181,17 @@
           <span style="font-size: 11px; color: #64748b;" id="link-product-count">Flagship + Catalogue</span>
         </div>
         <div style="position: relative; margin-bottom: 8px;">
-          <input type="text" id="link-product-search" class="form-input" placeholder="Filter products by name or SKU..." style="border-radius: 8px !important; font-size: 12px; padding-left: 32px;" />
+          <input type="text" id="link-product-search" class="form-input" placeholder="Filter products by name or SKU..." style="border-radius: 8px !important; font-size: 16px; padding-left: 32px;" />
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         </div>
-        <select id="link-product-select" class="form-select" size="6" style="border-radius: 8px !important; font-size: 12.5px; width: 100%; height: auto; max-height: 160px;">
+        <select id="link-product-select" class="form-select" size="6" style="border-radius: 8px !important; font-size: 16px; width: 100%; height: auto; max-height: 160px;">
           <!-- Dynamically populated -->
         </select>
       </div>
 
       <div class="form-group" style="margin-bottom: 18px;">
         <label class="form-label">Product Page URL *</label>
-        <input type="text" id="link-product-url" class="form-input" value="/products/rose-blossom.html" placeholder="e.g. /products/rose-blossom.html" style="border-radius: 8px !important; font-size: 12px; font-family: monospace;" required />
+        <input type="text" id="link-product-url" class="form-input" value="/products/rose-blossom.html" placeholder="e.g. /products/rose-blossom.html" style="border-radius: 8px !important; font-size: 16px; font-family: monospace;" required />
       </div>
 
       <div style="display: flex; gap: 10px; justify-content: flex-end; align-items: center;">
