@@ -481,14 +481,18 @@ export async function deleteSupabaseProduct(id) {
   const client = getSupabaseAdminClient();
   if (!client) return { success: false, reason: 'unconfigured' };
   try {
-    const { error } = await client
+    const { data, error } = await client
       .from('products')
       .delete()
-      .eq('id', id);
+      .eq('id', id)
+      .select('id');
 
     if (error) {
       console.warn('[Supabase] Error deleting product:', error.message);
       return { success: false, error: error.message };
+    }
+    if (!data || data.length === 0) {
+      return { success: false, reason: 'rls_no_rows' };
     }
     return { success: true };
   } catch (err) {

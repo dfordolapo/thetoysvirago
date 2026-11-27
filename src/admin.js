@@ -1725,7 +1725,6 @@ async function deleteCustomProductItem(id) {
           category: (prod && prod.category) || 'toys',
           price: (prod && prod.price) || 0,
           badge: '__DELETED__',
-          region: 'deleted',
           inStock: false
         });
         if (res && res.success === false) {
@@ -1742,7 +1741,6 @@ async function deleteCustomProductItem(id) {
             category: (prod && prod.category) || 'toys',
             price: (prod && prod.price) || 0,
             badge: '__DELETED__',
-            region: 'deleted',
             inStock: false
           });
           if (!softRes || softRes.success === false) {
