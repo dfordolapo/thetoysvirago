@@ -9607,7 +9607,8 @@ export function initCustomCatalogProducts() {
   const PURGED_PRODUCT_IDS = [
     'sweet-hammer-vibe', 'escapade-expert-dildo', 'dual-rose-stem-vibe', 'motorized-dual-cock-ring',
     'crystal-dual-dildo', 'crystal-glass-bubble-plugs', 'crystal-glass-plugs',
-    'noir-chantilly-teddy', 'scarlet-silk-chemise', 'couples-card-vault'
+    'noir-chantilly-teddy', 'scarlet-silk-chemise', 'couples-card-vault',
+    'heart-print-chemise-3267'
   ];
 
   // Abuja exclusives (held exclusively in Abuja section, NEVER in main Lagos grid)

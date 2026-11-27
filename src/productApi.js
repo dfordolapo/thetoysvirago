@@ -65,6 +65,7 @@ export async function fetchSupabaseProduct(id) {
   if (!Array.isArray(rows) || !rows.length) return null;
 
   const product = rows[0];
+  if (!product || product.badge === '__DELETED__' || product.region === 'deleted') return null;
   const mediaMeta = [];
   for (let index = 0; index < MEDIA_META_LIMIT; index++) {
     const label = product[`media${index}_label`];
