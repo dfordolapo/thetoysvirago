@@ -1577,11 +1577,12 @@ export function renderProductPage(product = {}, options = {}) {
     }
     .pdp-restock-row {
       display: flex;
+      flex-wrap: wrap;
       gap: 8px;
       align-items: center;
     }
     .pdp-restock-input {
-      flex: 1;
+      flex: 1 1 130px;
       min-width: 0;
       height: 38px;
       padding: 0 12px;
@@ -1591,18 +1592,27 @@ export function renderProductPage(product = {}, options = {}) {
       font-size: 16px;
       font-family: inherit;
     }
+    .pdp-restock-input::placeholder {
+      font-size: 12px !important;
+      opacity: 0.75;
+    }
     .pdp-restock-btn {
-      height: 38px;
-      padding: 0 14px;
+      min-height: 40px;
+      padding: 0 20px;
       border-radius: 8px !important;
       border: none;
       background: #121214;
       color: #ffffff;
-      font-size: 12px;
+      font-size: 12.5px;
       font-weight: 600;
       cursor: pointer;
       white-space: nowrap;
       flex-shrink: 0;
+    }
+    @media (max-width: 640px) {
+      .pdp-restock-btn {
+        width: 100%;
+      }
     }
     .pdp-restock-msg {
       font-size: 12.5px;
@@ -3074,6 +3084,7 @@ export function renderProductPage(product = {}, options = {}) {
         <div class="pdp-restock-box" id="pdp-restock-wrap" style="margin-top: 8px;">
           <div class="pdp-restock-title">Get an email when this piece is back in stock</div>
           <div class="pdp-restock-row" id="pdp-restock-row">
+            <input type="text" id="pdp-restock-name" class="pdp-restock-input" placeholder="Your name" autocomplete="given-name" />
             <input type="email" id="pdp-restock-email" class="pdp-restock-input" placeholder="Enter your email" autocomplete="email" />
             <button type="button" id="btn-pdp-restock" class="pdp-restock-btn">Notify Me</button>
           </div>
@@ -3460,10 +3471,16 @@ export function renderProductPage(product = {}, options = {}) {
       var restockBtn = document.getElementById('btn-pdp-restock');
       if (restockBtn) {
         restockBtn.addEventListener('click', function () {
+          var nameEl = document.getElementById('pdp-restock-name');
           var emailEl = document.getElementById('pdp-restock-email');
           var rowEl = document.getElementById('pdp-restock-row');
           var msgEl = document.getElementById('pdp-restock-msg');
+          var nameVal = nameEl ? nameEl.value.trim() : '';
           var emailVal = emailEl ? emailEl.value.trim().toLowerCase() : '';
+          if (!nameVal) {
+            if (msgEl) { msgEl.textContent = 'Please enter your name.'; msgEl.style.color = '#9f1239'; msgEl.style.display = 'block'; }
+            return;
+          }
           if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
             if (msgEl) { msgEl.textContent = 'Please enter a valid email address.'; msgEl.style.color = '#9f1239'; msgEl.style.display = 'block'; }
             return;
@@ -3483,13 +3500,16 @@ export function renderProductPage(product = {}, options = {}) {
               dupErr.isDuplicate = true;
               throw dupErr;
             }
+            var encodedTitle = ${JSON.stringify(title)} + ' [for ' + nameVal + ']';
             return fetch(sbUrl + '/rest/v1/restock_requests', {
               method: 'POST',
               headers: { 'apikey': sbKey, 'Authorization': 'Bearer ' + sbKey, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-              body: JSON.stringify({ product_id: ${JSON.stringify(id)}, product_title: ${JSON.stringify(title)}, email: emailVal, notified: false })
+              body: JSON.stringify({ product_id: ${JSON.stringify(id)}, product_title: encodedTitle, email: emailVal, notified: false })
             });
           }).then(function (r) {
             if (!r.ok) throw new Error('Request failed');
+            var titleEl = document.querySelector('#pdp-restock-wrap .pdp-restock-title');
+            if (titleEl) titleEl.style.display = 'none';
             if (rowEl) rowEl.style.display = 'none';
             if (msgEl) { msgEl.style.color = '#0f766e'; msgEl.textContent = "We'll email you the moment it's back."; msgEl.style.display = 'block'; }
           }).catch(function (err) {

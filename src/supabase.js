@@ -404,11 +404,32 @@ export async function updateSupabaseProductStock(id, inStock) {
 /**
  * Subscribe a customer email to a back-in-stock alert for an unavailable product.
  */
-export async function submitRestockRequest(productId, productTitle, email) {
+export function parseRestockTitleAndName(row) {
+  const rawTitle = String((row && row.product_title) || (row && row.product_id) || 'Product').trim();
+  const explicitName = String((row && row.customer_name) || '').trim();
+  const match = rawTitle.match(/^(.*?)\s*\[for\s+([^\]]+)\]$/i);
+  if (match) {
+    return {
+      productTitle: match[1].trim() || rawTitle,
+      customerName: explicitName || match[2].trim()
+    };
+  }
+  return {
+    productTitle: rawTitle,
+    customerName: explicitName
+  };
+}
+
+export async function submitRestockRequest(productId, productTitle, email, customerName = '') {
+  const cleanName = String(customerName || '').trim();
   const cleanEmail = String(email || '').trim().toLowerCase();
+  if (!cleanName) {
+    return { success: false, reason: 'Please enter your name.' };
+  }
   if (!productId || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
     return { success: false, reason: 'Please enter a valid email address.' };
   }
+  const encodedTitle = `${productTitle || productId} [for ${cleanName}]`;
   if (!supabase) {
     try {
       const key = 'ttv_restock_requests';
@@ -417,7 +438,7 @@ export async function submitRestockRequest(productId, productTitle, email) {
       if (already) {
         return { success: false, duplicate: true, reason: "You're already on the list for this piece. We'll email you as soon as it's back." };
       }
-      existing.push({ product_id: productId, product_title: productTitle || '', email: cleanEmail, notified: false, created_at: new Date().toISOString() });
+      existing.push({ product_id: productId, product_title: encodedTitle, customer_name: cleanName, email: cleanEmail, notified: false, created_at: new Date().toISOString() });
       localStorage.setItem(key, JSON.stringify(existing));
       return { success: true, localOnly: true };
     } catch (e) {
@@ -438,7 +459,7 @@ export async function submitRestockRequest(productId, productTitle, email) {
 
     const { error } = await supabase
       .from('restock_requests')
-      .insert([{ product_id: productId, product_title: productTitle || '', email: cleanEmail, notified: false }]);
+      .insert([{ product_id: productId, product_title: encodedTitle, email: cleanEmail, notified: false }]);
     if (error) {
       console.warn('[Supabase] submitRestockRequest failed:', error.message);
       return { success: false, reason: error.message };
@@ -461,7 +482,9 @@ export async function getRestockRequests() {
       console.warn('[Supabase] getRestockRequests failed:', error.message);
       return [];
     }
-    return Array.isArray(data) ? data : [];
+    return Array.isArray(data)
+      ? data.map((row) => ({ ...row, ...parseRestockTitleAndName(row) }))
+      : [];
   } catch (err) {
     return [];
   }
@@ -471,6 +494,7 @@ export async function sendRestockAlertToSubscriber(row) {
   if (!row || !row.product_id || !row.email) {
     return { success: false, error: 'Missing subscriber email or product.' };
   }
+  const { productTitle, customerName } = parseRestockTitleAndName(row);
   try {
     const localResendKey = typeof window !== 'undefined' ? (localStorage.getItem('ttv_resend_api_key') || '') : '';
     const res = await fetch('/api/send-confirmation', {
@@ -479,8 +503,8 @@ export async function sendRestockAlertToSubscriber(row) {
       body: JSON.stringify({
         action: 'restock_alert',
         productId: row.product_id,
-        productTitle: row.product_title || row.product_id,
-        emails: [row.email],
+        productTitle: productTitle || row.product_id,
+        recipients: [{ email: row.email, name: customerName }],
         resendApiKey: localResendKey || undefined
       })
     });
@@ -522,15 +546,24 @@ export async function notifyPendingRestockSubscribers(productId, productTitle) {
   try {
     const { data, error } = await client
       .from('restock_requests')
-      .select('id, email')
+      .select('id, email, product_title')
       .eq('product_id', productId)
       .eq('notified', false);
     if (error || !Array.isArray(data) || data.length === 0) {
       return { success: true, notifiedCount: 0 };
     }
-    const uniqueEmails = [...new Set(data.map(r => String(r.email || '').trim().toLowerCase()).filter(Boolean))];
-    if (uniqueEmails.length === 0) return { success: true, notifiedCount: 0 };
+    const seen = new Set();
+    const recipients = [];
+    for (const r of data) {
+      const em = String(r.email || '').trim().toLowerCase();
+      if (!em || seen.has(em)) continue;
+      seen.add(em);
+      const { customerName } = parseRestockTitleAndName(r);
+      recipients.push({ email: em, name: customerName });
+    }
+    if (recipients.length === 0) return { success: true, notifiedCount: 0 };
 
+    const localResendKey = typeof window !== 'undefined' ? (localStorage.getItem('ttv_resend_api_key') || '') : '';
     const res = await fetch('/api/send-confirmation', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -538,7 +571,8 @@ export async function notifyPendingRestockSubscribers(productId, productTitle) {
         action: 'restock_alert',
         productId,
         productTitle: productTitle || productId,
-        emails: uniqueEmails
+        recipients,
+        resendApiKey: localResendKey || undefined
       })
     });
     if (!res.ok) return { success: false, notifiedCount: 0 };
@@ -547,7 +581,7 @@ export async function notifyPendingRestockSubscribers(productId, productTitle) {
     if (ids.length > 0) {
       await client.from('restock_requests').update({ notified: true }).in('id', ids);
     }
-    return { success: true, notifiedCount: uniqueEmails.length };
+    return { success: true, notifiedCount: recipients.length };
   } catch (err) {
     return { success: false, notifiedCount: 0 };
   }

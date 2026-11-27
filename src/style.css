@@ -2496,11 +2496,12 @@ body.cart-open .main-header,
 }
 .restock-inline-row {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   align-items: center;
 }
 .restock-inline-input {
-  flex: 1;
+  flex: 1 1 130px;
   min-width: 0;
   height: 38px;
   padding: 0 12px;
@@ -2510,11 +2511,22 @@ body.cart-open .main-header,
   font-size: 13px;
   color: var(--ink);
 }
-.restock-inline-btn {
-  height: 38px;
-  padding: 0 14px !important;
+.restock-inline-input::placeholder {
   font-size: 12px !important;
+  opacity: 0.75;
+}
+.restock-inline-btn {
+  min-height: 40px !important;
+  padding: 0 20px !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
   flex-shrink: 0;
+}
+@media (max-width: 640px) {
+  .restock-inline-btn {
+    width: 100%;
+    justify-content: center;
+  }
 }
 .restock-inline-msg {
   font-size: 12.5px;

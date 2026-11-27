@@ -41,10 +41,21 @@ export default async function handler(req, res) {
     if (action === 'restock_alert') {
       const productId = String(body.productId || '').trim();
       const productTitle = String(body.productTitle || 'Your requested piece').trim();
-      const recipients = Array.isArray(body.emails)
-        ? body.emails.map(e => String(e || '').trim()).filter(e => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e))
-        : [];
-      if (!productId || recipients.length === 0) {
+      const productImage = String(body.productImage || `https://www.thetoysvirago.shop/product-image/${encodeURIComponent(productId)}`).trim();
+      const rawRecipients = Array.isArray(body.recipients)
+        ? body.recipients
+        : (Array.isArray(body.emails) ? body.emails.map(e => ({ email: e, name: body.customerName || '' })) : []);
+      const recipientList = [];
+      const seenEmails = new Set();
+      for (const entry of rawRecipients) {
+        const email = String((entry && entry.email) || entry || '').trim().toLowerCase();
+        const name = String((entry && entry.name) || '').trim();
+        if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && !seenEmails.has(email)) {
+          seenEmails.add(email);
+          recipientList.push({ email, name });
+        }
+      }
+      if (!productId || recipientList.length === 0) {
         return res.status(400).json({ error: 'Product ID and valid recipient emails are required.' });
       }
       if (!resendApiKey) {
@@ -52,8 +63,14 @@ export default async function handler(req, res) {
       }
       const fromEmail = process.env.VITE_RESEND_FROM_EMAIL || process.env.RESEND_FROM_EMAIL || 'TheToysVirago <orders@thetoysvirago.shop>';
       const productUrl = `https://www.thetoysvirago.shop/products/${encodeURIComponent(productId)}`;
-      const safeTitle = productTitle.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      const restockHtml = `<!DOCTYPE html>
+      const esc = (str) => String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      const safeTitle = esc(productTitle);
+
+      let sent = 0;
+      let lastError = '';
+      for (const recipient of recipientList) {
+        const greeting = recipient.name ? `Hi ${esc(recipient.name)},` : 'Hi there,';
+        const restockHtml = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -67,14 +84,22 @@ export default async function handler(req, res) {
         <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width: 440px; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;">
           <tr>
             <td style="padding: 22px 18px 22px;">
-              <p style="margin: 0 0 10px; font-size: 13px; line-height: 1.5; color: #0f172a;">
-                <strong>${safeTitle}</strong> is back in stock.
+              <p style="margin: 0 0 12px; font-size: 13px; line-height: 1.5; color: #0f172a;">
+                ${greeting}
               </p>
-              <p style="margin: 0 0 18px; font-size: 12px; line-height: 1.55; color: #334155;">
-                You asked to be notified when this piece returned. It is available now. Grab yours before it sells out again.
+              <h2 style="margin: 0 0 10px; font-size: 16px; line-height: 1.35; color: #0f172a; font-weight: 700;">
+                ${safeTitle} is back in stock
+              </h2>
+              <p style="margin: 0 0 16px; font-size: 12.5px; line-height: 1.55; color: #334155;">
+                You asked to be notified when this piece returned. Grab yours now before it sells out again.
               </p>
-              <div style="text-align: center; margin: 18px 0 6px;">
-                <a href="${productUrl}" style="display: inline-block; background-color: #0c0c0e; color: #ffffff; padding: 11px 22px; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: 13px;">Shop Now</a>
+              <div style="margin: 0 0 18px; text-align: center;">
+                <a href="${productUrl}" style="display: block; text-decoration: none;">
+                  <img src="${esc(productImage)}" alt="${safeTitle}" style="width: 100%; max-height: 240px; object-fit: cover; border-radius: 8px; display: block; border: 1px solid #e2e8f0;" />
+                </a>
+              </div>
+              <div style="text-align: center; margin: 16px 0 4px;">
+                <a href="${productUrl}" style="display: inline-block; background-color: #0c0c0e; color: #ffffff; padding: 11px 24px; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: 13px;">Shop Now</a>
               </div>
             </td>
           </tr>
@@ -85,15 +110,12 @@ export default async function handler(req, res) {
 </body>
 </html>`;
 
-      let sent = 0;
-      let lastError = '';
-      for (const email of recipients) {
         const r = await fetch('https://api.resend.com/emails', {
           method: 'POST',
           headers: { 'Authorization': `Bearer ${resendApiKey}`, 'Content-Type': 'application/json' },
           body: JSON.stringify({
             from: fromEmail,
-            to: [email],
+            to: [recipient.email],
             subject: `Back in stock: ${productTitle}`,
             html: restockHtml
           })

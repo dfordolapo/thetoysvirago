@@ -6888,8 +6888,12 @@ function openQuickviewForProduct(prodKey, card = null) {
       if (!qvInStock) {
         qvRestockWrap.removeAttribute('hidden');
         qvRestockWrap.style.display = 'block';
+        const qvRestockTitle = qvRestockWrap.querySelector('.restock-inline-title');
+        if (qvRestockTitle) qvRestockTitle.style.display = '';
         if (qvRestockRow) qvRestockRow.style.display = 'flex';
         if (qvRestockMsg) qvRestockMsg.style.display = 'none';
+        const qvRestockName = document.getElementById('qv-restock-name');
+        if (qvRestockName) qvRestockName.value = '';
         if (qvRestockInput) qvRestockInput.value = '';
         if (qvActions) qvActions.style.display = 'none';
         if (qvDesc) qvDesc.style.display = 'none';
@@ -7201,16 +7205,20 @@ const btnQvRestock = document.getElementById('btn-qv-restock');
 if (btnQvRestock) {
   btnQvRestock.addEventListener('click', async () => {
     if (!currentQvProduct) return;
+    const nameInput = document.getElementById('qv-restock-name');
     const emailInput = document.getElementById('qv-restock-email');
     const row = document.getElementById('qv-restock-form-row');
     const msg = document.getElementById('qv-restock-msg');
+    const name = (nameInput?.value || '').trim();
     const email = (emailInput?.value || '').trim();
     btnQvRestock.disabled = true;
     btnQvRestock.textContent = 'Saving...';
-    const res = await submitRestockRequest(currentQvProduct.id, currentQvProduct.title, email);
+    const res = await submitRestockRequest(currentQvProduct.id, currentQvProduct.title, email, name);
     btnQvRestock.disabled = false;
     btnQvRestock.textContent = 'Notify Me';
     if (res.success) {
+      const titleEl = document.querySelector('#qv-restock-wrap .restock-inline-title');
+      if (titleEl) titleEl.style.display = 'none';
       if (row) row.style.display = 'none';
       if (msg) {
         msg.style.color = '#0f766e';

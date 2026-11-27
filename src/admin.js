@@ -2180,10 +2180,10 @@ async function loadRestockAlerts() {
     left.style.cssText = 'min-width:0;flex:1;';
     const titleEl = document.createElement('div');
     titleEl.style.cssText = 'font-weight:700;font-size:13px;color:#0f172a;';
-    titleEl.textContent = row.product_title || row.product_id || 'Product';
+    titleEl.textContent = row.productTitle || row.product_title || row.product_id || 'Product';
     const emailEl = document.createElement('div');
     emailEl.style.cssText = 'font-size:12px;color:#475569;margin-top:2px;word-break:break-all;';
-    emailEl.textContent = row.email || '';
+    emailEl.textContent = row.customerName ? `${row.customerName} · ${row.email || ''}` : (row.email || '');
     const metaEl = document.createElement('div');
     metaEl.style.cssText = 'font-size:11px;color:#94a3b8;margin-top:3px;';
     metaEl.textContent = dateStr ? `Signed up ${dateStr}` : '';
