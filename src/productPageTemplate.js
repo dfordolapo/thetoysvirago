@@ -521,7 +521,11 @@ export function renderProductPage(product = {}, options = {}) {
     ...(product.material ? [{ label: 'Material', value: String(product.material) }] : []),
     ...(product.acoustics ? [{ label: 'Sensation', value: String(product.acoustics) }] : [])
   ]);
-  const sizes = normalizeSizes(product.sizes);
+  const SIZE_ONLY_NAME_RE = /^(xs|s|m|l|xl|xxl|2xl|3xl|4xl|one\s*size|free\s*size)$/i;
+  const rawVariantsAll = Array.isArray(product.variants) ? product.variants : [];
+  const onlyClothingSizesInVariants = rawVariantsAll.length > 0 && rawVariantsAll.every((v) => v && SIZE_ONLY_NAME_RE.test(String(v.name || '').trim()));
+  const rawVariants = onlyClothingSizesInVariants ? [] : rawVariantsAll;
+  const sizes = normalizeSizes(product.sizes && product.sizes.length ? product.sizes : (onlyClothingSizesInVariants ? rawVariantsAll.map((v) => v.name) : []));
 
   const providedImages = Array.isArray(options.imageUrls) ? options.imageUrls.filter(Boolean) : [];
   const imageUrls = providedImages.length
@@ -574,8 +578,6 @@ export function renderProductPage(product = {}, options = {}) {
           ${specs.map((spec) => `<div class="spec-row"><dt>${escapeHtml(spec.label || 'Feature')}</dt><dd>${escapeHtml(spec.value)}</dd></div>`).join('')}
         </dl>
       </section>` : '';
-
-  const rawVariants = Array.isArray(product.variants) ? product.variants : [];
 
   const isColorVariant = (v) => {
     if (!v || !v.name) return false;
@@ -1558,6 +1560,54 @@ export function renderProductPage(product = {}, options = {}) {
       flex-direction: column;
       gap: 10px;
       margin-bottom: 28px;
+    }
+    .pdp-restock-box {
+      margin: -14px 0 24px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: #f8fafc;
+      max-width: 440px;
+      box-sizing: border-box;
+    }
+    .pdp-restock-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted, #64748b);
+      margin-bottom: 8px;
+    }
+    .pdp-restock-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .pdp-restock-input {
+      flex: 1;
+      min-width: 0;
+      height: 38px;
+      padding: 0 12px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      font-size: 13px;
+      font-family: inherit;
+    }
+    .pdp-restock-btn {
+      height: 38px;
+      padding: 0 14px;
+      border-radius: 8px !important;
+      border: none;
+      background: #121214;
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .pdp-restock-msg {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #0f766e;
     }
     .btn-order-primary[disabled] {
       opacity: 0.6 !important;
@@ -2971,12 +3021,12 @@ export function renderProductPage(product = {}, options = {}) {
           </div>` : ''}
         </div>
 
+        ${inStock ? `
         ${variantsHtml}
         ${sizesHtml}
 
         <div class="cta-group">
           <button type="button" class="btn-order-primary" id="btn-order-primary"
-            ${!inStock ? 'disabled aria-disabled="true"' : ''}
             data-id="${escapeHtml(id)}"
             data-base-id="${escapeHtml(id)}"
             data-title="${escapeHtml(title)}"
@@ -2988,7 +3038,7 @@ export function renderProductPage(product = {}, options = {}) {
               <line x1="3" y1="6" x2="21" y2="6"/>
               <path d="M16 10a4 4 0 0 1-8 0"/>
             </svg>
-            <span id="btn-primary-text">${inStock ? 'Add to Bag' : 'Unavailable'}</span>
+            <span id="btn-primary-text">Add to Bag</span>
           </button>
         </div>
 
@@ -3012,6 +3062,16 @@ export function renderProductPage(product = {}, options = {}) {
             <div><strong>Zero-Drama Confidentiality</strong> - Delivery riders only see your drop-off address and phone number. Your pleasure stays strictly your business.</div>
           </div>
         </div>
+        ` : `
+        <div class="pdp-restock-box" id="pdp-restock-wrap" style="margin-top: 8px;">
+          <div class="pdp-restock-title">Get an email when this piece is back in stock</div>
+          <div class="pdp-restock-row" id="pdp-restock-row">
+            <input type="email" id="pdp-restock-email" class="pdp-restock-input" placeholder="Enter your email" autocomplete="email" />
+            <button type="button" id="btn-pdp-restock" class="pdp-restock-btn">Notify Me</button>
+          </div>
+          <div class="pdp-restock-msg" id="pdp-restock-msg" style="display:none;"></div>
+        </div>
+        `}
       </div>
     </div>
   </main>
@@ -3388,6 +3448,37 @@ export function renderProductPage(product = {}, options = {}) {
           pill.setAttribute('aria-pressed', 'true');
         });
       });
+
+      var restockBtn = document.getElementById('btn-pdp-restock');
+      if (restockBtn) {
+        restockBtn.addEventListener('click', function () {
+          var emailEl = document.getElementById('pdp-restock-email');
+          var rowEl = document.getElementById('pdp-restock-row');
+          var msgEl = document.getElementById('pdp-restock-msg');
+          var emailVal = emailEl ? emailEl.value.trim().toLowerCase() : '';
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+            if (msgEl) { msgEl.textContent = 'Please enter a valid email address.'; msgEl.style.color = '#9f1239'; msgEl.style.display = 'block'; }
+            return;
+          }
+          restockBtn.disabled = true;
+          restockBtn.textContent = 'Saving...';
+          var sbUrl = 'https://icopgheozdrauqevcbat.supabase.co';
+          var sbKey = 'sb_publishable_859wsyvaLXUwaQlU3IuqsQ_x2yv3epp';
+          fetch(sbUrl + '/rest/v1/restock_requests', {
+            method: 'POST',
+            headers: { 'apikey': sbKey, 'Authorization': 'Bearer ' + sbKey, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+            body: JSON.stringify({ product_id: ${JSON.stringify(id)}, product_title: ${JSON.stringify(title)}, email: emailVal, notified: false })
+          }).then(function (r) {
+            if (!r.ok) throw new Error('Request failed');
+            if (rowEl) rowEl.style.display = 'none';
+            if (msgEl) { msgEl.style.color = '#0f766e'; msgEl.textContent = "We'll email you quietly the moment it's back."; msgEl.style.display = 'block'; }
+          }).catch(function () {
+            restockBtn.disabled = false;
+            restockBtn.textContent = 'Notify Me';
+            if (msgEl) { msgEl.style.color = '#9f1239'; msgEl.textContent = 'Could not save right now. Please try again.'; msgEl.style.display = 'block'; }
+          });
+        });
+      }
 
       if (primaryBtn) {
         primaryBtn.addEventListener('click', function () {

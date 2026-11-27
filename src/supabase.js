@@ -402,6 +402,79 @@ export async function updateSupabaseProductStock(id, inStock) {
 }
 
 /**
+ * Subscribe a customer email to a back-in-stock alert for an unavailable product.
+ */
+export async function submitRestockRequest(productId, productTitle, email) {
+  const cleanEmail = String(email || '').trim().toLowerCase();
+  if (!productId || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
+    return { success: false, reason: 'Please enter a valid email address.' };
+  }
+  if (!supabase) {
+    try {
+      const key = 'ttv_restock_requests';
+      const existing = JSON.parse(localStorage.getItem(key) || '[]');
+      existing.push({ product_id: productId, product_title: productTitle || '', email: cleanEmail, created_at: new Date().toISOString() });
+      localStorage.setItem(key, JSON.stringify(existing));
+      return { success: true, localOnly: true };
+    } catch (e) {
+      return { success: false, reason: 'Could not save notification request.' };
+    }
+  }
+  try {
+    const { error } = await supabase
+      .from('restock_requests')
+      .insert([{ product_id: productId, product_title: productTitle || '', email: cleanEmail, notified: false }]);
+    if (error) {
+      console.warn('[Supabase] submitRestockRequest failed:', error.message);
+      return { success: false, reason: error.message };
+    }
+    return { success: true };
+  } catch (err) {
+    return { success: false, reason: err.message };
+  }
+}
+
+/**
+ * Notify pending restock subscribers via Resend and mark them notified in Supabase.
+ */
+export async function notifyPendingRestockSubscribers(productId, productTitle) {
+  const client = getSupabaseAdminClient();
+  if (!client || !productId) return { success: false, notifiedCount: 0 };
+  try {
+    const { data, error } = await client
+      .from('restock_requests')
+      .select('id, email')
+      .eq('product_id', productId)
+      .eq('notified', false);
+    if (error || !Array.isArray(data) || data.length === 0) {
+      return { success: true, notifiedCount: 0 };
+    }
+    const uniqueEmails = [...new Set(data.map(r => String(r.email || '').trim().toLowerCase()).filter(Boolean))];
+    if (uniqueEmails.length === 0) return { success: true, notifiedCount: 0 };
+
+    const res = await fetch('/api/send-confirmation', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'restock_alert',
+        productId,
+        productTitle: productTitle || productId,
+        emails: uniqueEmails
+      })
+    });
+    if (!res.ok) return { success: false, notifiedCount: 0 };
+
+    const ids = data.map(r => r.id).filter(Boolean);
+    if (ids.length > 0) {
+      await client.from('restock_requests').update({ notified: true }).in('id', ids);
+    }
+    return { success: true, notifiedCount: uniqueEmails.length };
+  } catch (err) {
+    return { success: false, notifiedCount: 0 };
+  }
+}
+
+/**
  * Delete a product from Supabase.
  */
 export async function deleteSupabaseProduct(id) {

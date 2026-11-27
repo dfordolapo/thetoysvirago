@@ -48,14 +48,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "One Size",
-        "price": 4500,
-        "priceStr": "₦4,500",
-        "img": "/assets/lingerie-catalog/boudoir-pasties-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "One Size"
     ]
@@ -109,26 +102,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "S",
-        "price": 20000,
-        "priceStr": "₦20,000",
-        "img": "/assets/lingerie-catalog/zebra-set-hero.webp"
-      },
-      {
-        "name": "M",
-        "price": 20000,
-        "priceStr": "₦20,000",
-        "img": "/assets/lingerie-catalog/zebra-set-hero.webp"
-      },
-      {
-        "name": "L",
-        "price": 20000,
-        "priceStr": "₦20,000",
-        "img": "/assets/lingerie-catalog/zebra-set-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "S",
       "M",
@@ -195,14 +169,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "One Size",
-        "price": 11000,
-        "priceStr": "₦11,000",
-        "img": "/assets/lingerie-catalog/lilac-bodystocking-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "One Size"
     ]
@@ -261,14 +228,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "One Size",
-        "price": 12000,
-        "priceStr": "₦12,000",
-        "img": "/assets/lingerie-catalog/cyan-coord-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "One Size"
     ]
@@ -327,26 +287,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "S",
-        "price": 21000,
-        "priceStr": "₦21,000",
-        "img": "/assets/lingerie-catalog/heart-teddy-hero.webp"
-      },
-      {
-        "name": "M",
-        "price": 21000,
-        "priceStr": "₦21,000",
-        "img": "/assets/lingerie-catalog/heart-teddy-hero.webp"
-      },
-      {
-        "name": "L",
-        "price": 21000,
-        "priceStr": "₦21,000",
-        "img": "/assets/lingerie-catalog/heart-teddy-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "S",
       "M",
@@ -402,26 +343,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "S",
-        "price": 23000,
-        "priceStr": "₦23,000",
-        "img": "/assets/lingerie-catalog/noir-slip-hero.webp"
-      },
-      {
-        "name": "M",
-        "price": 23000,
-        "priceStr": "₦23,000",
-        "img": "/assets/lingerie-catalog/noir-slip-hero.webp"
-      },
-      {
-        "name": "L",
-        "price": 23000,
-        "priceStr": "₦23,000",
-        "img": "/assets/lingerie-catalog/noir-slip-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "S",
       "M",
@@ -477,26 +399,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "S",
-        "price": 21000,
-        "priceStr": "₦21,000",
-        "img": "/assets/lingerie-catalog/scarlet-corset-hero.webp"
-      },
-      {
-        "name": "M",
-        "price": 21000,
-        "priceStr": "₦21,000",
-        "img": "/assets/lingerie-catalog/scarlet-corset-hero.webp"
-      },
-      {
-        "name": "L",
-        "price": 21000,
-        "priceStr": "₦21,000",
-        "img": "/assets/lingerie-catalog/scarlet-corset-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "S",
       "M",
@@ -508,8 +411,8 @@
     "title": "Heart Mini",
     "badge": "UNAVAILABLE",
     "sku": "LINGERIE · 08",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 14000,
+    "priceStr": "₦14,000",
     "img": "/assets/lingerie-catalog/heart-mini-hero.webp",
     "desc": "Playful bubblegum pink fishnet mini dress with off-shoulder long sleeves and charming green-stemmed cherry and heart motifs across the neckline. Stretches seamlessly over curves for flirty boudoir lounging.",
     "specs": [
@@ -557,38 +460,14 @@
       }
     ],
     "inStock": false,
-    "variants": [
-      {
-        "name": "S",
-        "price": 0,
-        "priceStr": "₦",
-        "img": "/assets/lingerie-catalog/heart-mini-hero.webp"
-      },
-      {
-        "name": "M",
-        "price": 0,
-        "priceStr": "₦",
-        "img": "/assets/lingerie-catalog/heart-mini-hero.webp"
-      },
-      {
-        "name": "L",
-        "price": 0,
-        "priceStr": "₦",
-        "img": "/assets/lingerie-catalog/heart-mini-hero.webp"
-      },
-      {
-        "name": "XL",
-        "price": 0,
-        "priceStr": "₦",
-        "img": "/assets/lingerie-catalog/heart-mini-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "S",
       "M",
       "L",
       "XL"
-    ]
+    ],
+    "in_stock": false
   },
   "royal-slip": {
     "id": "royal-slip",
@@ -639,20 +518,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "L",
-        "price": 23000,
-        "priceStr": "₦23,000",
-        "img": "/assets/lingerie-catalog/royal-slip-hero.webp"
-      },
-      {
-        "name": "XL",
-        "price": 23000,
-        "priceStr": "₦23,000",
-        "img": "/assets/lingerie-catalog/royal-slip-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "L",
       "XL"
@@ -707,14 +573,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "One Size",
-        "price": 6500,
-        "priceStr": "₦6,500",
-        "img": "/assets/lingerie-catalog/thigh-stockings-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "One Size"
     ]
@@ -768,32 +627,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "S",
-        "price": 22000,
-        "priceStr": "₦22,000",
-        "img": "/assets/lingerie-catalog/ruby-corset-hero.webp"
-      },
-      {
-        "name": "M",
-        "price": 22000,
-        "priceStr": "₦22,000",
-        "img": "/assets/lingerie-catalog/ruby-corset-hero.webp"
-      },
-      {
-        "name": "L",
-        "price": 22000,
-        "priceStr": "₦22,000",
-        "img": "/assets/lingerie-catalog/ruby-corset-hero.webp"
-      },
-      {
-        "name": "XL",
-        "price": 22000,
-        "priceStr": "₦22,000",
-        "img": "/assets/lingerie-catalog/ruby-corset-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "S",
       "M",
@@ -850,14 +684,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "One Size",
-        "price": 12000,
-        "priceStr": "₦12,000",
-        "img": "/assets/lingerie-catalog/white-bodystocking-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "One Size"
     ]
@@ -906,32 +733,7 @@
       }
     ],
     "inStock": false,
-    "variants": [
-      {
-        "name": "S",
-        "price": 0,
-        "priceStr": "₦",
-        "img": "/assets/lingerie-catalog/schoolgirl-set-hero.webp"
-      },
-      {
-        "name": "M",
-        "price": 0,
-        "priceStr": "₦",
-        "img": "/assets/lingerie-catalog/schoolgirl-set-hero.webp"
-      },
-      {
-        "name": "L",
-        "price": 0,
-        "priceStr": "₦",
-        "img": "/assets/lingerie-catalog/schoolgirl-set-hero.webp"
-      },
-      {
-        "name": "XL",
-        "price": 0,
-        "priceStr": "₦",
-        "img": "/assets/lingerie-catalog/schoolgirl-set-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "S",
       "M",
@@ -988,32 +790,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "M",
-        "price": 18000,
-        "priceStr": "₦18,000",
-        "img": "/assets/lingerie-catalog/floral-gown-hero.webp"
-      },
-      {
-        "name": "L",
-        "price": 18000,
-        "priceStr": "₦18,000",
-        "img": "/assets/lingerie-catalog/floral-gown-hero.webp"
-      },
-      {
-        "name": "XL",
-        "price": 18000,
-        "priceStr": "₦18,000",
-        "img": "/assets/lingerie-catalog/floral-gown-hero.webp"
-      },
-      {
-        "name": "XXL",
-        "price": 18000,
-        "priceStr": "₦18,000",
-        "img": "/assets/lingerie-catalog/floral-gown-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "M",
       "L",
@@ -1071,32 +848,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "S",
-        "price": 23000,
-        "priceStr": "₦23,000",
-        "img": "/assets/lingerie-catalog/scarlet-gown-hero.webp"
-      },
-      {
-        "name": "M",
-        "price": 23000,
-        "priceStr": "₦23,000",
-        "img": "/assets/lingerie-catalog/scarlet-gown-hero.webp"
-      },
-      {
-        "name": "L",
-        "price": 23000,
-        "priceStr": "₦23,000",
-        "img": "/assets/lingerie-catalog/scarlet-gown-hero.webp"
-      },
-      {
-        "name": "XL",
-        "price": 23000,
-        "priceStr": "₦23,000",
-        "img": "/assets/lingerie-catalog/scarlet-gown-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "S",
       "M",
@@ -1153,14 +905,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "One Size",
-        "price": 12000,
-        "priceStr": "₦12,000",
-        "img": "/assets/lingerie-catalog/crochet-set-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "One Size"
     ]
@@ -1214,26 +959,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "S",
-        "price": 22000,
-        "priceStr": "₦22,000",
-        "img": "/assets/lingerie-catalog/feather-teddy-hero.webp"
-      },
-      {
-        "name": "M",
-        "price": 22000,
-        "priceStr": "₦22,000",
-        "img": "/assets/lingerie-catalog/feather-teddy-hero.webp"
-      },
-      {
-        "name": "L",
-        "price": 22000,
-        "priceStr": "₦22,000",
-        "img": "/assets/lingerie-catalog/feather-teddy-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "S",
       "M",
@@ -1284,32 +1010,7 @@
       }
     ],
     "inStock": false,
-    "variants": [
-      {
-        "name": "S",
-        "price": 0,
-        "priceStr": "₦",
-        "img": "/assets/lingerie-catalog/corset-babydoll-hero.webp"
-      },
-      {
-        "name": "M",
-        "price": 0,
-        "priceStr": "₦",
-        "img": "/assets/lingerie-catalog/corset-babydoll-hero.webp"
-      },
-      {
-        "name": "L",
-        "price": 0,
-        "priceStr": "₦",
-        "img": "/assets/lingerie-catalog/corset-babydoll-hero.webp"
-      },
-      {
-        "name": "XL",
-        "price": 0,
-        "priceStr": "₦",
-        "img": "/assets/lingerie-catalog/corset-babydoll-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "S",
       "M",
@@ -1366,14 +1067,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "One Size",
-        "price": 11000,
-        "priceStr": "₦11,000",
-        "img": "/assets/lingerie-catalog/ombre-mini-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "One Size"
     ]
@@ -1427,14 +1121,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "One Size",
-        "price": 11000,
-        "priceStr": "₦11,000",
-        "img": "/assets/lingerie-catalog/pearl-mini-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "One Size"
     ]
@@ -1488,14 +1175,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "One Size",
-        "price": 11000,
-        "priceStr": "₦11,000",
-        "img": "/assets/lingerie-catalog/ruby-net-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "One Size"
     ]
@@ -1544,14 +1224,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "One Size",
-        "price": 12000,
-        "priceStr": "₦12,000",
-        "img": "/assets/lingerie-catalog/blush-halter-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "One Size"
     ]
@@ -1605,14 +1278,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "One Size",
-        "price": 15000,
-        "priceStr": "₦15,000",
-        "img": "/assets/lingerie-catalog/ribbon-teddy-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "One Size"
     ]
@@ -1666,14 +1332,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "One Size",
-        "price": 15000,
-        "priceStr": "₦15,000",
-        "img": "/assets/lingerie-catalog/heart-romper-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "One Size"
     ]
@@ -1727,32 +1386,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "S",
-        "price": 22000,
-        "priceStr": "₦22,000",
-        "img": "/assets/lingerie-catalog/lattice-gown-hero.webp"
-      },
-      {
-        "name": "M",
-        "price": 22000,
-        "priceStr": "₦22,000",
-        "img": "/assets/lingerie-catalog/lattice-gown-hero.webp"
-      },
-      {
-        "name": "L",
-        "price": 22000,
-        "priceStr": "₦22,000",
-        "img": "/assets/lingerie-catalog/lattice-gown-hero.webp"
-      },
-      {
-        "name": "XL",
-        "price": 22000,
-        "priceStr": "₦22,000",
-        "img": "/assets/lingerie-catalog/lattice-gown-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "S",
       "M",
@@ -1809,14 +1443,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "One Size",
-        "price": 14000,
-        "priceStr": "₦14,000",
-        "img": "/assets/lingerie-catalog/teal-mini-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "One Size"
     ]
@@ -1870,32 +1497,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "S",
-        "price": 21000,
-        "priceStr": "₦21,000",
-        "img": "/assets/lingerie-catalog/maroon-babydoll-hero.webp"
-      },
-      {
-        "name": "M",
-        "price": 21000,
-        "priceStr": "₦21,000",
-        "img": "/assets/lingerie-catalog/maroon-babydoll-hero.webp"
-      },
-      {
-        "name": "L",
-        "price": 21000,
-        "priceStr": "₦21,000",
-        "img": "/assets/lingerie-catalog/maroon-babydoll-hero.webp"
-      },
-      {
-        "name": "XL",
-        "price": 21000,
-        "priceStr": "₦21,000",
-        "img": "/assets/lingerie-catalog/maroon-babydoll-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "S",
       "M",
@@ -1957,32 +1559,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "S",
-        "price": 19000,
-        "priceStr": "₦19,000",
-        "img": "/assets/lingerie-catalog/kiss-chemise-hero.webp"
-      },
-      {
-        "name": "M",
-        "price": 19000,
-        "priceStr": "₦19,000",
-        "img": "/assets/lingerie-catalog/kiss-chemise-hero.webp"
-      },
-      {
-        "name": "L",
-        "price": 19000,
-        "priceStr": "₦19,000",
-        "img": "/assets/lingerie-catalog/kiss-chemise-hero.webp"
-      },
-      {
-        "name": "XL",
-        "price": 19000,
-        "priceStr": "₦19,000",
-        "img": "/assets/lingerie-catalog/kiss-chemise-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "S",
       "M",
@@ -2039,32 +1616,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "S",
-        "price": 18000,
-        "priceStr": "₦18,000",
-        "img": "/assets/lingerie-catalog/floral-corset-hero.webp"
-      },
-      {
-        "name": "M",
-        "price": 18000,
-        "priceStr": "₦18,000",
-        "img": "/assets/lingerie-catalog/floral-corset-hero.webp"
-      },
-      {
-        "name": "L",
-        "price": 18000,
-        "priceStr": "₦18,000",
-        "img": "/assets/lingerie-catalog/floral-corset-hero.webp"
-      },
-      {
-        "name": "XL",
-        "price": 18000,
-        "priceStr": "₦18,000",
-        "img": "/assets/lingerie-catalog/floral-corset-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "S",
       "M",
@@ -2121,32 +1673,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "S",
-        "price": 22000,
-        "priceStr": "₦22,000",
-        "img": "/assets/lingerie-catalog/nurse-set-hero.webp"
-      },
-      {
-        "name": "M",
-        "price": 22000,
-        "priceStr": "₦22,000",
-        "img": "/assets/lingerie-catalog/nurse-set-hero.webp"
-      },
-      {
-        "name": "L",
-        "price": 22000,
-        "priceStr": "₦22,000",
-        "img": "/assets/lingerie-catalog/nurse-set-hero.webp"
-      },
-      {
-        "name": "XL",
-        "price": 22000,
-        "priceStr": "₦22,000",
-        "img": "/assets/lingerie-catalog/nurse-set-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "S",
       "M",
@@ -2203,14 +1730,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "One Size",
-        "price": 18000,
-        "priceStr": "₦18,000",
-        "img": "/assets/lingerie-catalog/mermaid-set-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "One Size"
     ]
@@ -2259,32 +1779,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "S",
-        "price": 17000,
-        "priceStr": "₦17,000",
-        "img": "/assets/lingerie-catalog/noir-chemise-hero.webp"
-      },
-      {
-        "name": "M",
-        "price": 17000,
-        "priceStr": "₦17,000",
-        "img": "/assets/lingerie-catalog/noir-chemise-hero.webp"
-      },
-      {
-        "name": "L",
-        "price": 17000,
-        "priceStr": "₦17,000",
-        "img": "/assets/lingerie-catalog/noir-chemise-hero.webp"
-      },
-      {
-        "name": "XL",
-        "price": 17000,
-        "priceStr": "₦17,000",
-        "img": "/assets/lingerie-catalog/noir-chemise-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "S",
       "M",
@@ -2336,26 +1831,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "M",
-        "price": 18000,
-        "priceStr": "₦18,000",
-        "img": "/assets/lingerie-catalog/lace-romper-hero.webp"
-      },
-      {
-        "name": "L",
-        "price": 18000,
-        "priceStr": "₦18,000",
-        "img": "/assets/lingerie-catalog/lace-romper-hero.webp"
-      },
-      {
-        "name": "XL",
-        "price": 18000,
-        "priceStr": "₦18,000",
-        "img": "/assets/lingerie-catalog/lace-romper-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "M",
       "L",
@@ -2406,32 +1882,7 @@
       }
     ],
     "inStock": false,
-    "variants": [
-      {
-        "name": "S",
-        "price": 0,
-        "priceStr": "₦",
-        "img": "/assets/lingerie-catalog/cutout-mini-hero.webp"
-      },
-      {
-        "name": "M",
-        "price": 0,
-        "priceStr": "₦",
-        "img": "/assets/lingerie-catalog/cutout-mini-hero.webp"
-      },
-      {
-        "name": "L",
-        "price": 0,
-        "priceStr": "₦",
-        "img": "/assets/lingerie-catalog/cutout-mini-hero.webp"
-      },
-      {
-        "name": "XL",
-        "price": 0,
-        "priceStr": "₦",
-        "img": "/assets/lingerie-catalog/cutout-mini-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "S",
       "M",
@@ -2488,32 +1939,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "S",
-        "price": 17000,
-        "priceStr": "₦17,000",
-        "img": "/assets/lingerie-catalog/leopard-bodysuit-hero.webp"
-      },
-      {
-        "name": "M",
-        "price": 17000,
-        "priceStr": "₦17,000",
-        "img": "/assets/lingerie-catalog/leopard-bodysuit-hero.webp"
-      },
-      {
-        "name": "L",
-        "price": 17000,
-        "priceStr": "₦17,000",
-        "img": "/assets/lingerie-catalog/leopard-bodysuit-hero.webp"
-      },
-      {
-        "name": "XL",
-        "price": 17000,
-        "priceStr": "₦17,000",
-        "img": "/assets/lingerie-catalog/leopard-bodysuit-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "S",
       "M",
@@ -2565,26 +1991,7 @@
       }
     ],
     "inStock": true,
-    "variants": [
-      {
-        "name": "M",
-        "price": 15000,
-        "priceStr": "₦15,000",
-        "img": "/assets/lingerie-catalog/chain-teddy-hero.webp"
-      },
-      {
-        "name": "L",
-        "price": 15000,
-        "priceStr": "₦15,000",
-        "img": "/assets/lingerie-catalog/chain-teddy-hero.webp"
-      },
-      {
-        "name": "XL",
-        "price": 15000,
-        "priceStr": "₦15,000",
-        "img": "/assets/lingerie-catalog/chain-teddy-hero.webp"
-      }
-    ],
+    "variants": [],
     "sizes": [
       "M",
       "L",

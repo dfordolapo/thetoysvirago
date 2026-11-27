@@ -1,7 +1,7 @@
 import { initWhatsAppWidget } from './modules/whatsappWidget.js';
 import { initPullToRefresh } from './modules/pullToRefresh.js';
 import { BLOG_ARTICLES } from './data/articles.js';
-import { getSupabaseProducts, getSupabaseProductGallery, recordSupabaseConfession, getSupabaseConfessions, recordSupabaseOrder, getSupabaseOrders } from './supabase.js';
+import { getSupabaseProducts, getSupabaseProductGallery, recordSupabaseConfession, getSupabaseConfessions, recordSupabaseOrder, getSupabaseOrders, submitRestockRequest } from './supabase.js';
 import { DELIVERY_ZONES, autoDetectDeliveryZoneFromAddress } from './modules/zones.js';
 import { openPaystackInline, isPaystackConfigured, PAYSTACK_PUBLIC_KEY } from './modules/paystack.js';
 import { resolveColorHex, isLightColor, formatColorName, isRecognizedColorName } from './modules/colorResolver.js';
@@ -1416,8 +1416,8 @@ const PRODUCT_DATABASE = {
     title: 'Zebra Set',
     badge: '3-PIECE SET',
     sku: 'LINGERIE · 02',
-    price: 0,
-    priceStr: '₦',
+    price: 20000,
+    priceStr: '₦20,000',
     img: '/assets/lingerie-catalog/zebra-set-hero.webp',
     desc: "Untamed scarlet zebra-print lingerie ensemble featuring a structured underwire demi bra, matching strappy G-string, opera-length sheer mesh gloves, and coordinating thigh-high stockings for an unforgettable wild encounter.",
     specs: [
@@ -1463,26 +1463,26 @@ const PRODUCT_DATABASE = {
     variants: [
         {
                 "name": "S",
-                "price": 0,
-                "priceStr": "₦",
+                "price": 20000,
+                "priceStr": "₦20,000",
                 "img": "/assets/lingerie-catalog/zebra-set-hero.webp"
         },
         {
                 "name": "M",
-                "price": 0,
-                "priceStr": "₦",
+                "price": 20000,
+                "priceStr": "₦20,000",
                 "img": "/assets/lingerie-catalog/zebra-set-hero.webp"
         },
         {
                 "name": "L",
-                "price": 0,
-                "priceStr": "₦",
+                "price": 20000,
+                "priceStr": "₦20,000",
                 "img": "/assets/lingerie-catalog/zebra-set-hero.webp"
         },
         {
                 "name": "XL",
-                "price": 0,
-                "priceStr": "₦",
+                "price": 20000,
+                "priceStr": "₦20,000",
                 "img": "/assets/lingerie-catalog/zebra-set-hero.webp"
         }
 ]
@@ -1844,8 +1844,8 @@ const PRODUCT_DATABASE = {
     title: 'Heart Mini',
     badge: 'UNAVAILABLE',
     sku: 'LINGERIE · 08',
-    price: 0,
-    priceStr: '₦',
+    price: 14000,
+    priceStr: '₦14,000',
     img: '/assets/lingerie-catalog/heart-mini-hero.webp',
     desc: "Playful bubblegum pink fishnet mini dress with off-shoulder long sleeves and charming green-stemmed cherry and heart motifs across the neckline. Stretches seamlessly over curves for flirty boudoir lounging.",
     specs: [
@@ -1896,26 +1896,26 @@ const PRODUCT_DATABASE = {
     variants: [
         {
                 "name": "S",
-                "price": 0,
-                "priceStr": "₦",
+                "price": 14000,
+                "priceStr": "₦14,000",
                 "img": "/assets/lingerie-catalog/heart-mini-hero.webp"
         },
         {
                 "name": "M",
-                "price": 0,
-                "priceStr": "₦",
+                "price": 14000,
+                "priceStr": "₦14,000",
                 "img": "/assets/lingerie-catalog/heart-mini-hero.webp"
         },
         {
                 "name": "L",
-                "price": 0,
-                "priceStr": "₦",
+                "price": 14000,
+                "priceStr": "₦14,000",
                 "img": "/assets/lingerie-catalog/heart-mini-hero.webp"
         },
         {
                 "name": "XL",
-                "price": 0,
-                "priceStr": "₦",
+                "price": 14000,
+                "priceStr": "₦14,000",
                 "img": "/assets/lingerie-catalog/heart-mini-hero.webp"
         }
 ]
@@ -2258,8 +2258,8 @@ const PRODUCT_DATABASE = {
     title: 'Floral Gown',
     badge: 'MAXI SLIT',
     sku: 'LINGERIE · 14',
-    price: 0,
-    priceStr: '₦',
+    price: 18000,
+    priceStr: '₦18,000',
     img: '/assets/lingerie-catalog/floral-gown-hero.webp',
     desc: "Whimsical powder blue floral sheer chiffon maxi gown featuring double hip-high front slits that flutter dramatically with every motion, delicate sweetheart bust, and adjustable shoulder ribbons.",
     specs: [
@@ -2305,26 +2305,26 @@ const PRODUCT_DATABASE = {
     variants: [
         {
                 "name": "M",
-                "price": 0,
-                "priceStr": "₦",
+                "price": 18000,
+                "priceStr": "₦18,000",
                 "img": "/assets/lingerie-catalog/floral-gown-hero.webp"
         },
         {
                 "name": "L",
-                "price": 0,
-                "priceStr": "₦",
+                "price": 18000,
+                "priceStr": "₦18,000",
                 "img": "/assets/lingerie-catalog/floral-gown-hero.webp"
         },
         {
                 "name": "XL",
-                "price": 0,
-                "priceStr": "₦",
+                "price": 18000,
+                "priceStr": "₦18,000",
                 "img": "/assets/lingerie-catalog/floral-gown-hero.webp"
         },
         {
                 "name": "XXL",
-                "price": 0,
-                "priceStr": "₦",
+                "price": 18000,
+                "priceStr": "₦18,000",
                 "img": "/assets/lingerie-catalog/floral-gown-hero.webp"
         }
 ]
@@ -6866,18 +6866,51 @@ function openQuickviewForProduct(prodKey, card = null) {
     qvBtnAdd.style.opacity = qvInStock ? '' : '0.6';
     qvBtnAdd.style.cursor = qvInStock ? '' : 'not-allowed';
     qvBtnAdd.style.pointerEvents = qvInStock ? '' : 'none';
+    const qvRestockWrap = document.getElementById('qv-restock-wrap');
+    const qvRestockRow = document.getElementById('qv-restock-form-row');
+    const qvRestockMsg = document.getElementById('qv-restock-msg');
+    const qvRestockInput = document.getElementById('qv-restock-email');
+    const qvActions = document.querySelector('#quickview-modal .qv-actions');
+    const qvVarWrap = document.getElementById('qv-variants-wrap');
+    const qvDelivStd = document.getElementById('qv-deliv-standard');
+    const qvDelivAbj = document.getElementById('qv-deliv-abuja');
+    if (qvRestockWrap) {
+      if (!qvInStock) {
+        qvRestockWrap.removeAttribute('hidden');
+        qvRestockWrap.style.display = 'block';
+        if (qvRestockRow) qvRestockRow.style.display = 'flex';
+        if (qvRestockMsg) qvRestockMsg.style.display = 'none';
+        if (qvRestockInput) qvRestockInput.value = '';
+        if (qvActions) qvActions.style.display = 'none';
+        if (qvDesc) qvDesc.style.display = 'none';
+        if (qvSpecs) qvSpecs.style.display = 'none';
+        if (qvVarWrap) qvVarWrap.style.display = 'none';
+        if (qvDelivStd) qvDelivStd.style.display = 'none';
+        if (qvDelivAbj) qvDelivAbj.style.display = 'none';
+      } else {
+        qvRestockWrap.setAttribute('hidden', '');
+        qvRestockWrap.style.display = 'none';
+        if (qvActions) qvActions.style.display = '';
+        if (qvDesc) qvDesc.style.display = '';
+        if (qvSpecs) qvSpecs.style.display = '';
+      }
+    }
   }
   if (qvBadge) qvBadge.textContent = prod.badge;
   if (qvTitle) qvTitle.textContent = prod.title;
   if (qvPrice) {
+    const cardPriceTxt = card?.querySelector('.product-price')?.textContent?.trim() || '';
+    const effectivePriceStr = (prod.priceStr && prod.priceStr.trim() !== '₦')
+      ? prod.priceStr
+      : (cardPriceTxt && cardPriceTxt !== '₦' ? cardPriceTxt : '');
     const origP = Number(prod.originalPrice || prod.original_price) || 0;
     const curP = Number(prod.price) || 0;
-    if (origP > curP && curP > 0 && prod.priceStr) {
-      qvPrice.innerHTML = `<span>${prod.priceStr}</span><span style="text-decoration:line-through;opacity:0.5;font-size:15px;margin-left:10px;font-weight:500;">₦${origP.toLocaleString()}</span>`;
+    if (origP > curP && curP > 0 && effectivePriceStr) {
+      qvPrice.innerHTML = `<span>${effectivePriceStr}</span><span style="text-decoration:line-through;opacity:0.5;font-size:15px;margin-left:10px;font-weight:500;">₦${origP.toLocaleString()}</span>`;
       qvPrice.style.display = 'block';
     } else {
-      qvPrice.textContent = prod.priceStr || '';
-      qvPrice.style.display = prod.priceStr ? 'block' : 'none';
+      qvPrice.textContent = effectivePriceStr;
+      qvPrice.style.display = effectivePriceStr ? 'block' : 'none';
     }
   }
   if (qvDesc) qvDesc.textContent = prod.desc;
@@ -6914,8 +6947,9 @@ function openQuickviewForProduct(prodKey, card = null) {
       /abuja/i.test(prod.badge || '') ||
       (card && (card.dataset.region === 'abuja' || (card.dataset.keywords || '').toLowerCase().includes('abuja exclusive')))
     );
-    qvDelivStandard.style.display = isAbujaExclusive ? 'none' : 'block';
-    qvDelivAbuja.style.display = isAbujaExclusive ? 'block' : 'none';
+    const qvIsOut = qvBtnAdd && qvBtnAdd.disabled;
+    qvDelivStandard.style.display = qvIsOut ? 'none' : (isAbujaExclusive ? 'none' : 'block');
+    qvDelivAbuja.style.display = qvIsOut ? 'none' : (isAbujaExclusive ? 'block' : 'none');
   }
 
   // Populate Category-Specific Specs (normalized & deduplicated)
@@ -7019,7 +7053,7 @@ function openQuickviewForProduct(prodKey, card = null) {
       }
     }
 
-    if (variantsList && variantsList.length > 0) {
+    if (variantsList && variantsList.length > 0 && !(qvBtnAdd && qvBtnAdd.disabled)) {
       qvVariantsWrap.style.display = 'block';
 
       let selectedIdx = -1;
@@ -7152,6 +7186,32 @@ document.addEventListener('click', (e) => {
   const card = btn.closest('.product-card, .gift-pick-card');
   openQuickviewForProduct(prodKey, card);
 });
+
+const btnQvRestock = document.getElementById('btn-qv-restock');
+if (btnQvRestock) {
+  btnQvRestock.addEventListener('click', async () => {
+    if (!currentQvProduct) return;
+    const emailInput = document.getElementById('qv-restock-email');
+    const row = document.getElementById('qv-restock-form-row');
+    const msg = document.getElementById('qv-restock-msg');
+    const email = (emailInput?.value || '').trim();
+    btnQvRestock.disabled = true;
+    btnQvRestock.textContent = 'Saving...';
+    const res = await submitRestockRequest(currentQvProduct.id, currentQvProduct.title, email);
+    btnQvRestock.disabled = false;
+    btnQvRestock.textContent = 'Notify Me';
+    if (res.success) {
+      if (row) row.style.display = 'none';
+      if (msg) {
+        msg.textContent = "We'll email you quietly the moment it's back.";
+        msg.style.display = 'block';
+      }
+      showToast('Restock alert saved!');
+    } else {
+      showToast(res.reason || 'Please enter a valid email address.');
+    }
+  });
+}
 
 function closeQuickviewModal() {
   if (qvVideo) {

@@ -2473,6 +2473,48 @@ body.cart-open .main-header,
 #qv-btn-add {
   white-space: nowrap !important;
 }
+
+/* Zero-bloat inline Back-in-Stock Notify box */
+.restock-inline-box {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #f8fafc;
+  border: none !important;
+}
+.restock-inline-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-2);
+  margin-bottom: 8px;
+}
+.restock-inline-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.restock-inline-input {
+  flex: 1;
+  min-width: 0;
+  height: 38px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  font-size: 13px;
+  color: var(--ink);
+}
+.restock-inline-btn {
+  height: 38px;
+  padding: 0 14px !important;
+  font-size: 12px !important;
+  flex-shrink: 0;
+}
+.restock-inline-msg {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #0f766e;
+}
 .delivery-option-card {
   display: flex;
   align-items: center;

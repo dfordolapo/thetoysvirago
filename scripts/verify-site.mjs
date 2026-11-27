@@ -80,10 +80,25 @@ check('Product detail page template renders specs cleanly without duplicates, su
 
   assert(html.includes('₦3,500'), 'Missing sale price');
   assert(html.includes('price-was') && html.includes('₦5,000'), 'Missing crossed-out original price');
-  assert(html.includes('disabled aria-disabled="true"') && html.includes('>Unavailable<'), 'Missing disabled Unavailable CTA');
-  assert(!html.includes('Material: Medical'), 'Repeated Material: prefix leaked into spec value');
-  assert.strictEqual((html.match(/<dt>Material<\/dt>/g) || []).length, 1, 'Duplicate Material spec row');
-  assert(html.includes('padding: 5px 4px 6px 4px !important'), 'Missing mobile thumb padding for red active stroke');
+  assert(html.includes('id="pdp-restock-wrap"') && html.includes('Get an email when this piece is back in stock'), 'Missing clean Notify Me box on unavailable PDP');
+  assert(!html.includes('id="btn-order-primary"'), 'Add to Bag button should be omitted when unavailable');
+
+  const inStockHtml = renderProductPage({
+    id: 'test-item-2',
+    title: 'Test In-Stock Piece',
+    price: 3500,
+    in_stock: true,
+    material: 'Medical Liquid Silicone',
+    acoustics: '< 30 dB',
+    specs: [
+      'Material: Material: Medical Liquid Silicone',
+      'Sound Level: < 30 dB',
+      'Waterproof: IPX7'
+    ]
+  }, { siteUrl: 'https://www.thetoysvirago.shop', pageUrl: 'https://www.thetoysvirago.shop/products/test-item-2' });
+  assert(!inStockHtml.includes('Material: Medical'), 'Repeated Material: prefix leaked into spec value');
+  assert.strictEqual((inStockHtml.match(/<dt>Material<\/dt>/g) || []).length, 1, 'Duplicate Material spec row');
+  assert(inStockHtml.includes('padding: 5px 4px 6px 4px !important'), 'Missing mobile thumb padding for red active stroke');
 });
 
 // 3. AI copy prompt rules

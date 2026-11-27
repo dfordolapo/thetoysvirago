@@ -10,6 +10,7 @@ import {
   getSupabaseProductById,
   upsertSupabaseProduct,
   updateSupabaseProductStock,
+  notifyPendingRestockSubscribers,
   deleteSupabaseProduct,
   getSupabaseOrders,
   updateSupabaseOrderStatus,
@@ -1402,6 +1403,12 @@ async function handleSaveProduct(shouldRedirectToShop = false) {
         const res = await upsertSupabaseProduct(productData);
         if (res.success) {
           liveUploaded = true;
+          if (productData.inStock) {
+            const notif = await notifyPendingRestockSubscribers(id, title);
+            if (notif && notif.notifiedCount > 0) {
+              showToast(`Notified ${notif.notifiedCount} waiting customer(s) that "${title}" is back in stock!`);
+            }
+          }
           showToast(`✓ "${title}" is now LIVE! <a href="/products/${encodeURIComponent(id)}" target="_blank" rel="noopener">View Product &rarr;</a>`, true);
         } else {
           console.warn('[Supabase] Sync notice:', res.error);
@@ -1543,6 +1550,12 @@ async function toggleProductStock(id, inStock) {
     const res = await updateSupabaseProductStock(id, inStock);
     if (res.success) {
       showToast(`${prod ? prod.title : id} marked ${inStock ? 'In Stock' : 'Unavailable'} on live store.`);
+      if (inStock) {
+        const notif = await notifyPendingRestockSubscribers(id, prod ? prod.title : id);
+        if (notif && notif.notifiedCount > 0) {
+          showToast(`Emailed ${notif.notifiedCount} restock subscriber(s) for ${prod ? prod.title : id}.`);
+        }
+      }
     } else {
       showToast(`Updated locally (Supabase sync failed: ${res.reason || 'unknown'}).`);
     }

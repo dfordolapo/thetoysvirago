@@ -24,10 +24,6 @@ export default async function handler(req, res) {
     const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
     const { order, action } = body;
 
-    if (!order) {
-      return res.status(400).json({ error: 'Order details missing from request' });
-    }
-
     let resendApiKey = process.env.RESEND_API_KEY || process.env.VITE_RESEND_API_KEY;
     if (!resendApiKey) {
       try {
@@ -40,6 +36,58 @@ export default async function handler(req, res) {
           if (m) resendApiKey = m[1].trim();
         }
       } catch (e) {}
+    }
+
+    if (action === 'restock_alert') {
+      const productId = String(body.productId || '').trim();
+      const productTitle = String(body.productTitle || 'Your requested piece').trim();
+      const recipients = Array.isArray(body.emails)
+        ? body.emails.map(e => String(e || '').trim()).filter(e => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e))
+        : [];
+      if (!productId || recipients.length === 0) {
+        return res.status(400).json({ error: 'Product ID and valid recipient emails are required.' });
+      }
+      if (!resendApiKey) {
+        return res.status(501).json({ error: 'Resend API key is not configured.' });
+      }
+      const fromEmail = process.env.VITE_RESEND_FROM_EMAIL || process.env.RESEND_FROM_EMAIL || 'TheToysVirago <orders@thetoysvirago.shop>';
+      const productUrl = `https://www.thetoysvirago.shop/products/${encodeURIComponent(productId)}`;
+      const restockHtml = `<!DOCTYPE html>
+<html lang="en"><body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f8fafc;padding:24px;color:#0f172a;">
+  <div style="max-width:520px;margin:0 auto;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e2e8f0;">
+    <div style="background:#0c0c0e;color:#ffffff;padding:24px;text-align:center;">
+      <p style="margin:0;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#fda4af;">Back In The Vault</p>
+      <h2 style="margin:8px 0 0;font-size:20px;font-weight:700;">${productTitle} is back in stock</h2>
+    </div>
+    <div style="padding:24px;font-size:14px;line-height:1.6;color:#334155;">
+      <p style="margin:0 0 12px;">Good news - the piece you asked about is finally back in the vault.</p>
+      <p style="margin:0 0 22px;">We can't wait to pack it up for you. Grab yours now before it sells out again.</p>
+      <div style="text-align:center;">
+        <a href="${productUrl}" style="display:inline-block;background:#0c0c0e;color:#ffffff;padding:12px 24px;border-radius:8px;font-weight:700;text-decoration:none;font-size:14px;">Shop Now</a>
+      </div>
+    </div>
+  </div>
+</body></html>`;
+
+      let sent = 0;
+      for (const email of recipients) {
+        const r = await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${resendApiKey}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            from: fromEmail,
+            to: [email],
+            subject: `Back in stock: ${productTitle}`,
+            html: restockHtml
+          })
+        });
+        if (r.ok) sent++;
+      }
+      return res.status(200).json({ success: true, sent });
+    }
+
+    if (!order) {
+      return res.status(400).json({ error: 'Order details missing from request' });
     }
     const storeOwnerEmails = ['thetoysvirago@gmail.com'];
 
