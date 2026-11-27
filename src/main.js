@@ -9706,17 +9706,6 @@ const TOY_FINDER_CATALOG = [
     tags: ['solo-her', 'together', 'powerful', 'suction', 'seasoned']
   },
   {
-    id: 'siren-app',
-    title: 'The Siren',
-    sku: 'APP · 03',
-    price: 27000,
-    priceStr: '₦27,000',
-    img: '/assets/siren-app.webp',
-    desc: 'Discreet magnetic wearable with whisper motors and long-distance app sync.',
-    badge: 'APP-CONTROLLED',
-    tags: ['together', 'solo-her', 'quiet', 'beginner', 'seasoned']
-  },
-  {
     id: 'rabbit-cock-ring',
     title: 'The Apex Ring',
     sku: 'COUPLES · 02',
@@ -9862,15 +9851,6 @@ const GIFT_SECTION_POOL = [
     img: '/assets/product-wand.webp',
     curation: 'Pocket Sized',
     witty: 'Compact, travel-ready rumble. Instant tension relief whenever needed.'
-  },
-  {
-    id: 'siren-app',
-    title: 'The Siren',
-    price: 27000,
-    priceStr: '₦27,000',
-    img: '/assets/siren-app-red.webp',
-    curation: 'Discreet Wearable',
-    witty: 'Smooth magnetic wearable with whisper motors and long-distance smartphone control.'
   },
   {
     id: 'pulsating-rose',

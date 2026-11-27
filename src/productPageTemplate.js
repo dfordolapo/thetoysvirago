@@ -1,6 +1,329 @@
 import { buildImageList } from './productMedia.js';
 import { resolveColorHex, isLightColor, formatColorName, isRecognizedColorName } from './modules/colorResolver.js';
 
+const STEALTH_SHIELD_HTML = `<div id="stealth-shield" class="stealth-screen" hidden>
+  <div class="stealth-floating-bar" aria-label="Stealth Controls">
+    <button type="button" id="btn-stealth-shuffle" class="btn-stealth-shuffle" title="Shuffle disguise">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
+      <span>Shuffle Disguise</span>
+    </button>
+    <button type="button" id="btn-exit-stealth" class="btn-stealth-exit" title="Exit stealth mode">
+      <span class="exit-dot"></span>
+      <span>Resume Session (Esc)</span>
+    </button>
+  </div>
+
+  <div class="stealth-view stealth-view-excel" id="stealth-view-excel">
+    <div class="stealth-app-bar">
+      <div class="stealth-brand">
+        <div class="excel-icon">X</div>
+        <div class="stealth-file-info">
+          <span class="file-name">Q4_Enterprise_Logistics_Inventory_Audit_Consolidated.xlsx</span>
+          <div class="stealth-menu-row">
+            <span>File</span><span>Edit</span><span>View</span><span>Insert</span>
+            <span>Format</span><span>Data</span><span>Tools</span><span>Help</span>
+          </div>
+        </div>
+      </div>
+      <div class="stealth-right-actions">
+        <span class="stealth-user">Last edit was 2 mins ago · AutoSave On</span>
+      </div>
+    </div>
+    <div class="stealth-formula-bar">
+      <div class="cell-address">E14</div>
+      <div class="fx-label">fx</div>
+      <input type="text" readonly value="=SUMIFS(Logistics_Ledger!$E$2:$E$480,Logistics_Ledger!$B$2:$B$480,&quot;EMEA-Central&quot;,Logistics_Ledger!$G$2:$G$480,&quot;>95000&quot;)" class="formula-input" />
+    </div>
+    <div class="stealth-grid-wrap">
+      <table class="stealth-table">
+        <thead>
+          <tr>
+            <th class="row-num-th"></th>
+            <th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="row-index">1</td><td class="col-header-cell" colspan="8"><strong>GLOBAL DISTRIBUTION &amp; RECONCILIATION SUMMARY (FY2026 Q4)</strong></td></tr>
+          <tr><td class="row-index">2</td><td><strong>SKU Code</strong></td><td><strong>Category</strong></td><td><strong>Warehouse</strong></td><td><strong>Units On Hand</strong></td><td><strong>Q4 Forecast</strong></td><td><strong>Variance</strong></td><td><strong>Margin</strong></td><td><strong>Status</strong></td></tr>
+          <tr><td class="row-index">3</td><td>RN-LOG-9021</td><td>Silicone Components</td><td>Lagos Hub 02</td><td>18,450</td><td>17,200</td><td class="positive">+7.2%</td><td>78.4%</td><td><span class="tag-status green">VERIFIED</span></td></tr>
+          <tr><td class="row-index">4</td><td>RN-LOG-9022</td><td>Acoustic Motors 30dB</td><td>Abuja Precision</td><td>9,120</td><td>8,950</td><td class="positive">+1.9%</td><td>82.1%</td><td><span class="tag-status green">VERIFIED</span></td></tr>
+          <tr><td class="row-index">5</td><td>RN-LOG-9023</td><td>Waterproof Enclosures</td><td>PH Engineering</td><td>14,300</td><td>15,000</td><td class="negative">-4.6%</td><td>74.9%</td><td><span class="tag-status amber">IN REVIEW</span></td></tr>
+          <tr><td class="row-index">6</td><td>RN-LOG-9024</td><td>Discreet Outer Cartons</td><td>Kano Packaging</td><td>45,000</td><td>40,000</td><td class="positive">+12.5%</td><td>91.0%</td><td><span class="tag-status green">VERIFIED</span></td></tr>
+          <tr><td class="row-index">7</td><td>RN-LOG-9025</td><td>Resonance Coils</td><td>Enugu Lab 4</td><td>6,800</td><td>6,500</td><td class="positive">+4.6%</td><td>86.5%</td><td><span class="tag-status green">VERIFIED</span></td></tr>
+          <tr><td class="row-index">8</td><td>RN-LOG-9026</td><td>Magnetic Charging Pins</td><td>Ibadan Micro</td><td>22,100</td><td>21,800</td><td class="positive">+1.3%</td><td>80.2%</td><td><span class="tag-status green">VERIFIED</span></td></tr>
+          <tr><td class="row-index">9</td><td><strong>TOTALS</strong></td><td> - </td><td>National</td><td><strong>115,770</strong></td><td><strong>109,450</strong></td><td class="positive"><strong>+5.8%</strong></td><td>82.2%</td><td><span class="tag-status green">BALANCED</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="stealth-sheet-tabs">
+      <span class="sheet-tab active">Overview_Summary</span>
+      <span class="sheet-tab">Q4_Inventory_Audit</span>
+      <span class="sheet-tab">Vendor_Reconciliation</span>
+      <span class="sheet-tab">+</span>
+    </div>
+  </div>
+
+  <div class="stealth-view stealth-view-google" id="stealth-view-google" style="display: none;">
+    <header class="g-header">
+      <div class="g-header-left">
+        <div class="g-logo"><span class="g-blue">G</span><span class="g-red">o</span><span class="g-yellow">o</span><span class="g-blue">g</span><span class="g-green">l</span><span class="g-red">e</span></div>
+        <div class="g-search-box">
+          <input type="text" class="g-search-input" value="best inverter battery lagos 2026" readonly />
+          <span class="g-search-icons">
+            <svg class="g-icon" viewBox="0 0 24 24" fill="#4285f4"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
+            <svg class="g-icon" viewBox="0 0 24 24" fill="#ea4335"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+          </span>
+        </div>
+      </div>
+    </header>
+    <nav class="g-nav-tabs">
+      <span class="g-tab active"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> All</span>
+      <span class="g-tab">Shopping</span>
+      <span class="g-tab">Maps</span>
+      <span class="g-tab">Images</span>
+      <span class="g-tab">News</span>
+      <span class="g-tab">Videos</span>
+      <span class="g-tab">More</span>
+      <span class="g-tools-btn">Tools</span>
+    </nav>
+    <div class="g-results-wrap">
+      <div class="g-stats">About 1,480,000 results (0.34 seconds)</div>
+      <article class="g-result-card">
+        <div class="g-cite">
+          <span class="g-cite-icon">⚡</span>
+          <div class="g-cite-text">
+            <span class="g-site-name">EnergyMall Nigeria</span>
+            <span class="g-site-url">https://energymall.ng › solar › inverter-batteries-lagos</span>
+          </div>
+        </div>
+        <h2 class="g-title">Best Tubular &amp; Lithium Inverter Batteries in Lagos (2026 Price Guide)</h2>
+        <p class="g-snippet">Compare verified prices for 220Ah tubular and 48V 100Ah lithium wall-mount inverter batteries across Lagos Island, Lekki, and Ikeja. Features comprehensive warranty terms, cycle lifespan comparisons, and same-day installation options.</p>
+        <div class="g-sitelinks">
+          <span>220Ah Tubular Series</span> · <span>Lithium LiFePO4 5kWh</span> · <span>Lekki Delivery &amp; Setup</span> · <span>Simba Den Authorized</span>
+        </div>
+      </article>
+      <article class="g-result-card">
+        <div class="g-cite">
+          <span class="g-cite-icon">🔌</span>
+          <div class="g-cite-text">
+            <span class="g-site-name">TechCabal Reviews</span>
+            <span class="g-site-url">https://techcabal.com › 2026/01 › lagos-power-backup-guide</span>
+          </div>
+        </div>
+        <h2 class="g-title">Top 7 Inverter Batteries for Nigerian Homes and Offices · Real Benchmarks</h2>
+        <p class="g-snippet">Detailed evaluation of Luminous, Eastman, Felicity Solar, and Quanta batteries under standard Nigerian power conditions. Real-world discharge cycle tests, heat endurance in coastal Lagos, and inverter compatibility charts.</p>
+      </article>
+      <div class="g-paa-box">
+        <div class="g-paa-title">People also ask</div>
+        <div class="g-paa-item"><span>Which inverter battery lasts longest in Nigerian weather?</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#70757a" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="g-paa-item"><span>What is the current price of 200Ah tubular battery in Lagos?</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#70757a" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="g-paa-item"><span>Is lithium LiFePO4 battery better than tubular battery for home solar?</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#70757a" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <article class="g-result-card">
+        <div class="g-cite">
+          <span class="g-cite-icon">☀️</span>
+          <div class="g-cite-text">
+            <span class="g-site-name">Simba Solar Hub</span>
+            <span class="g-site-url">https://simbasolar.com.ng › power › authorized-dealer</span>
+          </div>
+        </div>
+        <h2 class="g-title">Authorized Solar &amp; Inverter Power Systems · Victoria Island &amp; Ikeja</h2>
+        <p class="g-snippet">Official manufacturer direct distributor. Heavy-duty deep cycle batteries engineered for erratic grid voltage. Free professional site assessment across Greater Lagos with 24-month doorstep warranty coverage.</p>
+      </article>
+    </div>
+  </div>
+
+  <div class="stealth-view stealth-view-wikipedia" id="stealth-view-wikipedia" style="display: none;">
+    <header class="wiki-header">
+      <div class="wiki-brand">
+        <span class="wiki-logo-mark">W</span>
+        <div class="wiki-brand-text">
+          <strong>WIKIPEDIA</strong>
+          <span>The Free Encyclopedia</span>
+        </div>
+      </div>
+      <div class="wiki-search-bar">
+        <input type="text" value="Plate tectonics" readonly class="wiki-search-input" />
+        <button type="button" class="wiki-search-btn">Search</button>
+      </div>
+      <div class="wiki-user-tools">
+        <span>Create account</span> · <span>Log in</span>
+      </div>
+    </header>
+    <div class="wiki-body-wrap">
+      <aside class="wiki-sidebar">
+        <div class="wiki-toc-title">Contents</div>
+        <ol class="wiki-toc-list">
+          <li><a href="#wiki-overview">1 Overview</a></li>
+          <li><a href="#wiki-key-principles">2 Key principles</a></li>
+          <li><a href="#wiki-types-boundaries">3 Types of plate boundaries</a></li>
+          <li><a href="#wiki-driving-forces">4 Driving forces</a></li>
+          <li><a href="#wiki-supercontinent">5 Supercontinent cycle</a></li>
+        </ol>
+      </aside>
+      <main class="wiki-article">
+        <h1 class="wiki-article-title">Plate tectonics</h1>
+        <div class="wiki-article-subtitle">From Wikipedia, the free encyclopedia</div>
+        <div class="wiki-meta-row">
+          <span>Article</span> · <span>Talk</span> · <span>Read</span> · <span>View source</span> · <span>View history</span>
+        </div>
+        <div class="wiki-infobox">
+          <div class="wiki-infobox-header">Plate Tectonics</div>
+          <div class="wiki-infobox-diagram">
+            <div class="diagram-crust">Oceanic &amp; Continental Crust</div>
+            <div class="diagram-litho">Lithospheric Plate (Rigid)</div>
+            <div class="diagram-ashteno">Asthenosphere (Convecting Mantle)</div>
+          </div>
+          <table class="wiki-infobox-table">
+            <tr><th>Domain</th><td>Geodynamics, Geology</td></tr>
+            <tr><th>First proposed</th><td>Alfred Wegener (1912)</td></tr>
+            <tr><th>Modern synthesis</th><td>1965 - 1967</td></tr>
+            <tr><th>Rate of motion</th><td>10 to 100 mm/year</td></tr>
+            <tr><th>Major plates</th><td>Pacific, North American, Eurasian, African, Antarctic, Indo-Australian, South American</td></tr>
+          </table>
+        </div>
+        <p class="wiki-lead">
+          <strong>Plate tectonics</strong> (from the Late Latin <em>tectonicus</em>, from Ancient Greek τεκτονικός 'pertaining to building') is the generally accepted scientific theory that Earth's outer rigid lithosphere is broken into several large and small tectonic plates that move slowly over the mechanically weaker asthenosphere below.
+        </p>
+        <p>
+          The model builds on the concept of continental drift, an idea developed during the first decades of the 20th century. The geoscientific community accepted plate-tectonic theory after seafloor spreading was validated in the late 1950s and early 1960s.
+        </p>
+        <h2 id="wiki-key-principles" class="wiki-h2">Key principles</h2>
+        <p>
+          The outer layers of Earth are divided into the lithosphere and the asthenosphere. The division is based on mechanical properties rather than chemical composition alone. The lithosphere is cooler and more rigid, comprising the crust and the uppermost part of the mantle.
+        </p>
+        <h2 id="wiki-types-boundaries" class="wiki-h2">Types of plate boundaries</h2>
+        <p>
+          Three primary types of plate boundaries exist along tectonic margins:
+        </p>
+        <ul class="wiki-bullet-list">
+          <li><strong>Divergent boundaries</strong>: where two plates slide apart from each other (e.g., Mid-Atlantic Ridge).</li>
+          <li><strong>Convergent boundaries</strong>: where two plates slide toward each other, forming either a subduction zone or continental collision (e.g., Himalayas, Andes).</li>
+          <li><strong>Transform boundaries</strong>: where plates slide past one another horizontally along fault lines (e.g., San Andreas Fault).</li>
+        </ul>
+      </main>
+    </div>
+  </div>
+
+  <div class="stealth-view stealth-view-news" id="stealth-view-news" style="display: none;">
+    <header class="news-masthead">
+      <div class="news-top-strip">
+        <span>Tuesday, October 27, 2026 · West Africa Edition</span>
+        <span class="news-edition-links">Markets · Companies · Policy · Tech · Real Estate</span>
+      </div>
+      <div class="news-main-bar">
+        <div class="news-logo">BUSINESSDAY</div>
+        <div class="news-tagline">Insight &amp; Intelligence for African Commerce</div>
+      </div>
+      <div class="news-ticker">
+        <span class="ticker-label">MARKETS TODAY</span>
+        <span class="ticker-items">NGX ASI 104,280.12 <strong class="pos">▲ +0.38%</strong> | BRENT CRUDE $74.60 <strong class="neg">▼ -0.25%</strong> | NAFEM USD/NGN 1,510.40 | INTERBANK CALL RATE 26.50%</span>
+      </div>
+    </header>
+    <div class="news-body-wrap">
+      <article class="news-article">
+        <div class="news-badge">MONETARY POLICY &amp; BANKING</div>
+        <h1 class="news-headline">CBN Issues Updated Liquidity Risk Guidelines Ahead of Q1 MPC Policy Review</h1>
+        <p class="news-deck">Commercial lenders required to maintain enhanced high-quality liquid asset buffers to bolster interbank settlement resilience amid ongoing macroeconomic stabilization.</p>
+        <div class="news-byline-row">
+          <div class="byline-left">
+            <strong>By Economics &amp; Banking Bureau</strong>
+            <span>Published Oct 27, 2026 · 4 min read</span>
+          </div>
+          <div class="byline-share">
+            <span>Share: X · LinkedIn · Email</span>
+          </div>
+        </div>
+        <div class="news-content">
+          <p><strong>ABUJA</strong> - The Central Bank of Nigeria has circulated revised liquidity risk guidelines to all licensed deposit money banks and discount houses, reinforcing statutory capital adequacy ratios and establishing stricter supervisory surveillance on short-term interbank exposures.</p>
+          <p>According to the regulatory circular signed by the Director of Financial Policy and Regulation, tier-1 institutions must sustain an adjusted Liquidity Coverage Ratio (LCR) designed to withstand 30-day liquidity stress scenarios across varying foreign exchange inflow cycles.</p>
+          <blockquote class="news-quote">
+            "The objective is to consolidate the stability of the domestic financial architecture while deepening private sector credit transmission across manufacturing, clean energy, and agricultural export value chains," the document stated.
+          </blockquote>
+          <p>Analysts at Lagos-based investment houses noted that the directive reflects sustained coordination between monetary authorities and fiscal debt managers, aiming to stabilize sovereign bond yields and anchor inflationary expectations following the third-quarter monetary policy committee resolutions.</p>
+          <p>Treasury desks across major commercial banks indicated that liquidity conditions remained orderly, with interbank repo rates trading within the asymmetric corridor around the Monetary Policy Rate (MPR).</p>
+        </div>
+      </article>
+      <aside class="news-sidebar">
+        <div class="sidebar-block">
+          <h3 class="sidebar-title">MOST READ TODAY</h3>
+          <ol class="sidebar-list">
+            <li><strong>Manufacturers report 18% improvement in domestic input sourcing</strong></li>
+            <li><strong>Lagos State concludes concession agreement for Fourth Mainland Bridge Phase 1</strong></li>
+            <li><strong>Tech startups secure $140m in regional logistics and fintech seed rounds</strong></li>
+            <li><strong>Agric commodity exchange records record sorghum and sesame contracts</strong></li>
+          </ol>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <div class="stealth-view stealth-view-recipe" id="stealth-view-recipe" style="display: none;">
+    <header class="recipe-header">
+      <div class="recipe-brand">
+        <span class="recipe-logo">9JAFOODIE</span>
+        <span class="recipe-sub">Authentic African Recipes &amp; Everyday Kitchen Notes</span>
+      </div>
+      <nav class="recipe-nav">
+        <span>Rice Dishes</span> · <span>Soups &amp; Stews</span> · <span>Small Chops</span> · <span>Meal Prep</span> · <span>Kitchen Tips</span>
+      </nav>
+    </header>
+    <div class="recipe-container">
+      <div class="recipe-breadcrumbs">Home › Rice &amp; Grains › Authentic Lagos Party Jollof</div>
+      <h1 class="recipe-title">Authentic Smoky Nigerian Party Jollof Rice (The Secret to That Lagos Party Flavor)</h1>
+      <div class="recipe-meta-cards">
+        <div class="meta-card"><span class="m-label">PREP TIME</span><span class="m-val">20 Mins</span></div>
+        <div class="meta-card"><span class="m-label">COOK TIME</span><span class="m-val">50 Mins</span></div>
+        <div class="meta-card"><span class="m-label">TOTAL TIME</span><span class="m-val">1 Hr 10 Mins</span></div>
+        <div class="meta-card"><span class="m-label">SERVINGS</span><span class="m-val">8 People</span></div>
+        <div class="meta-card"><span class="m-label">RATING</span><span class="m-val">★ 4.9 (380+ reviews)</span></div>
+      </div>
+      <div class="recipe-body-content">
+        <p class="recipe-intro">
+          There is a distinct aroma and smoky bottom-pan taste that makes Nigerian party jollof rice unforgettable. The secret isn't firewood alone: it's the specific ratio of red bell peppers (tatashe) to tomatoes, a heavily reduced pepper paste, and letting the rice steam tightly under foil until it catches slightly on the base of the cast iron pot.
+        </p>
+        <div class="recipe-card-box">
+          <h2 class="rc-title">Ingredients Checklist</h2>
+          <div class="rc-columns">
+            <div class="rc-col">
+              <h3 class="rc-sub">For The Jollof Pepper Base:</h3>
+              <ul class="rc-list">
+                <li><input type="checkbox" checked /> 6 large Red Bell Peppers (Tatashe), deseeded</li>
+                <li><input type="checkbox" checked /> 4 Scotch Bonnet Peppers (Atarodo)</li>
+                <li><input type="checkbox" checked /> 5 medium Plum Tomatoes</li>
+                <li><input type="checkbox" checked /> 2 medium Red Onions</li>
+                <li><input type="checkbox" checked /> 1 thumb-sized fresh Ginger &amp; 3 Garlic cloves</li>
+                <li><input type="checkbox" checked /> 100g double concentrated Tomato Paste</li>
+              </ul>
+            </div>
+            <div class="rc-col">
+              <h3 class="rc-sub">For The Rice &amp; Aromatics:</h3>
+              <ul class="rc-list">
+                <li><input type="checkbox" checked /> 4 cups Long grain parboiled rice (washed thoroughly)</li>
+                <li><input type="checkbox" checked /> 2.5 cups rich beef or chicken bone broth</li>
+                <li><input type="checkbox" checked /> 1 cup vegetable cooking oil</li>
+                <li><input type="checkbox" checked /> 1 tbsp dried Thyme &amp; 1 tbsp Curry powder</li>
+                <li><input type="checkbox" checked /> 4 whole dried Bay leaves</li>
+                <li><input type="checkbox" checked /> 2 tbsp unsalted butter (for finishing sheen)</li>
+                <li><input type="checkbox" checked /> 1 medium onion (sliced for frying base)</li>
+              </ul>
+            </div>
+          </div>
+          <h2 class="rc-title" style="margin-top: 24px;">Step-by-Step Instructions</h2>
+          <ol class="rc-steps">
+            <li><strong>Blend &amp; Boil the Pepper Base:</strong> Blend the tatashe, atarodo, plum tomatoes, onions, ginger, and garlic into a smooth puree. Pour into a saucepan and boil over medium-high heat until the water evaporates and you are left with a thick paste.</li>
+            <li><strong>Fry the Base:</strong> In a heavy-bottomed pot, heat the vegetable oil and fry sliced onions until fragrant and lightly caramelized. Add the tomato paste and fry for 5 minutes until it darkens slightly. Pour in the boiled pepper puree and fry for 15 minutes, stirring continuously until oil floats to the top.</li>
+            <li><strong>Season &amp; Add Stock:</strong> Add thyme, curry powder, bay leaves, seasoning cubes, and salt. Pour in your hot meat stock and bring to a rolling boil. Taste and adjust seasoning; it should taste slightly saltier than usual because the rice will absorb it.</li>
+            <li><strong>Add Rice &amp; Seal:</strong> Stir in the thoroughly washed and drained parboiled rice. The liquid should sit just level with the top of the rice. Cover the pot with heavy-duty aluminum foil to trap every drop of steam, then clamp the pot lid down firmly.</li>
+            <li><strong>Low Heat Steam:</strong> Turn the heat down to low. Let the rice steam undisturbed for 30 minutes. Uncover, gently turn with a wooden spoon or spatula from the bottom up, place butter slices on top, reseal with foil, and let it cook for another 10 to 15 minutes.</li>
+            <li><strong>The Signature Party Burn:</strong> For that authentic smoky aroma, increase heat to medium-low for the final 5 minutes until you hear a gentle crackle and smell that distinct rich smokiness. Turn off heat and let it rest for 10 minutes before serving.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`;
+
 const CATEGORY_LABELS = {
   toys: 'Luxury Adult Toys & Vibrators',
   lingerie: 'Sensual Lingerie & Robes',
@@ -2274,6 +2597,247 @@ export function renderProductPage(product = {}, options = {}) {
         padding: 18px !important;
       }
     }
+
+    .stealth-screen {
+      position: fixed; inset: 0; z-index: 999998;
+      background: #fff; color: #1f1f1f;
+      font-family: 'Segoe UI', Tahoma, sans-serif; font-size: 12px;
+      overflow-y: auto; overflow-x: hidden;
+      user-select: text;
+    }
+    .stealth-screen[hidden] { display: none !important; }
+    .stealth-floating-bar {
+      position: fixed; top: 12px; right: 16px; z-index: 999999;
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(18, 18, 20, 0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 5px 8px; border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.32);
+    }
+    .btn-stealth-exit {
+      background: #0b5a2f; color: #fff; border: 1px solid rgba(255,255,255,.3);
+      padding: 6px 13px; font-size: 11px; font-weight: 600;
+      border-radius: 8px !important;
+      cursor: pointer; display: flex; align-items: center; gap: 6px;
+      transition: background 0.15s ease;
+    }
+    .btn-stealth-exit:hover { background: #084323; }
+    .exit-dot { width: 7px; height: 7px; border-radius: 50%; background: #4ade80; display: inline-block; }
+    .btn-stealth-shuffle {
+      background: rgba(255, 255, 255, 0.12); color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      padding: 6px 11px; font-size: 11px; font-weight: 600;
+      border-radius: 8px !important;
+      cursor: pointer; display: flex; align-items: center; gap: 5px;
+      transition: background 0.15s ease;
+    }
+    .btn-stealth-shuffle:hover { background: rgba(255, 255, 255, 0.22); }
+    .stealth-view-excel { display: flex; flex-direction: column; min-height: 100vh; background: #fff; }
+    .stealth-app-bar {
+      background: #107c41; color: #fff;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 16px;
+    }
+    .stealth-brand { display: flex; align-items: center; gap: 12px; }
+    .excel-icon { background: #0b5a2f; font-weight: 800; font-size: 16px; padding: 4px 10px; border-radius: 3px; }
+    .file-name { font-weight: 600; font-size: 13px; }
+    .stealth-menu-row { display: flex; gap: 14px; font-size: 11px; opacity: .9; margin-top: 3px; }
+    .stealth-right-actions { display: flex; align-items: center; gap: 16px; margin-right: 210px; }
+    .stealth-user { font-size: 11px; opacity: .85; }
+    .stealth-formula-bar {
+      background: #f3f3f3; border-bottom: 1px solid #d4d4d4;
+      display: flex; align-items: center; padding: 4px 8px; gap: 8px;
+    }
+    .cell-address { background: #fff; border: 1px solid #ccc; padding: 2px 8px; font-weight: 600; min-width: 45px; text-align: center; }
+    .fx-label { font-weight: bold; font-style: italic; color: #555; }
+    .formula-input { flex: 1; border: 1px solid #ccc; padding: 3px 8px; font-family: 'Consolas', monospace; font-size: 12px; background: #fff; }
+    .stealth-grid-wrap { flex: 1; overflow: auto; background: #fff; }
+    .stealth-table { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+    .stealth-table th, .stealth-table td { border: 1px solid #e0e0e0; padding: 6px 10px; }
+    .stealth-table th { background: #f7f7f7; font-weight: 600; text-align: center; color: #555; }
+    .row-num-th, .row-index { background: #f7f7f7; text-align: center; width: 35px; color: #777; font-size: 10px; }
+    .col-header-cell { background: #eaf1fb; color: #104a8b; font-size: 12px; }
+    .positive { color: #0f766e; font-weight: 600; }
+    .negative { color: #b91c1c; font-weight: 600; }
+    .tag-status { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 9.5px; font-weight: bold; }
+    .tag-status.green { background: #dcfce7; color: #15803d; }
+    .tag-status.amber { background: #fef3c7; color: #b45309; }
+    .stealth-sheet-tabs { background: #f0f0f0; border-top: 1px solid #d4d4d4; padding: 4px 10px; display: flex; gap: 4px; }
+    .sheet-tab { padding: 5px 14px; background: #e3e3e3; border: 1px solid #ccc; border-bottom: none; font-size: 11px; cursor: pointer; }
+    .sheet-tab.active { background: #fff; font-weight: 600; color: #107c41; border-top: 2px solid #107c41; }
+    .stealth-view-google { min-height: 100vh; background: #fff; font-family: Arial, sans-serif; color: #202124; }
+    .g-header { padding: 18px 24px 12px; border-bottom: 1px solid #ebebeb; display: flex; align-items: center; justify-content: space-between; }
+    .g-header-left { display: flex; align-items: center; gap: 28px; width: 100%; max-width: 820px; }
+    .g-logo { font-size: 26px; font-weight: 700; font-family: 'Product Sans', Arial, sans-serif; letter-spacing: -0.5px; }
+    .g-blue { color: #4285f4; } .g-red { color: #ea4335; } .g-yellow { color: #fbbc05; } .g-green { color: #34a853; }
+    .g-search-box {
+      flex: 1; border: 1px solid #dfe1e5; border-radius: 24px; padding: 8px 18px;
+      display: flex; align-items: center; justify-content: space-between;
+      box-shadow: 0 1px 6px rgba(32,33,36,0.14);
+    }
+    .g-search-input { border: none; outline: none; font-size: 15px; width: 100%; color: #202124; background: transparent; }
+    .g-search-icons { display: flex; align-items: center; gap: 12px; }
+    .g-icon { width: 18px; height: 18px; cursor: pointer; }
+    .g-nav-tabs {
+      display: flex; gap: 20px; padding: 0 24px 0 160px;
+      border-bottom: 1px solid #ebebeb; font-size: 13px; color: #5f6368;
+    }
+    .g-tab { padding: 12px 0; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+    .g-tab.active { color: #1a73e8; border-bottom: 3px solid #1a73e8; font-weight: 500; }
+    .g-tools-btn { margin-left: auto; padding: 12px 0; cursor: pointer; }
+    .g-results-wrap { max-width: 680px; margin-left: 160px; padding: 16px 20px 80px; }
+    .g-stats { font-size: 13px; color: #70757a; margin-bottom: 22px; }
+    .g-result-card { margin-bottom: 28px; line-height: 1.58; }
+    .g-cite { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
+    .g-cite-icon { font-size: 14px; background: #f1f3f4; border-radius: 50%; width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; }
+    .g-cite-text { display: flex; flex-direction: column; }
+    .g-site-name { font-size: 13px; color: #202124; font-weight: 500; }
+    .g-site-url { font-size: 11px; color: #4d5156; }
+    .g-title { font-size: 19px; color: #1a0dab; margin: 4px 0 6px; font-weight: 400; cursor: pointer; text-decoration: none; }
+    .g-title:hover { text-decoration: underline; }
+    .g-snippet { font-size: 13.5px; color: #4d5156; margin: 0; }
+    .g-sitelinks { font-size: 12px; color: #1a0dab; margin-top: 6px; }
+    .g-sitelinks span:hover { text-decoration: underline; cursor: pointer; }
+    .g-paa-box { border: 1px solid #dadce0; border-radius: 8px; padding: 14px 16px; margin: 24px 0; }
+    .g-paa-title { font-size: 16px; font-weight: 500; color: #202124; margin-bottom: 12px; }
+    .g-paa-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 0; border-top: 1px solid #ebebeb; font-size: 13.5px; color: #202124; cursor: pointer;
+    }
+    .stealth-view-wikipedia { min-height: 100vh; background: #fff; font-family: sans-serif; color: #202122; }
+    .wiki-header {
+      border-bottom: 1px solid #a2a9b1; background: #f8f9fa; padding: 10px 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    }
+    .wiki-brand { display: flex; align-items: center; gap: 10px; }
+    .wiki-logo-mark {
+      font-family: Georgia, serif; font-size: 26px; font-weight: bold;
+      background: #eaecf0; border-radius: 50%; width: 38px; height: 38px;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .wiki-brand-text { display: flex; flex-direction: column; font-size: 10px; color: #54595d; }
+    .wiki-brand-text strong { font-size: 14px; letter-spacing: 1.5px; color: #000; }
+    .wiki-search-bar { display: flex; align-items: center; max-width: 380px; flex: 1; }
+    .wiki-search-input { border: 1px solid #a2a9b1; border-right: none; padding: 6px 10px; font-size: 13px; width: 100%; }
+    .wiki-search-btn {
+      background: #f8f9fa; border: 1px solid #a2a9b1; padding: 6px 12px;
+      font-size: 12px; cursor: pointer; border-radius: 0 8px 8px 0 !important;
+    }
+    .wiki-user-tools { font-size: 12px; color: #36c; margin-right: 200px; }
+    .wiki-body-wrap { max-width: 1200px; margin: 0 auto; padding: 24px 20px 80px; display: flex; gap: 36px; }
+    .wiki-sidebar { width: 190px; flex-shrink: 0; font-size: 12.5px; }
+    .wiki-toc-title { font-weight: bold; border-bottom: 1px solid #a2a9b1; padding-bottom: 4px; margin-bottom: 8px; }
+    .wiki-toc-list { list-style: none; padding: 0; line-height: 1.8; color: #36c; }
+    .wiki-toc-list a { color: #36c; text-decoration: none; }
+    .wiki-toc-list a:hover { text-decoration: underline; }
+    .wiki-article { flex: 1; min-width: 0; font-size: 14px; line-height: 1.68; }
+    .wiki-article-title {
+      font-family: 'Linux Libertine', Georgia, serif; font-size: 32px; font-weight: normal;
+      border-bottom: 1px solid #a2a9b1; padding-bottom: 6px; margin: 0 0 4px;
+    }
+    .wiki-article-subtitle { font-size: 12px; color: #54595d; margin-bottom: 12px; }
+    .wiki-meta-row { font-size: 12px; color: #36c; border-bottom: 1px solid #a2a9b1; padding-bottom: 6px; margin-bottom: 16px; }
+    .wiki-infobox {
+      float: right; margin: 0 0 16px 24px; width: 300px;
+      border: 1px solid #a2a9b1; background: #f8f9fa; padding: 8px; font-size: 12px;
+    }
+    .wiki-infobox-header { background: #eaecf0; font-weight: bold; text-align: center; padding: 6px; margin-bottom: 8px; }
+    .wiki-infobox-diagram {
+      background: #eef2f7; border: 1px dashed #b0c4de; padding: 12px 8px; text-align: center; font-size: 11px; margin-bottom: 8px;
+    }
+    .diagram-crust { font-weight: bold; color: #1e3a8a; }
+    .diagram-litho { color: #047857; margin: 4px 0; }
+    .diagram-ashteno { color: #b45309; font-style: italic; }
+    .wiki-infobox-table { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+    .wiki-infobox-table th { text-align: left; vertical-align: top; width: 35%; padding: 4px; color: #555; }
+    .wiki-infobox-table td { padding: 4px; }
+    .wiki-lead { font-size: 14.5px; }
+    .wiki-h2 {
+      font-family: 'Linux Libertine', Georgia, serif; font-size: 22px; font-weight: normal;
+      border-bottom: 1px solid #a2a9b1; padding-bottom: 4px; margin: 26px 0 10px;
+    }
+    .wiki-bullet-list { margin: 8px 0 16px 20px; line-height: 1.7; }
+    .stealth-view-news { min-height: 100vh; background: #fff; font-family: 'Georgia', serif; color: #111; }
+    .news-masthead { border-bottom: 2px solid #111; }
+    .news-top-strip {
+      background: #f8f9fa; border-bottom: 1px solid #e5e5e5; padding: 6px 24px;
+      display: flex; justify-content: space-between; font-size: 11px; font-family: sans-serif; color: #666;
+    }
+    .news-edition-links { letter-spacing: 0.5px; }
+    .news-main-bar { padding: 18px 20px 12px; text-align: center; }
+    .news-logo { font-size: 38px; font-weight: 900; letter-spacing: 2px; color: #111; font-family: Georgia, serif; }
+    .news-tagline { font-size: 11px; font-family: sans-serif; letter-spacing: 1px; color: #777; margin-top: 3px; text-transform: uppercase; }
+    .news-ticker {
+      background: #111; color: #fff; font-size: 11px; padding: 6px 20px;
+      display: flex; gap: 14px; font-family: monospace; overflow-x: auto; white-space: nowrap;
+    }
+    .ticker-label { color: #f59e0b; font-weight: bold; }
+    .ticker-items strong.pos { color: #34d399; }
+    .ticker-items strong.neg { color: #f87171; }
+    .news-body-wrap { max-width: 1140px; margin: 24px auto; padding: 0 20px 80px; display: grid; grid-template-columns: 2.2fr 1fr; gap: 40px; }
+    .news-badge {
+      display: inline-block; background: #000; color: #fff; font-family: sans-serif;
+      font-size: 10px; font-weight: bold; letter-spacing: 1px; padding: 3px 8px; border-radius: 3px;
+    }
+    .news-headline { font-size: 32px; font-weight: 700; line-height: 1.25; margin: 12px 0 10px; color: #111; }
+    .news-deck { font-size: 16.5px; color: #555; line-height: 1.45; margin-bottom: 18px; font-style: italic; }
+    .news-byline-row {
+      display: flex; justify-content: space-between; padding: 10px 0;
+      border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; font-family: sans-serif; font-size: 12px; color: #666; margin-bottom: 22px;
+    }
+    .byline-left strong { color: #111; margin-right: 8px; }
+    .news-content p { font-size: 15px; line-height: 1.7; margin-bottom: 18px; color: #222; }
+    .news-quote {
+      background: #f7f7f8; border: none !important; padding: 18px 22px;
+      margin: 22px 0; font-style: italic; font-size: 15px; color: #222; border-radius: 6px;
+    }
+    .news-sidebar { font-family: sans-serif; border-left: 1px solid #eee; padding-left: 28px; }
+    .sidebar-title { font-size: 13px; font-weight: 800; letter-spacing: 1px; border-bottom: 2px solid #111; padding-bottom: 6px; margin-bottom: 14px; }
+    .sidebar-list { padding-left: 18px; font-size: 13.5px; line-height: 1.6; }
+    .sidebar-list li { margin-bottom: 14px; }
+    .stealth-view-recipe { min-height: 100vh; background: #fffdfa; font-family: 'Segoe UI', Tahoma, sans-serif; color: #292524; }
+    .recipe-header { background: #fff8f0; border-bottom: 1px solid #fed7aa; padding: 18px 24px; text-align: center; }
+    .recipe-brand { display: flex; flex-direction: column; align-items: center; }
+    .recipe-logo { font-size: 28px; font-weight: 900; letter-spacing: 1.5px; color: #9f1239; }
+    .recipe-sub { font-size: 11.5px; color: #78716c; margin-top: 2px; }
+    .recipe-nav { margin-top: 10px; font-size: 12px; color: #9a3412; font-weight: 500; }
+    .recipe-container { max-width: 860px; margin: 0 auto; padding: 24px 20px 80px; }
+    .recipe-breadcrumbs { font-size: 12px; color: #a8a29e; margin-bottom: 10px; }
+    .recipe-title { font-size: 28px; font-weight: 800; color: #1c1917; line-height: 1.3; margin: 0 0 16px; }
+    .recipe-meta-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 24px; }
+    .meta-card { background: #fff; border: 1px solid #fed7aa; border-radius: 8px; padding: 10px; text-align: center; }
+    .m-label { display: block; font-size: 10px; font-weight: bold; color: #c2410c; letter-spacing: 0.5px; }
+    .m-val { display: block; font-size: 14px; font-weight: 700; color: #1c1917; margin-top: 2px; }
+    .recipe-intro { font-size: 15px; line-height: 1.68; color: #44403c; margin-bottom: 22px; }
+    .recipe-card-box { background: #fff; border: 1px solid #fdba74; border-radius: 12px; padding: 24px; box-shadow: 0 2px 10px rgba(251,146,60,0.08); }
+    .rc-title { font-size: 19px; font-weight: 800; color: #9a3412; border-bottom: 2px solid #ffedd5; padding-bottom: 6px; margin: 0 0 14px; }
+    .rc-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .rc-sub { font-size: 13.5px; font-weight: 700; color: #1c1917; margin: 0 0 10px; }
+    .rc-list { list-style: none; padding: 0; line-height: 1.85; font-size: 13px; color: #292524; }
+    .rc-list li { display: flex; align-items: center; gap: 8px; }
+    .rc-steps { padding-left: 20px; font-size: 13.5px; line-height: 1.75; color: #292524; }
+    .rc-steps li { margin-bottom: 12px; }
+    @media (max-width: 768px) {
+      .stealth-floating-bar { top: auto; bottom: 16px; right: 12px; left: 12px; justify-content: center; }
+      .stealth-app-bar { flex-direction: column; align-items: stretch; gap: 10px; padding: 10px; }
+      .stealth-menu-row, .stealth-user, .stealth-formula-bar { display: none; }
+      .stealth-right-actions { margin-right: 0; width: 100%; justify-content: flex-end; }
+      .g-header { flex-direction: column; align-items: stretch; gap: 12px; padding: 12px; }
+      .g-header-left { flex-direction: column; align-items: stretch; gap: 10px; }
+      .g-nav-tabs { padding: 0 12px; overflow-x: auto; }
+      .g-results-wrap { margin-left: 0; padding: 16px 14px 90px; }
+      .wiki-body-wrap { flex-direction: column; padding: 16px 14px 90px; }
+      .wiki-sidebar { width: 100%; }
+      .wiki-infobox { float: none; width: 100%; margin: 16px 0; }
+      .wiki-user-tools { display: none; }
+      .news-body-wrap { grid-template-columns: 1fr; gap: 24px; padding: 16px 14px 90px; }
+      .news-sidebar { border-left: none; padding-left: 0; border-top: 1px solid #eee; padding-top: 20px; }
+      .news-headline { font-size: 24px; }
+      .rc-columns { grid-template-columns: 1fr; gap: 16px; }
+      .recipe-container { padding: 16px 14px 90px; }
+    }
   </style>
 </head>
 <body>
@@ -2718,6 +3282,8 @@ export function renderProductPage(product = {}, options = {}) {
     </div>
   </div>
 
+  ${STEALTH_SHIELD_HTML}
+
   <script>
     (function () {
       // 1. Gallery switching
@@ -2901,35 +3467,101 @@ export function renderProductPage(product = {}, options = {}) {
         });
       }
 
-      // 3. Stealth Pill & Esc Trigger
-      var stealthTriggers = ['btn-stealth-nav', 'footer-stealth-trigger', 'footer-stealth-trigger-tap'];
-      function triggerStealth() {
-        window.location.replace('https://www.google.com');
+      var stealthShield = document.getElementById('stealth-shield');
+      var originalTitle = document.title;
+      var stealthDisguises = [
+        { id: 'stealth-view-excel', title: 'Q4_Enterprise_Logistics_Inventory_Audit_Consolidated.xlsx - Excel' },
+        { id: 'stealth-view-google', title: 'best inverter battery lagos 2026 - Google Search' },
+        { id: 'stealth-view-wikipedia', title: 'Plate tectonics - Wikipedia' },
+        { id: 'stealth-view-news', title: 'CBN Issues Updated Liquidity Risk Guidelines - BusinessDay' },
+        { id: 'stealth-view-recipe', title: 'Authentic Smoky Party Jollof Rice Recipe - 9jaFoodie' }
+      ];
+      var currentStealthIndex = 0;
+      var isStealthActive = false;
+      var hiddenBodyChildren = [];
+
+      function applyStealthDisguise(index) {
+        currentStealthIndex = (index + stealthDisguises.length) % stealthDisguises.length;
+        var activeDisguise = stealthDisguises[currentStealthIndex];
+        stealthDisguises.forEach(function (disguise, i) {
+          var el = document.getElementById(disguise.id);
+          if (!el) return;
+          el.style.display = i === currentStealthIndex
+            ? (disguise.id === 'stealth-view-excel' ? 'flex' : 'block')
+            : 'none';
+        });
+        document.title = activeDisguise.title;
       }
+
+      function shuffleStealthDisguise() {
+        applyStealthDisguise(currentStealthIndex + 1);
+      }
+
+      function activateStealth() {
+        isStealthActive = true;
+        var randomIndex = Math.floor(Math.random() * stealthDisguises.length);
+        if (randomIndex === currentStealthIndex && stealthDisguises.length > 1) {
+          randomIndex = (randomIndex + 1) % stealthDisguises.length;
+        }
+        applyStealthDisguise(randomIndex);
+        hiddenBodyChildren = [];
+        Array.prototype.forEach.call(document.body.children, function (child) {
+          if (child === stealthShield) return;
+          hiddenBodyChildren.push({ el: child, display: child.style.display });
+          child.style.display = 'none';
+        });
+        if (stealthShield) {
+          stealthShield.removeAttribute('hidden');
+          stealthShield.style.display = 'block';
+        }
+      }
+
+      function deactivateStealth() {
+        isStealthActive = false;
+        hiddenBodyChildren.forEach(function (item) {
+          item.el.style.display = item.display;
+        });
+        hiddenBodyChildren = [];
+        if (stealthShield) {
+          stealthShield.setAttribute('hidden', '');
+          stealthShield.style.display = 'none';
+        }
+        document.title = originalTitle;
+      }
+
+      function toggleStealth() {
+        if (isStealthActive) deactivateStealth();
+        else activateStealth();
+      }
+
+      var stealthTriggers = ['stealth-btn-top', 'btn-stealth-nav', 'floating-stealth-btn', 'footer-stealth-trigger'];
       stealthTriggers.forEach(function (id) {
         var el = document.getElementById(id);
-        if (el) {
-          el.addEventListener('click', function (e) {
-            e.preventDefault();
-            triggerStealth();
-          });
-        }
+        if (!el) return;
+        el.addEventListener('click', function (e) {
+          e.preventDefault();
+          toggleStealth();
+        });
       });
 
-      // Double tap on mobile privacy shield trigger
+      var exitStealthBtn = document.getElementById('btn-exit-stealth');
+      if (exitStealthBtn) exitStealthBtn.addEventListener('click', deactivateStealth);
+      var shuffleStealthBtn = document.getElementById('btn-stealth-shuffle');
+      if (shuffleStealthBtn) shuffleStealthBtn.addEventListener('click', shuffleStealthDisguise);
+
       var lastTap = 0;
-      var tapTrigger = document.getElementById('footer-stealth-trigger-tap');
-      if (tapTrigger) {
-        tapTrigger.addEventListener('touchend', function (e) {
-          var currentTime = new Date().getTime();
-          var tapLength = currentTime - lastTap;
-          if (tapLength < 500 && tapLength > 0) {
+      document.addEventListener('touchend', function (e) {
+        var currentTime = new Date().getTime();
+        var tapLength = currentTime - lastTap;
+        if (tapLength < 300 && tapLength > 0) {
+          var isInteractive = e.target.closest && e.target.closest('button, a, input, [role="button"], label, .color-dot, .size-pill');
+          if (!isInteractive) {
             e.preventDefault();
-            triggerStealth();
+            toggleStealth();
           }
-          lastTap = currentTime;
-        });
-      }
+        }
+        lastTap = currentTime;
+      });
 
       // 4. Cart badge count from localStorage
       var cartDrawerOverlay = document.getElementById('cart-drawer-overlay');
@@ -3296,13 +3928,16 @@ export function renderProductPage(product = {}, options = {}) {
 
       document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
-          if (cartDrawerOverlay && !cartDrawerOverlay.hasAttribute('hidden') && cartDrawerOverlay.style.display !== 'none') {
+          if (cartDrawerOverlay && !cartDrawerOverlay.hasAttribute('hidden') && cartDrawerOverlay.style.display !== 'none' && !isStealthActive) {
             closeCartDrawer();
-          } else if (policyModal && !policyModal.hasAttribute('hidden') && policyModal.style.display !== 'none') {
+          } else if (policyModal && !policyModal.hasAttribute('hidden') && policyModal.style.display !== 'none' && !isStealthActive) {
             closePolicy();
           } else {
-            triggerStealth();
+            toggleStealth();
           }
+        } else if (e.altKey && (e.key === 's' || e.key === 'S')) {
+          e.preventDefault();
+          toggleStealth();
         }
       });
     })();

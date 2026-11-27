@@ -189,7 +189,7 @@ export const BLOG_ARTICLES = [
       <p>To every good girl reading this on her phone late at night: you do not have to live in terror of your own design. You are whole, you are worthy of gentle care, and enjoying your own body in private peace is not something you ever need to apologize for.</p>
       <p>Looking for a completely undetectable, quiet piece of your own? Explore <a href="/products.html?product=lipstick-vibe">The Lipstick Vibe</a> or view our discreet <a href="/products.html?cat=toys">Pleasure Pieces</a>.</p>
     `,
-    relatedProducts: ['lipstick-vibe', 'siren-app']
+    relatedProducts: ['lipstick-vibe']
   },
   {
     slug: 'sexual-health-myths-nigerian-culture-retire',
@@ -249,7 +249,7 @@ export const BLOG_ARTICLES = [
 
       <h3>7. "Sex Toys Are Only for Lonely, Single, or Sex-Starved People"</h3>
       <p>In many Nigerian social circles, owning an intimate piece is viewed as an embarrassing secret: proof that someone cannot get a partner, is perpetually frustrated, or has given up on relationships entirely.</p>
-      <p>In reality, people in committed relationships and marriages make up one of the largest groups investing in bedroom pieces. Introducing app-controlled toys like <a href="/products.html?product=siren-app">The Siren (₦27,000)</a> or couples enhancers relieves performance pressure on men, introduces playful communication, and keeps long-distance intimacy thriving. A toy is bedroom gear for shared pleasure, not a desperate replacement for love.</p>
+      <p>In reality, people in committed relationships and marriages make up one of the largest groups investing in bedroom pieces. Introducing app-controlled toys like <a href="/products.html#abuja">The Siren (₦27,000)</a> or couples enhancers relieves performance pressure on men, introduces playful communication, and keeps long-distance intimacy thriving. A toy is bedroom gear for shared pleasure, not a desperate replacement for love.</p>
 
       <h3>8. "You Can Tell Who is Clean Just by Looking at Them"</h3>
       <p>In many circles, people assume that someone who looks polished, well-dressed, church-going, or soft-spoken cannot possibly have an STI. The quiet assumption is that infections only happen to reckless people or those with obvious sores.</p>
@@ -278,7 +278,7 @@ export const BLOG_ARTICLES = [
       </div>
       <p>Want to explore more honest guides to your body and bedroom wellness? Check out our <a href="/products.html?cat=wellness">Intimate Wellness &amp; Care line</a> or discover our discreet <a href="/products.html?cat=toys">Pleasure Pieces</a>.</p>
     `,
-    relatedProducts: ['lipstick-vibe', 'sceptre-wand', 'siren-app', 'kailin-water-lube', 'sculpted-dildo']
+    relatedProducts: ['lipstick-vibe', 'sceptre-wand', 'kailin-water-lube', 'sculpted-dildo']
   },
   {
     slug: 'how-discreet-delivery-works-nigeria',
@@ -424,7 +424,7 @@ export const BLOG_ARTICLES = [
             </tr>
             <tr>
               <td class="col-need">"I'm in a long-distance relationship / Want couple play without awkwardness."</td>
-              <td class="col-toy"><a href="/products.html?product=siren-app">The Siren</a></td>
+              <td class="col-toy"><a href="/products.html#abuja">The Siren</a></td>
               <td class="col-why">Ergonomic panty vibe controlled via mobile app. Whisper-quiet (&lt; 30 dB), hands-free, and lets a partner take control from anywhere across the globe or across the room.</td>
               <td class="col-price">₦27,000</td>
             </tr>
@@ -510,14 +510,14 @@ export const BLOG_ARTICLES = [
           <div class="guide-admin-card-header">
             <div>
               <div class="guide-admin-card-need">Couples &amp; Distance</div>
-              <a href="/products.html?product=siren-app" class="guide-admin-card-toy">The Siren</a>
+              <a href="/products.html#abuja" class="guide-admin-card-toy">The Siren</a>
             </div>
             <span class="guide-admin-card-price">₦27,000</span>
           </div>
           <div class="guide-admin-card-quote">"I'm in a long-distance relationship / Want couple play without awkwardness."</div>
           <p class="guide-admin-card-why">Ergonomic panty vibe controlled via mobile app. Whisper-quiet (&lt; 30 dB), hands-free, and lets a partner take control from anywhere across the globe or across the room.</p>
           <div class="guide-admin-card-action">
-            <a href="/products.html?product=siren-app">View The Siren &rarr;</a>
+            <a href="/products.html#abuja">View The Siren &rarr;</a>
           </div>
         </div>
 
@@ -552,7 +552,7 @@ export const BLOG_ARTICLES = [
         </div>
       </div>
     `,
-    relatedProducts: ['lipstick-vibe', 'sceptre-wand', 'satisfyer-pro-suction', 'pulsating-rose', 'pocket-bullet', 'siren-app', 'sucking-rabbit', 'sculpted-dildo']
+    relatedProducts: ['lipstick-vibe', 'sceptre-wand', 'satisfyer-pro-suction', 'pulsating-rose', 'pocket-bullet', 'sucking-rabbit', 'sculpted-dildo']
   },
   {
     slug: 'water-based-lube-guide-nigeria',
@@ -638,7 +638,7 @@ export const BLOG_ARTICLES = [
       <p>If full-sized wands or penetrative pieces feel too intimidating for an initial step, start with lower-stakes sensory accessories:</p>
       <ul>
         <li><strong>Dual-Stimulation Cock Rings:</strong> Worn at the base to maintain firm stamina for him, while the top silicone vibrating head delivers simultaneous clitoral stimulation during standard intimacy.</li>
-        <li><strong>App-Controlled Wearable Bullets:</strong> Compact, curved silicone pieces like <a href="/products.html?product=siren-app">The Siren (₦27,000)</a> that sit discreetly in place while your partner controls the rhythms from their phone across the room or across town.</li>
+        <li><strong>App-Controlled Wearable Bullets:</strong> Compact, curved silicone pieces like <a href="/products.html#abuja">The Siren (₦27,000)</a> that sit discreetly in place while your partner controls the rhythms from their phone across the room or across town.</li>
         <li><strong>Sensory Accessories:</strong> Satin blindfolds, warming massage candles, and intimacy card decks create playful anticipation without any mechanical intimidation.</li>
       </ul>
 
@@ -646,8 +646,8 @@ export const BLOG_ARTICLES = [
         <span class="callout-badge">KEY TAKEAWAY</span>
         <p>Curiosity and laughter in the bedroom build more intimacy than perfection. Keep things playful, communicate what feels good, and explore together.</p>
       </div>
-      <p>Ready to try couples play without performance pressure? Explore <a href="/products.html?product=siren-app">The Siren App-Controlled Vibe</a> or browse our complete <a href="/products.html?cat=couples">Couples Collection</a>.</p>
+      <p>Ready to try couples play without performance pressure? Explore <a href="/products.html#abuja">The Siren App-Controlled Vibe</a> or browse our complete <a href="/products.html?cat=couples">Couples Collection</a>.</p>
     `,
-    relatedProducts: ['siren-app', 'bdsm-kit-essentials']
+    relatedProducts: ['bdsm-kit-essentials']
   }
 ];

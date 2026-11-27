@@ -2740,6 +2740,8 @@
     "id": "siren-app",
     "title": "The Siren",
     "badge": "ABUJA EXCLUSIVE",
+    "region": "abuja",
+    "is_abuja": true,
     "price": 27000,
     "priceStr": "₦27,000",
     "img": "/assets/siren-app-red.webp",
