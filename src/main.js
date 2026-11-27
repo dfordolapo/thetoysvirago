@@ -6879,6 +6879,21 @@ function openQuickviewForProduct(prodKey, card = null) {
     qvDelivColorNote.style.display = (!isLingerie && isToy && hasMultipleColors) ? 'block' : 'none';
   }
 
+  // Show Abuja vs standard delivery card depending on product region
+  const qvDelivStandard = document.getElementById('qv-deliv-standard');
+  const qvDelivAbuja = document.getElementById('qv-deliv-abuja');
+  if (qvDelivStandard && qvDelivAbuja) {
+    const isAbujaExclusive = Boolean(
+      prod.region === 'abuja' ||
+      prod.isAbuja === true ||
+      prod.is_abuja === true ||
+      /abuja/i.test(prod.badge || '') ||
+      (card && (card.dataset.region === 'abuja' || (card.dataset.keywords || '').toLowerCase().includes('abuja exclusive')))
+    );
+    qvDelivStandard.style.display = isAbujaExclusive ? 'none' : 'block';
+    qvDelivAbuja.style.display = isAbujaExclusive ? 'block' : 'none';
+  }
+
   // Populate Category-Specific Specs
   if (qvSpecs) {
     qvSpecs.innerHTML = '';
