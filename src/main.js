@@ -9794,10 +9794,8 @@ export function initCustomCatalogProducts() {
   // Use a lightweight column list (never bulk-select image/media data URLs) and serve product
   // images through the on-demand /product-image endpoint instead.
   const supabaseImageUrl = (id) => '/product-image/' + encodeURIComponent(id);
-  const catalogColumns = 'id, title, category, badge, tagline, price, original_price, description, specs, in_stock, variants, sizes, region, is_abuja, updated_at';
-  const legacyCatalogColumns = 'id, title, category, badge, tagline, price, original_price, description, specs, in_stock, variants, sizes, updated_at';
+  const catalogColumns = 'id, title, category, badge, tagline, price, original_price, description, specs, in_stock, variants, sizes, updated_at';
   getSupabaseProducts(catalogColumns)
-    .then(rows => rows === null ? getSupabaseProducts(legacyCatalogColumns) : rows)
     .then((remoteProds) => {
     if (remoteProds && Array.isArray(remoteProds) && remoteProds.length > 0) {
       const deletedRemoteIds = new Set(

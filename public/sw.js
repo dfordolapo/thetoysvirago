@@ -1,4 +1,4 @@
-const CACHE_NAME = 'thetoysvirago-v9';
+const CACHE_NAME = 'thetoysvirago-v10';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',

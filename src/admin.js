@@ -1825,10 +1825,8 @@ async function refreshCatalogData(pinnedProduct = null) {
   // Sync with Supabase cloud if connected (LIGHTWEIGHT QUERY - skips heavy media payloads)
   if (isSupabaseConfigured) {
     try {
-      const summaryColumns = 'id, title, category, badge, tagline, price, original_price, image, description, in_stock, variants, sizes, region, is_abuja, updated_at';
-      const legacySummaryColumns = 'id, title, category, badge, tagline, price, original_price, image, description, in_stock, variants, sizes, updated_at';
-      let remote = await getSupabaseProducts(summaryColumns);
-      if (!Array.isArray(remote)) remote = await getSupabaseProducts(legacySummaryColumns);
+      const summaryColumns = 'id, title, category, badge, tagline, price, original_price, image, description, in_stock, variants, sizes, updated_at';
+      const remote = await getSupabaseProducts(summaryColumns);
       if (remote && Array.isArray(remote)) {
         remote.forEach(rp => {
           if (rp.badge === '__DELETED__' || rp.region === 'deleted') {
