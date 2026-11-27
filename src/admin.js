@@ -1681,11 +1681,35 @@ async function loadProductIntoForm(prod) {
   showToast(`Editing "${prod.title}". Make changes and click Update.`);
 }
 
+const DELETED_STORAGE_KEY = 'thetoysvirago_deleted_products';
+let baseStaticProductIds = new Set();
+
+function getDeletedProductIds() {
+  try {
+    const raw = localStorage.getItem(DELETED_STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return new Set(Array.isArray(parsed) ? parsed : []);
+  } catch (_) {
+    return new Set();
+  }
+}
+
+function addDeletedProductId(id) {
+  if (!id) return;
+  const set = getDeletedProductIds();
+  set.add(id);
+  try {
+    localStorage.setItem(DELETED_STORAGE_KEY, JSON.stringify(Array.from(set)));
+  } catch (_) {}
+}
+
 async function deleteCustomProductItem(id) {
   const prod = allInventoryProducts.find(p => p.id === id);
   const label = prod ? prod.title : id;
   if (!confirm(`Delete "${label}" completely from your store and database? This cannot be undone.`)) return;
 
+  const isStaticBase = baseStaticProductIds.has(id);
+  addDeletedProductId(id);
   currentCustomProducts = currentCustomProducts.filter(p => p.id !== id);
   allInventoryProducts = allInventoryProducts.filter(p => p.id !== id);
   saveCustomProducts(currentCustomProducts);
@@ -1694,10 +1718,38 @@ async function deleteCustomProductItem(id) {
   let remoteError = '';
   if (isSupabaseConfigured) {
     try {
-      const res = await deleteSupabaseProduct(id);
-      if (res && res.success === false) {
-        remoteOk = false;
-        remoteError = res.error || res.reason || 'Unknown Supabase error';
+      if (isStaticBase) {
+        const res = await upsertSupabaseProduct({
+          id,
+          title: (prod && prod.title) || id,
+          category: (prod && prod.category) || 'toys',
+          price: (prod && prod.price) || 0,
+          badge: '__DELETED__',
+          region: 'deleted',
+          inStock: false
+        });
+        if (res && res.success === false) {
+          remoteOk = false;
+          remoteError = res.error || res.reason || 'Unknown Supabase error';
+        }
+      } else {
+        const res = await deleteSupabaseProduct(id);
+        if (res && res.success === false) {
+          // Fallback to soft-delete tombstone if hard DELETE is blocked by RLS
+          const softRes = await upsertSupabaseProduct({
+            id,
+            title: (prod && prod.title) || id,
+            category: (prod && prod.category) || 'toys',
+            price: (prod && prod.price) || 0,
+            badge: '__DELETED__',
+            region: 'deleted',
+            inStock: false
+          });
+          if (!softRes || softRes.success === false) {
+            remoteOk = false;
+            remoteError = res.error || res.reason || 'Unknown Supabase error';
+          }
+        }
       }
     } catch (e) {
       remoteOk = false;
@@ -1708,7 +1760,7 @@ async function deleteCustomProductItem(id) {
 
   await refreshCatalogData();
   if (!remoteOk) {
-    showToast(`Removed locally, but Supabase delete failed: ${remoteError}`);
+    showToast(`Removed locally, but live sync failed: ${remoteError}`);
   } else {
     showToast(`"${label}" deleted completely from the site.`);
   }
@@ -1770,6 +1822,8 @@ async function refreshCatalogData(pinnedProduct = null) {
     renderInventoryTable();
   }
 
+  const deletedIds = getDeletedProductIds();
+
   // Sync with Supabase cloud if connected (LIGHTWEIGHT QUERY - skips heavy media payloads)
   if (isSupabaseConfigured) {
     try {
@@ -1779,6 +1833,12 @@ async function refreshCatalogData(pinnedProduct = null) {
       if (!Array.isArray(remote)) remote = await getSupabaseProducts(legacySummaryColumns);
       if (remote && Array.isArray(remote)) {
         remote.forEach(rp => {
+          if (rp.badge === '__DELETED__' || rp.region === 'deleted') {
+            deletedIds.add(rp.id);
+            mergedMap.delete(rp.id);
+            return;
+          }
+          if (deletedIds.has(rp.id)) return;
           const mapped = {
             id: rp.id,
             title: rp.title,
@@ -1810,7 +1870,8 @@ async function refreshCatalogData(pinnedProduct = null) {
     const res = await fetch('/new-products-data.json');
     if (res.ok) {
       const baseProds = await res.json();
-      baseProds.filter(bp => bp.id !== 'crystal-glass-plugs' && bp.id !== 'crystal-dual-dildo').forEach(bp => {
+      baseStaticProductIds = new Set(baseProds.map(bp => bp.id).filter(Boolean));
+      baseProds.filter(bp => bp.id !== 'crystal-glass-plugs' && bp.id !== 'crystal-dual-dildo' && !deletedIds.has(bp.id)).forEach(bp => {
         if (!mergedMap.has(bp.id)) {
           mergedMap.set(bp.id, {
             id: bp.id,
@@ -1831,6 +1892,8 @@ async function refreshCatalogData(pinnedProduct = null) {
   } catch (err) {
     console.warn('[Admin] Could not load base catalog JSON:', err);
   }
+
+  deletedIds.forEach(delId => mergedMap.delete(delId));
 
   allInventoryProducts = Array.from(mergedMap.values());
   if (pinnedProduct && pinnedProduct.id && !allInventoryProducts.some(p => p.id === pinnedProduct.id)) {

@@ -9799,7 +9799,22 @@ export function initCustomCatalogProducts() {
     .then(rows => rows === null ? getSupabaseProducts(legacyCatalogColumns) : rows)
     .then((remoteProds) => {
     if (remoteProds && Array.isArray(remoteProds) && remoteProds.length > 0) {
-      const cleanRemote = remoteProds.filter(rp => rp && !PURGED_PRODUCT_IDS.includes(rp.id));
+      const deletedRemoteIds = new Set(
+        remoteProds
+          .filter(rp => rp && (rp.badge === '__DELETED__' || rp.region === 'deleted'))
+          .map(rp => rp.id)
+      );
+      if (deletedRemoteIds.size > 0) {
+        deletedRemoteIds.forEach((delId) => {
+          PURGED_PRODUCT_IDS.push(delId);
+          document.querySelectorAll(`.product-card[data-id="${delId}"]`).forEach(el => el.remove());
+        });
+        customProds = customProds.filter(p => p && !deletedRemoteIds.has(p.id));
+        try {
+          localStorage.setItem('thetoysvirago_custom_products', JSON.stringify(customProds));
+        } catch (_) {}
+      }
+      const cleanRemote = remoteProds.filter(rp => rp && !PURGED_PRODUCT_IDS.includes(rp.id) && !deletedRemoteIds.has(rp.id));
       // Prepend newest remote products to front of customProds
       cleanRemote.forEach(rp => {
         const existingIdx = customProds.findIndex(p => p.id === rp.id);

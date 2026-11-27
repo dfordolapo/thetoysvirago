@@ -53,7 +53,7 @@ export function enhanceCustomSelect(select, options = {}) {
     wrapper.classList.add('ttv-custom-select--inline');
   }
   if (select.classList.contains('admin-filter-select')) {
-    wrapper.classList.add('admin-filter-select');
+    wrapper.classList.add('admin-filter-select-wrap');
   }
 
   const trigger = document.createElement('button');

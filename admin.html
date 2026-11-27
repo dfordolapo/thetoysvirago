@@ -653,8 +653,11 @@
       border-color: var(--admin-ruby);
     }
 
-    .admin-filter-select {
+    .admin-filter-select,
+    .admin-filter-select-wrap {
       display: none;
+    }
+    .admin-filter-select {
       background: #ffffff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 14px center;
       border: 1px solid #cbd5e1;
       border-radius: 10px;
@@ -1221,6 +1224,10 @@
       }
 
       /* Show dropdown on mobile */
+      .admin-filter-select-wrap {
+        display: block !important;
+        width: 100% !important;
+      }
       .admin-filter-select {
         display: block !important;
         width: 100% !important;
