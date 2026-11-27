@@ -80,26 +80,44 @@ export default async function handler(req, res) {
       const esc = (str) => String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
       const safeTitle = esc(productTitle);
 
-      // Fetch & compress a lightweight ~420px JPEG inline attachment so the image renders
-      // immediately with the email text without waiting on an external proxy fetch.
+      // Compress to a tiny ~300px progressive JPEG (~8-15 KB) and embed inline via cid:
+      // so the image renders instantaneously with the email text.
       let inlineAttachment = null;
       try {
-        const imgFetchUrl = productImage.includes('/product-image/') && !productImage.includes('w=')
-          ? `${productImage}${productImage.includes('?') ? '&' : '?'}w=420&q=74`
-          : productImage;
-        const imgRes = await fetch(imgFetchUrl, { headers: { 'User-Agent': 'TheToysVirago-Mailer/1.0' } });
-        if (imgRes.ok) {
-          const rawBuf = Buffer.from(await imgRes.arrayBuffer());
+        let rawBuf = null;
+        const assetPathMatch = productImage.match(/^(?:https?:\/\/(?:www\.)?thetoysvirago\.shop)?(\/assets\/[^?#]+)/i);
+        if (assetPathMatch && assetPathMatch[1]) {
+          const fs = await import('fs');
+          const path = await import('path');
+          const relAsset = assetPathMatch[1].replace(/^\/+/, '');
+          for (const base of ['public', 'dist']) {
+            const candidate = path.join(process.cwd(), base, relAsset.replace(/^assets\//, 'assets/'));
+            if (fs.existsSync(candidate)) {
+              rawBuf = fs.readFileSync(candidate);
+              break;
+            }
+          }
+        }
+        if (!rawBuf) {
+          const imgFetchUrl = productImage.includes('/product-image/') && !productImage.includes('w=')
+            ? `${productImage}${productImage.includes('?') ? '&' : '?'}w=300&q=65`
+            : productImage;
+          const imgRes = await fetch(imgFetchUrl, { headers: { 'User-Agent': 'TheToysVirago-Mailer/1.0' } });
+          if (imgRes.ok) {
+            rawBuf = Buffer.from(await imgRes.arrayBuffer());
+          }
+        }
+        if (rawBuf && rawBuf.length > 0) {
           let finalBuf = rawBuf;
           try {
             const { default: sharp } = await import('sharp');
             finalBuf = await sharp(rawBuf)
               .rotate()
-              .resize({ width: 420, withoutEnlargement: true })
-              .jpeg({ quality: 76, mozjpeg: true })
+              .resize({ width: 300, withoutEnlargement: true })
+              .jpeg({ quality: 65, progressive: true, mozjpeg: true })
               .toBuffer();
           } catch (_) {}
-          if (finalBuf && finalBuf.length > 0 && finalBuf.length < 1500000) {
+          if (finalBuf && finalBuf.length > 0 && finalBuf.length < 500000) {
             inlineAttachment = {
               filename: `${productId.replace(/[^a-z0-9_-]/gi, '') || 'product'}.jpg`,
               content: finalBuf.toString('base64'),
