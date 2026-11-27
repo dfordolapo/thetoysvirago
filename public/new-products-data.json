@@ -4,8 +4,8 @@
     "title": "Emerald Snakeskin Bondage Trunk",
     "category": "bdsm",
     "badge": "LUXURY VAULT • 10-PIECE SET",
-    "price": 65000,
-    "priceStr": "₦65,000",
+    "price": 40000,
+    "priceStr": "₦40,000",
     "img": "/assets/IMG_8501.webp",
     "desc": "An opulent collector trunk crafted in embossed emerald snakeskin leather with satin crimson lining. Includes heavy-gauge faux-leather wrist cuffs, ankle restraints, connector straps, studded collar with leash, silicone ball gag, and a braided multi-tail flogger with polished gold-tone hardware.",
     "specs": [
@@ -27,15 +27,29 @@
       }
     ],
     "material": "Embossed Vegan Leather, Gold Hardware & Soft Neoprene Lining",
-    "acoustics": "Sensory Deprivation & Bondage Suite"
+    "acoustics": "Sensory Deprivation & Bondage Suite",
+    "variants": [
+      {
+        "name": "No Case",
+        "price": 40000,
+        "priceStr": "₦40,000",
+        "img": "/assets/IMG_8501.webp"
+      },
+      {
+        "name": "Case",
+        "price": 55000,
+        "priceStr": "₦55,000",
+        "img": "/assets/IMG_8501.webp"
+      }
+    ]
   },
   {
     "id": "leather-bondage-chest",
     "title": "Noir Croc & Ruby Bondage Chest",
     "category": "bdsm",
     "badge": "LUXURY BDSM VAULT",
-    "price": 60000,
-    "priceStr": "₦60,000",
+    "price": 40000,
+    "priceStr": "₦40,000",
     "img": "/assets/IMG_8618.webp",
     "desc": "Encased in a lockable high-gloss black crocodile-embossed vanity trunk with crimson velvet interior. Features a seductive cat-eye masquerade mask with red piping, padded heart impact paddle, adjustable wrist & ankle cuffs, leash, and gag.",
     "specs": [
@@ -57,15 +71,29 @@
       }
     ],
     "material": "Crocodile Vegan Leather & Red Velvet Padding",
-    "acoustics": "Domination & Sensual Discipline"
+    "acoustics": "Domination & Sensual Discipline",
+    "variants": [
+      {
+        "name": "No Case",
+        "price": 40000,
+        "priceStr": "₦40,000",
+        "img": "/assets/IMG_8618.webp"
+      },
+      {
+        "name": "Case",
+        "price": 55000,
+        "priceStr": "₦55,000",
+        "img": "/assets/IMG_8618.webp"
+      }
+    ]
   },
   {
     "id": "love-is-a-gamble-kit",
     "title": "Love Is A Gamble Intimacy Kit",
     "category": "bdsm",
     "badge": "COUPLES TEASE & DENIAL",
-    "price": 25000,
-    "priceStr": "₦25,000",
+    "price": 15000,
+    "priceStr": "₦15,000",
     "img": "/assets/IMG_1284.webp",
     "desc": "A playful boudoir starter set combining plush pink fur handcuffs, a delicate tickler feather, soft satin blindfold, and glow-in-the-dark Kama Sutra intimacy dice. Surrender anticipation to the roll of the dice.",
     "specs": [
@@ -90,32 +118,32 @@
     "title": "Fluffy Faux-Fur Bunny Tail Plugs",
     "category": "bdsm",
     "badge": "PLAYFUL COSPLAY • JEWELED",
-    "price": 18000,
-    "priceStr": "₦18,000",
+    "price": 12000,
+    "priceStr": "₦12,000",
     "img": "/assets/IMG_0283.webp",
     "variants": [
       {
-        "name": "Scarlet Fur (Silicone)",
-        "price": 18000,
-        "priceStr": "₦18,000",
+        "name": "Scarlet",
+        "price": 12000,
+        "priceStr": "₦12,000",
         "img": "/assets/IMG_0283.webp"
       },
       {
-        "name": "Noir Fur (Silicone)",
-        "price": 18000,
-        "priceStr": "₦18,000",
+        "name": "Noir",
+        "price": 12000,
+        "priceStr": "₦12,000",
         "img": "/assets/IMG_0284.webp"
       },
       {
-        "name": "Violet Fur (Chrome Gem)",
-        "price": 20000,
-        "priceStr": "₦20,000",
+        "name": "Violet",
+        "price": 12000,
+        "priceStr": "₦12,000",
         "img": "/assets/IMG_0286.webp"
       },
       {
-        "name": "Blush Fur (Chrome Gem)",
-        "price": 20000,
-        "priceStr": "₦20,000",
+        "name": "Blush",
+        "price": 12000,
+        "priceStr": "₦12,000",
         "img": "/assets/IMG_0288.webp"
       }
     ],
@@ -142,16 +170,20 @@
     "title": "Artisan Braided Shibari Rope",
     "category": "bdsm",
     "badge": "JAPANESE SHIBARI • 10 METERS",
-    "price": 15000,
-    "priceStr": "₦15,000",
+    "price": 8500,
+    "priceStr": "₦8,500",
     "img": "/assets/IMG_5209.webp",
     "variants": [
       {
-        "name": "Red",
+        "name": "Crimson",
+        "price": 8500,
+        "priceStr": "₦8,500",
         "img": "/assets/IMG_5209.webp"
       },
       {
-        "name": "Black",
+        "name": "Midnight",
+        "price": 8500,
+        "priceStr": "₦8,500",
         "img": "/assets/IMG_5210.webp"
       }
     ],
@@ -178,8 +210,8 @@
     "title": "Sovereign Leather Restraint Cuffs",
     "category": "bdsm",
     "badge": "QUICK-RELEASE • GOLD ACCENT",
-    "price": 22000,
-    "priceStr": "₦22,000",
+    "price": 12000,
+    "priceStr": "₦12,000",
     "img": "/assets/IMG_7072.webp",
     "desc": "Handcrafted black vegan leather wrist restraints lined with plush fleece to protect delicate skin. Interconnected by a detachable, polished gold link chain and dual swivel snap-hooks.",
     "specs": [
@@ -283,20 +315,26 @@
     "title": "Silicone Bone Restraint Gag",
     "category": "bdsm",
     "badge": "PLAYFUL DISCIPLINE",
-    "price": 18000,
-    "priceStr": "₦18,000",
+    "price": 14000,
+    "priceStr": "₦14,000",
     "img": "/assets/IMG_9989.webp",
     "variants": [
       {
-        "name": "Red",
+        "name": "Crimson",
+        "price": 14000,
+        "priceStr": "₦14,000",
         "img": "/assets/IMG_9989.webp"
       },
       {
         "name": "Black",
+        "price": 14000,
+        "priceStr": "₦14,000",
         "img": "/assets/IMG_9989.webp"
       },
       {
-        "name": "Pink",
+        "name": "Pastel",
+        "price": 14000,
+        "priceStr": "₦14,000",
         "img": "/assets/IMG_9989.webp"
       }
     ],
@@ -324,8 +362,8 @@
     "title": "Natural Hemp Quick-Adjust Shibari Harness",
     "category": "bdsm",
     "badge": "QUICK SLIDE LOCKS",
-    "price": 16000,
-    "priceStr": "₦16,000",
+    "price": 15000,
+    "priceStr": "₦15,000",
     "img": "/assets/IMG_6900.webp",
     "desc": "Twisted natural hemp cuffs equipped with modern quick-slide tension locks. Wrap around wrists, ankles, or thighs in seconds without requiring complex knots, then lock or release with a single push.",
     "specs": [
@@ -375,13 +413,19 @@
       {
         "name": "Small",
         "price": 11000,
-        "priceStr": "₦11,000"
+        "priceStr": "₦11,000",
+        "img": "/assets/IMG_2193.webp"
       },
       {
         "name": "Large",
         "price": 12000,
-        "priceStr": "₦12,000"
+        "priceStr": "₦12,000",
+        "img": "/assets/IMG_2193.webp"
       }
+    ],
+    "sizes": [
+      "Small",
+      "Large"
     ]
   },
   {
@@ -443,8 +487,8 @@
     "title": "A Year of Sex! Sexual Position Cards",
     "category": "games",
     "badge": "52 BEDROOM POSITIONS",
-    "price": 18000,
-    "priceStr": "₦18,000",
+    "price": 10000,
+    "priceStr": "₦10,000",
     "img": "/assets/IMG_5106.webp",
     "desc": "52 exquisitely illustrated Kama Sutra position cards designed to inspire passion and expand your bedroom repertoire. Includes difficulty ratings, muscle target guides, and secret stimulation tips for every single week of the year.",
     "specs": [
@@ -469,8 +513,8 @@
     "title": "Kailin Pure Water-Based Intimate Lubricant",
     "category": "lubes",
     "badge": "200ML • SILK FORMULA",
-    "price": 12000,
-    "priceStr": "₦12,000",
+    "price": 10000,
+    "priceStr": "₦10,000",
     "img": "/assets/IMG_3632.webp",
     "desc": "Crystal-clear, non-sticky water-based personal lubricant formulated for long-lasting glide and effortless cleanup. 100% condom and silicone-toy compatible, pH-balanced, hypoallergenic, and never leaves a tacky residue.",
     "specs": [
@@ -643,20 +687,26 @@
     "title": "Velvet Blush: Stealth Makeup Brush Vibrator",
     "category": "toys",
     "badge": "STEALTH LUXE • USB CHARGE",
-    "price": 22000,
-    "priceStr": "₦22,000",
+    "price": 25000,
+    "priceStr": "₦25,000",
     "img": "/assets/IMG_0360.webp",
     "variants": [
       {
         "name": "Emerald",
+        "price": 25000,
+        "priceStr": "₦25,000",
         "img": "/assets/IMG_0360.webp"
       },
       {
-        "name": "Black",
+        "name": "Noir",
+        "price": 25000,
+        "priceStr": "₦25,000",
         "img": "/assets/IMG_0364.webp"
       },
       {
         "name": "Bronze",
+        "price": 25000,
+        "priceStr": "₦25,000",
         "img": "/assets/IMG_0364.webp"
       }
     ],
@@ -687,8 +737,8 @@
     "title": "Satisfyer Pro 2 Air-Pulse Wave Clitoral Sucker",
     "category": "toys",
     "badge": "TOUCHLESS AIR-WAVE • WATERPROOF",
-    "price": 32000,
-    "priceStr": "₦32,000",
+    "price": 40000,
+    "priceStr": "₦40,000",
     "img": "/assets/IMG_4334.webp",
     "desc": "The world-renowned touchless clitoral air-wave stimulator in radiant rose gold. Delivers contactless aerodynamic pressure waves that stimulate the deeper clitoral nerves for fast, overwhelming climaxes without numbing or overstimulation.",
     "specs": [
@@ -710,7 +760,21 @@
       }
     ],
     "material": "Body-Safe Matte Silicone & Rose Gold Metal Alloy",
-    "acoustics": "< 35 dB (Subtle & Quiet)"
+    "acoustics": "< 35 dB (Subtle & Quiet)",
+    "variants": [
+      {
+        "name": "Pro 2",
+        "price": 40000,
+        "priceStr": "₦40,000",
+        "img": "/assets/IMG_4334.webp"
+      },
+      {
+        "name": "Pro 2+",
+        "price": 45000,
+        "priceStr": "₦45,000",
+        "img": "/assets/IMG_4334.webp"
+      }
+    ]
   },
   {
     "id": "empress-magic-wand",
@@ -722,19 +786,27 @@
     "img": "/assets/IMG_6459.webp",
     "variants": [
       {
-        "name": "Matte Noir",
+        "name": "Matte",
+        "price": 35000,
+        "priceStr": "₦35,000",
         "img": "/assets/IMG_6459.webp"
       },
       {
         "name": "Fuchsia",
+        "price": 35000,
+        "priceStr": "₦35,000",
         "img": "/assets/IMG_6459.webp"
       },
       {
-        "name": "Midnight Purple",
+        "name": "Purple",
+        "price": 35000,
+        "priceStr": "₦35,000",
         "img": "/assets/IMG_6459.webp"
       },
       {
-        "name": "Mirror Chrome",
+        "name": "Chrome",
+        "price": 35000,
+        "priceStr": "₦35,000",
         "img": "/assets/IMG_6459.webp"
       }
     ],
@@ -765,8 +837,8 @@
     "title": "Sakura Petal Wand Massager",
     "category": "toys",
     "badge": "BLOSSOM CROWN • WHISPER POWER",
-    "price": 26000,
-    "priceStr": "₦26,000",
+    "price": 30000,
+    "priceStr": "₦30,000",
     "img": "/assets/IMG_4705.webp",
     "desc": "An enchanting cordless wand massager crowned with delicate silicone blossom petals at the base. Combines a cushioned flexible neck with 10 pulsing rhythms for pinpoint clitoral bliss and decadent relaxation.",
     "specs": [
@@ -796,11 +868,15 @@
     "img": "/assets/IMG_4697.webp",
     "variants": [
       {
-        "name": "Mirror Gold",
+        "name": "Gold",
+        "price": 18000,
+        "priceStr": "₦18,000",
         "img": "/assets/IMG_4697.webp"
       },
       {
-        "name": "Metallic Violet",
+        "name": "Violet",
+        "price": 18000,
+        "priceStr": "₦18,000",
         "img": "/assets/IMG_4697.webp"
       }
     ],
@@ -827,16 +903,20 @@
     "title": "Tulip Blossom Dual-End Wand & Suction Vibrator",
     "category": "toys",
     "badge": "SUCTION & G-SPOT • DUAL END",
-    "price": 32000,
-    "priceStr": "₦32,000",
+    "price": 35000,
+    "priceStr": "₦35,000",
     "img": "/assets/IMG_6732.webp",
     "variants": [
       {
-        "name": "Pink",
+        "name": "Blush",
+        "price": 35000,
+        "priceStr": "₦35,000",
         "img": "/assets/IMG_6732.webp"
       },
       {
-        "name": "Fuchsia",
+        "name": "Rose",
+        "price": 35000,
+        "priceStr": "₦35,000",
         "img": "/assets/IMG_6732.webp"
       }
     ],
@@ -912,10 +992,14 @@
     "variants": [
       {
         "name": "Pink",
+        "price": 30000,
+        "priceStr": "₦30,000",
         "img": "/assets/IMG_3791.webp"
       },
       {
         "name": "Purple",
+        "price": 30000,
+        "priceStr": "₦30,000",
         "img": "/assets/IMG_3791.webp"
       }
     ]
@@ -925,8 +1009,8 @@
     "title": "Sucking Wearable C-Shape Panty Vibrator",
     "category": "toys",
     "badge": "SUCTION + INSERTABLE DUAL STIM",
-    "price": 30000,
-    "priceStr": "₦30,000",
+    "price": 35000,
+    "priceStr": "₦35,000",
     "img": "/assets/IMG_7047.webp",
     "desc": "An advanced anatomical C-curve vibrator that inserts effortlessly for deep G-spot sensations while its external arm locks over the clitoris with targeted suction waves. Hands-free and wearable under lingerie.",
     "specs": [
@@ -951,8 +1035,8 @@
     "title": "Spherical Palm Air-Pulse Clitoral Sucker",
     "category": "toys",
     "badge": "PALM SIZED • LEMON YELLOW",
-    "price": 22000,
-    "priceStr": "₦22,000",
+    "price": 30000,
+    "priceStr": "₦30,000",
     "img": "/assets/IMG_7509.webp",
     "desc": "Compact spherical ergonomic air-pulse sucker that fits naturally into the palm of your hand. Delivers pulsing suction flutter waves with whisper-quiet discretion in vibrant citrus yellow.",
     "specs": [
@@ -977,8 +1061,8 @@
     "title": "Winged Empress Rabbit Clitoral Sucker",
     "category": "toys",
     "badge": "AIR-PULSE + G-SPOT",
-    "price": 32000,
-    "priceStr": "₦32,000",
+    "price": 50000,
+    "priceStr": "₦50,000",
     "img": "/assets/IMG_0530.webp",
     "desc": "Bold crimson silicone rabbit vibrator featuring contoured butterfly suction wings that envelop the clitoris in airtight air-wave pulses, paired with an insertable ribbed shaft for blended internal orgasms.",
     "specs": [
@@ -1029,8 +1113,8 @@
     "title": "Crystal Rotating Beaded Rabbit Vibrator",
     "category": "toys",
     "badge": "ROTATING BEADS • G-SPOT",
-    "price": 32000,
-    "priceStr": "₦32,000",
+    "price": 20000,
+    "priceStr": "₦20,000",
     "img": "/assets/IMG_0474.webp",
     "desc": "Crafted from crystal-clear hypoallergenic jelly-silicone with internally rotating beads that mimic the rhythmic circling of a lover’s fingers, paired with buzzing rabbit ears for intense clitoral thrills.",
     "specs": [
@@ -1048,15 +1132,29 @@
       }
     ],
     "material": "Crystal Jelly Silicone & Chrome Alloy Handle",
-    "acoustics": "< 38 dB (Rumbling Sensation)"
+    "acoustics": "< 38 dB (Rumbling Sensation)",
+    "variants": [
+      {
+        "name": "Battery",
+        "price": 20000,
+        "priceStr": "₦20,000",
+        "img": "/assets/IMG_0474.webp"
+      },
+      {
+        "name": "USB",
+        "price": 25000,
+        "priceStr": "₦25,000",
+        "img": "/assets/IMG_0474.webp"
+      }
+    ]
   },
   {
     "id": "dual-rabbit-tongue-vibe",
     "title": "Dual-Penetration Rabbit Vibrator with Licking Tongue",
     "category": "toys",
     "badge": "DUAL SHAFT • ORAL TONGUE",
-    "price": 36000,
-    "priceStr": "₦36,000",
+    "price": 50000,
+    "priceStr": "₦50,000",
     "img": "/assets/IMG_4494.webp",
     "desc": "An exquisite royal purple silicone masterpiece featuring dual parallel insertable shafts for blended internal fullness, paired with a motorized silicone flicking tongue that laps rhythmically against the clitoris.",
     "specs": [
@@ -1113,10 +1211,14 @@
     "variants": [
       {
         "name": "Black",
+        "price": 16000,
+        "priceStr": "₦16,000",
         "img": "/assets/IMG_5141.webp"
       },
       {
         "name": "Fuchsia",
+        "price": 16000,
+        "priceStr": "₦16,000",
         "img": "/assets/IMG_5141.webp"
       }
     ],
@@ -1170,20 +1272,26 @@
     "title": "Sensual Finger Ring Vibrator",
     "category": "toys",
     "badge": "FINGER WEARABLE • FOREPLAY",
-    "price": 14000,
-    "priceStr": "₦14,000",
+    "price": 20000,
+    "priceStr": "₦20,000",
     "img": "/assets/IMG_5568.webp",
     "variants": [
       {
         "name": "Black",
+        "price": 20000,
+        "priceStr": "₦20,000",
         "img": "/assets/IMG_5568.webp"
       },
       {
         "name": "Purple",
+        "price": 20000,
+        "priceStr": "₦20,000",
         "img": "/assets/IMG_5568.webp"
       },
       {
         "name": "Pink",
+        "price": 20000,
+        "priceStr": "₦20,000",
         "img": "/assets/IMG_5568.webp"
       }
     ],
@@ -1237,8 +1345,8 @@
     "title": "Vibrating Strap-On Harness & Dildo Kit",
     "category": "toys",
     "badge": "COMPLETE STRAP-ON KIT",
-    "price": 38000,
-    "priceStr": "₦38,000",
+    "price": 45000,
+    "priceStr": "₦45,000",
     "img": "/assets/IMG_0094.webp",
     "desc": "All-inclusive strap-on pleasure kit featuring an adjustable multi-strap harness, realistic vibrating silicone dildo with suction cup base, and an internal bullet vibe that stimulates the wearer during play.",
     "specs": [
@@ -1263,8 +1371,8 @@
     "title": "Real Dildo: Wireless Remote Vibrating Shaft",
     "category": "toys",
     "badge": "WIRELESS REMOTE • REALISTIC",
-    "price": 36000,
-    "priceStr": "₦36,000",
+    "price": 45000,
+    "priceStr": "₦45,000",
     "img": "/assets/IMG_3675.webp",
     "desc": "Lifelike dark ebony silicone dildo with dual-density core, heavy-duty suction cup base, and wireless remote control allowing hands-free operation from across the room.",
     "specs": [
@@ -1294,11 +1402,15 @@
     "img": "/assets/IMG_1280.webp",
     "variants": [
       {
-        "name": "Noir Ebony",
+        "name": "Ebony",
+        "price": 20000,
+        "priceStr": "₦20,000",
         "img": "/assets/IMG_1280.webp"
       },
       {
-        "name": "Warm Chocolate",
+        "name": "Chocolate",
+        "price": 20000,
+        "priceStr": "₦20,000",
         "img": "/assets/IMG_1281.webp"
       }
     ],
@@ -1325,20 +1437,26 @@
     "title": "Spiral Swirl Ribbed Suction Dildo",
     "category": "toys",
     "badge": "SWIRL RIDGES • 3 SHADES",
-    "price": 22000,
-    "priceStr": "₦22,000",
+    "price": 24000,
+    "priceStr": "₦24,000",
     "img": "/assets/IMG_3943.webp",
     "variants": [
       {
         "name": "Black",
+        "price": 24000,
+        "priceStr": "₦24,000",
         "img": "/assets/IMG_3943.webp"
       },
       {
         "name": "Sky Blue",
+        "price": 24000,
+        "priceStr": "₦24,000",
         "img": "/assets/IMG_3943.webp"
       },
       {
         "name": "Tan",
+        "price": 24000,
+        "priceStr": "₦24,000",
         "img": "/assets/IMG_3943.webp"
       }
     ],
@@ -1365,8 +1483,8 @@
     "title": "Double Trouble: Dual-Penetration V-Dildo",
     "category": "toys",
     "badge": "SIMULTANEOUS PENETRATION",
-    "price": 28000,
-    "priceStr": "₦28,000",
+    "price": 20000,
+    "priceStr": "₦20,000",
     "img": "/assets/IMG_2516.webp",
     "desc": "Anatomically designed V-fork dual dildo engineered for simultaneous vaginal and anal fullness. Flexible shafts bend to match individual contours, anchored by a broad suction base.",
     "specs": [
@@ -1458,16 +1576,20 @@
     "title": "Lifelike Dual-Action Rabbit Dildo",
     "category": "toys",
     "badge": "CLITORAL NUDGE ARM • SUCTION BASE",
-    "price": 30000,
-    "priceStr": "₦30,000",
+    "price": 50000,
+    "priceStr": "₦50,000",
     "img": "/assets/IMG_8745.webp",
     "variants": [
       {
-        "name": "Tan Flesh",
+        "name": "Tan",
+        "price": 50000,
+        "priceStr": "₦50,000",
         "img": "/assets/IMG_8745.webp"
       },
       {
-        "name": "Noir Ebony",
+        "name": "Ebony",
+        "price": 50000,
+        "priceStr": "₦50,000",
         "img": "/assets/IMG_8745.webp"
       }
     ],
@@ -1494,8 +1616,8 @@
     "title": "Martha Automatic Clitoral & Labial Vacuum Pump",
     "category": "toys",
     "badge": "ELECTRIC VACUUM • RECHARGEABLE",
-    "price": 35000,
-    "priceStr": "₦35,000",
+    "price": 50000,
+    "priceStr": "₦50,000",
     "img": "/assets/IMG_1091.webp",
     "desc": "Rechargeable automatic intimate pump featuring an anatomical transparent chamber with a soft silicone seal. Creates gentle, pulsing vacuum pressure to enhance blood flow, swell sensitive tissues, and heighten sensitivity.",
     "specs": [
@@ -1586,8 +1708,8 @@
     "title": "Champion Cup Hands-Free Suction Stand Stroker",
     "category": "toys",
     "badge": "HANDS-FREE MOUNT • VIBRATING",
-    "price": 42000,
-    "priceStr": "₦42,000",
+    "price": 18000,
+    "priceStr": "₦18,000",
     "img": "/assets/IMG_5375.webp",
     "desc": "Futuristic vibrating masturbator cup mounted on a heavy-duty articulating ball-joint suction stand. Locks to desks, chairs, or floors for completely hands-free pleasure, with multi-speed vibration waves.",
     "specs": [
@@ -1605,15 +1727,29 @@
       }
     ],
     "material": "Lifelike TPE Sleeve & Heavy Duty Suction Mount",
-    "acoustics": "< 40 dB (Hands-Free Pleasure)"
+    "acoustics": "< 40 dB (Hands-Free Pleasure)",
+    "variants": [
+      {
+        "name": "Non-Vibrating",
+        "price": 18000,
+        "priceStr": "₦18,000",
+        "img": "/assets/IMG_5375.webp"
+      },
+      {
+        "name": "Vibrating",
+        "price": 25000,
+        "priceStr": "₦25,000",
+        "img": "/assets/IMG_5375.webp"
+      }
+    ]
   },
   {
     "id": "beer-cup-stroker",
     "title": "The Stealth Beer Can Disguise Male Stroker",
     "category": "toys",
     "badge": "STEALTH DISGUISE • DUAL ORIFICE",
-    "price": 24000,
-    "priceStr": "₦24,000",
+    "price": 25000,
+    "priceStr": "₦25,000",
     "img": "/assets/IMG_0702.webp",
     "desc": "Disguised in plain sight as a realistic beer drink can. The twist-off lid reveals an ultra-soft, lifelike dual-orifice textured silicone inner sleeve with airtight vacuum suction.",
     "specs": [
@@ -1664,8 +1800,8 @@
     "title": "Stamina USB Vibrating Oral Lips Stroker Cup",
     "category": "toys",
     "badge": "VIBRATING ORAL CUP",
-    "price": 28000,
-    "priceStr": "₦28,000",
+    "price": 25000,
+    "priceStr": "₦25,000",
     "img": "/assets/IMG_4289.webp",
     "desc": "Ergonomic handheld stroker cup capped with realistic sculpted oral lips. Houses an internal USB vibrating bullet that sends tingling waves straight down the shaft during use.",
     "specs": [
@@ -1695,11 +1831,15 @@
     "img": "/assets/IMG_7267.webp",
     "variants": [
       {
-        "name": "Warm Almond",
+        "name": "Almond",
+        "price": 150000,
+        "priceStr": "₦150,000",
         "img": "/assets/IMG_7267.webp"
       },
       {
-        "name": "Rich Caramel",
+        "name": "Caramel",
+        "price": 150000,
+        "priceStr": "₦150,000",
         "img": "/assets/IMG_7321.webp"
       }
     ],
