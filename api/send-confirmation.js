@@ -41,7 +41,6 @@ export default async function handler(req, res) {
     if (action === 'restock_alert') {
       const productId = String(body.productId || '').trim();
       const productTitle = String(body.productTitle || 'Your requested piece').trim();
-      const productImage = String(body.productImage || `https://www.thetoysvirago.shop/product-image/${encodeURIComponent(productId)}`).trim();
       const rawRecipients = Array.isArray(body.recipients)
         ? body.recipients
         : (Array.isArray(body.emails) ? body.emails.map(e => ({ email: e, name: body.customerName || '' })) : []);
@@ -63,6 +62,21 @@ export default async function handler(req, res) {
       }
       const fromEmail = process.env.VITE_RESEND_FROM_EMAIL || process.env.RESEND_FROM_EMAIL || 'TheToysVirago <orders@thetoysvirago.shop>';
       const productUrl = `https://www.thetoysvirago.shop/products/${encodeURIComponent(productId)}`;
+      let resolvedProductImage = String(body.productImage || '').trim();
+      if (!resolvedProductImage) {
+        try {
+          const pageRes = await fetch(productUrl, { headers: { 'User-Agent': 'TheToysVirago-Mailer/1.0' } });
+          if (pageRes.ok) {
+            const pageHtml = await pageRes.text();
+            const ogMatch = pageHtml.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i)
+              || pageHtml.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']/i);
+            if (ogMatch && ogMatch[1]) {
+              resolvedProductImage = ogMatch[1].trim();
+            }
+          }
+        } catch (_) {}
+      }
+      const productImage = resolvedProductImage || `https://www.thetoysvirago.shop/product-image/${encodeURIComponent(productId)}`;
       const esc = (str) => String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
       const safeTitle = esc(productTitle);
 
@@ -88,14 +102,14 @@ export default async function handler(req, res) {
                 ${greeting}
               </p>
               <h2 style="margin: 0 0 10px; font-size: 16px; line-height: 1.35; color: #0f172a; font-weight: 700;">
-                ${safeTitle} is back in stock
+                ${safeTitle} is back in stock.
               </h2>
               <p style="margin: 0 0 16px; font-size: 12.5px; line-height: 1.55; color: #334155;">
-                You asked to be notified when this piece returned. Grab yours now before it sells out again.
+                You asked to be notified when this piece returned. We can't wait to pack it up for you. Grab yours before it sells out again.
               </p>
               <div style="margin: 0 0 18px; text-align: center;">
                 <a href="${productUrl}" style="display: block; text-decoration: none;">
-                  <img src="${esc(productImage)}" alt="${safeTitle}" style="width: 100%; max-height: 240px; object-fit: cover; border-radius: 8px; display: block; border: 1px solid #e2e8f0;" />
+                  <img src="${esc(productImage)}" alt="${safeTitle}" width="400" style="width: 100%; max-width: 400px; height: auto; max-height: 260px; object-fit: contain; border-radius: 8px; display: block; margin: 0 auto; border: 1px solid #e2e8f0;" />
                 </a>
               </div>
               <div style="text-align: center; margin: 16px 0 4px;">
