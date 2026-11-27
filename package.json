@@ -6,7 +6,8 @@
     "dev": "vite",
     "prebuild": "node scripts/update-favicons.cjs",
     "build": "vite build && node scripts/add-product-detail-links.cjs && node scripts/generate-blog-pages.cjs && node scripts/generate-og-cover.cjs && node scripts/generate-gift-og-cover.cjs && node scripts/generate-product-pages.cjs",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node scripts/verify-site.mjs"
   },
   "devDependencies": {
     "vite": "^6.0.0"

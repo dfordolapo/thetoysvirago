@@ -9315,7 +9315,7 @@ function createStoreProductCard(prod, idx) {
   card.className = 'product-card';
   card.dataset.category = prod.category || 'lingerie';
   card.dataset.id = prod.id;
-  card.dataset.keywords = `${prod.title} ${prod.category} ${prod.badge || ''} lingerie lace sensual boudoir`;
+  card.dataset.keywords = `${prod.title} ${prod.category} ${prod.badge || ''} ${prod.tagline || ''}`.trim();
   if (prod.isRemote === true) card.dataset.isRemote = 'true';
   const uploadedAt = prod.updatedAt || prod.updated_at || prod.createdAt || prod.created_at || '';
   const parsedUploadedAt = Date.parse(uploadedAt);
@@ -9659,10 +9659,18 @@ export function initCustomCatalogProducts() {
     const abujaTrack = document.getElementById('abuja-carousel-track');
     if (abujaTrack && abujaProds.length > 0) {
       abujaProds.forEach((prod, idx) => {
-        if (!abujaTrack.querySelector(`.product-card[data-id="${prod.id}"]`)) {
-          const card = createStoreProductCard(prod, idx);
-          card.dataset.region = 'abuja';
-          abujaTrack.prepend(card);
+        // Ensure Abuja exclusives never remain in Lagos main grid or arrivals
+        if (grid) grid.querySelectorAll(`.product-card[data-id="${prod.id}"]`).forEach(el => el.remove());
+        if (arrivalsGrid) arrivalsGrid.querySelectorAll(`.product-card[data-id="${prod.id}"]`).forEach(el => el.remove());
+
+        const existingAbuja = abujaTrack.querySelector(`.product-card[data-id="${prod.id}"]`);
+        const freshCard = createStoreProductCard(prod, idx);
+        freshCard.dataset.region = 'abuja';
+        if (existingAbuja) {
+          if (existingAbuja.dataset.origIdx) freshCard.dataset.origIdx = existingAbuja.dataset.origIdx;
+          existingAbuja.replaceWith(freshCard);
+        } else {
+          abujaTrack.prepend(freshCard);
         }
       });
       const abujaSection = document.getElementById('abuja');
@@ -9671,7 +9679,14 @@ export function initCustomCatalogProducts() {
 
     if (grid) {
       eligibleMain.forEach((prod, idx) => {
-        if (!grid.querySelector(`.product-card[data-id="${prod.id}"]`)) {
+        if (abujaTrack) abujaTrack.querySelectorAll(`.product-card[data-id="${prod.id}"]`).forEach(el => el.remove());
+        const existingCard = grid.querySelector(`.product-card[data-id="${prod.id}"]`);
+        if (existingCard) {
+          // Preserve original card image if Supabase lightweight sync has no local static override and replace with live truth
+          const freshCard = createStoreProductCard(prod, idx);
+          if (existingCard.dataset.origIdx) freshCard.dataset.origIdx = existingCard.dataset.origIdx;
+          existingCard.replaceWith(freshCard);
+        } else {
           const card = createStoreProductCard(prod, idx);
           grid.appendChild(card);
         }
