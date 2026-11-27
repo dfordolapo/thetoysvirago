@@ -80,6 +80,37 @@ export default async function handler(req, res) {
       const esc = (str) => String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
       const safeTitle = esc(productTitle);
 
+      // Fetch & compress a lightweight ~420px JPEG inline attachment so the image renders
+      // immediately with the email text without waiting on an external proxy fetch.
+      let inlineAttachment = null;
+      try {
+        const imgFetchUrl = productImage.includes('/product-image/') && !productImage.includes('w=')
+          ? `${productImage}${productImage.includes('?') ? '&' : '?'}w=420&q=74`
+          : productImage;
+        const imgRes = await fetch(imgFetchUrl, { headers: { 'User-Agent': 'TheToysVirago-Mailer/1.0' } });
+        if (imgRes.ok) {
+          const rawBuf = Buffer.from(await imgRes.arrayBuffer());
+          let finalBuf = rawBuf;
+          try {
+            const { default: sharp } = await import('sharp');
+            finalBuf = await sharp(rawBuf)
+              .rotate()
+              .resize({ width: 420, withoutEnlargement: true })
+              .jpeg({ quality: 76, mozjpeg: true })
+              .toBuffer();
+          } catch (_) {}
+          if (finalBuf && finalBuf.length > 0 && finalBuf.length < 1500000) {
+            inlineAttachment = {
+              filename: `${productId.replace(/[^a-z0-9_-]/gi, '') || 'product'}.jpg`,
+              content: finalBuf.toString('base64'),
+              content_id: 'product-photo'
+            };
+          }
+        }
+      } catch (_) {}
+
+      const imgSrc = inlineAttachment ? 'cid:product-photo' : esc(productImage);
+
       let sent = 0;
       let lastError = '';
       for (const recipient of recipientList) {
@@ -109,7 +140,7 @@ export default async function handler(req, res) {
               </p>
               <div style="margin: 0 0 18px; text-align: center;">
                 <a href="${productUrl}" style="display: block; text-decoration: none;">
-                  <img src="${esc(productImage)}" alt="${safeTitle}" width="400" style="width: 100%; max-width: 400px; height: auto; max-height: 260px; object-fit: contain; border-radius: 8px; display: block; margin: 0 auto; border: 1px solid #e2e8f0;" />
+                  <img src="${imgSrc}" alt="${safeTitle}" width="400" style="width: 100%; max-width: 400px; height: auto; max-height: 260px; object-fit: contain; border-radius: 8px; display: block; margin: 0 auto; border: 1px solid #e2e8f0;" />
                 </a>
               </div>
               <div style="text-align: center; margin: 16px 0 4px;">
@@ -124,15 +155,20 @@ export default async function handler(req, res) {
 </body>
 </html>`;
 
+        const emailPayload = {
+          from: fromEmail,
+          to: [recipient.email],
+          subject: `Back in stock: ${productTitle}`,
+          html: restockHtml
+        };
+        if (inlineAttachment) {
+          emailPayload.attachments = [inlineAttachment];
+        }
+
         const r = await fetch('https://api.resend.com/emails', {
           method: 'POST',
           headers: { 'Authorization': `Bearer ${resendApiKey}`, 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            from: fromEmail,
-            to: [recipient.email],
-            subject: `Back in stock: ${productTitle}`,
-            html: restockHtml
-          })
+          body: JSON.stringify(emailPayload)
         });
         if (r.ok) {
           sent++;
