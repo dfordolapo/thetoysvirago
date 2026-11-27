@@ -1,9 +1,11 @@
 {
   "cleanUrls": true,
+  "redirects": [
+    { "source": "/sitemap-products.xml", "destination": "/sitemap.xml", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/products/:id", "destination": "/api/product-page?id=:id" },
     { "source": "/product-image/:id", "destination": "/api/product-image?id=:id" },
-    { "source": "/sitemap-products.xml", "destination": "/api/sitemap-products" },
     { "source": "/products", "destination": "/products.html" },
     { "source": "/blog/:slug", "destination": "/blog/:slug.html" },
     { "source": "/blog", "destination": "/blog.html" },
@@ -42,6 +44,15 @@
         {
           "key": "X-Robots-Tag",
           "value": "noindex"
+        }
+      ]
+    },
+    {
+      "source": "/sitemap.xml",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
         }
       ]
     },
