@@ -1823,9 +1823,11 @@ export function renderProductPage(product = {}, options = {}) {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 10px;
-      margin-top: 14px;
+      margin-top: 10px;
+      padding: 4px 2px;
       width: 100%;
       box-sizing: border-box;
+      overflow: visible;
     }
     .thumb-btn {
       aspect-ratio: 1 / 1;
@@ -1955,9 +1957,11 @@ export function renderProductPage(product = {}, options = {}) {
       display: flex;
       flex-wrap: wrap;
       gap: 9px;
+      padding: 4px;
       width: 100%;
       box-sizing: border-box;
       min-width: 0;
+      overflow: visible;
     }
     .variant-option-pill,
     .size-static-pill {
@@ -2484,10 +2488,11 @@ export function renderProductPage(product = {}, options = {}) {
         overflow-x: auto !important;
         -webkit-overflow-scrolling: touch !important;
         gap: 8px !important;
-        margin-top: 10px !important;
-        padding-bottom: 4px !important;
+        margin-top: 6px !important;
+        padding: 5px 4px 6px 4px !important;
         scrollbar-width: none !important;
         width: 100% !important;
+        box-sizing: border-box !important;
       }
       .thumbs-strip::-webkit-scrollbar {
         display: none !important;
