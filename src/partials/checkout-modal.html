@@ -131,7 +131,7 @@
             <!-- Zone Selector Dropdown -->
             <select id="co-delivery-zone-select" class="zone-select" title="Delivery Location / Zone">
               <option value="" disabled selected>- Select delivery zone or type address above -</option>
-              <optgroup label="Lagos State (Doorstep Dispatch Courier)">
+              <optgroup label="Lagos">
                 <option value="lagos_island_core" data-type="lagos" data-fee="4500">Lagos Island Core (Lekki 1, Ikoyi, VI, Oniru, Banana Island) - ₦4,500</option>
                 <option value="lagos_island_ext" data-type="lagos" data-fee="5500">Lagos Island Extended (Chevron, Ikate, Agungi, VGC, Ajah, Sangotedo) - ₦5,500</option>
                 <option value="lagos_island_far" data-type="lagos" data-fee="6500">Lagos Island Far Axis (Awoyaya, Lakowe, Bogije, Epe) - ₦6,500</option>
@@ -141,17 +141,17 @@
                 <option value="lagos_mainland_west" data-type="lagos" data-fee="4500">Lagos Mainland West (Festac, Okota, Isolo, Agege, Alimosho, Berger) - ₦4,500</option>
                 <option value="lagos_mainland_far" data-type="lagos" data-fee="5000">Lagos Mainland Outskirts (Ikorodu, Ojo, LASU, Badagry) - ₦5,000</option>
               </optgroup>
-              <optgroup label="Interstate (Outside Lagos)">
-                <option value="zone_2_southwest" data-type="interstate" data-park="3500" data-door="5000">Zone 2: Ibadan, Abeokuta, Ijebu Ode, Osogbo, Akure, Ado Ekiti - ₦3,500</option>
-                <option value="ogun_border" data-type="interstate" data-park="4500" data-door="6000">Ogun Border Towns (Magboro, Arepo, Ibafo, Mowe, Ota) - ₦4,500</option>
-                <option value="zone_3_east_south" data-type="interstate" data-park="4500" data-door="6000">Zone 3: Enugu, Abakaliki, Calabar - ₦4,500</option>
-                <option value="zone_4_south_south" data-type="interstate" data-park="4500" data-door="6000">Zone 4: Port Harcourt, Owerri, Aba, Yenagoa, Uyo - ₦4,500</option>
-                <option value="zone_5_edo_delta_anambra" data-type="interstate" data-park="4500" data-door="6000">Zone 5: Benin, Asaba, Warri, Onitsha - ₦4,500</option>
-                <option value="abuja_central" data-type="interstate" data-park="4500" data-door="6000">Zone 6: Abuja Central (Maitama, Wuse, Garki, Asokoro, Guzape, Jabi) - ₦4,500</option>
-                <option value="abuja_outer" data-type="interstate" data-park="4500" data-door="6000">Zone 6: Abuja Outer / Satellite (Gwarinpa, Apo, Lokogoma, Kubwa, Lugbe) - ₦4,500</option>
-                <option value="zone_6_north_central" data-type="interstate" data-park="4500" data-door="6000">Zone 6: Ilorin, Lafia, Lokoja - ₦4,500</option>
-                <option value="zone_7_pickup" data-type="interstate" data-park="8500" data-door="10000">Zone 7: Kaduna, Kano (Office Pickup &amp; Doorstep) - ₦8,500</option>
-                <option value="zone_7_doorstep" data-type="interstate" data-door="10000">Zone 7 Doorstep Only (Jos, Minna, Makurdi, Sokoto, Bauchi, Yola, Zaria, Nsukka, etc.) - ₦10,000</option>
+              <optgroup label="Interstate">
+                <option value="ogun_border" data-type="interstate" data-park="4500" data-door="6000">Zone 1: Ogun Border Towns (Magboro, Arepo, Ibafo, Mowe, Ota) - from ₦4,500</option>
+                <option value="zone_2_southwest" data-type="interstate" data-park="4000" data-door="5000">Zone 2: Ibadan, Abeokuta, Ijebu Ode, Osogbo, Akure, Ado Ekiti - from ₦3,500</option>
+                <option value="zone_3_east_south" data-type="interstate" data-park="4500" data-door="6000">Zone 3: Enugu, Abakaliki, Calabar - from ₦4,500</option>
+                <option value="zone_4_south_south" data-type="interstate" data-park="4500" data-door="6000">Zone 4: Port Harcourt, Owerri, Aba, Yenagoa, Uyo - from ₦4,500</option>
+                <option value="zone_5_edo_delta_anambra" data-type="interstate" data-park="4500" data-door="6000">Zone 5: Benin, Asaba, Warri, Onitsha - from ₦4,500</option>
+                <option value="abuja_central" data-type="interstate" data-park="4500" data-door="6000">Zone 6: Abuja Central (Maitama, Wuse, Garki, Asokoro, Guzape, Jabi) - from ₦4,500</option>
+                <option value="abuja_outer" data-type="interstate" data-park="4500" data-door="6000">Zone 6: Abuja Outer / Satellite (Gwarinpa, Apo, Lokogoma, Kubwa, Lugbe) - from ₦4,500</option>
+                <option value="zone_6_north_central" data-type="interstate" data-park="4500" data-door="6000">Zone 6: Ilorin, Lafia, Lokoja - from ₦4,500</option>
+                <option value="zone_7_pickup" data-type="interstate" data-park="5500" data-door="10000">Zone 7: Kaduna, Kano - from ₦5,500</option>
+                <option value="zone_7_doorstep" data-type="interstate" data-park="4500" data-door="10000">Zone 7: Jos, Minna, Makurdi, Sokoto, Bauchi, Yola, Zaria, Nsukka, etc. - from ₦4,500</option>
               </optgroup>
             </select>
 
@@ -160,19 +160,28 @@
               <div class="delivery-option-card active" data-method="park" id="opt-park-delivery">
                 <div class="deliv-opt-radio"></div>
                 <div class="deliv-opt-info">
+                  <div class="deliv-opt-title">🚌 Park / Terminal Pickup</div>
+                  <div class="deliv-opt-desc">Collect at central transport station</div>
+                </div>
+                <div class="deliv-opt-price" id="park-fee-label">from ₦4,500</div>
+              </div>
+
+              <div class="delivery-option-card" data-method="office" id="opt-office-delivery">
+                <div class="deliv-opt-radio"></div>
+                <div class="deliv-opt-info">
                   <div class="deliv-opt-title">🏢 Office Pickup</div>
                   <div class="deliv-opt-desc">Collect at courier office</div>
                 </div>
-                <div class="deliv-opt-price" id="park-fee-label">₦4,500</div>
+                <div class="deliv-opt-price" id="office-fee-label">from ₦3,500</div>
               </div>
 
               <div class="delivery-option-card" data-method="doorstep" id="opt-doorstep-delivery">
                 <div class="deliv-opt-radio"></div>
                 <div class="deliv-opt-info">
                   <div class="deliv-opt-title">🚪 Doorstep Courier</div>
-                  <div class="deliv-opt-desc">Direct to your door</div>
+                  <div class="deliv-opt-desc">Direct to your door (balance verified on WA)</div>
                 </div>
-                <div class="deliv-opt-price" id="doorstep-fee-label">₦6,000</div>
+                <div class="deliv-opt-price" id="doorstep-fee-label">from ₦6,000</div>
               </div>
             </div>
           </div>

@@ -2439,14 +2439,9 @@ body.cart-open .main-header,
 }
 .interstate-options-wrap {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 8px;
   margin-top: 2px;
-}
-@media (max-width: 500px) {
-  .interstate-options-wrap {
-    grid-template-columns: 1fr;
-  }
 }
 .delivery-option-card {
   display: flex;

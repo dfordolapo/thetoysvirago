@@ -79,8 +79,9 @@ export const DELIVERY_ZONES = {
     name: 'Zone 6: Abuja Central (Maitama, Wuse, Garki, Asokoro, Guzape, Jabi)',
     shortName: 'Abuja Central (Zone 6)',
     type: 'interstate',
-    pickupAvailable: true,
+    officeAvailable: true,
     parkFee: 4500,
+    officeFee: 4500,
     doorstepFee: 6000,
     keywords: ['maitama', 'wuse', 'wuse 2', 'wuse ii', 'garki', 'asokoro', 'guzape', 'jabi', 'utako', 'mabushi', 'central area', 'cbd abuja']
   },
@@ -90,8 +91,9 @@ export const DELIVERY_ZONES = {
     name: 'Zone 6: Abuja Outer / Satellite (Gwarinpa, Apo, Lokogoma, Kubwa, Lugbe)',
     shortName: 'Abuja Outer / Satellite (Zone 6)',
     type: 'interstate',
-    pickupAvailable: true,
+    officeAvailable: true,
     parkFee: 4500,
+    officeFee: 4500,
     doorstepFee: 6000,
     keywords: ['abuja', 'fct', 'gwarinpa', 'life camp', 'apo', 'lokogoma', 'dawaki', 'kubwa', 'lugbe', 'airport road', 'karu', 'nyanya', 'bwari', 'mararaba', 'mpape', 'katampe']
   },
@@ -101,19 +103,21 @@ export const DELIVERY_ZONES = {
     name: 'Zone 2: South-West (Ibadan, Abeokuta, Ijebu Ode, Osogbo, Akure, Ado Ekiti)',
     shortName: 'Zone 2 (South-West)',
     type: 'interstate',
-    pickupAvailable: true,
-    parkFee: 3500,
+    officeAvailable: true,
+    parkFee: 4000,
+    officeFee: 3500,
     doorstepFee: 5000,
     keywords: ['ibadan', 'oyo', 'bodija', 'oluyole', 'jericho', 'ring road', 'akobo', 'samonda', 'university of ibadan', 'dugbe', 'iyaganku', 'agodi', 'ogbomoso', 'abeokuta', 'ijebu ode', 'ijebu-ode', 'ijebu', 'osogbo', 'oshogbo', 'osun', 'akure', 'ondo', 'ado ekiti', 'ado-ekiti', 'ekiti']
   },
-  // Ogun Border Towns (Lagos-Ogun border corridor)
+  // Zone 1: Ogun Border Towns (Lagos-Ogun border corridor)
   ogun_border: {
     id: 'ogun_border',
-    name: 'Ogun Border Towns (Magboro, Arepo, Ibafo, Mowe, Ota, Sagamu)',
-    shortName: 'Ogun Border Towns',
+    name: 'Zone 1: Ogun Border Towns (Magboro, Arepo, Ibafo, Mowe, Ota, Sagamu)',
+    shortName: 'Zone 1 (Ogun Border Towns)',
     type: 'interstate',
-    pickupAvailable: true,
+    officeAvailable: true,
     parkFee: 4500,
+    officeFee: 4500,
     doorstepFee: 6000,
     keywords: ['ogun', 'magboro', 'arepo', 'ibafo', 'mowe', 'ota', 'sagamu', 'shagamu']
   },
@@ -123,8 +127,9 @@ export const DELIVERY_ZONES = {
     name: 'Zone 3: Enugu, Abakaliki, Calabar',
     shortName: 'Zone 3 (Enugu / Abakaliki / Calabar)',
     type: 'interstate',
-    pickupAvailable: true,
+    officeAvailable: true,
     parkFee: 4500,
+    officeFee: 4500,
     doorstepFee: 6000,
     keywords: ['enugu', 'abakaliki', 'ebonyi', 'calabar', 'cross river']
   },
@@ -134,8 +139,9 @@ export const DELIVERY_ZONES = {
     name: 'Zone 4: Port Harcourt, Owerri, Aba, Yenagoa, Uyo',
     shortName: 'Zone 4 (PH / Owerri / Aba / Yenagoa / Uyo)',
     type: 'interstate',
-    pickupAvailable: true,
+    officeAvailable: true,
     parkFee: 4500,
+    officeFee: 4500,
     doorstepFee: 6000,
     keywords: ['port harcourt', 'portharcourt', 'rivers', 'peter odili', 'woji', 'd/line', 'trans-amadi', 'ada george', 'rumuokoro', 'rumuola', 'diobu', 'choba', 'owerri', 'imo', 'aba', 'abia', 'umuahia', 'yenagoa', 'bayelsa', 'uyo', 'akwa ibom']
   },
@@ -145,8 +151,9 @@ export const DELIVERY_ZONES = {
     name: 'Zone 5: Benin, Asaba, Warri, Onitsha',
     shortName: 'Zone 5 (Benin / Asaba / Warri / Onitsha)',
     type: 'interstate',
-    pickupAvailable: true,
+    officeAvailable: true,
     parkFee: 4500,
+    officeFee: 4500,
     doorstepFee: 6000,
     keywords: ['benin', 'benin city', 'edo', 'asaba', 'warri', 'delta', 'effurun', 'ughelli', 'sapele', 'onitsha', 'awka', 'anambra', 'nnewi']
   },
@@ -156,30 +163,33 @@ export const DELIVERY_ZONES = {
     name: 'Zone 6: Ilorin, Lafia, Lokoja',
     shortName: 'Zone 6 (Ilorin / Lafia / Lokoja)',
     type: 'interstate',
-    pickupAvailable: true,
+    officeAvailable: true,
     parkFee: 4500,
+    officeFee: 4500,
     doorstepFee: 6000,
     keywords: ['ilorin', 'kwara', 'lafia', 'nasarawa', 'lokoja', 'kogi']
   },
-  // Zone 7 (Pickup Available): Kaduna, Kano
+  // Zone 7 (Kaduna, Kano)
   zone_7_pickup: {
     id: 'zone_7_pickup',
-    name: 'Zone 7: Kaduna, Kano (Office Pickup & Doorstep)',
+    name: 'Zone 7: Kaduna, Kano',
     shortName: 'Zone 7 (Kaduna / Kano)',
     type: 'interstate',
-    pickupAvailable: true,
-    parkFee: 8500,
+    officeAvailable: true,
+    parkFee: 5500,
+    officeFee: 8500,
     doorstepFee: 10000,
     keywords: ['kaduna', 'kano']
   },
-  // Zone 7 (Doorstep Only): Northern & Remote Hubs
+  // Zone 7 (Northern & Remote Hubs)
   zone_7_doorstep: {
     id: 'zone_7_doorstep',
-    name: 'Zone 7 Doorstep Only (Jos, Minna, Makurdi, Sokoto, Bauchi, Yola, Zaria, Nsukka, etc.)',
-    shortName: 'Zone 7 (Doorstep Only)',
+    name: 'Zone 7: Jos, Minna, Makurdi, Sokoto, Bauchi, Yola, Zaria, Nsukka, etc.',
+    shortName: 'Zone 7',
     type: 'interstate',
-    pickupAvailable: false,
-    parkFee: null,
+    officeAvailable: false,
+    parkFee: 4500,
+    officeFee: null,
     doorstepFee: 10000,
     keywords: ['bauchi', 'birnin kebbi', 'kebbi', 'bonny', 'damaturu', 'yobe', 'dutse', 'jigawa', 'gombe', 'gusau', 'zamfara', 'jalingo', 'taraba', 'jos', 'plateau', 'katsina', 'makurdi', 'benue', 'maiduguri', 'borno', 'minna', 'niger', 'nsukka', 'sokoto', 'suleja', 'yola', 'adamawa', 'zaria']
   }

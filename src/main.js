@@ -7857,10 +7857,12 @@ function getCalculatedDeliveryFee() {
   if (isFreeDeliveryPromoActive && hasQualifyingFreeDeliveryProduct()) return 0;
   if (zone.type === 'lagos') {
     return zone.fee;
-  } else if (zone.pickupAvailable === false) {
+  } else if (currentDeliveryMethod === 'office' && zone.officeAvailable !== false && Number(zone.officeFee) > 0) {
+    return zone.officeFee;
+  } else if (currentDeliveryMethod === 'doorstep') {
     return zone.doorstepFee;
   } else {
-    return currentDeliveryMethod === 'park' ? zone.parkFee : zone.doorstepFee;
+    return zone.parkFee;
   }
 }
 
@@ -7902,26 +7904,29 @@ function updateCheckoutTotalsDisplay() {
     if (coFreeBanner) coFreeBanner.style.display = 'none';
   }
 
-  // Handle Interstate UI (Office Pickup vs Doorstep)
+  // Handle Interstate UI (Park Pickup vs Office Pickup vs Doorstep)
   if (zone && zone.type === 'interstate') {
-    const canPickup = zone.pickupAvailable !== false && Number(zone.parkFee) > 0;
-    if (!canPickup) {
-      currentDeliveryMethod = 'doorstep';
+    const canOffice = zone.officeAvailable !== false && Number(zone.officeFee) > 0;
+    if (!canOffice && currentDeliveryMethod === 'office') {
+      currentDeliveryMethod = 'park';
     }
     if (coInterstateOptions) {
       coInterstateOptions.style.display = 'grid';
-      coInterstateOptions.style.gridTemplateColumns = canPickup ? '' : '1fr';
+      coInterstateOptions.style.gridTemplateColumns = '1fr';
     }
-    if (parkFeeLabel && canPickup) parkFeeLabel.textContent = `₦${zone.parkFee.toLocaleString()}`;
-    if (doorstepFeeLabel) doorstepFeeLabel.textContent = `₦${zone.doorstepFee.toLocaleString()}`;
+    const officeFeeLabel = document.getElementById('office-fee-label');
+    if (parkFeeLabel && Number(zone.parkFee) > 0) parkFeeLabel.textContent = `from ₦${zone.parkFee.toLocaleString()}`;
+    if (officeFeeLabel && canOffice) officeFeeLabel.textContent = `from ₦${zone.officeFee.toLocaleString()}`;
+    if (doorstepFeeLabel) doorstepFeeLabel.textContent = `from ₦${zone.doorstepFee.toLocaleString()}`;
 
     const optPark = document.getElementById('opt-park-delivery');
+    const optOffice = document.getElementById('opt-office-delivery');
     const optDoor = document.getElementById('opt-doorstep-delivery');
-    if (optPark) optPark.style.display = canPickup ? 'flex' : 'none';
-    if (optPark && optDoor) {
-      optPark.classList.toggle('active', canPickup && currentDeliveryMethod === 'park');
-      optDoor.classList.toggle('active', !canPickup || currentDeliveryMethod === 'doorstep');
-    }
+    if (optPark) optPark.style.display = Number(zone.parkFee) > 0 ? 'flex' : 'none';
+    if (optOffice) optOffice.style.display = canOffice ? 'flex' : 'none';
+    if (optPark) optPark.classList.toggle('active', currentDeliveryMethod === 'park');
+    if (optOffice) optOffice.classList.toggle('active', canOffice && currentDeliveryMethod === 'office');
+    if (optDoor) optDoor.classList.toggle('active', currentDeliveryMethod === 'doorstep');
   } else {
     if (coInterstateOptions) coInterstateOptions.style.display = 'none';
   }
@@ -7949,7 +7954,7 @@ function onAddressOrCityInput() {
       }
       const zone = DELIVERY_ZONES[currentDeliveryZoneId];
       if (zone && zone.type === 'interstate') {
-        currentDeliveryMethod = zone.pickupAvailable === false ? 'doorstep' : 'park';
+        currentDeliveryMethod = 'park';
       }
       updateCheckoutTotalsDisplay();
     }
@@ -7976,18 +7981,25 @@ function setupDeliveryZoneListeners() {
       }
       const zone = DELIVERY_ZONES[currentDeliveryZoneId];
       if (zone && zone.type === 'interstate') {
-        currentDeliveryMethod = zone.pickupAvailable === false ? 'doorstep' : 'park';
+        currentDeliveryMethod = 'park';
       }
       updateCheckoutTotalsDisplay();
     });
   }
 
   const optPark = document.getElementById('opt-park-delivery');
+  const optOffice = document.getElementById('opt-office-delivery');
   const optDoor = document.getElementById('opt-doorstep-delivery');
 
   if (optPark) {
     optPark.addEventListener('click', () => {
       currentDeliveryMethod = 'park';
+      updateCheckoutTotalsDisplay();
+    });
+  }
+  if (optOffice) {
+    optOffice.addEventListener('click', () => {
+      currentDeliveryMethod = 'office';
       updateCheckoutTotalsDisplay();
     });
   }
@@ -8156,7 +8168,7 @@ function syncFormWithAddress(addr) {
       }
       const zone = DELIVERY_ZONES[currentDeliveryZoneId];
       if (zone && zone.type === 'interstate') {
-        currentDeliveryMethod = zone.pickupAvailable === false ? 'doorstep' : 'park';
+        currentDeliveryMethod = 'park';
       }
     }
   }
@@ -8390,7 +8402,9 @@ function updateCheckoutRecap() {
   if (recapZone && zone) {
     const methodLabel = zone.type === 'lagos'
       ? 'Doorstep Dispatch'
-      : (zone.pickupAvailable !== false && currentDeliveryMethod === 'park' ? 'Office Pickup' : 'Doorstep Courier');
+      : (currentDeliveryMethod === 'park'
+        ? 'Park / Terminal Pickup'
+        : (currentDeliveryMethod === 'office' && zone.officeAvailable !== false ? 'Office Pickup' : 'Doorstep Courier'));
     const fee = getCalculatedDeliveryFee();
     const feeText = (isFreeDeliveryPromoActive && hasQualifyingFreeDeliveryProduct()) ? 'Free' : `₦${fee.toLocaleString()}`;
     recapZone.textContent = `${zone.shortName} · ${methodLabel} · ${feeText}`;
@@ -8499,7 +8513,7 @@ if (btnCheckout) {
         }
         const zone = DELIVERY_ZONES[currentDeliveryZoneId];
         if (zone && zone.type === 'interstate') {
-          currentDeliveryMethod = zone.pickupAvailable === false ? 'doorstep' : 'park';
+          currentDeliveryMethod = 'park';
         }
       } else {
         currentDeliveryZoneId = null;
@@ -8665,7 +8679,9 @@ if (checkoutForm) {
     const effectiveDeliveryFee = isFreeDeliveryPromoActive ? 0 : deliveryFee;
     const deliveryMethodStr = activeZone.type === 'lagos' 
       ? 'Doorstep Dispatch' 
-      : (currentDeliveryMethod === 'park' ? 'Office Pickup' : 'Doorstep Courier');
+      : (currentDeliveryMethod === 'park'
+        ? 'Park / Terminal Pickup'
+        : (currentDeliveryMethod === 'office' && activeZone.officeAvailable !== false ? 'Office Pickup' : 'Doorstep Courier'));
 
     const orderPayload = {
       reference: orderRef,
