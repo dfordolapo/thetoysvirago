@@ -128,7 +128,7 @@ export async function fetchSupabaseProductImage(id, index = 0) {
 export async function fetchAllSupabaseProducts() {
   // Keep this payload light: `image`/`media` can contain multi-hundred-KB
   // data URLs and selecting them for every row times out Postgres.
-  const url = `${SUPABASE_URL}/rest/v1/products?select=id,title,updated_at&order=updated_at.desc&limit=5000`;
+  const url = `${SUPABASE_URL}/rest/v1/products?select=id,title,category,updated_at&order=updated_at.desc&limit=5000`;
   const response = await fetch(url, { headers: supabaseHeaders() });
   if (!response.ok) {
     throw new Error(`Supabase product list failed (HTTP ${response.status})`);

@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const rootDir = path.resolve(__dirname, '..');
-const sitemapFile = path.join(rootDir, 'public', 'sitemap.xml');
+const sitemapFile = path.join(rootDir, 'public', 'sitemap-static.xml');
 
 const today = new Date().toISOString().split('T')[0];
 const BASE_URL = 'https://www.thetoysvirago.shop';
