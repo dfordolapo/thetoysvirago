@@ -24,7 +24,7 @@ export default async function handler(req, res) {
     const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
     const { order, action } = body;
 
-    let resendApiKey = process.env.RESEND_API_KEY || process.env.VITE_RESEND_API_KEY;
+    let resendApiKey = process.env.RESEND_API_KEY || process.env.VITE_RESEND_API_KEY || String(body.resendApiKey || '').trim();
     if (!resendApiKey) {
       try {
         const fs = await import('fs');
@@ -52,24 +52,41 @@ export default async function handler(req, res) {
       }
       const fromEmail = process.env.VITE_RESEND_FROM_EMAIL || process.env.RESEND_FROM_EMAIL || 'TheToysVirago <orders@thetoysvirago.shop>';
       const productUrl = `https://www.thetoysvirago.shop/products/${encodeURIComponent(productId)}`;
+      const safeTitle = productTitle.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
       const restockHtml = `<!DOCTYPE html>
-<html lang="en"><body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f8fafc;padding:24px;color:#0f172a;">
-  <div style="max-width:520px;margin:0 auto;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e2e8f0;">
-    <div style="background:#0c0c0e;color:#ffffff;padding:24px;text-align:center;">
-      <p style="margin:0;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#fda4af;">Back In The Vault</p>
-      <h2 style="margin:8px 0 0;font-size:20px;font-weight:700;">${productTitle} is back in stock</h2>
-    </div>
-    <div style="padding:24px;font-size:14px;line-height:1.6;color:#334155;">
-      <p style="margin:0 0 12px;">Good news - the piece you asked about is finally back in the vault.</p>
-      <p style="margin:0 0 22px;">We can't wait to pack it up for you. Grab yours now before it sells out again.</p>
-      <div style="text-align:center;">
-        <a href="${productUrl}" style="display:inline-block;background:#0c0c0e;color:#ffffff;padding:12px 24px;border-radius:8px;font-weight:700;text-decoration:none;font-size:14px;">Shop Now</a>
-      </div>
-    </div>
-  </div>
-</body></html>`;
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Back in stock: ${safeTitle}</title>
+</head>
+<body style="margin: 0; padding: 12px 0; background-color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #0f172a; -webkit-font-smoothing: antialiased;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f8fafc; padding: 10px 8px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width: 440px; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;">
+          <tr>
+            <td style="padding: 22px 18px 22px;">
+              <p style="margin: 0 0 10px; font-size: 13px; line-height: 1.5; color: #0f172a;">
+                <strong>${safeTitle}</strong> is back in stock.
+              </p>
+              <p style="margin: 0 0 18px; font-size: 12px; line-height: 1.55; color: #334155;">
+                You asked to be notified when this piece returned. It is available now. Grab yours before it sells out again.
+              </p>
+              <div style="text-align: center; margin: 18px 0 6px;">
+                <a href="${productUrl}" style="display: inline-block; background-color: #0c0c0e; color: #ffffff; padding: 11px 22px; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: 13px;">Shop Now</a>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
 
       let sent = 0;
+      let lastError = '';
       for (const email of recipients) {
         const r = await fetch('https://api.resend.com/emails', {
           method: 'POST',
@@ -81,7 +98,14 @@ export default async function handler(req, res) {
             html: restockHtml
           })
         });
-        if (r.ok) sent++;
+        if (r.ok) {
+          sent++;
+        } else {
+          lastError = await r.text().catch(() => `HTTP ${r.status}`);
+        }
+      }
+      if (sent === 0) {
+        return res.status(502).json({ error: 'Could not send restock email.', detail: lastError.slice(0, 200) });
       }
       return res.status(200).json({ success: true, sent });
     }

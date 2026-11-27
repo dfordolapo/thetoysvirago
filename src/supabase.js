@@ -467,6 +467,37 @@ export async function getRestockRequests() {
   }
 }
 
+export async function sendRestockAlertToSubscriber(row) {
+  if (!row || !row.product_id || !row.email) {
+    return { success: false, error: 'Missing subscriber email or product.' };
+  }
+  try {
+    const localResendKey = typeof window !== 'undefined' ? (localStorage.getItem('ttv_resend_api_key') || '') : '';
+    const res = await fetch('/api/send-confirmation', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'restock_alert',
+        productId: row.product_id,
+        productTitle: row.product_title || row.product_id,
+        emails: [row.email],
+        resendApiKey: localResendKey || undefined
+      })
+    });
+    const payload = await res.json().catch(() => ({}));
+    if (!res.ok || !payload.sent) {
+      return { success: false, error: payload.detail || payload.error || `Failed (HTTP ${res.status})` };
+    }
+    const client = getSupabaseAdminClient();
+    if (client && row.id) {
+      await client.from('restock_requests').update({ notified: true }).eq('id', row.id);
+    }
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err && err.message ? err.message : 'Network error' };
+  }
+}
+
 export async function deleteRestockRequest(id) {
   const client = getSupabaseAdminClient();
   if (!client || !id) return { success: false };

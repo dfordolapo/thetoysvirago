@@ -12,6 +12,7 @@ import {
   updateSupabaseProductStock,
   notifyPendingRestockSubscribers,
   getRestockRequests,
+  sendRestockAlertToSubscriber,
   deleteRestockRequest,
   deleteSupabaseProduct,
   getSupabaseOrders,
@@ -2193,6 +2194,24 @@ async function loadRestockAlerts() {
     const pill = document.createElement('span');
     pill.style.cssText = `padding:4px 9px;border-radius:8px;font-size:11px;font-weight:700;background:${statusBg};color:${statusColor};`;
     pill.textContent = statusLabel;
+    const sendBtn = document.createElement('button');
+    sendBtn.type = 'button';
+    sendBtn.className = 'admin-btn admin-btn-outline';
+    sendBtn.style.cssText = 'padding:5px 9px;font-size:12px;color:#0f172a;display:inline-flex;align-items:center;gap:4px;';
+    sendBtn.title = 'Send restock email (does not change product stock)';
+    sendBtn.setAttribute('aria-label', `Send restock email to ${row.email || 'subscriber'}`);
+    sendBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
+    sendBtn.addEventListener('click', async () => {
+      sendBtn.disabled = true;
+      const res = await sendRestockAlertToSubscriber(row);
+      sendBtn.disabled = false;
+      if (res.success) {
+        await loadRestockAlerts();
+        showToast(`Restock email sent to ${row.email}`, false, 'success');
+      } else {
+        showToast(`Email failed: ${res.error || 'Check Resend key'}`, false, 'error');
+      }
+    });
     const delBtn = document.createElement('button');
     delBtn.type = 'button';
     delBtn.className = 'admin-btn admin-btn-outline';
@@ -2204,7 +2223,7 @@ async function loadRestockAlerts() {
       await loadRestockAlerts();
       showToast('Restock alert removed.');
     });
-    right.append(pill, delBtn);
+    right.append(pill, sendBtn, delBtn);
 
     card.append(left, right);
     container.appendChild(card);
