@@ -5,12 +5,30 @@ const rootDir = path.resolve(__dirname, '..');
 const distBlogPath = path.join(rootDir, 'dist', 'blog.html');
 const rawBlogPath = path.join(rootDir, 'blog.html');
 
+function escapeHtml(value = '') {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
 async function generateBlogPages() {
   const { BLOG_ARTICLES } = await import('../src/data/articles.js');
 
   // Prefer the production compiled dist/blog.html so bundled CSS/JS and posthtml includes are already resolved
   const sourcePath = fs.existsSync(distBlogPath) ? distBlogPath : rawBlogPath;
-  const baseHtml = fs.readFileSync(sourcePath, 'utf8');
+  let baseHtml = fs.readFileSync(sourcePath, 'utf8');
+
+  if (!baseHtml.includes('class="blog-crawl-links"')) {
+    const links = BLOG_ARTICLES
+      .filter(article => article && article.slug)
+      .map(article => `    <a href="/blog/${encodeURIComponent(article.slug)}">${escapeHtml(article.title)}</a>`)
+      .join('\n');
+    const nav = `<nav class="blog-crawl-links" aria-label="All journal stories">\n${links}\n  </nav>`;
+    baseHtml = baseHtml.replace('</body>', `${nav}\n</body>`);
+    fs.writeFileSync(sourcePath, baseHtml, 'utf8');
+  }
 
   const distBlogDir = path.join(rootDir, 'dist', 'blog');
   if (!fs.existsSync(distBlogDir)) {

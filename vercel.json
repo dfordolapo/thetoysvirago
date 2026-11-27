@@ -40,15 +40,6 @@
       ]
     },
     {
-      "source": "/robots.txt",
-      "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex"
-        }
-      ]
-    },
-    {
       "source": "/admin(.*)",
       "headers": [
         {
