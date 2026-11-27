@@ -52,15 +52,6 @@ async function fetchSupabaseArticles() {
   return Array.isArray(rows) ? rows : [];
 }
 
-function loadStaticJson(file, fallback) {
-  try {
-    return require(file);
-  } catch (err) {
-    console.warn(`Notice: Could not read ${file} for sitemap:`, err.message);
-    return fallback;
-  }
-}
-
 export default async function handler(req, res) {
   if (req.method !== 'GET' && req.method !== 'HEAD') {
     res.setHeader('Allow', 'GET, HEAD');
@@ -98,10 +89,20 @@ export default async function handler(req, res) {
     });
   }
 
-  const published = loadStaticJson('../public/new-products-data.json', []);
+  let published = [];
+  try {
+    published = require('../public/new-products-data.json');
+  } catch (err) {
+    console.warn('Notice: Could not read public/new-products-data.json for sitemap:', err.message);
+  }
   (Array.isArray(published) ? published : []).forEach(addProduct);
 
-  const db = loadStaticJson('../scripts/products-db.json', {});
+  let db = {};
+  try {
+    db = require('../scripts/products-db.json');
+  } catch (err) {
+    console.warn('Notice: Could not read scripts/products-db.json for sitemap:', err.message);
+  }
   Object.entries(db && typeof db === 'object' ? db : {}).forEach(([key, raw]) => {
     if (!raw || !raw.title) return;
     addProduct({ ...raw, id: String(raw.id || key) });
