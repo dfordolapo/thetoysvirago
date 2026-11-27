@@ -447,7 +447,7 @@ const GENERAL_PRODUCT_TERMS = {
   'rose-blossom': 'rose sucker clitoral suction air pulse mouth oral vibrator toy sex toys flower',
   'pulsating-rose': 'pulsating rose sucker licker suction air pulse mouth oral tongue vibrator toy sex toys flower duo',
   'sceptre-wand': 'mini wand magic wand pocket vibrator deep rumble pocket massager vibe toy sex toys',
-  'siren-app': 'siren flamingo app controlled wearable long distance vibrator remote bluetooth panty vibe toy sex toys red white',
+  'siren-app': 'siren flamingo app controlled wearable long distance vibrator remote bluetooth panty vibe toy sex toys red white abuja exclusive',
   'lipstick-vibe': 'lipstick vibrator bullet vibe discreet stealth hidden pocket secret travel toy sex toys white',
   'thrusting-dildo': 'thrusting dildo dildos remote controlled wireless automatic motorized reciprocating shaft suction base sex toys vibe black tan brown chocolate bronze flesh',
   'sucking-rabbit': 'sucking rabbit vibrator rabbit vibe clitoral suction air pulse dual stimulation g spot toys sex toys pink fuchsia dual motor',
@@ -3949,7 +3949,7 @@ const PRODUCT_DATABASE = {
   'siren-app': {
     id: 'siren-app',
     title: 'The Siren',
-    badge: 'APP CONNECT',
+    badge: 'ABUJA EXCLUSIVE',
     price: 27000,
     priceStr: '₦27,000',
     img: '/assets/siren-app-red.webp',
@@ -9284,7 +9284,8 @@ export function initCustomCatalogProducts() {
   const HARDCODED_ABUJA_IDS = [
     'twist-nipple-suckers', 'silicone-bone-gag', 'fantasy-tentacle-dildo',
     'naughty-wooden-blocks', 'kailin-fruitastic-lube', 'interchangeable-vault-4in1',
-    'two-fingers-thrusting-vibe', 'neon-pink-remote-dildo', 'strap-on-harness-briefs'
+    'two-fingers-thrusting-vibe', 'neon-pink-remote-dildo', 'strap-on-harness-briefs',
+    'siren-app'
   ];
 
     // Immediate DOM cleanup of crystal-glass-plugs and crystal-dual-dildo everywhere on page

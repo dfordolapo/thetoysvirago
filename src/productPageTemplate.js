@@ -3294,7 +3294,7 @@ export function renderProductPage(product = {}, options = {}) {
         if(decline) decline.addEventListener('click', function(){ close('declined'); });
       })();
 
-      document.addEventListener('keydown', function (e) {      document.addEventListener('keydown', function (e) {
+      document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
           if (cartDrawerOverlay && !cartDrawerOverlay.hasAttribute('hidden') && cartDrawerOverlay.style.display !== 'none') {
             closeCartDrawer();
