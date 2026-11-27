@@ -8661,8 +8661,9 @@ function displayOrderSuccess(orderPayload, waUrl) {
     const waBtn = document.getElementById('btn-wa-confirm-order');
 
     if (refEl) refEl.textContent = orderPayload.reference;
-    if (recipientEl) recipientEl.innerHTML = `<strong>Recipient:</strong> <span>${orderPayload.customer_name}</span>`;
-    if (destEl) destEl.innerHTML = `<strong>Delivery Address:</strong> <span>${orderPayload.address}</span>`;
+    const esc = (v) => String(v || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    if (recipientEl) recipientEl.innerHTML = `<strong>Recipient:</strong> <span>${esc(orderPayload.customer_name)}</span>`;
+    if (destEl) destEl.innerHTML = `<strong>Delivery Address:</strong> <span>${esc(orderPayload.address)}</span>`;
     if (amountDueEl) amountDueEl.textContent = `₦${Number(orderPayload.total_amount).toLocaleString()}`;
     if (accNumEl) accNumEl.textContent = STORE_BANK_ACC;
 
