@@ -99,9 +99,8 @@
   <script src="https://js.paystack.co/v1/inline.js"></script>
   <style>
     /* Strict zero-flicker gate blocking */
-    html:not(.age-gate-passed) #app-wrapper {
-      display: none !important;
-      visibility: hidden !important;
+    html:not(.age-gate-passed) body {
+      overflow: hidden;
     }
     #age-gate {
       display: flex !important;

@@ -6744,6 +6744,8 @@ function openQuickviewForProduct(prodKey, card = null) {
   if (qvContentInner) qvContentInner.style.display = 'grid';
 
   currentQvProduct = Object.assign({}, prod);
+  const qvBtnViewPage = document.getElementById('qv-btn-view-page');
+  if (qvBtnViewPage && prod && prod.id) qvBtnViewPage.href = `/products/${encodeURIComponent(prod.id)}`;
   if (!card) {
     card = document.querySelector(`.product-card[data-product="${prodKey}"]`) ||
            document.querySelector(`.product-card[data-product="${actualKey}"]`) ||
