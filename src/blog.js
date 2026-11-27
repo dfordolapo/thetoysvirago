@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     cardsGrid.innerHTML = filtered.map(article => `
-      <article class="blog-card" data-slug="${article.slug}">
+      <article class="blog-card" data-slug="${article.slug}" tabindex="0" role="button" aria-label="Read ${article.title}">
         <div class="blog-card-media">
           <span class="blog-card-badge">${article.category}</span>
           <img src="${article.heroImg}" alt="${article.title}" class="blog-card-img" loading="lazy" onerror="this.onerror=null; this.src='/assets/hero-collection.webp';" />
@@ -193,12 +193,20 @@ document.addEventListener('DOMContentLoaded', () => {
       </article>
     `).join('');
 
-    // Attach click handlers to cards
+    // Attach click & keyboard (Enter/Space) handlers to cards
     cardsGrid.querySelectorAll('.blog-card').forEach(card => {
       card.addEventListener('click', (e) => {
         if (e.target.closest('.btn-card-share')) return;
         const slug = card.getAttribute('data-slug');
         openArticle(slug, true);
+      });
+      card.addEventListener('keydown', (e) => {
+        if (e.target.closest('.btn-card-share')) return;
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          const slug = card.getAttribute('data-slug');
+          openArticle(slug, true);
+        }
       });
     });
 

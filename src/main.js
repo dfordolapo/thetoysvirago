@@ -326,10 +326,18 @@ if (btnShuffleStealth) {
 // Keyboard shortcuts (Escape key or Alt+S)
 window.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
-    // If modal open, close modal first, else toggle stealth
-    const openModals = document.querySelectorAll('.modal-overlay:not([hidden]), .drawer-overlay:not([hidden])');
-    if (openModals.length > 0 && !isStealthActive) {
+    // If modal/drawer/dropdown open, close it first, else toggle stealth
+    const openModals = document.querySelectorAll('.modal-overlay:not([hidden]), .drawer-overlay:not([hidden]), #cart-drawer.open, #mobile-menu.open');
+    const openDropdowns = document.querySelectorAll('.toolbar-dropdown.is-open');
+    if (openDropdowns.length > 0 && !isStealthActive) {
+      openDropdowns.forEach(dd => {
+        dd.classList.remove('is-open');
+        const menu = dd.querySelector('.toolbar-dropdown-menu');
+        if (menu) menu.setAttribute('hidden', '');
+      });
+    } else if (openModals.length > 0 && !isStealthActive) {
       openModals.forEach((m) => {
+        m.classList.remove('open');
         m.setAttribute('hidden', '');
         m.style.display = 'none';
       });

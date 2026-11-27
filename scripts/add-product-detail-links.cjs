@@ -90,13 +90,6 @@ async function main() {
     }
   });
 
-  if (fs.existsSync(productsPath)) {
-    const titles = await loadProductTitles();
-    const html = fs.readFileSync(productsPath, 'utf8');
-    const updated = addProductIndexNav(html, titles);
-    if (updated !== html) fs.writeFileSync(productsPath, updated, 'utf8');
-  }
-
   console.log(`Added crawlable product detail links to ${changed} dist page(s).`);
 }
 
