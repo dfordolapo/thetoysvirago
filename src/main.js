@@ -836,8 +836,7 @@ function filterProducts(resetPage = true) {
       activeCategory === 'all' || !activeCategory ||
       cardCat === activeCategory ||
       (activeCategory === 'abuja' && (card.dataset.region === 'abuja' || (card.dataset.keywords || '').includes('abuja'))) ||
-      (activeCategory === 'games' && (cardCat === 'games' || cardCat === 'couples')) ||
-      (query && matchesSearch)
+      (activeCategory === 'games' && (cardCat === 'games' || cardCat === 'couples'))
     );
 
     const cardPrice = getCardPrice(card);
@@ -877,8 +876,7 @@ function filterProducts(resetPage = true) {
       activeCategory === 'all' || !activeCategory ||
       activeCategory === 'abuja' ||
       cardCat === activeCategory ||
-      (activeCategory === 'games' && (cardCat === 'games' || cardCat === 'couples')) ||
-      (query && matchesSearch)
+      (activeCategory === 'games' && (cardCat === 'games' || cardCat === 'couples'))
     );
 
     if (matchesSearch && matchesCat) {
@@ -891,7 +889,7 @@ function filterProducts(resetPage = true) {
 
   const abujaSection = document.getElementById('abuja');
   if (abujaSection) {
-    if (activeCategory !== 'all' && activeCategory && visibleAbujaCount === 0 && !query) {
+    if (visibleAbujaCount === 0 && (query || (activeCategory && activeCategory !== 'all'))) {
       abujaSection.style.display = 'none';
     } else {
       abujaSection.style.display = 'block';
@@ -908,12 +906,17 @@ function filterProducts(resetPage = true) {
       const noResultsDesc = document.getElementById('no-results-desc');
       const resetBtn = document.getElementById('btn-reset-search');
 
-      if (query) {
+      const catName = activeCategory === 'bdsm' ? 'BDSM' : (activeCategory ? activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1) : 'All');
+      const safeQuery = query.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      if (query && activeCategory && activeCategory !== 'all') {
+        if (noResultsTitle) noResultsTitle.textContent = `No "${query}" in ${catName}.`;
+        if (noResultsDesc) noResultsDesc.innerHTML = `Wrong drawer, maybe? Try searching <strong>All Products</strong> or clear your search to keep exploring.`;
+        if (resetBtn) resetBtn.textContent = 'Browse All Products';
+      } else if (query) {
         if (noResultsTitle) noResultsTitle.textContent = 'Nothing to buzz about yet.';
-        if (noResultsDesc) noResultsDesc.innerHTML = `We couldn't find anything matching "<strong>${query}</strong>". Give it another tease with 'rose', 'bullet', 'dildo', 'lingerie', or 'lube'.`;
+        if (noResultsDesc) noResultsDesc.innerHTML = `No matches for "<strong>${safeQuery}</strong>". Try 'rose', 'bullet', 'lingerie', or 'lube'.`;
         if (resetBtn) resetBtn.textContent = 'Clear Search';
       } else {
-        const catName = activeCategory === 'bdsm' ? 'BDSM' : activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1);
         if (noResultsTitle) noResultsTitle.textContent = 'Patience is a virtue (and a kink).';
         if (noResultsDesc) noResultsDesc.innerHTML = `We're stocking this vault right now. Our <strong>${catName}</strong> collection will drop shortly. In the meantime, explore our active collection.`;
         if (resetBtn) resetBtn.textContent = 'Browse All Products';
