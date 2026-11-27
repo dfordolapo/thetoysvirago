@@ -3472,18 +3472,34 @@ export function renderProductPage(product = {}, options = {}) {
           restockBtn.textContent = 'Saving...';
           var sbUrl = 'https://icopgheozdrauqevcbat.supabase.co';
           var sbKey = 'sb_publishable_859wsyvaLXUwaQlU3IuqsQ_x2yv3epp';
-          fetch(sbUrl + '/rest/v1/restock_requests', {
-            method: 'POST',
-            headers: { 'apikey': sbKey, 'Authorization': 'Bearer ' + sbKey, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-            body: JSON.stringify({ product_id: ${JSON.stringify(id)}, product_title: ${JSON.stringify(title)}, email: emailVal, notified: false })
+          var dupUrl = sbUrl + '/rest/v1/restock_requests?select=id&product_id=eq.' + encodeURIComponent(${JSON.stringify(id)}) + '&email=ilike.' + encodeURIComponent(emailVal) + '&notified=eq.false&limit=1';
+          fetch(dupUrl, {
+            headers: { 'apikey': sbKey, 'Authorization': 'Bearer ' + sbKey }
+          }).then(function (r) {
+            return r.ok ? r.json() : [];
+          }).then(function (dupRows) {
+            if (Array.isArray(dupRows) && dupRows.length > 0) {
+              var dupErr = new Error("You're already on the list for this piece. We'll email you as soon as it's back.");
+              dupErr.isDuplicate = true;
+              throw dupErr;
+            }
+            return fetch(sbUrl + '/rest/v1/restock_requests', {
+              method: 'POST',
+              headers: { 'apikey': sbKey, 'Authorization': 'Bearer ' + sbKey, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+              body: JSON.stringify({ product_id: ${JSON.stringify(id)}, product_title: ${JSON.stringify(title)}, email: emailVal, notified: false })
+            });
           }).then(function (r) {
             if (!r.ok) throw new Error('Request failed');
             if (rowEl) rowEl.style.display = 'none';
-            if (msgEl) { msgEl.style.color = '#0f766e'; msgEl.textContent = "We'll email you quietly the moment it's back."; msgEl.style.display = 'block'; }
-          }).catch(function () {
+            if (msgEl) { msgEl.style.color = '#0f766e'; msgEl.textContent = "We'll email you the moment it's back."; msgEl.style.display = 'block'; }
+          }).catch(function (err) {
             restockBtn.disabled = false;
             restockBtn.textContent = 'Notify Me';
-            if (msgEl) { msgEl.style.color = '#9f1239'; msgEl.textContent = 'Could not save right now. Please try again.'; msgEl.style.display = 'block'; }
+            if (msgEl) {
+              msgEl.style.color = '#9f1239';
+              msgEl.textContent = (err && err.isDuplicate) ? err.message : 'Could not save right now. Please try again.';
+              msgEl.style.display = 'block';
+            }
           });
         });
       }

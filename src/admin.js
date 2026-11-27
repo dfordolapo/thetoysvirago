@@ -11,6 +11,8 @@ import {
   upsertSupabaseProduct,
   updateSupabaseProductStock,
   notifyPendingRestockSubscribers,
+  getRestockRequests,
+  deleteRestockRequest,
   deleteSupabaseProduct,
   getSupabaseOrders,
   updateSupabaseOrderStatus,
@@ -2141,11 +2143,90 @@ function initCustomAdminSelects() {
   });
 }
 
+async function loadRestockAlerts() {
+  const container = document.getElementById('restock-cards-container');
+  const emptyState = document.getElementById('restock-empty-state');
+  const countBadge = document.getElementById('tab-restock-count');
+  if (!container) return;
+
+  const rows = await getRestockRequests();
+  const pendingCount = rows.filter(r => !r.notified).length;
+  if (countBadge) countBadge.textContent = String(pendingCount);
+
+  container.innerHTML = '';
+  if (!rows.length) {
+    if (emptyState) emptyState.style.display = 'block';
+    return;
+  }
+  if (emptyState) emptyState.style.display = 'none';
+
+  rows.forEach((row) => {
+    const card = document.createElement('div');
+    card.style.cssText = 'display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;border:1px solid #e2e8f0;border-radius:10px;background:#ffffff;flex-wrap:wrap;';
+    const statusBg = row.notified ? '#f0fdf4' : '#fffbeb';
+    const statusColor = row.notified ? '#166534' : '#b45309';
+    const statusLabel = row.notified ? 'Notified' : 'Waiting';
+    const dateStr = row.created_at ? new Date(row.created_at).toLocaleDateString() : '';
+
+    const left = document.createElement('div');
+    left.style.cssText = 'min-width:0;flex:1;';
+    const titleEl = document.createElement('div');
+    titleEl.style.cssText = 'font-weight:700;font-size:13px;color:#0f172a;';
+    titleEl.textContent = row.product_title || row.product_id || 'Product';
+    const emailEl = document.createElement('div');
+    emailEl.style.cssText = 'font-size:12px;color:#475569;margin-top:2px;word-break:break-all;';
+    emailEl.textContent = row.email || '';
+    const metaEl = document.createElement('div');
+    metaEl.style.cssText = 'font-size:11px;color:#94a3b8;margin-top:3px;';
+    metaEl.textContent = dateStr ? `Signed up ${dateStr}` : '';
+    left.append(titleEl, emailEl, metaEl);
+
+    const right = document.createElement('div');
+    right.style.cssText = 'display:flex;align-items:center;gap:8px;';
+    const pill = document.createElement('span');
+    pill.style.cssText = `padding:4px 9px;border-radius:8px;font-size:11px;font-weight:700;background:${statusBg};color:${statusColor};`;
+    pill.textContent = statusLabel;
+    const delBtn = document.createElement('button');
+    delBtn.type = 'button';
+    delBtn.className = 'admin-btn admin-btn-outline';
+    delBtn.style.cssText = 'padding:5px 9px;font-size:12px;color:#e11d48;';
+    delBtn.title = 'Remove restock alert';
+    delBtn.textContent = '×';
+    delBtn.addEventListener('click', async () => {
+      await deleteRestockRequest(row.id);
+      await loadRestockAlerts();
+      showToast('Restock alert removed.');
+    });
+    right.append(pill, delBtn);
+
+    card.append(left, right);
+    container.appendChild(card);
+  });
+}
+
+function initRestockAlertsPanel() {
+  loadRestockAlerts();
+  const btnRefresh = document.getElementById('btn-refresh-restock');
+  if (btnRefresh) {
+    btnRefresh.addEventListener('click', async () => {
+      btnRefresh.disabled = true;
+      await loadRestockAlerts();
+      btnRefresh.disabled = false;
+      showToast('Restock waitlist refreshed.');
+    });
+  }
+  const tabBtn = document.getElementById('tab-restock-btn');
+  if (tabBtn) {
+    tabBtn.addEventListener('click', loadRestockAlerts);
+  }
+}
+
 function initAdmin() {
   initCustomAdminSelects();
   checkAdminAuth();
   refreshCatalogData();
   initArticlesStudio();
+  initRestockAlertsPanel();
   updateAiVisionKeyUI();
   checkServerGeminiKey();
 

@@ -7212,11 +7212,17 @@ if (btnQvRestock) {
     if (res.success) {
       if (row) row.style.display = 'none';
       if (msg) {
-        msg.textContent = "We'll email you quietly the moment it's back.";
+        msg.style.color = '#0f766e';
+        msg.textContent = "We'll email you the moment it's back.";
         msg.style.display = 'block';
       }
       showToast('Restock alert saved!');
     } else {
+      if (res.duplicate && msg) {
+        msg.style.color = '#9f1239';
+        msg.textContent = res.reason;
+        msg.style.display = 'block';
+      }
       showToast(res.reason || 'Please enter a valid email address.');
     }
   });

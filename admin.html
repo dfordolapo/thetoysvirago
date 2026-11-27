@@ -2518,6 +2518,11 @@
         <span>Journal Articles (<span id="tab-articles-count">7</span>)</span>
         <svg class="admin-tab-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
+      <button class="admin-tab-btn" data-tab="restock-panel" id="tab-restock-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span>Restock Alerts (<span id="tab-restock-count">0</span>)</span>
+        <svg class="admin-tab-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
     </div>
 
     <!-- ================= PANEL 1: UPLOAD PRODUCT STUDIO ================= -->
@@ -2873,6 +2878,25 @@
             <p style="margin: 0; font-size: 13px;">Customer orders placed at checkout will appear here automatically.</p>
           </div>
           <div id="orders-cards-container" style="display: flex; flex-direction: column; gap: 14px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= PANEL 3B: RESTOCK ALERTS WAITLIST ================= -->
+    <div id="restock-panel" class="admin-panel">
+      <div class="admin-card">
+        <div class="admin-card-head" style="flex-wrap: wrap; gap: 12px;">
+          <div>
+            <h3 class="admin-card-title">Back-in-Stock Waitlist</h3>
+            <div class="admin-card-subtitle">Customers waiting for out-of-stock pieces. They are emailed automatically when you mark the item In Stock.</div>
+          </div>
+          <button type="button" id="btn-refresh-restock" class="admin-btn admin-btn-outline" style="font-size: 12px;">↻ Refresh</button>
+        </div>
+        <div id="restock-list-wrap" style="margin-top: 14px;">
+          <div id="restock-empty-state" style="display: none; text-align: center; padding: 36px 20px; color: #64748b; font-size: 13px;">
+            No restock requests yet.
+          </div>
+          <div id="restock-cards-container" style="display: flex; flex-direction: column; gap: 10px;"></div>
         </div>
       </div>
     </div>

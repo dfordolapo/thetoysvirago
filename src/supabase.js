@@ -413,7 +413,11 @@ export async function submitRestockRequest(productId, productTitle, email) {
     try {
       const key = 'ttv_restock_requests';
       const existing = JSON.parse(localStorage.getItem(key) || '[]');
-      existing.push({ product_id: productId, product_title: productTitle || '', email: cleanEmail, created_at: new Date().toISOString() });
+      const already = existing.some(r => r && r.product_id === productId && String(r.email || '').trim().toLowerCase() === cleanEmail && !r.notified);
+      if (already) {
+        return { success: false, duplicate: true, reason: "You're already on the list for this piece. We'll email you as soon as it's back." };
+      }
+      existing.push({ product_id: productId, product_title: productTitle || '', email: cleanEmail, notified: false, created_at: new Date().toISOString() });
       localStorage.setItem(key, JSON.stringify(existing));
       return { success: true, localOnly: true };
     } catch (e) {
@@ -421,6 +425,17 @@ export async function submitRestockRequest(productId, productTitle, email) {
     }
   }
   try {
+    const { data: dupRows } = await supabase
+      .from('restock_requests')
+      .select('id')
+      .eq('product_id', productId)
+      .ilike('email', cleanEmail)
+      .eq('notified', false)
+      .limit(1);
+    if (Array.isArray(dupRows) && dupRows.length > 0) {
+      return { success: false, duplicate: true, reason: "You're already on the list for this piece. We'll email you as soon as it's back." };
+    }
+
     const { error } = await supabase
       .from('restock_requests')
       .insert([{ product_id: productId, product_title: productTitle || '', email: cleanEmail, notified: false }]);
@@ -431,6 +446,39 @@ export async function submitRestockRequest(productId, productTitle, email) {
     return { success: true };
   } catch (err) {
     return { success: false, reason: err.message };
+  }
+}
+
+export async function getRestockRequests() {
+  const client = getSupabaseAdminClient();
+  if (!client) return [];
+  try {
+    const { data, error } = await client
+      .from('restock_requests')
+      .select('id, product_id, product_title, email, notified, created_at')
+      .order('created_at', { ascending: false });
+    if (error) {
+      console.warn('[Supabase] getRestockRequests failed:', error.message);
+      return [];
+    }
+    return Array.isArray(data) ? data : [];
+  } catch (err) {
+    return [];
+  }
+}
+
+export async function deleteRestockRequest(id) {
+  const client = getSupabaseAdminClient();
+  if (!client || !id) return { success: false };
+  try {
+    const { error } = await client
+      .from('restock_requests')
+      .delete()
+      .eq('id', id);
+    if (error) return { success: false, error: error.message };
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err.message };
   }
 }
 
