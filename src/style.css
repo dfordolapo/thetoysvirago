@@ -2256,7 +2256,7 @@ body.cart-open .main-header,
   max-height: 90vh; overflow-y: auto; padding: 36px;
 }
 .qv-inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 36px; align-items: start; }
-.qv-gallery-col { display: flex; flex-direction: column; gap: 10px; min-width: 0; width: 100%; }
+.qv-gallery-col { position: sticky; top: 0; align-self: start; display: flex; flex-direction: column; gap: 10px; min-width: 0; width: 100%; }
 .qv-details { min-width: 0; width: 100%; }
 .qv-img-wrap { width: 100%; aspect-ratio: 1/1; border-radius: var(--r-md); overflow: hidden; border: 1px solid var(--border); background: var(--mist); position: relative; }
 .qv-img, .qv-video { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -2286,7 +2286,8 @@ body.cart-open .main-header,
 .qv-specs { display: flex; flex-direction: column; margin-bottom: 26px; }
 .spec-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 12.5px; color: var(--ink-3); }
 .spec-row span:last-child { color: var(--ink); font-weight: 600; text-align: right; max-width: 60%; }
-.qv-actions { display: flex; gap: 10px; }
+.qv-actions { display: flex; position: sticky; bottom: -36px; z-index: 5; gap: 10px; width: 100%; justify-content: center; margin: 18px 0 -36px; padding: 14px 0 22px; background: var(--white); border-top: 1px solid var(--border); }
+.qv-actions > * { flex: 1 1 0; min-width: 0; text-align: center; white-space: nowrap; }
 
 /* Checkout */
 .co-card {
@@ -3210,6 +3211,7 @@ body.cart-open .main-header,
   .faq-grid { grid-template-columns: 1fr; }
   .sh2 { font-size: 32px; }
   .qv-inner { grid-template-columns: 1fr; }
+  .qv-gallery-col { position: static; }
 
   /* Three-Reel Experience Tablet */
   .collection-reels-container {
@@ -3387,7 +3389,7 @@ body.cart-open .main-header,
   .qv-name { font-size: 20px; }
   .qv-price { font-size: 18px; margin-bottom: 10px; }
   .qv-desc { font-size: 12.5px; margin-bottom: 16px; }
-  .qv-actions { flex-direction: column; width: 100%; }
+  .qv-actions { flex-direction: column; width: 100%; position: static; margin: 18px 0 0; padding: 0; background: transparent; border-top: 0; }
   .qv-actions .btn { width: 100%; padding: 12px; }
   .btn-close-modal { top: 12px; right: 12px; font-size: 16px; }
 
