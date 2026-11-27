@@ -9532,7 +9532,8 @@ export function initCustomCatalogProducts() {
     'twist-nipple-suckers', 'silicone-bone-gag', 'fantasy-tentacle-dildo',
     'naughty-wooden-blocks', 'kailin-fruitastic-lube', 'interchangeable-vault-4in1',
     'two-fingers-thrusting-vibe', 'neon-pink-remote-dildo', 'strap-on-harness-briefs',
-    'siren-app'
+    'siren-app', 'fragrant-massage-oil', 'boss-man-tonic', 'rhino-choco-vip',
+    'hygiene-anal-douche', 'triple-threat-remote-rabbit', 'jump-o-curved-vibe'
   ];
 
     // Immediate DOM cleanup of crystal-glass-plugs and crystal-dual-dildo everywhere on page

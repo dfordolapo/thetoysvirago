@@ -65,8 +65,8 @@
     "title": "Zebra Set",
     "badge": "3-PIECE SET",
     "sku": "LINGERIE · 02",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 20000,
+    "priceStr": "₦20,000",
     "img": "/assets/lingerie-catalog/zebra-set-hero.webp",
     "desc": "Untamed scarlet zebra-print lingerie ensemble featuring a structured underwire demi bra, matching strappy G-string, opera-length sheer mesh gloves, and coordinating thigh-high stockings for an unforgettable wild encounter.",
     "specs": [
@@ -112,35 +112,29 @@
     "variants": [
       {
         "name": "S",
-        "price": 0,
-        "priceStr": "₦",
+        "price": 20000,
+        "priceStr": "₦20,000",
         "img": "/assets/lingerie-catalog/zebra-set-hero.webp"
       },
       {
         "name": "M",
-        "price": 0,
-        "priceStr": "₦",
+        "price": 20000,
+        "priceStr": "₦20,000",
         "img": "/assets/lingerie-catalog/zebra-set-hero.webp"
       },
       {
         "name": "L",
-        "price": 0,
-        "priceStr": "₦",
-        "img": "/assets/lingerie-catalog/zebra-set-hero.webp"
-      },
-      {
-        "name": "XL",
-        "price": 0,
-        "priceStr": "₦",
+        "price": 20000,
+        "priceStr": "₦20,000",
         "img": "/assets/lingerie-catalog/zebra-set-hero.webp"
       }
     ],
     "sizes": [
       "S",
       "M",
-      "L",
-      "XL"
-    ]
+      "L"
+    ],
+    "in_stock": true
   },
   "lilac-bodystocking": {
     "id": "lilac-bodystocking",
@@ -950,8 +944,8 @@
     "title": "Floral Gown",
     "badge": "MAXI SLIT",
     "sku": "LINGERIE · 14",
-    "price": 0,
-    "priceStr": "₦",
+    "price": 18000,
+    "priceStr": "₦18,000",
     "img": "/assets/lingerie-catalog/floral-gown-hero.webp",
     "desc": "Whimsical powder blue floral sheer chiffon maxi gown featuring double hip-high front slits that flutter dramatically with every motion, delicate sweetheart bust, and adjustable shoulder ribbons.",
     "specs": [
@@ -996,9 +990,27 @@
     "inStock": true,
     "variants": [
       {
-        "name": "Blue",
-        "price": 0,
-        "priceStr": "₦",
+        "name": "M",
+        "price": 18000,
+        "priceStr": "₦18,000",
+        "img": "/assets/lingerie-catalog/floral-gown-hero.webp"
+      },
+      {
+        "name": "L",
+        "price": 18000,
+        "priceStr": "₦18,000",
+        "img": "/assets/lingerie-catalog/floral-gown-hero.webp"
+      },
+      {
+        "name": "XL",
+        "price": 18000,
+        "priceStr": "₦18,000",
+        "img": "/assets/lingerie-catalog/floral-gown-hero.webp"
+      },
+      {
+        "name": "XXL",
+        "price": 18000,
+        "priceStr": "₦18,000",
         "img": "/assets/lingerie-catalog/floral-gown-hero.webp"
       }
     ],
@@ -1007,7 +1019,8 @@
       "L",
       "XL",
       "XXL"
-    ]
+    ],
+    "in_stock": true
   },
   "scarlet-gown": {
     "id": "scarlet-gown",
@@ -4244,8 +4257,8 @@
     "id": "restraint-bed-harness",
     "title": "Boudoir Bed Harness",
     "badge": "SPREAD-EAGLE",
-    "price": 32000,
-    "priceStr": "₦32,000",
+    "price": 18000,
+    "priceStr": "₦18,000",
     "img": "/assets/IMG_1496.webp",
     "desc": "Discreet under-mattress bed restraint harness designed to transform any standard bed into an inescapable pleasure zone. Fully adjustable nylon straps slip silently beneath your mattress, leaving 4 plush cuffs accessible at each corner.",
     "specs": [
@@ -4272,7 +4285,9 @@
         "src": "/assets/IMG_1496.webp",
         "label": "Boudoir Bed Harness"
       }
-    ]
+    ],
+    "in_stock": true,
+    "inStock": true
   },
   "strap-on-harness-briefs": {
     "id": "strap-on-harness-briefs",
@@ -4675,7 +4690,7 @@
   "kailin-water-lube": {
     "id": "kailin-water-lube",
     "title": "Pure Water-Based Lube",
-    "badge": "BESTSELLER",
+    "badge": "WATER-BASED",
     "price": 10000,
     "priceStr": "₦10,000",
     "inStock": true,
@@ -4705,7 +4720,11 @@
         "src": "/assets/IMG_3632.webp",
         "label": "Kailin Pure Lube"
       }
-    ]
+    ],
+    "in_stock": true,
+    "region": "all",
+    "is_abuja": false,
+    "isAbuja": false
   },
   "kailin-fruitastic-lube": {
     "id": "kailin-fruitastic-lube",
@@ -4758,9 +4777,9 @@
   "fragrant-massage-oil": {
     "id": "fragrant-massage-oil",
     "title": "Sensual Massage Oil",
-    "badge": "BOTANICAL 500ML",
-    "price": 18000,
-    "priceStr": "₦18,000",
+    "badge": "ABUJA EXCLUSIVE",
+    "price": 15000,
+    "priceStr": "₦15,000",
     "img": "/assets/IMG_6120.webp",
     "desc": "A luxurious 500ml botanical body massage oil that warms upon contact to melt away muscle tension while unlocking skin-to-skin erotic glide. Infused with floral aromatics to awaken sensual arousal.",
     "specs": [
@@ -4787,14 +4806,19 @@
         "src": "/assets/IMG_6120.webp",
         "label": "Sensual Massage Oil"
       }
-    ]
+    ],
+    "in_stock": true,
+    "inStock": true,
+    "region": "abuja",
+    "is_abuja": true,
+    "isAbuja": true
   },
   "boss-man-tonic": {
     "id": "boss-man-tonic",
     "title": "Boss Man Elixir",
-    "badge": "GINSENG & HONEY",
-    "price": 25000,
-    "priceStr": "₦25,000",
+    "badge": "ABUJA EXCLUSIVE",
+    "price": 10000,
+    "priceStr": "₦10,000",
     "img": "/assets/IMG_8709.webp",
     "desc": "Potent traditional botanical elixir combining wild red Panax Ginseng with pure raw honey and root aphrodisiacs. Formulated to enhance male physical vitality, strengthen erection firmness, and supercharge bedroom endurance.",
     "specs": [
@@ -4825,12 +4849,17 @@
         "src": "/assets/IMG_8709.webp",
         "label": "Boss Man Elixir"
       }
-    ]
+    ],
+    "in_stock": true,
+    "inStock": true,
+    "region": "abuja",
+    "is_abuja": true,
+    "isAbuja": true
   },
   "rhino-choco-vip": {
     "id": "rhino-choco-vip",
     "title": "Rhino VIP Chocolate",
-    "badge": "STAMINA CHOCOLATE",
+    "badge": "ABUJA EXCLUSIVE",
     "price": 15000,
     "priceStr": "₦15,000",
     "img": "/assets/IMG_7934.webp",
@@ -4859,12 +4888,17 @@
         "src": "/assets/IMG_7934.webp",
         "label": "Rhino VIP Chocolate"
       }
-    ]
+    ],
+    "in_stock": false,
+    "inStock": false,
+    "region": "abuja",
+    "is_abuja": true,
+    "isAbuja": true
   },
   "hygiene-anal-douche": {
     "id": "hygiene-anal-douche",
     "title": "Silicone Douche Bulb",
-    "badge": "MEDICAL HYGIENE",
+    "badge": "ABUJA EXCLUSIVE",
     "price": 12000,
     "priceStr": "₦12,000",
     "img": "/assets/IMG_3538.webp",
@@ -4893,7 +4927,12 @@
         "src": "/assets/IMG_3538.webp",
         "label": "Silicone Douche Bulb"
       }
-    ]
+    ],
+    "in_stock": true,
+    "inStock": true,
+    "region": "abuja",
+    "is_abuja": true,
+    "isAbuja": true
   },
   "stealth-brush-vibe": {
     "id": "stealth-brush-vibe",
@@ -5386,9 +5425,9 @@
   "triple-threat-remote-rabbit": {
     "id": "triple-threat-remote-rabbit",
     "title": "Heated Remote Rabbit",
-    "badge": "THERMAL WARMING",
-    "price": 38000,
-    "priceStr": "₦38,000",
+    "badge": "ABUJA EXCLUSIVE",
+    "price": 35000,
+    "priceStr": "₦35,000",
     "img": "/assets/IMG_8684.webp",
     "desc": "The ultimate climax machine. Features 3 simultaneous stimulation zones: clitoral suction ears, an anatomical curved G-spot shaft, and a beaded flexible anal teaser tail, complete with intelligent body-safe warming and wireless remote.",
     "specs": [
@@ -5415,7 +5454,12 @@
         "src": "/assets/IMG_8684.webp",
         "label": "Heated Remote Rabbit"
       }
-    ]
+    ],
+    "in_stock": true,
+    "inStock": true,
+    "region": "abuja",
+    "is_abuja": true,
+    "isAbuja": true
   },
   "crystal-beaded-rabbit": {
     "id": "crystal-beaded-rabbit",
@@ -5502,9 +5546,9 @@
   "jump-o-curved-vibe": {
     "id": "jump-o-curved-vibe",
     "title": "Jump-O G-Spot Vibe",
-    "badge": "CURVED SILICONE",
-    "price": 25000,
-    "priceStr": "₦25,000",
+    "badge": "ABUJA EXCLUSIVE",
+    "price": 30000,
+    "priceStr": "₦30,000",
     "img": "/assets/IMG_5414.webp",
     "desc": "A gracefully curved G-spot dildo vibrator molded from velvety deep-purple silicone, anchored by an ergonomic gold retrieval O-ring handle for effortless grip and thrusting leverage.",
     "specs": [
@@ -5531,7 +5575,12 @@
         "src": "/assets/IMG_5414.webp",
         "label": "Jump-O G-Spot Vibe"
       }
-    ]
+    ],
+    "in_stock": true,
+    "inStock": true,
+    "region": "abuja",
+    "is_abuja": true,
+    "isAbuja": true
   },
   "curved-gspot-bullet": {
     "id": "curved-gspot-bullet",
@@ -5817,7 +5866,9 @@
         "src": "/assets/IMG_1280.webp",
         "label": "Veined Suction Shaft"
       }
-    ]
+    ],
+    "in_stock": false,
+    "inStock": false
   },
   "spiral-swirl-dildo": {
     "id": "spiral-swirl-dildo",
@@ -6103,7 +6154,9 @@
         "src": "/assets/IMG_1208.webp",
         "label": "Ribbed Extension Sleeves"
       }
-    ]
+    ],
+    "in_stock": false,
+    "inStock": false
   },
   "cyclone-stroker": {
     "id": "cyclone-stroker",
@@ -6267,7 +6320,9 @@
         "src": "/assets/IMG_1906.webp",
         "label": "Dual Pocket Stroker"
       }
-    ]
+    ],
+    "in_stock": false,
+    "inStock": false
   },
   "stamina-lip-stroker": {
     "id": "stamina-lip-stroker",

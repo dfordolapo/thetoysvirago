@@ -236,8 +236,8 @@
     "title": "Spread-Eagle Boudoir Bed Harness",
     "category": "bdsm",
     "badge": "UNDER-MATTRESS SYSTEM",
-    "price": 32000,
-    "priceStr": "₦32,000",
+    "price": 18000,
+    "priceStr": "₦18,000",
     "img": "/assets/IMG_1496.webp",
     "desc": "Discreet under-mattress bed restraint harness designed to transform any standard bed into an inescapable pleasure zone. Fully adjustable nylon straps slip silently beneath your mattress, leaving 4 plush cuffs accessible at each corner.",
     "specs": [
@@ -255,7 +255,9 @@
       }
     ],
     "material": "High-Tensile Woven Nylon & Soft Neoprene Limb Cuffs",
-    "acoustics": "Under-Mattress Stealth Restraint"
+    "acoustics": "Under-Mattress Stealth Restraint",
+    "in_stock": true,
+    "inStock": true
   },
   {
     "id": "strap-on-harness-briefs",
@@ -512,7 +514,7 @@
     "id": "kailin-water-lube",
     "title": "Kailin Pure Water-Based Intimate Lubricant",
     "category": "lubes",
-    "badge": "200ML • SILK FORMULA",
+    "badge": "WATER-BASED",
     "price": 10000,
     "priceStr": "₦10,000",
     "img": "/assets/IMG_3632.webp",
@@ -532,7 +534,9 @@
       }
     ],
     "material": "Aqua, Hydroxyethylcellulose, Vegetable Glycerin, pH Buffer",
-    "acoustics": "Effortless Glide & Clean Rinse"
+    "acoustics": "Effortless Glide & Clean Rinse",
+    "in_stock": true,
+    "inStock": true
   },
   {
     "id": "kailin-fruitastic-lube",
@@ -578,9 +582,9 @@
     "id": "fragrant-massage-oil",
     "title": "Qian Qiu Fragrant Sensual Massage Oil",
     "category": "lubes",
-    "badge": "500ML JUMBO PUMP",
-    "price": 18000,
-    "priceStr": "₦18,000",
+    "badge": "ABUJA EXCLUSIVE",
+    "price": 15000,
+    "priceStr": "₦15,000",
     "img": "/assets/IMG_6120.webp",
     "desc": "A luxurious 500ml botanical body massage oil that warms upon contact to melt away muscle tension while unlocking skin-to-skin erotic glide. Infused with floral aromatics to awaken sensual arousal.",
     "specs": [
@@ -598,15 +602,20 @@
       }
     ],
     "material": "Cold-Pressed Botanical Seed Oils & Jasmine Fragrance",
-    "acoustics": "Full Body Skin-to-Skin Sensations"
+    "acoustics": "Full Body Skin-to-Skin Sensations",
+    "in_stock": true,
+    "inStock": true,
+    "region": "abuja",
+    "isAbuja": true,
+    "is_abuja": true
   },
   {
     "id": "boss-man-tonic",
     "title": "Kambest BOSS MAN Ginseng & Honey Herbal Elixir",
     "category": "lubes",
-    "badge": "STAMINA & VITALITY • NAFDAC",
-    "price": 25000,
-    "priceStr": "₦25,000",
+    "badge": "ABUJA EXCLUSIVE",
+    "price": 10000,
+    "priceStr": "₦10,000",
     "img": "/assets/IMG_8709.webp",
     "desc": "Potent traditional botanical elixir combining wild red Panax Ginseng with pure raw honey and root aphrodisiacs. Formulated to enhance male physical vitality, strengthen erection firmness, and supercharge bedroom endurance.",
     "specs": [
@@ -628,13 +637,18 @@
       }
     ],
     "material": "Wild Ginseng Extract, Natural Honey & Traditional African Herbs",
-    "acoustics": "Peak Endurance & Libido Tonic"
+    "acoustics": "Peak Endurance & Libido Tonic",
+    "in_stock": true,
+    "inStock": true,
+    "region": "abuja",
+    "isAbuja": true,
+    "is_abuja": true
   },
   {
     "id": "rhino-choco-vip",
     "title": "Rhino Choc VIP Male Enhancement Dark Chocolate",
     "category": "lubes",
-    "badge": "RAPID STAMINA CHOCOLATE",
+    "badge": "ABUJA EXCLUSIVE",
     "price": 15000,
     "priceStr": "₦15,000",
     "img": "/assets/IMG_7934.webp",
@@ -654,13 +668,18 @@
       }
     ],
     "material": "Natural Cocoa, Maca Root Extract & Herbal Stamina Compounds",
-    "acoustics": "Sensual Foreplay Treat"
+    "acoustics": "Sensual Foreplay Treat",
+    "in_stock": false,
+    "inStock": false,
+    "region": "abuja",
+    "isAbuja": true,
+    "is_abuja": true
   },
   {
     "id": "hygiene-anal-douche",
     "title": "Medical Silicone Hygiene Douche Bulb",
     "category": "lubes",
-    "badge": "COMFORT NOZZLE • EASY CLEAN",
+    "badge": "ABUJA EXCLUSIVE",
     "price": 12000,
     "priceStr": "₦12,000",
     "img": "/assets/IMG_3538.webp",
@@ -680,7 +699,12 @@
       }
     ],
     "material": "100% Medical Grade Silicone & Detachable Stem",
-    "acoustics": "Hygiene & Confidence"
+    "acoustics": "Hygiene & Confidence",
+    "in_stock": true,
+    "inStock": true,
+    "region": "abuja",
+    "isAbuja": true,
+    "is_abuja": true
   },
   {
     "id": "stealth-brush-vibe",
@@ -1086,9 +1110,9 @@
     "id": "triple-threat-remote-rabbit",
     "title": "Triple-Threat Remote Heating Rabbit Vibrator",
     "category": "toys",
-    "badge": "HEATING • SHAFT + CLIT + ANAL",
-    "price": 38000,
-    "priceStr": "₦38,000",
+    "badge": "ABUJA EXCLUSIVE",
+    "price": 35000,
+    "priceStr": "₦35,000",
     "img": "/assets/IMG_8684.webp",
     "desc": "The ultimate climax machine. Features 3 simultaneous stimulation zones: clitoral suction ears, an anatomical curved G-spot shaft, and a beaded flexible anal teaser tail, complete with intelligent body-safe warming and wireless remote.",
     "specs": [
@@ -1106,7 +1130,12 @@
       }
     ],
     "material": "100% Medical Grade Velvet Silicone",
-    "acoustics": "< 35 dB (Whisper Powerful)"
+    "acoustics": "< 35 dB (Whisper Powerful)",
+    "in_stock": true,
+    "inStock": true,
+    "region": "abuja",
+    "isAbuja": true,
+    "is_abuja": true
   },
   {
     "id": "crystal-beaded-rabbit",
@@ -1178,9 +1207,9 @@
     "id": "jump-o-curved-vibe",
     "title": "Jump-O Luxurious G-Spot Dildo Vibrator",
     "category": "toys",
-    "badge": "GOLD O-RING • 10 FUNCTIONS",
-    "price": 25000,
-    "priceStr": "₦25,000",
+    "badge": "ABUJA EXCLUSIVE",
+    "price": 30000,
+    "priceStr": "₦30,000",
     "img": "/assets/IMG_5414.webp",
     "desc": "A gracefully curved G-spot dildo vibrator molded from velvety deep-purple silicone, anchored by an ergonomic gold retrieval O-ring handle for effortless grip and thrusting leverage.",
     "specs": [
@@ -1198,7 +1227,12 @@
       }
     ],
     "material": "Silky Medical Silicone & Mirror Gold ABS Ring",
-    "acoustics": "< 32 dB (Discreet Luxury)"
+    "acoustics": "< 32 dB (Discreet Luxury)",
+    "in_stock": true,
+    "inStock": true,
+    "region": "abuja",
+    "isAbuja": true,
+    "is_abuja": true
   },
   {
     "id": "curved-gspot-bullet",
@@ -1430,7 +1464,9 @@
       }
     ],
     "material": "100% Non-Porous Medical Liquid Silicone",
-    "acoustics": "Silent Pure Penetration"
+    "acoustics": "Silent Pure Penetration",
+    "in_stock": false,
+    "inStock": false
   },
   {
     "id": "spiral-swirl-dildo",
@@ -1661,7 +1697,9 @@
       }
     ],
     "material": "100% Hypoallergenic TPR Silicone",
-    "acoustics": "Intense Girth Sensation"
+    "acoustics": "Intense Girth Sensation",
+    "in_stock": false,
+    "inStock": false
   },
   {
     "id": "cyclone-stroker",
@@ -1793,7 +1831,9 @@
       }
     ],
     "material": "100% Ultra-Soft Hypoallergenic TPE",
-    "acoustics": "Silent Natural Sensation"
+    "acoustics": "Silent Natural Sensation",
+    "in_stock": false,
+    "inStock": false
   },
   {
     "id": "stamina-lip-stroker",
